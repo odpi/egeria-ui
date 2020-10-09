@@ -9,7 +9,7 @@
     "disableUsageStatistics": true
   },
   "scripts": {
-    "serve": "hs -c0 ./build/dev/",
+    "serve": "hs -c0 ./build/dev/ -P http://localhost:9000",
     "start": "polymer serve",
     "build": "polymer build",
     "lint": "polymer lint",
