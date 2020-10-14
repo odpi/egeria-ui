@@ -229,7 +229,7 @@ class AssetSearchView extends mixinBehaviors([AppLocalizeBehavior], PolymerEleme
     }
 
     _goNext() {
-        if(this.items.length >= this.pageSize){
+        if(this.items.length < this.pageSize){
             this.from += this.pageSize;
             this._fetch();
         }else{
