@@ -14,8 +14,7 @@
     "start:dev": "polymer serve --proxy-target http://localhost:9000/api --proxy-path api",
     "build": "polymer build",
     "lint": "polymer lint",
-    "test": "polymer test",
-    "test:integration": "polymer build # test that psk builds without error with the CLI"
+    "test": "polymer test"
   },
   "dependencies": {
     "@polymer/app-layout": "^3.0.1",
