@@ -229,15 +229,8 @@ class AssetSearchView extends mixinBehaviors([AppLocalizeBehavior], PolymerEleme
     }
 
     _goNext() {
-        if(this.items.length < this.pageSize){
             this.from += this.pageSize;
             this._fetch();
-        }else{
-            this.dispatchEvent(new CustomEvent('show-modal', {
-                bubbles: true,
-                composed: true,
-                detail: { message: "Oops! No more metadata for current search!", level: 'error'}}));
-        }
     }
 
     _goPrev() {
