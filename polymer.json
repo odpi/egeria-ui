@@ -20,7 +20,18 @@
   ],
   "builds": [
     {
-      "name" : "dev"
+      "name": "prod",
+      "bundle": true,
+      "addPushManifest": true,
+      "js": {
+        "minify": true
+      },
+      "css": {
+        "minify": true
+      },
+      "html": {
+        "minify": true
+      }
     }
   ],
   "moduleResolution": "node",
