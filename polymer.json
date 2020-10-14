@@ -28,6 +28,10 @@
   "lint": {
     "rules": [
       "polymer-3"
+    ],
+    "ignoreWarnings": [
+      "could-not-load",
+      "not-loadable"
     ]
   }
 }

@@ -271,6 +271,10 @@ class MyApp extends mixinBehaviors([AppLocalizeBehavior], PolymerElement) {
         this.addEventListener('push-crumb', this._onPushCrumb);
     }
 
+    _feedbackChanged() {
+        console.log(arguments);
+    }
+
     _getDrawer(){
         var dL = this.shadowRoot.querySelector('#drawerLayout');
         if(dL){
