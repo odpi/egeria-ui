@@ -22,7 +22,6 @@
     {
       "name": "prod",
       "bundle": true,
-      "addPushManifest": true,
       "js": {
         "minify": true
       },
