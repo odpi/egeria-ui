@@ -323,7 +323,8 @@ class MyApp extends mixinBehaviors([AppLocalizeBehavior], PolymerElement) {
 
   _onShowModal(event) {
     this.modalMessage = event.detail.message;
-    this.$.modal.open();
+
+    this.shadowRoot.querySelector("#modal").open();
   }
 
   _updateBreadcrumb(page) {
