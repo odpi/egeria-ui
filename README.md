@@ -15,6 +15,7 @@
 5. [Release cycle](#release-cycle)
 6. [Using egeria-ui as a dependency](#using-egeria-ui-as-a-dependency)
 7. [Links](#links)
+8. [License](#license)
 
 ## Prerequisites
 |         |   Version  |
@@ -86,7 +87,7 @@ Build the egeria project [2] and deploy it with all the required ENV variables, 
 
 
 ## Release cycle
-Egeria-UI use GitHub as its dependency provider, this means that all the releases are being pushed to the Github Egeria-UI repository here [1]. 
+Egeria-UI use GitHub as its dependency provider, this means that all the releases are being pushed to the Github Egeria-UI repository here [1].
 
 ```bash
 $ git clone https://github.com/odpi/egeria-ui     # clone and checkout to master branch
@@ -119,3 +120,8 @@ You can also use a branch name or commit ID to point to a version, useful for wo
 [1] - https://github.com/odpi/egeria-ui/releases
 
 [2] - https://github.com/odpi/egeria
+
+
+## License
+SPDX-License-Identifier: Apache-2.0
+Copyright Contributors to the ODPi Egeria project.
