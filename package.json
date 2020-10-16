@@ -11,10 +11,10 @@
   "scripts": {
     "serve": "hs -c0 ./build/dev/ -P http://localhost:9000",
     "start": "polymer serve",
+    "start:dev": "polymer serve --proxy-target http://localhost:9000/api --proxy-path api",
     "build": "polymer build",
     "lint": "polymer lint",
-    "test": "polymer test",
-    "test:integration": "polymer build # test that psk builds without error with the CLI"
+    "test": "polymer test"
   },
   "dependencies": {
     "@polymer/app-layout": "^3.0.1",
@@ -76,7 +76,10 @@
     "web-animations-js": "^2.3.1"
   },
   "devDependencies": {
-    "http-server": "0.12.3"
+    "http-server": "0.12.3",
+    "polymer-cli": "^1.9.11",
+    "wct-browser-legacy": "^1.0.2",
+    "wct-mocha": "^1.1.0"
   },
   "engines": {
     "node": ">=8.0"
