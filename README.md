@@ -101,6 +101,10 @@ $ git push origin master --tags
 $                                                 # the released version will be available at the git version tag or in the
                                                   # release page here [1]
 ```
+## Verification and merge builds
+
+We use Azure Pipelines to verify any PRs build successfully before they can merge. Once merged the code is
+again built. See https://dev.azure.com/ODPi/Egeria/_build?definitionScope=%5CEgeria%20UI
 
 ## Using egeria-ui as a dependency
 For any other NPM package who wants to add `egeria-ui@0.0.0` as a dependency it can use the direct URL dependency from GitHub like this:
