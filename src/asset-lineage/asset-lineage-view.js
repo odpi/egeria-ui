@@ -132,9 +132,21 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior], PolymerElement
               </a>
               to select an asset to view lineage.
             </p>
+<<<<<<< HEAD
           </div>
         </template>
       </dom-if>
+=======
+        </div>
+    </template>
+    </dom-if>
+
+    <div id="container" >
+        <vis-graph id="visgraph" groups=[[groups]] data=[[graphData]] ></vis-graph>
+
+        <happi-graph id="happi-graph" graph-data="[[happiGraphData]]"></happi-graph>
+    </div>
+>>>>>>> c392729630... Refactor and update asset lineage component
 
       <div id="container">
         <happi-graph id="happi-graph" graph-data="[[happiGraphData]]"></happi-graph>
@@ -286,6 +298,21 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior], PolymerElement
     }
   }
 
+<<<<<<< HEAD
+=======
+  _parseProperties(props) {
+    var obj = {};
+    Object.keys(props).forEach(
+      (key) => {
+        var newKey = key.split("vertex--").join("");
+        obj[newKey] = "" + props[key];
+      }
+    );
+    return obj;
+  }
+
+
+>>>>>>> c392729630... Refactor and update asset lineage component
   _updateHappiGraph(data) {
     let myData = {
       selectedNodePosition: this.happiGraphData.selectedNodePosition,  // FIRST, CENTER, LAST
@@ -349,6 +376,54 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior], PolymerElement
     }
 
     this._updateHappiGraph(data);
+<<<<<<< HEAD
+=======
+
+    if (data.nodes.length == 0) {
+      this.dispatchEvent(new CustomEvent('show-modal', {
+        bubbles: true,
+        composed: true,
+        detail: { message: "No lineage information available", level: 'info' }
+      }));
+    }
+    const egeriaColor = getComputedStyle(this).getPropertyValue('--egeria-primary-color');
+    for (var i = 0; i < data.nodes.length; i++) {
+      let displayName;
+      if (data.nodes[i].properties && data.nodes[i].properties !== null && data.nodes[i].properties !== undefined) {
+        data.nodes[i].properties = this._parseProperties(data.nodes[i].properties);
+
+        if (data.nodes[i].properties['tableDisplayName'] != null
+          && data.nodes[i].properties['tableDisplayName'] != undefined) {
+          displayName = data.nodes[i].properties['tableDisplayName']
+        }
+      }
+      data.nodes[i].displayName = data.nodes[i].label;
+      data.nodes[i].type = data.nodes[i].group;
+      data.nodes[i].label = '<b>' + data.nodes[i].label + '</b>';
+      data.nodes[i].groupInfo = this._camelCaseToSentence(data.nodes[i].group);
+
+      if (displayName != null) {
+        data.nodes[i].dispName = 'From : ' + displayName;
+      }
+      if (data.nodes[i].id === this.routeData.guid) {
+        data.nodes[i].isQueridNode = true;
+        data.nodes[i].color = {
+          background: 'white',
+          border: egeriaColor,
+          highlight: { background: egeriaColor, border: '#a7a7a7' },
+          hover: { background: 'white', border: '#a7a7a7' }
+        };
+      } else {
+        data.nodes[i].color = {
+          background: 'white',
+          border: '#a7a6a6',
+          highlight: { background: egeriaColor, border: '#a7a7a7' },
+          hover: { background: 'white', border: '#a7a7a7' }
+        };
+      }
+    }
+    this.$.visgraph.importNodesAndEdges(data.nodes, data.edges);
+>>>>>>> c392729630... Refactor and update asset lineage component
   }
 
   _ultimateSource(guid, includeProcesses) {
@@ -421,21 +496,56 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior], PolymerElement
       && this.routeData.guid !== '')
       switch (usecase) {
         case 'ultimateSource':
+<<<<<<< HEAD
+=======
+          this.graphLayout.hierarchical.direction = 'LR';
+
+          this.happiGraphData.selectedNodePosition = 'LAST';
+          this.happiGraphData.graphDirection = 'HORIZONTAL';
+>>>>>>> c392729630... Refactor and update asset lineage component
           this._ultimateSource(this.routeData.guid, includeProcesses);
 
           break;
         case 'endToEnd':
+<<<<<<< HEAD
+=======
+          this.graphLayout.hierarchical.direction = 'LR';
+
+          this.happiGraphData.selectedNodePosition = 'CENTER';
+          this.happiGraphData.graphDirection = 'HORIZONTAL';
+>>>>>>> c392729630... Refactor and update asset lineage component
           this._endToEndLineage(this.routeData.guid, includeProcesses);
 
           break;
         case 'ultimateDestination':
+<<<<<<< HEAD
           this._ultimateDestination(this.routeData.guid, includeProcesses);
           break;
         case 'verticalLineage':
+=======
+          this.graphLayout.hierarchical.direction = 'LR';
+
+          this.happiGraphData.selectedNodePosition = 'FIRST';
+          this.happiGraphData.graphDirection = 'HORIZONTAL';
+          this._ultimateDestination(this.routeData.guid, includeProcesses);
+          break;
+        case 'verticalLineage':
+          this.graphLayout.hierarchical.direction = 'DU';
+
+          this.happiGraphData.selectedNodePosition = 'FIRST';
+          this.happiGraphData.graphDirection = 'VERTICAL';
+>>>>>>> c392729630... Refactor and update asset lineage component
           this._verticalLineage(this.routeData.guid, includeProcesses);
 
           break;
         case 'sourceAndDestination':
+<<<<<<< HEAD
+=======
+          this.graphLayout.hierarchical.direction = 'LR';
+
+          this.happiGraphData.selectedNodePosition = 'CENTER';
+          this.happiGraphData.graphDirection = 'HORIZONTAL';
+>>>>>>> c392729630... Refactor and update asset lineage component
           this._sourceAndDestination(this.routeData.guid, includeProcesses);
 
           break;
