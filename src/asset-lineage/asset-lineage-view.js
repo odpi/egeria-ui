@@ -3,15 +3,21 @@
 
 import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
 import '../shared-styles.js';
-import '../common/vis-graph.js';
+import '../asset-catalog/asset-tools';
+import '../common/props-table';
+
+import '@polymer/paper-dialog/paper-dialog';
+import '@polymer/paper-toggle-button/paper-toggle-button.js';
+import '@polymer/paper-progress/paper-progress';
 import '@vaadin/vaadin-radio-button/vaadin-radio-button.js';
 import '@vaadin/vaadin-radio-button/vaadin-radio-group.js';
 import '@vaadin/vaadin-tabs/vaadin-tabs.js';
 import '@vaadin/vaadin-item/vaadin-item.js';
 import '@vaadin/vaadin-list-box/vaadin-list-box.js';
-import '@polymer/paper-toggle-button/paper-toggle-button.js';
+
 import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class';
 import { ItemViewBehavior } from '../common/item';
+
 import '../common/happi-graph';
 
 class AssetLineageView extends mixinBehaviors([ItemViewBehavior], PolymerElement) {
@@ -26,10 +32,18 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior], PolymerElement
     this.$.processToggle.addEventListener('change', () =>
       this._reload(this.$.useCases.items[this.$.useCases.selected].value, this.$.processToggle.checked));
 
+    this.shadowRoot.querySelector('#happi-graph')
+      .addEventListener('happi-graph-on-node-click', (e) => {
+        this.onNodeClick(e.detail ? e.detail.nodeId : null);
+      });
   }
 
   static get properties() {
     return {
+      selectedNode: {
+        type: Object,
+        value: {}
+      },
       happiGraphData: {
         type: Object,
         value: {
@@ -118,6 +132,26 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior], PolymerElement
     }
   }
 
+  onNodeClick(nodeId) {
+    let _selectedNode = null;
+
+    if (nodeId) {
+      _selectedNode = this.graphData
+        .nodes
+        .filter(n => n.id === nodeId)
+        .pop();
+    }
+
+    if (!['condensedNode', 'subProcess'].includes(_selectedNode.group)) {
+      this.selectedNode = _selectedNode;
+
+      this.$.tokenAjaxDetails.url = `/api/assets/${nodeId}`;
+      this.$.tokenAjaxDetails._go();
+
+      this.shadowRoot.querySelector('#paper-dialog').open();
+    }
+  }
+
   zoomOut() {
     this.shadowRoot.querySelector('#happi-graph').customZoomOut();
   }
@@ -155,6 +189,7 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior], PolymerElement
         this.$.tokenAjaxDetails.url = '/api/assets/' + this.routeData.guid;
         this.$.tokenAjaxDetails._go();
       }
+
       this._reload(this.routeData.usecase, this.$.processToggle.checked);
     }
   }
@@ -165,7 +200,7 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior], PolymerElement
       graphDirection: this.happiGraphData.graphDirection,              // HORIZONTAL, VERTICAL
 
       nodes: data.nodes.map(n => {
-        let keys = Object.keys(n.properties);
+        let keys = Object.keys(n.properties ? n.properties : {});
 
         let props = keys.map(k => {
           let camelCased = k.charAt(0).toUpperCase() + k.slice(1);
@@ -338,7 +373,6 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior], PolymerElement
     return type === 'RelationalColumn' || type === 'TabularColumn' || type === 'GlossaryTerm';
   }
 
-
   static get template() {
     return html`
       <style include="shared-styles">
@@ -351,9 +385,8 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior], PolymerElement
         }
 
         #container {
-          background-color: var( --egeria-background-color );
+          background-color: var(--egeria-background-color);
           display: flex;
-          flex-direction: column;
           flex-grow: 1;
         }
 
@@ -463,6 +496,34 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior], PolymerElement
       <div id="container">
         <happi-graph id="happi-graph" graph-data="[[happiGraphData]]"></happi-graph>
       </div>
+
+      <!-- extract this to separate component -->
+      <paper-dialog id="paper-dialog" class="paper-dialog">
+        <div>
+          <a dialog-confirm
+             style="float: right"
+             title="close">
+            <iron-icon icon="icons:close"
+                       style="width: 24px;height: 24px;"></iron-icon>
+          </a>
+        </div>
+
+        <asset-tools items="[[selectedNode.type]]"
+                     guid="[[selectedNode.id]]"
+                     style="display: inline-flex"></asset-tools>
+
+        <props-table items="[[_attributes(selectedNode.properties)]]"
+                     title="[[selectedNode.group]]: [[selectedNode.label]]"
+                     with-row-stripes></props-table>
+
+        <template is="dom-if" if="[[item.type]]">
+          <props-table items="[[_attributes(item.type)]]"
+                       title="Type"
+                       with-row-stripes></props-table>
+        </template>
+
+        <div></div>
+      </paper-dialog>
     `;
   }
 }

@@ -46,6 +46,7 @@ class HappiGraph extends PolymerElement {
     this.dragend = this.dragend.bind(this);
     this.ticked = this.ticked.bind(this);
     this.zooming = this.zooming.bind(this);
+    this.onNodeClick = this.onNodeClick.bind(this);
   }
 
   static get properties() {
@@ -279,7 +280,14 @@ class HappiGraph extends PolymerElement {
   }
 
   onNodeClick(node) {
-    console.log('node = ', node);
+    this.dispatchEvent(
+      new CustomEvent('happi-graph-on-node-click', {
+        bubbles: true,
+        detail: {
+          nodeId: node.id
+        }
+      })
+    );
   }
 
   customZoom(value) {
@@ -861,13 +869,17 @@ class HappiGraph extends PolymerElement {
   static get template() {
     return html`
       <style>
+        :host {
+          display: flex;
+          flex-grow: 1;
+        }
+
         .link-container>.link {
           stroke: #000;
           stroke-width: 2px;
         }
 
         .node-container>.pin {
-          /*fill: #eb4b0b;*/
           fill: var(--egeria-primary-color);
         }
 
@@ -881,7 +893,6 @@ class HappiGraph extends PolymerElement {
 
         .node-container.selected>.node {
           stroke-width: 4px;
-          /*stroke: #eb4b0b;*/
           stroke: var(--egeria-primary-color);
         }
 
@@ -907,7 +918,6 @@ class HappiGraph extends PolymerElement {
         .node-container>.header>.value {}
 
         .node-container>.header>.label {
-          /* font-weight: bold; */
           fill: #AFAFAF;
         }
       </style>
@@ -918,7 +928,7 @@ class HappiGraph extends PolymerElement {
 
       <!-- <button on-click="clearGraph">Clear</button> -->
 
-      <svg width="100%" height="600">
+      <svg width="100%" height="100%">
         <defs>
           <marker id="arrow-start" markerWidth="10" markerHeight="10" refx="0" refy="3" orient="auto"
             markerUnits="strokeWidth">
