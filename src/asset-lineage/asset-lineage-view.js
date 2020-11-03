@@ -15,6 +15,330 @@ import { ItemViewBehavior } from '../common/item';
 import '../common/happi-graph';
 
 class AssetLineageView extends mixinBehaviors([ItemViewBehavior], PolymerElement) {
+  ready() {
+    super.ready();
+
+    let thisElement = this;
+
+    this.$.tokenAjax.addEventListener('error', () =>
+      thisElement.$.visgraph.importNodesAndEdges([], []));
+
+    this.$.processToggle.addEventListener('change', () =>
+      this._reload(this.$.useCases.items[this.$.useCases.selected].value, this.$.processToggle.checked));
+
+  }
+
+  static get properties() {
+    return {
+      happiGraphData: {
+        type: Object,
+        value: {
+          nodes: [],
+          links: [],
+          selectedNodePosition: '',
+          graphDirection: ''
+        }
+      },
+      usecases: {
+        type: Array,
+        value: [
+          'ultimateSource',
+          'endToEnd',
+          'ultimateDestination',
+          'verticalLineage',
+          'sourceAndDestination'
+        ]
+      },
+      graphData: {
+        type: Object,
+        observer: '_graphDataChanged'
+      },
+      groups: {
+        type: Object,
+        value: {
+          AssetZoneMembership: {
+            icon: 'simple-square'
+          },
+          Category: {
+            icon: 'carbon-category'
+          },
+          Column: {
+            icon: 'simple-square'
+          },
+          condensedNode: {
+            icon: 'simple-square'
+          },
+          Connection: {
+            icon: 'mdi-transit-connection-variant'
+          },
+          Database: {
+            icon: 'dashicons-database'
+          },
+          DataFile: {
+            icon: 'bi-file-earmark'
+          },
+          FileFolder: {
+            icon: 'bi-folder'
+          },
+          Glossary: {
+            icon: 'carbon-data-structured'
+          },
+          GlossaryCategory: {
+            icon: 'carbon-category'
+          },
+          GlossaryTerm: {
+            icon: 'ion-list-circle-outline'
+          },
+          Path: {
+            icon: 'file-icons-microsoft-infopath'
+          },
+          Process: {
+            icon: 'whh-cog'
+          },
+          ProjectName: {
+            icon: 'file-icons-microsoft-project'
+          },
+          RelationalColumn: {
+            icon: 'mdi-table-column'
+          },
+          RelationalTable: {
+            icon: 'bi-table'
+          },
+          Schema: {
+            icon: 'system-uicons-hierarchy'
+          },
+          subProcess: {
+            icon: 'mdi-cogs'
+          },
+          TabularColumn: {
+            icon: 'carbon-column'
+          }
+        }
+      }
+    }
+  }
+
+  zoomOut() {
+    this.shadowRoot.querySelector('#happi-graph').customZoomOut();
+  }
+
+  zoomIn() {
+    this.shadowRoot.querySelector('#happi-graph').customZoomIn();
+  }
+
+  fitToScreen() {
+    this.shadowRoot.querySelector('#happi-graph').fitContent();
+  }
+
+  _noGuid(routeData) {
+    return routeData === undefined
+      || routeData.guid === undefined
+      || routeData.guid === "";
+  }
+
+  _noLineage(routeData) {
+    return !this._noGuid(routeData)
+      && this.graphData
+      && this.graphData.nodes
+      && this.graphData.nodes.length == 0;
+  }
+
+  static get observers() {
+    return [
+      '_routeChanged(route)'
+    ];
+  }
+
+  _routeChanged(route) {
+    if (this.route.prefix === '/asset-lineage') {
+      if (this.routeData && this.routeData.guid) {
+        this.$.tokenAjaxDetails.url = '/api/assets/' + this.routeData.guid;
+        this.$.tokenAjaxDetails._go();
+      }
+      this._reload(this.routeData.usecase, this.$.processToggle.checked);
+    }
+  }
+
+  _updateHappiGraph(data) {
+    let myData = {
+      selectedNodePosition: this.happiGraphData.selectedNodePosition,  // FIRST, CENTER, LAST
+      graphDirection: this.happiGraphData.graphDirection,              // HORIZONTAL, VERTICAL
+
+      nodes: data.nodes.map(n => {
+        let keys = Object.keys(n.properties);
+
+        let props = keys.map(k => {
+          let camelCased = k.charAt(0).toUpperCase() + k.slice(1);
+
+          return {
+            value: n.properties[k],
+            label: k,
+            icon: this.groups[camelCased] ? this.groups[camelCased].icon : 'simple-square'
+          }
+        });
+
+        let result = {
+          id: n.id,
+          type: this.groups[n.group].icon,
+          value: n.label ? n.label : 'N/A',
+          label: n.group ? n.group : 'N/A',
+          selected: n.id === this.routeData.guid,
+          properties: [
+            ...props
+          ]
+        };
+
+        return result;
+      }),
+      links: []
+    };
+
+    myData.links = data.edges.map(e => {
+      return {
+        id: `${e.from}-${e.to}`,
+        label: e.label,
+        source: e.from,
+        target: e.to,
+        connectionToSource: false,
+        connectionToTarget: true
+      };
+    });
+
+    this.happiGraphData = {
+      ...myData
+    };
+  }
+
+  _graphDataChanged(data, newData) {
+    if (data === null || data === undefined) {
+      if (newData && newData != null) {
+        data = newData;
+      } else {
+        data = {
+          nodes: [],
+          edges: []
+        };
+      }
+    }
+
+    this._updateHappiGraph(data);
+  }
+
+  _ultimateSource(guid, includeProcesses) {
+    if (includeProcesses === null
+      || includeProcesses === undefined) {
+      includeProcesses = 'true';
+    }
+
+    this.happiGraphData.selectedNodePosition = 'LAST';
+    this.happiGraphData.graphDirection = 'HORIZONTAL';
+
+    this.$.tokenAjax.url = '/api/lineage/entities/' + guid + '/ultimate-source?includeProcesses=' + includeProcesses;
+    this.$.tokenAjax._go();
+  }
+
+  _endToEndLineage(guid, includeProcesses) {
+    if (includeProcesses === null
+      || includeProcesses === undefined) {
+      includeProcesses = 'true';
+    }
+
+    this.happiGraphData.selectedNodePosition = 'CENTER';
+    this.happiGraphData.graphDirection = 'HORIZONTAL';
+
+    this.$.tokenAjax.url = '/api/lineage/entities/' + guid + '/end2end?includeProcesses=' + includeProcesses;
+    this.$.tokenAjax._go();
+  }
+
+  _ultimateDestination(guid, includeProcesses) {
+    if (includeProcesses === null
+      || includeProcesses === undefined) {
+      includeProcesses = 'true';
+    }
+
+    this.happiGraphData.selectedNodePosition = 'FIRST';
+    this.happiGraphData.graphDirection = 'HORIZONTAL';
+
+    this.$.tokenAjax.url = '/api/lineage/entities/' + guid + '/ultimate-destination?includeProcesses=' + includeProcesses;
+    this.$.tokenAjax._go();
+  }
+
+  _verticalLineage(guid, includeProcesses) {
+    if (includeProcesses === null
+      || includeProcesses === undefined) {
+      includeProcesses = 'true';
+    }
+
+    this.happiGraphData.selectedNodePosition = 'FIRST';
+    this.happiGraphData.graphDirection = 'VERTICAL';
+
+    this.$.tokenAjax.url = '/api/lineage/entities/' + guid + '/vertical-lineage?includeProcesses=' + includeProcesses;
+    this.$.tokenAjax._go();
+  }
+
+  _sourceAndDestination(guid, includeProcesses) {
+    if (includeProcesses === null
+      || includeProcesses === undefined) {
+      includeProcesses = 'true';
+    }
+
+    this.happiGraphData.selectedNodePosition = 'CENTER';
+    this.happiGraphData.graphDirection = 'HORIZONTAL';
+
+    this.$.tokenAjax.url = '/api/lineage/entities/' + guid + '/source-and-destination?includeProcesses=' + includeProcesses;
+    this.$.tokenAjax._go();
+  }
+
+  _reload(usecase, includeProcesses) {
+    if (this.routeData.guid !== undefined
+      && this.routeData.guid !== '')
+      switch (usecase) {
+        case 'ultimateSource':
+          this._ultimateSource(this.routeData.guid, includeProcesses);
+
+          break;
+        case 'endToEnd':
+          this._endToEndLineage(this.routeData.guid, includeProcesses);
+
+          break;
+        case 'ultimateDestination':
+          this._ultimateDestination(this.routeData.guid, includeProcesses);
+          break;
+        case 'verticalLineage':
+          this._verticalLineage(this.routeData.guid, includeProcesses);
+
+          break;
+        case 'sourceAndDestination':
+          this._sourceAndDestination(this.routeData.guid, includeProcesses);
+
+          break;
+        default:
+          console.warn('NOT_FOUND');
+          break;
+      }
+  }
+
+  _getUseCase(usecase) {
+    return this.usecases.indexOf(usecase);
+  }
+
+  _displayETLJobsToggle(useCase) {
+    return useCase === 'verticalLineage';
+  }
+
+  _displayVerticalLineageButton(item) {
+    let type = '';
+
+    if (item === undefined || item.type === undefined || item.type.name === undefined) {
+      return false;
+    } else {
+      type = item.type.name;
+    }
+
+    return type === 'RelationalColumn' || type === 'TabularColumn' || type === 'GlossaryTerm';
+  }
+
+
   static get template() {
     return html`
       <style include="shared-styles">
@@ -52,17 +376,10 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior], PolymerElement
 
       <token-ajax id="tokenAjax"
                   last-response="{{graphData}}"></token-ajax>
-<<<<<<< HEAD
 
       <token-ajax id="tokenAjaxDetails"
                   last-response="{{item}}"></token-ajax>
 
-=======
-
-      <token-ajax id="tokenAjaxDetails"
-                  last-response="{{item}}"></token-ajax>
-
->>>>>>> 04c40135dc... Replace vis-graph component with happi-graph component
       <div>
         <vaadin-tabs id ="useCases"  selected="[[ _getUseCase(routeData.usecase) ]]" >
           <vaadin-tab value="ultimateSource" >
@@ -139,554 +456,14 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior], PolymerElement
               </a>
               to select an asset to view lineage.
             </p>
-<<<<<<< HEAD
-<<<<<<< HEAD
           </div>
         </template>
       </dom-if>
-=======
-        </div>
-    </template>
-    </dom-if>
-
-    <div id="container" >
-        <vis-graph id="visgraph" groups=[[groups]] data=[[graphData]] ></vis-graph>
-=======
-          </div>
-        </template>
-      </dom-if>
->>>>>>> 04c40135dc... Replace vis-graph component with happi-graph component
 
       <div id="container">
         <happi-graph id="happi-graph" graph-data="[[happiGraphData]]"></happi-graph>
-<<<<<<< HEAD
-    </div>
->>>>>>> c392729630... Refactor and update asset lineage component
-
-      <div id="container">
-        <happi-graph id="happi-graph" graph-data="[[happiGraphData]]"></happi-graph>
-=======
->>>>>>> 04c40135dc... Replace vis-graph component with happi-graph component
       </div>
     `;
-  }
-
-  ready() {
-    super.ready();
-
-    var thisElement = this;
-
-    this.$.tokenAjax.addEventListener('error', () =>
-      thisElement.$.visgraph.importNodesAndEdges([], []));
-
-    this.$.processToggle.addEventListener('change', () =>
-      this._reload(this.$.useCases.items[this.$.useCases.selected].value, this.$.processToggle.checked));
-
-  }
-
-  static get properties() {
-    return {
-      happiGraphData: {
-        type: Object,
-        value: {
-          nodes: [],
-          links: [],
-          selectedNodePosition: '',
-          graphDirection: ''
-        }
-      },
-      usecases: {
-        type: Array,
-        value: [
-          'ultimateSource',
-          'endToEnd',
-          'ultimateDestination',
-          'verticalLineage',
-          'sourceAndDestination'
-        ]
-      },
-      graphData: {
-        type: Object,
-        observer: '_graphDataChanged'
-      },
-      groups: {
-        type: Object,
-        value: {
-          AssetZoneMembership: {
-<<<<<<< HEAD
-<<<<<<< HEAD
-            icon: 'simple-square'
-          },
-          Category: {
-            icon: 'carbon-category'
-          },
-          Column: {
-            icon: 'simple-square'
-          },
-          condensedNode: {
-            icon: 'simple-square'
-          },
-          Connection: {
-            icon: 'mdi-transit-connection-variant'
-          },
-          Database: {
-            icon: 'dashicons-database'
-          },
-          DataFile: {
-            icon: 'bi-file-earmark'
-          },
-          FileFolder: {
-            icon: 'bi-folder'
-          },
-          Glossary: {
-            icon: 'carbon-data-structured'
-          },
-          GlossaryCategory: {
-            icon: 'carbon-category'
-          },
-          GlossaryTerm: {
-            icon: 'ion-list-circle-outline'
-          },
-          Path: {
-            icon: 'file-icons-microsoft-infopath'
-          },
-          Process: {
-            icon: 'whh-cog'
-          },
-          ProjectName: {
-            icon: 'file-icons-microsoft-project'
-          },
-          RelationalColumn: {
-            icon: 'mdi-table-column'
-          },
-          RelationalTable: {
-            icon: 'bi-table'
-          },
-          Schema: {
-            icon: 'system-uicons-hierarchy'
-          },
-          subProcess: {
-            icon: 'mdi-cogs'
-          },
-          TabularColumn: {
-            icon: 'carbon-column'
-=======
-            icon: 'vaadin:handshake',
-            newIcon: 'simple-square'
-=======
-            icon: 'simple-square'
->>>>>>> 04c40135dc... Replace vis-graph component with happi-graph component
-          },
-          Category: {
-            icon: 'carbon-category'
-          },
-          Column: {
-            icon: 'simple-square'
-          },
-          condensedNode: {
-            icon: 'simple-square'
-          },
-          Connection: {
-            icon: 'mdi-transit-connection-variant'
-          },
-          Database: {
-            icon: 'dashicons-database'
-          },
-          DataFile: {
-            icon: 'bi-file-earmark'
-          },
-          FileFolder: {
-            icon: 'bi-folder'
-          },
-          Glossary: {
-            icon: 'carbon-data-structured'
-          },
-          GlossaryCategory: {
-            icon: 'carbon-category'
-          },
-          GlossaryTerm: {
-            icon: 'ion-list-circle-outline'
-          },
-          Path: {
-            icon: 'file-icons-microsoft-infopath'
-          },
-          Process: {
-            icon: 'whh-cog'
-          },
-          ProjectName: {
-            icon: 'file-icons-microsoft-project'
-          },
-          RelationalColumn: {
-            icon: 'mdi-table-column'
-          },
-          RelationalTable: {
-            icon: 'bi-table'
-          },
-          Schema: {
-            icon: 'system-uicons-hierarchy'
-          },
-          subProcess: {
-            icon: 'mdi-cogs'
-          },
-          TabularColumn: {
-<<<<<<< HEAD
-            icon: 'vaadin:tab',
-            newIcon: 'carbon-column'
->>>>>>> ec250fda85... Add icons for happi-graph component
-=======
-            icon: 'carbon-column'
->>>>>>> 04c40135dc... Replace vis-graph component with happi-graph component
-          }
-        }
-      }
-    }
-  }
-
-  zoomOut() {
-    this.shadowRoot.querySelector('#happi-graph').customZoomOut();
-  }
-
-  zoomIn() {
-    this.shadowRoot.querySelector('#happi-graph').customZoomIn();
-  }
-
-  fitToScreen() {
-    this.shadowRoot.querySelector('#happi-graph').fitContent();
-  }
-
-  _noGuid(routeData) {
-    return routeData === undefined
-      || routeData.guid === undefined
-      || routeData.guid === "";
-  }
-
-  _noLineage(routeData) {
-    return !this._noGuid(routeData)
-      && this.graphData
-      && this.graphData.nodes
-      && this.graphData.nodes.length == 0;
-  }
-
-  static get observers() {
-    return [
-      '_routeChanged(route)'
-    ];
-  }
-
-  _routeChanged(route) {
-    if (this.route.prefix === '/asset-lineage') {
-      if (this.routeData && this.routeData.guid) {
-        this.$.tokenAjaxDetails.url = '/api/assets/' + this.routeData.guid;
-        this.$.tokenAjaxDetails._go();
-      }
-      this._reload(this.routeData.usecase, this.$.processToggle.checked);
-    }
-  }
-
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-  _parseProperties(props) {
-    var obj = {};
-    Object.keys(props).forEach(
-      (key) => {
-        var newKey = key.split("vertex--").join("");
-        obj[newKey] = "" + props[key];
-      }
-    );
-    return obj;
-  }
-
-
->>>>>>> c392729630... Refactor and update asset lineage component
-=======
->>>>>>> 04c40135dc... Replace vis-graph component with happi-graph component
-  _updateHappiGraph(data) {
-    let myData = {
-      selectedNodePosition: this.happiGraphData.selectedNodePosition,  // FIRST, CENTER, LAST
-      graphDirection: this.happiGraphData.graphDirection,              // HORIZONTAL, VERTICAL
-
-      nodes: data.nodes.map(n => {
-        let keys = Object.keys(n.properties);
-
-        let props = keys.map(k => {
-          let camelCased = k.charAt(0).toUpperCase() + k.slice(1);
-
-          return {
-            value: n.properties[k],
-            label: k,
-<<<<<<< HEAD
-<<<<<<< HEAD
-            icon: this.groups[camelCased] ? this.groups[camelCased].icon : 'simple-square'
-=======
-            icon: this.groups[camelCased] ? this.groups[camelCased].newIcon : 'simple-square'
->>>>>>> ec250fda85... Add icons for happi-graph component
-=======
-            icon: this.groups[camelCased] ? this.groups[camelCased].icon : 'simple-square'
->>>>>>> 04c40135dc... Replace vis-graph component with happi-graph component
-          }
-        });
-
-        let result = {
-          id: n.id,
-          type: this.groups[n.group].icon,
-          value: n.label ? n.label : 'N/A',
-          label: n.group ? n.group : 'N/A',
-          selected: n.id === this.routeData.guid,
-          properties: [
-            ...props
-          ]
-        };
-
-        return result;
-      }),
-      links: []
-    };
-
-    myData.links = data.edges.map(e => {
-      return {
-        id: `${e.from}-${e.to}`,
-        label: e.label,
-        source: e.from,
-        target: e.to,
-        connectionToSource: false,
-        connectionToTarget: true
-      };
-    });
-
-    this.happiGraphData = {
-      ...myData
-    };
-  }
-
-  _graphDataChanged(data, newData) {
-    if (data === null || data === undefined) {
-      if (newData && newData != null) {
-        data = newData;
-      } else {
-        data = {
-          nodes: [],
-          edges: []
-        };
-      }
-    }
-
-    this._updateHappiGraph(data);
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-
-    if (data.nodes.length == 0) {
-      this.dispatchEvent(new CustomEvent('show-modal', {
-        bubbles: true,
-        composed: true,
-        detail: { message: "No lineage information available", level: 'info' }
-      }));
-    }
-    const egeriaColor = getComputedStyle(this).getPropertyValue('--egeria-primary-color');
-    for (var i = 0; i < data.nodes.length; i++) {
-      let displayName;
-      if (data.nodes[i].properties && data.nodes[i].properties !== null && data.nodes[i].properties !== undefined) {
-        data.nodes[i].properties = this._parseProperties(data.nodes[i].properties);
-
-        if (data.nodes[i].properties['tableDisplayName'] != null
-          && data.nodes[i].properties['tableDisplayName'] != undefined) {
-          displayName = data.nodes[i].properties['tableDisplayName']
-        }
-      }
-      data.nodes[i].displayName = data.nodes[i].label;
-      data.nodes[i].type = data.nodes[i].group;
-      data.nodes[i].label = '<b>' + data.nodes[i].label + '</b>';
-      data.nodes[i].groupInfo = this._camelCaseToSentence(data.nodes[i].group);
-
-      if (displayName != null) {
-        data.nodes[i].dispName = 'From : ' + displayName;
-      }
-      if (data.nodes[i].id === this.routeData.guid) {
-        data.nodes[i].isQueridNode = true;
-        data.nodes[i].color = {
-          background: 'white',
-          border: egeriaColor,
-          highlight: { background: egeriaColor, border: '#a7a7a7' },
-          hover: { background: 'white', border: '#a7a7a7' }
-        };
-      } else {
-        data.nodes[i].color = {
-          background: 'white',
-          border: '#a7a6a6',
-          highlight: { background: egeriaColor, border: '#a7a7a7' },
-          hover: { background: 'white', border: '#a7a7a7' }
-        };
-      }
-    }
-    this.$.visgraph.importNodesAndEdges(data.nodes, data.edges);
->>>>>>> c392729630... Refactor and update asset lineage component
-=======
->>>>>>> 04c40135dc... Replace vis-graph component with happi-graph component
-  }
-
-  _ultimateSource(guid, includeProcesses) {
-    if (includeProcesses === null
-      || includeProcesses === undefined) {
-      includeProcesses = 'true';
-    }
-
-    this.happiGraphData.selectedNodePosition = 'LAST';
-    this.happiGraphData.graphDirection = 'HORIZONTAL';
-
-    this.$.tokenAjax.url = '/api/lineage/entities/' + guid + '/ultimate-source?includeProcesses=' + includeProcesses;
-    this.$.tokenAjax._go();
-  }
-
-  _endToEndLineage(guid, includeProcesses) {
-    if (includeProcesses === null
-      || includeProcesses === undefined) {
-      includeProcesses = 'true';
-    }
-
-    this.happiGraphData.selectedNodePosition = 'CENTER';
-    this.happiGraphData.graphDirection = 'HORIZONTAL';
-
-    this.$.tokenAjax.url = '/api/lineage/entities/' + guid + '/end2end?includeProcesses=' + includeProcesses;
-    this.$.tokenAjax._go();
-  }
-
-  _ultimateDestination(guid, includeProcesses) {
-    if (includeProcesses === null
-      || includeProcesses === undefined) {
-      includeProcesses = 'true';
-    }
-
-    this.happiGraphData.selectedNodePosition = 'FIRST';
-    this.happiGraphData.graphDirection = 'HORIZONTAL';
-
-    this.$.tokenAjax.url = '/api/lineage/entities/' + guid + '/ultimate-destination?includeProcesses=' + includeProcesses;
-    this.$.tokenAjax._go();
-  }
-
-  _verticalLineage(guid, includeProcesses) {
-    if (includeProcesses === null
-      || includeProcesses === undefined) {
-      includeProcesses = 'true';
-    }
-
-    this.happiGraphData.selectedNodePosition = 'FIRST';
-    this.happiGraphData.graphDirection = 'VERTICAL';
-
-    this.$.tokenAjax.url = '/api/lineage/entities/' + guid + '/vertical-lineage?includeProcesses=' + includeProcesses;
-    this.$.tokenAjax._go();
-  }
-
-  _sourceAndDestination(guid, includeProcesses) {
-    if (includeProcesses === null
-      || includeProcesses === undefined) {
-      includeProcesses = 'true';
-    }
-
-    this.happiGraphData.selectedNodePosition = 'CENTER';
-    this.happiGraphData.graphDirection = 'HORIZONTAL';
-
-    this.$.tokenAjax.url = '/api/lineage/entities/' + guid + '/source-and-destination?includeProcesses=' + includeProcesses;
-    this.$.tokenAjax._go();
-  }
-
-  _reload(usecase, includeProcesses) {
-    if (this.routeData.guid !== undefined
-      && this.routeData.guid !== '')
-      switch (usecase) {
-        case 'ultimateSource':
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-          this.graphLayout.hierarchical.direction = 'LR';
-
-          this.happiGraphData.selectedNodePosition = 'LAST';
-          this.happiGraphData.graphDirection = 'HORIZONTAL';
->>>>>>> c392729630... Refactor and update asset lineage component
-=======
->>>>>>> 04c40135dc... Replace vis-graph component with happi-graph component
-          this._ultimateSource(this.routeData.guid, includeProcesses);
-
-          break;
-        case 'endToEnd':
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-          this.graphLayout.hierarchical.direction = 'LR';
-
-          this.happiGraphData.selectedNodePosition = 'CENTER';
-          this.happiGraphData.graphDirection = 'HORIZONTAL';
->>>>>>> c392729630... Refactor and update asset lineage component
-=======
->>>>>>> 04c40135dc... Replace vis-graph component with happi-graph component
-          this._endToEndLineage(this.routeData.guid, includeProcesses);
-
-          break;
-        case 'ultimateDestination':
-<<<<<<< HEAD
-<<<<<<< HEAD
-          this._ultimateDestination(this.routeData.guid, includeProcesses);
-          break;
-        case 'verticalLineage':
-=======
-          this.graphLayout.hierarchical.direction = 'LR';
-
-          this.happiGraphData.selectedNodePosition = 'FIRST';
-          this.happiGraphData.graphDirection = 'HORIZONTAL';
-          this._ultimateDestination(this.routeData.guid, includeProcesses);
-          break;
-        case 'verticalLineage':
-          this.graphLayout.hierarchical.direction = 'DU';
-
-          this.happiGraphData.selectedNodePosition = 'FIRST';
-          this.happiGraphData.graphDirection = 'VERTICAL';
->>>>>>> c392729630... Refactor and update asset lineage component
-=======
-          this._ultimateDestination(this.routeData.guid, includeProcesses);
-          break;
-        case 'verticalLineage':
->>>>>>> 04c40135dc... Replace vis-graph component with happi-graph component
-          this._verticalLineage(this.routeData.guid, includeProcesses);
-
-          break;
-        case 'sourceAndDestination':
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-          this.graphLayout.hierarchical.direction = 'LR';
-
-          this.happiGraphData.selectedNodePosition = 'CENTER';
-          this.happiGraphData.graphDirection = 'HORIZONTAL';
->>>>>>> c392729630... Refactor and update asset lineage component
-=======
->>>>>>> 04c40135dc... Replace vis-graph component with happi-graph component
-          this._sourceAndDestination(this.routeData.guid, includeProcesses);
-
-          break;
-        default:
-          console.warn('NOT_FOUND');
-          break;
-      }
-  }
-
-  _getUseCase(usecase) {
-    return this.usecases.indexOf(usecase);
-  }
-
-  _displayETLJobsToggle(useCase) {
-    return useCase === 'verticalLineage';
-  }
-
-  _displayVerticalLineageButton(item) {
-    let type = '';
-
-    if (item === undefined || item.type === undefined || item.type.name === undefined) {
-      return false;
-    } else {
-      type = item.type.name;
-    }
-
-    return type === 'RelationalColumn' || type === 'TabularColumn' || type === 'GlossaryTerm';
   }
 }
 
