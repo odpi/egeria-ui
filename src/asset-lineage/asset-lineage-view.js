@@ -196,6 +196,7 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior], PolymerElement
         type: Object,
         value: {
           AssetZoneMembership: {
+<<<<<<< HEAD
             icon: 'simple-square'
           },
           Category: {
@@ -251,6 +252,82 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior], PolymerElement
           },
           TabularColumn: {
             icon: 'carbon-column'
+=======
+            icon: 'vaadin:handshake',
+            newIcon: 'simple-square'
+          },
+          Category: {
+            icon: 'carbon-category',
+            newIcon: 'carbon-category'
+          },
+          Column: {
+            icon: 'vaadin:grid-h',
+            newIcon: 'simple-square'
+          },
+          condensedNode: {
+            icon: 'vaadin:cogs',
+            newIcon: 'simple-square'
+          },
+          Connection: {
+            icon: 'mdi-transit-connection-variant',
+            newIcon: 'mdi-transit-connection-variant'
+          },
+          Database: {
+            icon: 'dashicons-database',
+            newIcon: 'dashicons-database'
+          },
+          DataFile: {
+            icon: 'vaadin:file',
+            newIcon: 'bi-file-earmark'
+          },
+          FileFolder: {
+            icon: 'bi-folder',
+            newIcon: 'bi-folder'
+          },
+          Glossary: {
+            icon: 'carbon-data-structured',
+            newIcon: 'carbon-data-structured'
+          },
+          GlossaryCategory: {
+            icon: 'vaadin:ticket',
+            newIcon: 'carbon-category'
+          },
+          GlossaryTerm: {
+            icon: 'vaadin:records',
+            newIcon: 'ion-list-circle-outline'
+          },
+          Path: {
+            icon: 'file-icons-microsoft-infopath',
+            newIcon: 'file-icons-microsoft-infopath'
+          },
+          Process: {
+            icon: 'vaadin:file-process',
+            newIcon: 'whh-cog'
+          },
+          ProjectName: {
+            icon: 'file-icons-microsoft-project',
+            newIcon: 'file-icons-microsoft-project'
+          },
+          RelationalColumn: {
+            icon: 'vaadin:road-branches',
+            newIcon: 'mdi-table-column'
+          },
+          RelationalTable: {
+            icon: 'vaadin:table',
+            newIcon: 'bi-table'
+          },
+          Schema: {
+            icon: 'system-uicons-hierarchy',
+            newIcon: 'system-uicons-hierarchy'
+          },
+          subProcess: {
+            icon: 'vaadin:cogs',
+            newIcon: 'mdi-cogs'
+          },
+          TabularColumn: {
+            icon: 'vaadin:tab',
+            newIcon: 'carbon-column'
+>>>>>>> ec250fda85... Add icons for happi-graph component
           }
         }
       }
@@ -327,13 +404,17 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior], PolymerElement
           return {
             value: n.properties[k],
             label: k,
+<<<<<<< HEAD
             icon: this.groups[camelCased] ? this.groups[camelCased].icon : 'simple-square'
+=======
+            icon: this.groups[camelCased] ? this.groups[camelCased].newIcon : 'simple-square'
+>>>>>>> ec250fda85... Add icons for happi-graph component
           }
         });
 
         let result = {
           id: n.id,
-          type: this.groups[n.group].icon,
+          type: this.groups[n.group].newIcon,
           value: n.label ? n.label : 'N/A',
           label: n.group ? n.group : 'N/A',
           selected: n.id === this.routeData.guid,

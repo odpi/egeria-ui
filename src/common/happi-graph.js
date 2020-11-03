@@ -502,6 +502,7 @@ class HappiGraph extends PolymerElement {
   }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
   getPropertySvg(type) {
     switch (type) {
@@ -569,6 +570,8 @@ class HappiGraph extends PolymerElement {
   }
 
 >>>>>>> c392729630... Refactor and update asset lineage component
+=======
+>>>>>>> ec250fda85... Add icons for happi-graph component
   addIcon(node) {
     node
       .append('path')
