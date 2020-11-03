@@ -52,10 +52,17 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior], PolymerElement
 
       <token-ajax id="tokenAjax"
                   last-response="{{graphData}}"></token-ajax>
+<<<<<<< HEAD
 
       <token-ajax id="tokenAjaxDetails"
                   last-response="{{item}}"></token-ajax>
 
+=======
+
+      <token-ajax id="tokenAjaxDetails"
+                  last-response="{{item}}"></token-ajax>
+
+>>>>>>> 04c40135dc... Replace vis-graph component with happi-graph component
       <div>
         <vaadin-tabs id ="useCases"  selected="[[ _getUseCase(routeData.usecase) ]]" >
           <vaadin-tab value="ultimateSource" >
@@ -133,6 +140,7 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior], PolymerElement
               to select an asset to view lineage.
             </p>
 <<<<<<< HEAD
+<<<<<<< HEAD
           </div>
         </template>
       </dom-if>
@@ -143,13 +151,22 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior], PolymerElement
 
     <div id="container" >
         <vis-graph id="visgraph" groups=[[groups]] data=[[graphData]] ></vis-graph>
+=======
+          </div>
+        </template>
+      </dom-if>
+>>>>>>> 04c40135dc... Replace vis-graph component with happi-graph component
 
+      <div id="container">
         <happi-graph id="happi-graph" graph-data="[[happiGraphData]]"></happi-graph>
+<<<<<<< HEAD
     </div>
 >>>>>>> c392729630... Refactor and update asset lineage component
 
       <div id="container">
         <happi-graph id="happi-graph" graph-data="[[happiGraphData]]"></happi-graph>
+=======
+>>>>>>> 04c40135dc... Replace vis-graph component with happi-graph component
       </div>
     `;
   }
@@ -196,6 +213,7 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior], PolymerElement
         type: Object,
         value: {
           AssetZoneMembership: {
+<<<<<<< HEAD
 <<<<<<< HEAD
             icon: 'simple-square'
           },
@@ -255,79 +273,69 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior], PolymerElement
 =======
             icon: 'vaadin:handshake',
             newIcon: 'simple-square'
+=======
+            icon: 'simple-square'
+>>>>>>> 04c40135dc... Replace vis-graph component with happi-graph component
           },
           Category: {
-            icon: 'carbon-category',
-            newIcon: 'carbon-category'
+            icon: 'carbon-category'
           },
           Column: {
-            icon: 'vaadin:grid-h',
-            newIcon: 'simple-square'
+            icon: 'simple-square'
           },
           condensedNode: {
-            icon: 'vaadin:cogs',
-            newIcon: 'simple-square'
+            icon: 'simple-square'
           },
           Connection: {
-            icon: 'mdi-transit-connection-variant',
-            newIcon: 'mdi-transit-connection-variant'
+            icon: 'mdi-transit-connection-variant'
           },
           Database: {
-            icon: 'dashicons-database',
-            newIcon: 'dashicons-database'
+            icon: 'dashicons-database'
           },
           DataFile: {
-            icon: 'vaadin:file',
-            newIcon: 'bi-file-earmark'
+            icon: 'bi-file-earmark'
           },
           FileFolder: {
-            icon: 'bi-folder',
-            newIcon: 'bi-folder'
+            icon: 'bi-folder'
           },
           Glossary: {
-            icon: 'carbon-data-structured',
-            newIcon: 'carbon-data-structured'
+            icon: 'carbon-data-structured'
           },
           GlossaryCategory: {
-            icon: 'vaadin:ticket',
-            newIcon: 'carbon-category'
+            icon: 'carbon-category'
           },
           GlossaryTerm: {
-            icon: 'vaadin:records',
-            newIcon: 'ion-list-circle-outline'
+            icon: 'ion-list-circle-outline'
           },
           Path: {
-            icon: 'file-icons-microsoft-infopath',
-            newIcon: 'file-icons-microsoft-infopath'
+            icon: 'file-icons-microsoft-infopath'
           },
           Process: {
-            icon: 'vaadin:file-process',
-            newIcon: 'whh-cog'
+            icon: 'whh-cog'
           },
           ProjectName: {
-            icon: 'file-icons-microsoft-project',
-            newIcon: 'file-icons-microsoft-project'
+            icon: 'file-icons-microsoft-project'
           },
           RelationalColumn: {
-            icon: 'vaadin:road-branches',
-            newIcon: 'mdi-table-column'
+            icon: 'mdi-table-column'
           },
           RelationalTable: {
-            icon: 'vaadin:table',
-            newIcon: 'bi-table'
+            icon: 'bi-table'
           },
           Schema: {
-            icon: 'system-uicons-hierarchy',
-            newIcon: 'system-uicons-hierarchy'
+            icon: 'system-uicons-hierarchy'
           },
           subProcess: {
-            icon: 'vaadin:cogs',
-            newIcon: 'mdi-cogs'
+            icon: 'mdi-cogs'
           },
           TabularColumn: {
+<<<<<<< HEAD
             icon: 'vaadin:tab',
             newIcon: 'carbon-column'
 >>>>>>> ec250fda85... Add icons for happi-graph component
+=======
+            icon: 'carbon-column'
+>>>>>>> 04c40135dc... Replace vis-graph component with happi-graph component
           }
         }
       }
@@ -376,6 +384,7 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior], PolymerElement
   }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
   _parseProperties(props) {
     var obj = {};
@@ -390,6 +399,8 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior], PolymerElement
 
 
 >>>>>>> c392729630... Refactor and update asset lineage component
+=======
+>>>>>>> 04c40135dc... Replace vis-graph component with happi-graph component
   _updateHappiGraph(data) {
     let myData = {
       selectedNodePosition: this.happiGraphData.selectedNodePosition,  // FIRST, CENTER, LAST
@@ -405,16 +416,20 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior], PolymerElement
             value: n.properties[k],
             label: k,
 <<<<<<< HEAD
+<<<<<<< HEAD
             icon: this.groups[camelCased] ? this.groups[camelCased].icon : 'simple-square'
 =======
             icon: this.groups[camelCased] ? this.groups[camelCased].newIcon : 'simple-square'
 >>>>>>> ec250fda85... Add icons for happi-graph component
+=======
+            icon: this.groups[camelCased] ? this.groups[camelCased].icon : 'simple-square'
+>>>>>>> 04c40135dc... Replace vis-graph component with happi-graph component
           }
         });
 
         let result = {
           id: n.id,
-          type: this.groups[n.group].newIcon,
+          type: this.groups[n.group].icon,
           value: n.label ? n.label : 'N/A',
           label: n.group ? n.group : 'N/A',
           selected: n.id === this.routeData.guid,
@@ -457,6 +472,7 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior], PolymerElement
     }
 
     this._updateHappiGraph(data);
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
 
@@ -505,6 +521,8 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior], PolymerElement
     }
     this.$.visgraph.importNodesAndEdges(data.nodes, data.edges);
 >>>>>>> c392729630... Refactor and update asset lineage component
+=======
+>>>>>>> 04c40135dc... Replace vis-graph component with happi-graph component
   }
 
   _ultimateSource(guid, includeProcesses) {
@@ -578,16 +596,20 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior], PolymerElement
       switch (usecase) {
         case 'ultimateSource':
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
           this.graphLayout.hierarchical.direction = 'LR';
 
           this.happiGraphData.selectedNodePosition = 'LAST';
           this.happiGraphData.graphDirection = 'HORIZONTAL';
 >>>>>>> c392729630... Refactor and update asset lineage component
+=======
+>>>>>>> 04c40135dc... Replace vis-graph component with happi-graph component
           this._ultimateSource(this.routeData.guid, includeProcesses);
 
           break;
         case 'endToEnd':
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
           this.graphLayout.hierarchical.direction = 'LR';
@@ -595,10 +617,13 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior], PolymerElement
           this.happiGraphData.selectedNodePosition = 'CENTER';
           this.happiGraphData.graphDirection = 'HORIZONTAL';
 >>>>>>> c392729630... Refactor and update asset lineage component
+=======
+>>>>>>> 04c40135dc... Replace vis-graph component with happi-graph component
           this._endToEndLineage(this.routeData.guid, includeProcesses);
 
           break;
         case 'ultimateDestination':
+<<<<<<< HEAD
 <<<<<<< HEAD
           this._ultimateDestination(this.routeData.guid, includeProcesses);
           break;
@@ -616,10 +641,16 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior], PolymerElement
           this.happiGraphData.selectedNodePosition = 'FIRST';
           this.happiGraphData.graphDirection = 'VERTICAL';
 >>>>>>> c392729630... Refactor and update asset lineage component
+=======
+          this._ultimateDestination(this.routeData.guid, includeProcesses);
+          break;
+        case 'verticalLineage':
+>>>>>>> 04c40135dc... Replace vis-graph component with happi-graph component
           this._verticalLineage(this.routeData.guid, includeProcesses);
 
           break;
         case 'sourceAndDestination':
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
           this.graphLayout.hierarchical.direction = 'LR';
@@ -627,6 +658,8 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior], PolymerElement
           this.happiGraphData.selectedNodePosition = 'CENTER';
           this.happiGraphData.graphDirection = 'HORIZONTAL';
 >>>>>>> c392729630... Refactor and update asset lineage component
+=======
+>>>>>>> 04c40135dc... Replace vis-graph component with happi-graph component
           this._sourceAndDestination(this.routeData.guid, includeProcesses);
 
           break;

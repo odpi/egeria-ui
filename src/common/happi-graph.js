@@ -986,6 +986,7 @@ class HappiGraph extends PolymerElement {
       <!-- <button on-click="customZoomOut">-</button> -->
       <!-- <button on-click="customZoomIn">+</button> -->
       <!-- <button on-click="fitContent">Fit</button> -->
+<<<<<<< HEAD
 
 <<<<<<< HEAD
       <!-- <button on-click="clearGraph">Clear</button> -->
@@ -995,6 +996,11 @@ class HappiGraph extends PolymerElement {
       <hr/>
 >>>>>>> c392729630... Refactor and update asset lineage component
 
+=======
+
+      <!-- <button on-click="clearGraph">Clear</button> -->
+
+>>>>>>> 04c40135dc... Replace vis-graph component with happi-graph component
       <svg width="100%" height="600">
         <defs>
           <marker id="arrow-start" markerWidth="10" markerHeight="10" refx="0" refy="3" orient="auto"
