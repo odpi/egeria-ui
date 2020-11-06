@@ -49,7 +49,6 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior], PolymerElement
         value: {
           nodes: [],
           links: [],
-          selectedNodePosition: '',
           graphDirection: ''
         }
       },
@@ -196,8 +195,7 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior], PolymerElement
 
   _updateHappiGraph(data) {
     let myData = {
-      selectedNodePosition: this.happiGraphData.selectedNodePosition,  // FIRST, CENTER, LAST
-      graphDirection: this.happiGraphData.graphDirection,              // HORIZONTAL, VERTICAL
+      graphDirection: this.happiGraphData.graphDirection, // HORIZONTAL, VERTICAL
 
       nodes: data.nodes.map(n => {
         let keys = Object.keys(n.properties ? n.properties : {});
@@ -265,7 +263,6 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior], PolymerElement
       includeProcesses = 'true';
     }
 
-    this.happiGraphData.selectedNodePosition = 'LAST';
     this.happiGraphData.graphDirection = 'HORIZONTAL';
 
     this.$.tokenAjax.url = '/api/lineage/entities/' + guid + '/ultimate-source?includeProcesses=' + includeProcesses;
@@ -278,7 +275,6 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior], PolymerElement
       includeProcesses = 'true';
     }
 
-    this.happiGraphData.selectedNodePosition = 'CENTER';
     this.happiGraphData.graphDirection = 'HORIZONTAL';
 
     this.$.tokenAjax.url = '/api/lineage/entities/' + guid + '/end2end?includeProcesses=' + includeProcesses;
@@ -291,7 +287,6 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior], PolymerElement
       includeProcesses = 'true';
     }
 
-    this.happiGraphData.selectedNodePosition = 'FIRST';
     this.happiGraphData.graphDirection = 'HORIZONTAL';
 
     this.$.tokenAjax.url = '/api/lineage/entities/' + guid + '/ultimate-destination?includeProcesses=' + includeProcesses;
@@ -304,7 +299,6 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior], PolymerElement
       includeProcesses = 'true';
     }
 
-    this.happiGraphData.selectedNodePosition = 'FIRST';
     this.happiGraphData.graphDirection = 'VERTICAL';
 
     this.$.tokenAjax.url = '/api/lineage/entities/' + guid + '/vertical-lineage?includeProcesses=' + includeProcesses;
@@ -317,7 +311,6 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior], PolymerElement
       includeProcesses = 'true';
     }
 
-    this.happiGraphData.selectedNodePosition = 'CENTER';
     this.happiGraphData.graphDirection = 'HORIZONTAL';
 
     this.$.tokenAjax.url = '/api/lineage/entities/' + guid + '/source-and-destination?includeProcesses=' + includeProcesses;

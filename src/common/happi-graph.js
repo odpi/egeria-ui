@@ -64,7 +64,6 @@ class HappiGraph extends PolymerElement {
         value: {
           nodes: [],
           links: [],
-          selectedNodePosition: '',
           graphDirection: ''
         }
       },
@@ -126,70 +125,117 @@ class HappiGraph extends PolymerElement {
     return length >= 1 ? 250 : defaultWidth;
   }
 
-  // bang method
-  move(input, from, to) {
-    let numberOfDeletedElm = 1;
+  getStartingPoints(_links) {
+    let startingPoints = [];
 
-    const elm = input.splice(from, numberOfDeletedElm)[0];
+    let leftPart = _links.map(l => {
+      return l.source;
+    });
 
-    numberOfDeletedElm = 0;
+    let rightPart = _links.map(l => {
+      return l.target;
+    });
 
-    input.splice(to, numberOfDeletedElm, elm);
+    for (let i = 0; i < leftPart.length; i++) {
+      if (!rightPart.includes(leftPart[i])) {
+        startingPoints.push(leftPart[i]);
+      }
+    }
+
+    return startingPoints;
+  }
+
+  bfs(_start, _nodes, type) {
+    let x = 0;
+    let y = 0;
+
+    let listToExplore = [_start];
+
+    _nodes[_start].visited = true;
+    _nodes[_start].x = x;
+    _nodes[_start].y = y;
+
+    while (listToExplore.length > 0) {
+      let nodeIndex = listToExplore.shift();
+
+      if (type === 'HORIZONTAL') {
+        x = x + 1;
+      } else if (type === 'VERTICAL') {
+        y = y - 1;
+      }
+
+      if (_nodes[nodeIndex].links.length > 1) {
+        if (type === 'HORIZONTAL') {
+          y = y + 1;
+        } else if (type === 'VERTICAL') {
+          x = x + 1;
+        }
+      }
+
+      _nodes[nodeIndex].links.forEach((childIndex) => {
+        if (!_nodes[childIndex].visited) {
+          _nodes[childIndex].visited = true;
+          _nodes[childIndex].x = x;
+          _nodes[childIndex].y = y;
+
+
+          listToExplore.push(childIndex);
+        }
+
+        if (type === 'HORIZONTAL') {
+          y = 0;
+        } else if (type === 'VERTICAL') {
+          x = 0;
+        }
+      });
+    }
+
+    return _nodes;
+  };
+
+  mapped(data) {
+    let result = {};
+
+    data.nodes.forEach(n => {
+      result[n.id] = {
+        ...n,
+        links: [
+          ...data.links.filter(e => e.source === n.id).map(e => {
+            return e.target
+          })
+        ],
+        visited: false
+      }
+    });
+
+    return result;
   }
 
   _graphDataUpdate(newData, oldData) {
     if (newData.nodes.length > 0) {
       this.clearGraph();
 
-      let xAxis = 100;
-      let yAxis = 100;
+      let mappedNodes = this.mapped(newData);
 
-      switch (newData.selectedNodePosition) {
-        case 'FIRST':
-          this.move(newData.nodes, (newData.nodes.length - 1), newData.nodes.length);
+      let orderedNodes = this.bfs(this.getStartingPoints(newData.links)[0], mappedNodes, newData.graphDirection);
 
-          break;
-        case 'CENTER':
-          this.move(newData.nodes, (newData.nodes.length - 1), parseInt(newData.nodes.length / 2));
+      let finalNodes = [];
 
-          break;
-        case 'LAST':
-          this.move(newData.nodes, (newData.nodes.length - 1), 0);
-
-          break;
-        default:
-          this.move(newData.nodes, (newData.nodes.length - 1), newData.nodes.length);
-
-          break;
-      }
+      Object.keys(orderedNodes).forEach(k => {
+        finalNodes.push(orderedNodes[k]);
+      });
 
       let myData = {
-        selectedNodePosition: newData.selectedNodePosition,
         graphDirection: newData.graphDirection,
 
-        nodes: newData.nodes.reverse().map(n => {
+        nodes: finalNodes.map(n => {
           let result = {
             ...n,
-            fx: xAxis,
-            fy: yAxis,
+            fx: n.x * 350, // TODO: calculate these coordinates so that
+            fy: n.y * 350, //       all nodes are centered
             width: this.getNodeWidth(n.properties.length),
             height: this.getNodeHeight(n.properties.length)
           };
-
-          switch (newData.graphDirection) {
-            case 'HORIZONTAL':
-              xAxis = xAxis + this.getNodeWidth(n.properties.length) + 100;
-
-              break;
-            case 'VERTICAL':
-              yAxis = yAxis + this.getNodeHeight(n.properties.length) + 100;
-
-              break;
-            default:
-              xAxis = xAxis + this.getNodeWidth(n.properties.length) + 100;
-
-              break;
-          }
 
           return result;
         })
