@@ -504,18 +504,6 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior], PolymerElement
         <asset-tools items="[[selectedNode.type]]"
                      guid="[[selectedNode.id]]"
                      style="display: inline-flex"></asset-tools>
-
-        <props-table items="[[_attributes(selectedNode.properties)]]"
-                     title="[[selectedNode.group]]: [[selectedNode.label]]"
-                     with-row-stripes></props-table>
-
-        <template is="dom-if" if="[[item.type]]">
-          <props-table items="[[_attributes(item.type)]]"
-                       title="Type"
-                       with-row-stripes></props-table>
-        </template>
-
-        <div></div>
       </paper-dialog>
     `;
   }
