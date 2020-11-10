@@ -106,6 +106,10 @@ class HappiGraph extends PolymerElement {
             iterations: 1
           }
         }
+      },
+      cachedIcons: {
+        type: Object,
+        value: {}
       }
     }
   }
@@ -556,6 +560,8 @@ class HappiGraph extends PolymerElement {
   }
 
   addIcon(node) {
+    let self = this;
+
     node
       .append('path')
       .attr('transform', `translate(20,20)`)
@@ -563,17 +569,36 @@ class HappiGraph extends PolymerElement {
       .attr('fill', '#5C82EB');
 
     node.each(function (d) {
-      // TODO: extract as config property for
-      //       happi-graph component
-      //       (e.g. 'icons/bi-folder.svg')
-      d3.xml(`icons/${d.type}.svg`)
-        .then(data => {
-          d3.select(this)
-            .append('g')
-            .attr('transform', `translate(31,28)`)
-            .node()
-            .append(data.documentElement);
-        });
+      if (self.cachedIcons[d.type]) {
+        let icon = new DOMParser()
+          .parseFromString(self.cachedIcons[d.type], 'application/xml')
+          .documentElement;
+
+        d3.select(this)
+          .append('g')
+          .attr('transform', `translate(31,28)`)
+          .node()
+          .append(icon);
+      } else {
+        // TODO: extract as config property for
+        //       happi-graph component
+        //       (e.g. 'icons/bi-folder.svg')
+        fetch(`icons/${d.type}.svg`)
+          .then(response => response.text())
+          .then(data => {
+            let icon = new DOMParser()
+              .parseFromString(data, 'application/xml')
+              .documentElement;
+
+            d3.select(this)
+              .append('g')
+              .attr('transform', `translate(31,28)`)
+              .node()
+              .append(icon);
+
+            self.cachedIcons[d.type] = data;
+          });
+      }
     })
   }
 
@@ -641,30 +666,52 @@ class HappiGraph extends PolymerElement {
             let labelHeight = 80;
             let iconHeight = 80;
 
-            d.properties.forEach(p => {
+            for (const p of d.properties) {
               selection
                 .append('text')
                 .attr('transform', `translate(95, ${labelHeight})`)
                 .classed('property', true)
-                .text((d) => p.value);
+                .text(() => p.value);
 
-              // TODO: extract as config property for
-              //       happi-graph component
-              //       (e.g. 'icons/bi-folder.svg')
-              d3.xml(`icons/${p.icon}.svg`)
-                .then(data => {
-                  selection
-                    .append('g')
-                    .attr('transform', `translate(65, ${iconHeight - 15})`)
-                    .classed('property-icon', true)
-                    .node()
-                    .append(data.documentElement);
+              if (self.cachedIcons[p.icon]) {
+                let icon = new DOMParser()
+                  .parseFromString(self.cachedIcons[p.icon], 'application/xml')
+                  .documentElement;
 
-                  iconHeight = iconHeight + 30;
-                });
+                selection
+                  .append('g')
+                  .attr('transform', `translate(65, ${iconHeight - 15})`)
+                  .classed('property-icon', true)
+                  .node()
+                  .append(icon);
+
+                iconHeight = iconHeight + 30;
+              } else {
+                // TODO: extract as config property for
+                //       happi-graph component
+                //       (e.g. 'icons/bi-folder.svg')
+                fetch(`icons/${p.icon}.svg`)
+                  .then(response => response.text())
+                  .then(data => {
+                    let icon = new DOMParser()
+                      .parseFromString(data, 'application/xml')
+                      .documentElement;
+
+                    selection
+                      .append('g')
+                      .attr('transform', `translate(65, ${iconHeight - 15})`)
+                      .classed('property-icon', true)
+                      .node()
+                      .append(icon);
+
+                    iconHeight = iconHeight + 30;
+
+                    self.cachedIcons[p.icon] = data;
+                  });
+              }
 
               labelHeight = labelHeight + 30;
-            });
+            }
           }
         });
     })
