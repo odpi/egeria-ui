@@ -146,12 +146,31 @@ class HappiGraph extends PolymerElement {
       }
     }
 
-    return startingPoints;
+    let onlyUnique = (value, index, self) => {
+      return self.indexOf(value) === index;
+    }
+
+    return startingPoints.filter(onlyUnique);
   }
 
-  bfs(_start, _nodes, type) {
-    let x = 0;
-    let y = 0;
+  bfs(_start, _nodes, type, _index) {
+    let x;
+    let y;
+
+    switch (type) {
+      case 'HORIZONTAL':
+        x = 0;
+        y = _index ? parseInt(_index) : 0;
+
+        break;
+      case 'VERTICAL':
+        x = _index ? parseInt(_index) : 0;
+        y = 0;
+
+        break;
+      default:
+        console.log('NO_TYPE');
+    }
 
     let listToExplore = [_start];
 
@@ -159,39 +178,56 @@ class HappiGraph extends PolymerElement {
     _nodes[_start].x = x;
     _nodes[_start].y = y;
 
-    while (listToExplore.length > 0) {
-      let nodeIndex = listToExplore.shift();
-
-      if (type === 'HORIZONTAL') {
-        x = x + 1;
-      } else if (type === 'VERTICAL') {
-        y = y - 1;
-      }
-
-      if (_nodes[nodeIndex].links.length > 1) {
-        if (type === 'HORIZONTAL') {
-          y = y + 1;
-        } else if (type === 'VERTICAL') {
+    switch (type) {
+      case 'HORIZONTAL':
+        while (listToExplore.length > 0) {
+          let nodeIndex = listToExplore.shift();
           x = x + 1;
+
+          if (_nodes[nodeIndex].links.length > 1) {
+            y = y + 1;
+          }
+
+          _nodes[nodeIndex].links.forEach((childIndex) => {
+            if (!_nodes[childIndex].visited) {
+              _nodes[childIndex].visited = true;
+              _nodes[childIndex].x = x;
+              _nodes[childIndex].y = y;
+
+              listToExplore.push(childIndex);
+            }
+
+            y = 0;
+          });
         }
-      }
 
-      _nodes[nodeIndex].links.forEach((childIndex) => {
-        if (!_nodes[childIndex].visited) {
-          _nodes[childIndex].visited = true;
-          _nodes[childIndex].x = x;
-          _nodes[childIndex].y = y;
+        break;
+      case 'VERTICAL':
 
+        while (listToExplore.length > 0) {
+          let nodeIndex = listToExplore.shift();
 
-          listToExplore.push(childIndex);
+          y = y - 1;
+
+          if (_nodes[nodeIndex].links.length > 1) {
+            x = x - parseInt(_nodes[nodeIndex].links.length) + 1;
+          }
+
+          _nodes[nodeIndex].links.forEach((childIndex) => {
+            if (!_nodes[childIndex].visited) {
+              _nodes[childIndex].visited = true;
+              _nodes[childIndex].x = x;
+              _nodes[childIndex].y = y;
+
+              listToExplore.push(childIndex);
+            }
+
+            x = x + 1;
+          });
         }
-
-        if (type === 'HORIZONTAL') {
-          y = 0;
-        } else if (type === 'VERTICAL') {
-          x = 0;
-        }
-      });
+        break;
+      default:
+        console.log('NO_TYPE');
     }
 
     return _nodes;
@@ -220,10 +256,23 @@ class HappiGraph extends PolymerElement {
       this.clearGraph();
 
       let mappedNodes = this.mapped(newData);
-
-      let orderedNodes = this.bfs(this.getStartingPoints(newData.links)[0], mappedNodes, newData.graphDirection);
-
       let finalNodes = [];
+      let orderedNodes = {};
+
+      if (newData.links.length > 0 && newData.nodes.length > 0) {
+        let startingPoints = this.getStartingPoints(newData.links);
+
+        for (let index in startingPoints) {
+          let bfsNodes = [];
+
+          bfsNodes = this.bfs(startingPoints[index], mappedNodes, newData.graphDirection, index);
+
+          orderedNodes = {
+            ...bfsNodes,
+            ...orderedNodes
+          }
+        }
+      }
 
       Object.keys(orderedNodes).forEach(k => {
         finalNodes.push(orderedNodes[k]);

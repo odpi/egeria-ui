@@ -242,16 +242,16 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior], PolymerElement
     };
   }
 
-  _graphDataChanged(data, newData) {
-    if (data === null || data === undefined) {
-      if (newData && newData != null) {
-        data = newData;
-      } else {
-        data = {
-          nodes: [],
-          edges: []
-        };
-      }
+  _graphDataChanged(data) {
+    if (data.edges.length === 0 || data.nodes.length === 0) {
+      this.dispatchEvent(new CustomEvent('show-modal', {
+        bubbles: true,
+        composed: true,
+        detail: {
+          message: 'No lineage information available',
+          level: 'info'
+        }
+      }));
     }
 
     this._updateHappiGraph(data);
