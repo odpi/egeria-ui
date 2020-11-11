@@ -90,6 +90,9 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior], PolymerElement
           DataFile: {
             icon: 'bi-file-earmark'
           },
+          Endpoint: {
+            icon: 'simple-square'
+          },
           FileFolder: {
             icon: 'bi-folder'
           },
@@ -108,9 +111,6 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior], PolymerElement
           Process: {
             icon: 'whh-cog'
           },
-          ProjectName: {
-            icon: 'file-icons-microsoft-project'
-          },
           RelationalColumn: {
             icon: 'mdi-table-column'
           },
@@ -125,6 +125,9 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior], PolymerElement
           },
           TabularColumn: {
             icon: 'carbon-column'
+          },
+          TransformationProject: {
+            icon: 'file-icons-microsoft-project'
           }
         }
       }
