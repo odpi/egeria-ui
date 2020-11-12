@@ -265,8 +265,7 @@ class AssetSearchView extends mixinBehaviors([AppLocalizeBehavior], PolymerEleme
             this.$.combo.selectedItems.forEach(function (item) {
                 types.push(item.name);
             });
-
-            this.$.tokenAjax.url = '/api/assets/search?q=' + this.q + '&types=' + types;
+            this.$.tokenAjax.url = '/api/assets/search?q=' + this.q.trim() + '&types=' + types;
             if( this.from > 0 )
                 this.$.tokenAjax.url +='&from=' + this.from;
             if( this.pageSize > 0 )
