@@ -144,7 +144,7 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior], PolymerElement
         .pop();
     }
 
-    if (!['condensedNode', 'subProcess'].includes(_selectedNode.group)) {
+    if (!['condensedNode', 'subProcess', 'Process'].includes(_selectedNode.group)) {
       this.selectedNode = _selectedNode;
 
       this.$.tokenAjaxDetails.url = `/api/assets/${nodeId}`;
@@ -246,7 +246,7 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior], PolymerElement
   }
 
   _graphDataChanged(data) {
-    if (data.edges.length === 0 || data.nodes.length === 0) {
+    if (data === null || data.nodes.length === 0) {
       this.dispatchEvent(new CustomEvent('show-modal', {
         bubbles: true,
         composed: true,
@@ -257,7 +257,14 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior], PolymerElement
       }));
     }
 
-    this._updateHappiGraph(data);
+    if (data !== null) {
+      this._updateHappiGraph(data);
+    } else {
+      this._updateHappiGraph({
+        nodes: [],
+        edges: []
+      });
+    }
   }
 
   _ultimateSource(guid, includeProcesses) {

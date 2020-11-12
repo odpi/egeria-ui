@@ -252,9 +252,9 @@ class HappiGraph extends PolymerElement {
   }
 
   _graphDataUpdate(newData, oldData) {
-    if (newData.nodes.length > 0) {
-      this.clearGraph();
+    this.clearGraph();
 
+    if (newData.nodes.length > 0) {
       let mappedNodes = this.mapped(newData);
       let finalNodes = [];
       let orderedNodes = {};
@@ -274,6 +274,10 @@ class HappiGraph extends PolymerElement {
         }
       }
 
+      if(newData.nodes.length === 1) {
+        orderedNodes = this.mapped(newData);
+      }
+
       Object.keys(orderedNodes).forEach(k => {
         finalNodes.push(orderedNodes[k]);
       });
@@ -284,8 +288,8 @@ class HappiGraph extends PolymerElement {
         nodes: finalNodes.map(n => {
           let result = {
             ...n,
-            fx: n.x * 350, // TODO: calculate these coordinates so that
-            fy: n.y * 350, //       all nodes are centered
+            fx: n.x ? n.x * 350 : 0, // TODO: calculate these coordinates so that
+            fy: n.y ? n.y * 350 : 0, //       all nodes are centered
             width: this.getNodeWidth(n.properties.length),
             height: this.getNodeHeight(n.properties.length)
           };
@@ -322,16 +326,23 @@ class HappiGraph extends PolymerElement {
   }
 
   clearGraph() {
-    this.graph = {
-      nodes: [],
-      links: []
-    };
+    if (this.svg) {
+      this.graph = {
+        nodes: [],
+        links: [],
+        graphDirection: ''
+      };
 
-    this.nodes = [];
-    this.links = [];
+      this.nodes = [];
+      this.links = [];
 
-    this.updateForces();
-    this.update();
+      this.simulation = d3.forceSimulation();
+
+      this.fitContent();
+      this.initializeForces();
+      this.updateForces();
+      this.update();
+    }
   }
 
   connectedCallback() {
