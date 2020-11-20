@@ -142,18 +142,21 @@ class MyApp extends mixinBehaviors([AppLocalizeBehavior], PolymerElement) {
       </style>
 
       <iron-localstorage name="my-app-storage" value="{{token}}"></iron-localstorage>
+      <iron-localstorage name="user-components" value="{{components}}"></iron-localstorage>
 
       <app-location route="{{route}}" url-space-regex="^[[rootPath]]" use-hash-as-path query-params="{{queryParams}}"></app-location>
 
       <app-route route="{{route}}" pattern="/:page" data="{{routeData}}" tail="{{tail}}"></app-route>
-
+      
       <toast-feedback></toast-feedback>
 
       <template is="dom-if" if="[[!token]]"  restamp="true">
         <login-view id="loginView" token="{{token}}"></login-view>
       </template>
-
+    
       <template is="dom-if" if="[[token]]"  restamp="true">
+      <token-ajax id=compAjax" last-response="{{components}}" url="/api/users/components" auto></token-ajax>
+
         <paper-dialog id="modal" modal>
           <p>[[modalMessage]]</p>
           <div class="buttons">
@@ -164,18 +167,32 @@ class MyApp extends mixinBehaviors([AppLocalizeBehavior], PolymerElement) {
         <app-drawer-layout id="drawerLayout" flex forceNarrow  narrow="{{narrow}}" fullbleed="">
           <app-drawer id="drawer" slot="drawer"  swipe-open="[[narrow]]">
             <div id="logo"></div>
-
             <iron-selector selected="[[page]]"
                             attr-for-selected="name"
                             class="drawer-list"
                             swlectedClass="drawer-list-selected"
                             role="navigation">
-              <div name="asset-catalog" language="[[language]]"><a href="[[rootPath]]#/asset-catalog/search">Asset Catalog</a></div>
-              <div name="glossary" language="[[language]]"><a href="[[rootPath]]#/glossary">Glossary View</a></div>
-              <div name="asset-lineage"><a href="[[rootPath]]#/asset-lineage">Asset Lineage</a></div>
-              <div name="type-explorer"><a href="[[rootPath]]#/type-explorer">Type Explorer</a></div>
-              <div name="repository-explorer"><a href="[[rootPath]]#/repository-explorer">Repository Explorer</a></div>
-              <div name="about"><a href="[[rootPath]]#/about">About</a></div>
+                            
+              <template id="test" is="dom-if" if="[[components]]">
+                <template is="dom-if" if="[[_hasComponent('asset-catalog')]]">
+                  <div name="asset-catalog" language="[[language]]"><a href="[[rootPath]]#/asset-catalog/search">Asset Catalog</a></div>
+                </template>
+                <template is="dom-if" if="[[_hasComponent('glossary-view')]]">
+                  <div name="glossary" language="[[language]]"><a href="[[rootPath]]#/glossary">Glossary View</a></div>
+                </template>
+                <template is="dom-if" if="[[_hasComponent('asset-lineage')]]"> 
+                    <div name="asset-lineage"><a href="[[rootPath]]#/asset-lineage">Asset Lineage</a></div>
+                </template>
+                <template is="dom-if" if="[[_hasComponent('tex')]]">
+                    <div name="type-explorer"><a href="[[rootPath]]#/type-explorer">Type Explorer</a></div>
+                </template>
+                <template is="dom-if" if="[[_hasComponent('rex')]]">
+                    <div name="repository-explorer"><a href="[[rootPath]]#/repository-explorer">Repository Explorer</a></div>
+                </template>
+                <template is="dom-if" if="[[_hasComponent('about')]]">
+                  <div name="about"><a href="[[rootPath]]#/about">About</a></div>
+                </template>
+              </template>
             </iron-selector>
           </app-drawer>
 
@@ -294,6 +311,10 @@ class MyApp extends mixinBehaviors([AppLocalizeBehavior], PolymerElement) {
     this.addEventListener('push-crumb', this._onPushCrumb);
   }
 
+  _hasComponent(comp){
+    return this.components.length===0 || this.components.includes(comp) ;
+  }
+
   _feedbackChanged() {
     console.log(arguments);
   }
@@ -374,6 +395,7 @@ class MyApp extends mixinBehaviors([AppLocalizeBehavior], PolymerElement) {
     //TODO invalidate token from server
     console.log('LOGOUT: removing token...');
     this.token = null;
+    this.components = undefined;
   }
 
   _hasToken() {

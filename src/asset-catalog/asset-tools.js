@@ -7,8 +7,10 @@ import '@polymer/paper-item/paper-item.js';
 import '@polymer/paper-item/paper-item-body.js';
 import '@polymer/paper-styles/paper-styles.js';
 import '@vaadin/vaadin-icons/vaadin-icons.js';
+import {mixinBehaviors} from "@polymer/polymer/lib/legacy/class";
+import {RoleComponentsBehavior} from "../common/role-components";
 
-class AssetTools extends PolymerElement {
+class AssetTools  extends mixinBehaviors([RoleComponentsBehavior], PolymerElement) {
     static get template() {
         return html`
   
@@ -32,6 +34,8 @@ class AssetTools extends PolymerElement {
             padding: 0;
         }
       </style>
+      <iron-localstorage name="user-components" value="{{components}}"></iron-localstorage>
+
     <token-ajax id="tokenAjaxSettings" last-response="{{omas}}" url="/api/omas/settings" auto></token-ajax>
         <ul id="menu"> 
             <li> 
@@ -78,15 +82,18 @@ class AssetTools extends PolymerElement {
                     </paper-button>
                 </a>
             </li>
-            <li> 
-                <a href="#/repository-explorer/[[omas.serverName]]/[[ _encode(omas.baseUrl) ]]/[[guid]]" title="Repository explorer">
-                    <paper-button raised>
-                    <iron-icon icon="vaadin:cogs"></iron-icon>
-                    <div>&nbsp;REX</div>
-                    </paper-button>
-                </a>
-            </li>
+            <template is="dom-if" if="[[_hasComponent('rex')]]">
+                <li> 
+                    <a href="#/repository-explorer/[[omas.serverName]]/[[ _encode(omas.baseUrl) ]]/[[guid]]" title="Repository explorer">
+                        <paper-button raised>
+                        <iron-icon icon="vaadin:cogs"></iron-icon>
+                        <div>&nbsp;REX</div>
+                        </paper-button>
+                    </a>
+                </li>
+            </template>
         </ul>
+        [[components]]
     `;
     }
 
