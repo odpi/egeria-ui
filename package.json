@@ -1,6 +1,6 @@
 {
   "name": "egeria-ui",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Egeria UI application",
   "author": "Egeria contributors",
   "license": "Apache-2.0",
@@ -14,7 +14,8 @@
     "start:dev": "polymer serve --proxy-target http://localhost:9000/api --proxy-path api",
     "build": "polymer build",
     "lint": "polymer lint",
-    "test": "polymer test"
+    "test": "polymer test",
+    "license-checker": "license-checker --exclude [MIT] --production --direct --csv --out LICENSE_LIST.csv"
   },
   "dependencies": {
     "@polymer/app-layout": "^3.0.1",
@@ -78,6 +79,7 @@
   },
   "devDependencies": {
     "http-server": "0.12.3",
+    "license-checker": "^25.0.1",
     "polymer-cli": "^1.9.11",
     "wct-browser-legacy": "^1.0.2",
     "wct-mocha": "^1.1.0"

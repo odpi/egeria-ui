@@ -2,6 +2,7 @@
   "entrypoint": "index.html",
   "shell": "src/my-app.js",
   "sources": [
+    "icons/**/*",
     "images/**/*",
     "themes/**/*",
     "locales/**/*",
