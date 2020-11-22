@@ -93,7 +93,6 @@ class AssetTools  extends mixinBehaviors([RoleComponentsBehavior], PolymerElemen
                 </li>
             </template>
         </ul>
-        [[components]]
     `;
     }
 
