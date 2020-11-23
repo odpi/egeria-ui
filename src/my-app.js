@@ -271,8 +271,7 @@ class MyApp extends mixinBehaviors([AppLocalizeBehavior,RoleComponentsBehavior],
       },
       feedback: {
         type: Object,
-        notify: true,
-        observer: '_feedbackChanged'
+        notify: true
       },
       crumbs: {
         type: Array
@@ -311,10 +310,6 @@ class MyApp extends mixinBehaviors([AppLocalizeBehavior,RoleComponentsBehavior],
     this.addEventListener('show-modal', this._onShowModal);
     this.addEventListener('set-title', this._onSetTitle);
     this.addEventListener('push-crumb', this._onPushCrumb);
-  }
-
-  _feedbackChanged() {
-    console.log(arguments);
   }
 
   _getDrawer() {
