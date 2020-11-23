@@ -9,6 +9,10 @@ export const RoleComponentsBehavior = {
 
         _componentsChanged(components) {
             console.debug('components list changed');
+        },
+
+        _hasComponent(comp){
+            return this.components.length===0 || this.components.includes(comp) ;
         }
 
 }

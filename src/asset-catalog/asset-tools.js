@@ -36,7 +36,8 @@ class AssetTools  extends mixinBehaviors([RoleComponentsBehavior], PolymerElemen
       </style>
       <iron-localstorage name="user-components" value="{{components}}"></iron-localstorage>
 
-    <token-ajax id="tokenAjaxSettings" last-response="{{omas}}" url="/api/omas/settings" auto></token-ajax>
+      <token-ajax id="tokenAjaxSettings" last-response="{{omas}}" url="/api/omas/settings" auto></token-ajax>
+      <template is="dom-if" if="[[components]]">
         <ul id="menu"> 
             <li> 
                 <a href="#/asset-lineage/ultimateSource/[[guid]]" title="Ultimate Source Lineage">
@@ -93,6 +94,7 @@ class AssetTools  extends mixinBehaviors([RoleComponentsBehavior], PolymerElemen
                 </li>
             </template>
         </ul>
+        </template>
     `;
     }
 
