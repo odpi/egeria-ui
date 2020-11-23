@@ -35,6 +35,8 @@ import './login-view.js';
 import './user-options-menu';
 import './shared-styles.js';
 import './common/breadcrumb.js';
+import {RoleComponentsBehavior} from "./common/role-components";
+
 
 // Gesture events like tap and track generated from touch will not be
 // preventable, allowing for better scrolling performance.
@@ -44,7 +46,7 @@ setPassiveTouchGestures(true);
 // in `index.html`.
 setRootPath(MyAppGlobals.rootPath);
 
-class MyApp extends mixinBehaviors([AppLocalizeBehavior], PolymerElement) {
+class MyApp extends mixinBehaviors([AppLocalizeBehavior,RoleComponentsBehavior], PolymerElement) {
   static get template() {
     return html`
       <style include="shared-styles">
@@ -269,8 +271,7 @@ class MyApp extends mixinBehaviors([AppLocalizeBehavior], PolymerElement) {
       },
       feedback: {
         type: Object,
-        notify: true,
-        observer: '_feedbackChanged'
+        notify: true
       },
       crumbs: {
         type: Array
@@ -309,14 +310,6 @@ class MyApp extends mixinBehaviors([AppLocalizeBehavior], PolymerElement) {
     this.addEventListener('show-modal', this._onShowModal);
     this.addEventListener('set-title', this._onSetTitle);
     this.addEventListener('push-crumb', this._onPushCrumb);
-  }
-
-  _hasComponent(comp){
-    return this.components.length===0 || this.components.includes(comp) ;
-  }
-
-  _feedbackChanged() {
-    console.log(arguments);
   }
 
   _getDrawer() {
