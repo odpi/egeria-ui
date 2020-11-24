@@ -219,7 +219,9 @@ class MyApp extends mixinBehaviors([AppLocalizeBehavior,RoleComponentsBehavior],
 
                 </div>
 
-                <div style="float: right"><user-options></user-options></div>
+                <div style="float: right">
+                  <user-options></user-options>
+                </div>
               </app-toolbar>
 
               <div class="breadcrumb">
