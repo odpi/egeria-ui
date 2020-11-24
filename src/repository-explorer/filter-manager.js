@@ -35,422 +35,370 @@ import '../token-ajax.js';
 
 class FilterManager extends PolymerElement {
 
-    static get template() {
-        return html`
+  static get template() {
+    return html`
+      <style is="custom-style" include="rex-styles"></style>
 
-            <style is="custom-style" include="rex-styles">
+      <body>
+        <div style="padding:0px;">
+          <!-- Non-polymer version ...                                                                                 -->
+          <!--                                                                                                         -->
+          <!-- Entity Types:                                                                                           -->
+          <!--                                                                                                         -->
+          <!-- <select id="entityTypeSelector" style="width: 300px; float:left; " on-change="entitySelectorHandler">   -->
+          <!--     <option value="dummy" disabled selected>No types to display</option>                                -->
+          <!--     /*  options will be added dynamically */                                                            -->
+          <!-- </select>                                                                                               -->
+          <!--                                                                                                         -->
+          <!--  <p>                                                                                                    -->
+          <!--  Relationship Types:                                                                                    -->
+          <!--                                                                                                         -->
+          <!-- <select id="relationshipTypeSelector" style="width: 300px; float:right;  left: 150px"                   -->
+          <!--             on-change="relationshipSelectorHandler">                                                    -->
+          <!--      <option value="dummy" disabled selected>No types to display</option>                               -->
+          <!--      /*  options will be added dynamically */                                                           -->
+          <!-- </select>                                                                                               -->
+          <!--                                                                                                         -->
+          <!-- <p>                                                                                                     -->
+          <!-- Classification Types:                                                                                   -->
+          <!--                                                                                                         -->
+          <!-- <select id="classificationTypeSelector" style="width: 300px; float:right;  left: 150px"                 -->
+          <!--             on-change="classificationSelectorHandler">                                                  -->
+          <!--     <option value="dummy" disabled selected>No types to display</option>                                -->
+          <!--     /*  options will be added dynamically */                                                            -->
+          <!-- </select>                                                                                               -->
 
-            </style>
+          <!-- Polymer version -->
+          <paper-dropdown-menu class="custom" label="Entity Types" id="entityTypeSelector"
+                on-change="entitySelectorChangeHandler" noink no-animations
+                on-iron-select="entitySelectorHandler">
+              <paper-listbox id="entityTypeSelectorList" slot="dropdown-content" attrForSelected="value" selected="0" >
+                  <paper-item>No types to display</paper-item>
+              </paper-listbox>
+          </paper-dropdown-menu>
 
-            <body>
+          <paper-dropdown-menu class="custom" label="Relationship Types" id="relationshipTypeSelector"
+              on-change="relationshipSelectorChangeHandler" noink no-animations
+              on-iron-select="relationshipSelectorHandler">
+              <paper-listbox id="relationshipTypeSelectorList" slot="dropdown-content" attrForSelected="value" selected="0">
+                  <paper-item>No types to display</paper-item>
+              </paper-listbox>
+          </paper-dropdown-menu>
 
-                <div style="padding:0px;">
+          <paper-dropdown-menu class="custom" label="Classification Types" id="classificationTypeSelector"
+                on-change="classificationSelectorChangeHandler" noink no-animations
+                on-iron-select="classificationSelectorHandler" disabled>
+                <paper-listbox id="classificationTypeSelectorList" slot="dropdown-content" attrForSelected="value" selected="0">
+                    <paper-item>No types to display</paper-item>
+                </paper-listbox>
+          </paper-dropdown-menu>
+        </div>
+      </body>
+    `;
+  }
 
-                    <!-- Non-polymer version ...                                                                                 -->
-                    <!--                                                                                                         -->
-                    <!-- Entity Types:                                                                                           -->
-                    <!--                                                                                                         -->
-                    <!-- <select id="entityTypeSelector" style="width: 300px; float:left; " on-change="entitySelectorHandler">   -->
-                    <!--     <option value="dummy" disabled selected>No types to display</option>                                -->
-                    <!--     /*  options will be added dynamically */                                                            -->
-                    <!-- </select>                                                                                               -->
-                    <!--                                                                                                         -->
-                    <!--  <p>                                                                                                    -->
-                    <!--  Relationship Types:                                                                                    -->
-                    <!--                                                                                                         -->
-                    <!-- <select id="relationshipTypeSelector" style="width: 300px; float:right;  left: 150px"                   -->
-                    <!--             on-change="relationshipSelectorHandler">                                                    -->
-                    <!--      <option value="dummy" disabled selected>No types to display</option>                               -->
-                    <!--      /*  options will be added dynamically */                                                           -->
-                    <!-- </select>                                                                                               -->
-                    <!--                                                                                                         -->
-                    <!-- <p>                                                                                                     -->
-                    <!-- Classification Types:                                                                                   -->
-                    <!--                                                                                                         -->
-                    <!-- <select id="classificationTypeSelector" style="width: 300px; float:right;  left: 150px"                 -->
-                    <!--             on-change="classificationSelectorHandler">                                                  -->
-                    <!--     <option value="dummy" disabled selected>No types to display</option>                                -->
-                    <!--     /*  options will be added dynamically */                                                            -->
-                    <!-- </select>                                                                                               -->
+  static get properties() {
+    return {
+      selectedType: {
+        type: String,
+        value: undefined
+      },
 
-                    <!-- Polymer version -->
-                    <paper-dropdown-menu class="custom" label="Entity Types" id="entityTypeSelector"
-                         on-change="entitySelectorChangeHandler" noink no-animations
-                         on-iron-select="entitySelectorHandler">
-                        <paper-listbox id="entityTypeSelectorList" slot="dropdown-content" attrForSelected="value" selected="0" >
-                            <paper-item>No types to display</paper-item>
-                        </paper-listbox>
-                    </paper-dropdown-menu>
+      selectedCategory: {
+        type: String,
+        value: undefined
+      },
 
-                    <paper-dropdown-menu class="custom" label="Relationship Types" id="relationshipTypeSelector"
-                        on-change="relationshipSelectorChangeHandler" noink no-animations
-                        on-iron-select="relationshipSelectorHandler">
-                        <paper-listbox id="relationshipTypeSelectorList" slot="dropdown-content" attrForSelected="value" selected="0">
-                            <paper-item>No types to display</paper-item>
-                        </paper-listbox>
-                    </paper-dropdown-menu>
+      typeManager: Object,
 
-                    <paper-dropdown-menu class="custom" label="Classification Types" id="classificationTypeSelector"
-                         on-change="classificationSelectorChangeHandler" noink no-animations
-                         on-iron-select="classificationSelectorHandler" disabled>
-                         <paper-listbox id="classificationTypeSelectorList" slot="dropdown-content" attrForSelected="value" selected="0">
-                             <paper-item>No types to display</paper-item>
-                         </paper-listbox>
-                    </paper-dropdown-menu>
+      polymer: {
+        type: Boolean,
+        value: true
+      }
 
-                </div>
+    };
+  }
 
-             </body>
-        `; }
+  /*
+   * Element is ready
+   */
+  ready() {
+    // Ensure you call super.ready() first to initialise node hash...
+    super.ready();
+  }
 
+  getTypeManager() {
+    return this.typeManager;
+  }
 
+  // Inter-component event handlers
+  /*
+   *  Inbound event: types-loaded
+   */
+  inEvtTypesLoaded() {
+    this.populateSelectors();
+  }
 
-    static get properties() {
+  /*
+   *  Outbound event: type-selected
+   */
+  outEvtTypeSelected(category, typeName) {
+    var customEvent = new CustomEvent('type-selected', { bubbles: true, composed: true, detail: { source: "filter-manager", selectedCategory: category, selectedType: typeName } });
+    this.dispatchEvent(customEvent);
+  }
 
-        return {
+  // UI event handlers
 
-            selectedType: {
-                type    : String,
-                value   : undefined
-            },
+  entitySelectorChangeHandler(e) {
+    //console.log("Entity selector content changed - do nothing");
+  }
 
-             selectedCategory: {
-                 type    : String,
-                 value   : undefined
-             },
+  entitySelectorHandler(e) {
+    if (polymer) {
+      var typeName = e.target.selectedItem.value;
+      if (typeName !== "none")
+        this.changeTypeSelected("Entity", typeName);
+    }
+    else {
+      var typeName = e.target.value;
+      this.changeTypeSelected("Entity", typeName);
+    }
+  }
 
-             typeManager: Object,
+  relationshipSelectorHandler(e) {
+    //console.log("Relationship selector content changed - do nothing");
+  }
 
-             polymer : {
-                 type  : Boolean,
-                 value : true
-             }
+  relationshipSelectorHandler(e) {
+    if (polymer) {
+      var typeName = e.target.selectedItem.value;
+      if (typeName !== "none")
+        this.changeTypeSelected("Relationship", typeName);
+    }
+    else {
+      var typeName = e.target.value;
+      this.changeTypeSelected("Relationship", typeName);
+    }
+  }
 
-        };
+  classificationSelectorChangeHandler(e) {
+    //console.log("Classification selector content changed - do nothing");
+  }
+
+  classificationSelectorHandler(e) {
+    if (polymer) {
+      var typeName = e.target.selectedItem.value;
+      if (typeName !== "none")
+        this.changeTypeSelected("Classification", typeName);
+    }
+    else {
+      var typeName = e.target.value;
+      this.changeTypeSelected("Classification", typeName);
+    }
+  }
+
+  getSelection() {
+    var selection = {};
+    selection.category = this.selectedCategory;
+    selection.typeName = this.selectedType;
+    return selection;
+  }
+
+  /*
+   *  Populate the type selectors using information from the TypeManager.
+   */
+  populateSelectors() {
+
+    // Clear selections
+    this.resetTypeSelectors();
+
+    // Empty the selectors before adding new types...
+    this.prepareSelectors();
+
+    // Add entity type names to entity type selectors
+    var entities = this.typeManager.getEntityTypes();
+    var entityTypesUnsorted = Object.keys(entities);
+    var entityTypesSorted = entityTypesUnsorted.sort();
+
+    entityTypesSorted.forEach(entityExpl => {
+      var typeName = entities[entityExpl].entityDef.name
+      if (this.polymer) {
+        this.addTypeToSelector("entityTypeSelectorList", typeName);
+      }
+      else {
+        this.addTypeToSelector("entityTypeSelector", typeName);
+      }
+    });
+
+    // Add relationship type names to relationship type selector
+    var relationships = this.typeManager.getRelationshipTypes();
+    var relationshipTypesUnsorted = Object.keys(relationships);
+    var relationshipTypesSorted = relationshipTypesUnsorted.sort();
+
+    relationshipTypesSorted.forEach(relationshipExpl => {
+      var typeName = relationships[relationshipExpl].relationshipDef.name;
+      if (polymer) {
+        this.addTypeToSelector("relationshipTypeSelectorList", typeName);
+      }
+      else {
+        this.addTypeToSelector("relationshipTypeSelector", typeName);
+      }
+    });
+
+    // Add classification type names to classification type selector
+    var classifications = this.typeManager.getClassificationTypes();
+    var classificationTypesUnsorted = Object.keys(classifications);
+    var classificationTypesSorted = classificationTypesUnsorted.sort();
+
+    classificationTypesSorted.forEach(classificationExpl => {
+      var typeName = classifications[classificationExpl].classificationDef.name
+      if (polymer) {
+        this.addTypeToSelector("classificationTypeSelectorList", typeName);
+      }
+      else {
+        this.addTypeToSelector("classificationTypeSelector", typeName);
+      }
+    });
+  }
+
+  /*
+   * Helper function to add a type to the specified type selector
+   */
+  addTypeToSelector(selectorName, typeName) {
+    if (this.polymer) {
+      var selectorList = this.shadowRoot.getElementById(selectorName);
+      var opt = document.createElement('paper-item');
+      opt.value = typeName;
+      opt.innerHTML = typeName;
+      selectorList.appendChild(opt);
+    } else {
+      var select = this.$[selectorName];
+      var opt = document.createElement('option');
+      opt.value = typeName;
+      opt.innerHTML = typeName;
+      select.appendChild(opt);
+    }
+  }
+
+  /*
+   *  Clear all the type selectors
+   */
+  prepareSelectors() {
+    this.selectedType = undefined;
+    this.selectedCategory = undefined;
+
+    if (this.polymer) {
+      this.prepareSelector("entityTypeSelectorList");
+      this.prepareSelector("relationshipTypeSelectorList");
+      this.prepareSelector("classificationTypeSelectorList");
+    } else {
+      this.prepareSelector("entityTypeSelector");
+      this.prepareSelector("relationshipTypeSelector");
+      this.prepareSelector("classificationTypeSelector");
+    }
+  }
+
+  prepareSelector(selectorName) {
+    if (this.polymer) {
+      // Clear down the selectors and replace the 'no types' entry with 'select a type'...
+      var selectorList = this.shadowRoot.getElementById(selectorName);
+      while (selectorList.firstChild) {
+        selectorList.removeChild(selectorList.firstChild);
+      }
+      var opt = document.createElement('paper-item');
+      opt.value = "none";
+      opt.innerHTML = "Restrict search to a selected type...";
+      opt.disabled = false;
+      opt.selected = true;
+      selectorList.appendChild(opt);
+    } else {
+      // Clear down the selectors and replace the 'no types' entry with 'select a type'...
+      var selector = this.$[selectorName];
+      while (selector.firstChild) {
+        selector.removeChild(selector.firstChild);
+      }
+      var opt = document.createElement('option');
+      opt.value = "none";
+      opt.innerHTML = "Restrict search to a selected type...";
+      opt.disabled = false;
+      opt.selected = true;
+      selector.appendChild(opt);
+    }
+  }
+
+  changeTypeSelected(category, typeName) {
+    // Clear the type selectors for the other categories
+    switch (category) {
+      case "Entity":
+        this.resetRelTypeSelector();
+        this.resetClsTypeSelector();
+        break;
+      case "Relationship":
+        this.resetEntTypeSelector();
+        this.resetClsTypeSelector();
+        break;
+      case "Classification":
+        this.resetEntTypeSelector();
+        this.resetRelTypeSelector();
+        break;
+      default:
+        console.warn('NOT_FOUND');
     }
 
-    /*
-     * Element is ready
-     */
-    ready() {
-        // Ensure you call super.ready() first to initialise node hash...
-        super.ready();
+    // Remember the new setting
+    this.selectedType = typeName;
+    this.selectedCategory = category;
+    // Issue the event
+    this.outEvtTypeSelected(category, typeName);
+  }
+
+  /*
+   *  A reset of a view selector sets the selected value to the 'nothing-selected' value
+   *  which is always "none" and has the display text "Please select a type".
+   *
+   *  A reset does not clear the content of the selector.
+   */
+  resetTypeSelectors() {
+    this.resetEntTypeSelector();
+    this.resetRelTypeSelector();
+    this.resetClsTypeSelector();
+  }
+
+  resetClsTypeSelector() {
+    if (this.polymer) {
+      // Reset the classification type selector
+      var select = this.$.classificationTypeSelectorList;
+      select.selected = 0;
+    } else {
+      // Reset the classification type selector
+      var select = this.$.classificationTypeSelector;
+      select.value = "none";
     }
+  }
 
-
-    getTypeManager() {
-      return this.typeManager;
+  resetRelTypeSelector() {
+    if (this.polymer) {
+      // Reset the relationship type selector
+      var select = this.$.relationshipTypeSelectorList;
+      select.selected = 0;
+    } else {
+      // Reset the relationship type selector
+      var select = this.$.relationshipTypeSelector;
+      select.value = "none";
     }
+  }
 
-
-    // Inter-component event handlers
-
-
-    /*
-     *  Inbound event: types-loaded
-     */
-    inEvtTypesLoaded() {
-        this.populateSelectors();
+  resetEntTypeSelector() {
+    if (this.polymer) {
+      // Reset the entity type selector
+      var select = this.$.entityTypeSelectorList;
+      select.selected = 0;
+    } else {
+      // Reset the entity type selector
+      var select = this.$.entityTypeSelector;
+      select.value = "none";
     }
-
-     /*
-      *  Outbound event: type-selected
-      */
-     outEvtTypeSelected(category, typeName) {
-         var customEvent = new CustomEvent('type-selected', { bubbles: true, composed: true, detail: {source: "filter-manager", selectedCategory: category, selectedType: typeName} });
-         this.dispatchEvent(customEvent);
-     }
-
-
-     // UI event handlers
-
-    entitySelectorChangeHandler(e) {
-        //console.log("Entity selector content changed - do nothing");
-    }
-
-    entitySelectorHandler(e) {
-        if (polymer) {
-            var typeName = e.target.selectedItem.value;
-            if (typeName !== "none")
-                this.changeTypeSelected("Entity", typeName);
-        }
-        else {
-            var typeName = e.target.value;
-            this.changeTypeSelected("Entity", typeName);
-        }
-    }
-
-
-    relationshipSelectorHandler(e) {
-        //console.log("Relationship selector content changed - do nothing");
-    }
-
-    relationshipSelectorHandler(e) {
-        if (polymer) {
-            var typeName = e.target.selectedItem.value;
-            if (typeName !== "none")
-                this.changeTypeSelected("Relationship", typeName);
-        }
-        else {
-            var typeName = e.target.value;
-            this.changeTypeSelected("Relationship", typeName);
-        }
-    }
-
-    classificationSelectorChangeHandler(e) {
-        //console.log("Classification selector content changed - do nothing");
-    }
-
-    classificationSelectorHandler(e) {
-        if (polymer) {
-            var typeName = e.target.selectedItem.value;
-            if (typeName !== "none")
-                this.changeTypeSelected("Classification", typeName);
-        }
-        else {
-            var typeName = e.target.value;
-            this.changeTypeSelected("Classification", typeName);
-        }
-    }
-
-    getSelection() {
-        var selection = {};
-        selection.category = this.selectedCategory;
-        selection.typeName = this.selectedType;
-        return selection;
-    }
-
-    /*
-     *  Populate the type selectors using information from the TypeManager.
-     */
-    populateSelectors() {
-
-        // Clear selections
-        this.resetTypeSelectors();
-
-        // Empty the selectors before adding new types...
-        this.prepareSelectors();
-
-        // Add entity type names to entity type selectors
-        var entities = this.typeManager.getEntityTypes();
-        var entityTypesUnsorted = Object.keys(entities);
-        var entityTypesSorted = entityTypesUnsorted.sort();
-
-        entityTypesSorted.forEach(entityExpl => {
-            var typeName = entities[entityExpl].entityDef.name
-            if (this.polymer) {
-                this.addTypeToSelector("entityTypeSelectorList", typeName);
-            }
-            else {
-                this.addTypeToSelector("entityTypeSelector", typeName);
-            }
-        });
-
-        // Add relationship type names to relationship type selector
-        var relationships = this.typeManager.getRelationshipTypes();
-        var relationshipTypesUnsorted = Object.keys(relationships);
-        var relationshipTypesSorted = relationshipTypesUnsorted.sort();
-
-        relationshipTypesSorted.forEach(relationshipExpl => {
-            var typeName = relationships[relationshipExpl].relationshipDef.name;
-            if (polymer) {
-                this.addTypeToSelector("relationshipTypeSelectorList", typeName);
-            }
-            else {
-                this.addTypeToSelector("relationshipTypeSelector", typeName);
-            }
-        });
-
-        // Add classification type names to classification type selector
-        var classifications = this.typeManager.getClassificationTypes();
-        var classificationTypesUnsorted = Object.keys(classifications);
-        var classificationTypesSorted = classificationTypesUnsorted.sort();
-
-        classificationTypesSorted.forEach(classificationExpl => {
-            var typeName = classifications[classificationExpl].classificationDef.name
-            if (polymer) {
-                this.addTypeToSelector("classificationTypeSelectorList", typeName);
-            }
-            else {
-                this.addTypeToSelector("classificationTypeSelector", typeName);
-            }
-        });
-    }
-
-    /*
-     * Helper function to add a type to the specified type selector
-     */
-    addTypeToSelector(selectorName, typeName) {
-
-        if (this.polymer) {
-
-            var selectorList = this.shadowRoot.getElementById(selectorName);
-            var opt = document.createElement('paper-item');
-            opt.value = typeName;
-            opt.innerHTML = typeName;
-            selectorList.appendChild(opt);
-
-        }
-        else {
-
-            var select = this.$[selectorName];
-            var opt = document.createElement('option');
-            opt.value = typeName;
-            opt.innerHTML = typeName;
-            select.appendChild(opt);
-
-        }
-    }
-
-    /*
-     *  Clear all the type selectors
-     */
-    prepareSelectors() {
-
-        this.selectedType     = undefined;
-        this.selectedCategory = undefined;
-
-        if (this.polymer) {
-
-            this.prepareSelector("entityTypeSelectorList");
-            this.prepareSelector("relationshipTypeSelectorList");
-            this.prepareSelector("classificationTypeSelectorList");
-
-        }
-        else {
-
-            this.prepareSelector("entityTypeSelector");
-            this.prepareSelector("relationshipTypeSelector");
-            this.prepareSelector("classificationTypeSelector");
-
-        }
-    }
-
-    prepareSelector(selectorName) {
-
-        if (this.polymer) {
-
-             // Clear down the selectors and replace the 'no types' entry with 'select a type'...
-             var selectorList = this.shadowRoot.getElementById(selectorName);
-             while (selectorList.firstChild) {
-                 selectorList.removeChild(selectorList.firstChild);
-             }
-             var opt = document.createElement('paper-item');
-             opt.value = "none";
-             opt.innerHTML = "Restrict search to a selected type...";
-             opt.disabled = false;
-             opt.selected = true;
-             selectorList.appendChild(opt);
-
-        }
-        else {
-
-            // Clear down the selectors and replace the 'no types' entry with 'select a type'...
-            var selector = this.$[selectorName];
-            while (selector.firstChild) {
-                selector.removeChild(selector.firstChild);
-            }
-            var opt = document.createElement('option');
-            opt.value = "none";
-            opt.innerHTML = "Restrict search to a selected type...";
-            opt.disabled = false;
-            opt.selected = true;
-            selector.appendChild(opt);
-
-        }
-    }
-
-
-    changeTypeSelected(category, typeName) {
-        // Clear the type selectors for the other categories
-        switch (category) {
-            case "Entity":
-                this.resetRelTypeSelector();
-                this.resetClsTypeSelector();
-                break;
-            case "Relationship":
-                this.resetEntTypeSelector();
-                this.resetClsTypeSelector();
-                break;
-            case "Classification":
-                this.resetEntTypeSelector();
-                this.resetRelTypeSelector();
-                break;
-        }
-
-        // Remember the new setting
-        this.selectedType     = typeName;
-        this.selectedCategory = category;
-        // Issue the event
-        this.outEvtTypeSelected(category, typeName);
-    }
-
-
-    /*
-     *  A reset of a view selector sets the selected value to the 'nothing-selected' value
-     *  which is always "none" and has the display text "Please select a type".
-     *
-     *  A reset does not clear the content of the selector.
-     */
-    resetTypeSelectors() {
-      this.resetEntTypeSelector();
-      this.resetRelTypeSelector();
-      this.resetClsTypeSelector();
-    }
-
-    resetClsTypeSelector() {
-
-        if (this.polymer) {
-
-            // Reset the classification type selector
-            var select = this.$.classificationTypeSelectorList;
-            select.selected = 0;
-
-        }
-        else {
-
-            // Reset the classification type selector
-            var select = this.$.classificationTypeSelector;
-            select.value = "none";
-
-        }
-    }
-
-    resetRelTypeSelector() {
-
-        if (this.polymer) {
-
-            // Reset the relationship type selector
-            var select = this.$.relationshipTypeSelectorList;
-            select.selected = 0;
-
-        }
-        else {
-
-            // Reset the relationship type selector
-            var select = this.$.relationshipTypeSelector;
-            select.value = "none";
-
-        }
-    }
-
-    resetEntTypeSelector() {
-
-        if (this.polymer) {
-
-            // Reset the entity type selector
-            var select = this.$.entityTypeSelectorList;
-            select.selected = 0;
-
-        }
-        else {
-
-            // Reset the entity type selector
-            var select = this.$.entityTypeSelector;
-            select.value = "none";
-
-        }
-    }
+  }
 }
 
 window.customElements.define('filter-manager', FilterManager);

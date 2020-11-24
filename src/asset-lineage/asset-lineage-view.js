@@ -352,7 +352,6 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior], PolymerElement
           break;
         default:
           console.warn('NOT_FOUND');
-          break;
       }
   }
 
