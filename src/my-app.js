@@ -241,6 +241,10 @@ class MyApp extends mixinBehaviors([AppLocalizeBehavior,RoleComponentsBehavior],
               <repository-explorer-view language="[[language]]" name="repository-explorer"  route="[[tail]]"></repository-explorer-view>
 
               <my-view404 name="view404"></my-view404>
+
+              <forbidden-403-page name="forbidden-403-page"></forbidden-403-page>
+
+              <home-page name="home-page"></home-page>
             </iron-pages>
 
           </app-header-layout>
@@ -279,18 +283,18 @@ class MyApp extends mixinBehaviors([AppLocalizeBehavior,RoleComponentsBehavior],
       allCrumbs: {
         type: Object,
         value: {
-          'home': { label: 'Home', href: '/#' },
-          'asset-catalog': { label: 'Asset Catalog', href: "/asset-catalog/search" },
-          'glossary': { label: 'Glossary', href: "/glossary" },
-          'asset-lineage': { label: 'Asset Lineage', href: "/asset-lineage" },
-          'type-explorer': { label: 'Type Explorer', href: "/type-explorer" },
-          'repository-explorer': { label: 'Repository Explorer', href: "/repository-explorer" },
-          'ultimateSource': { label: 'Ultimate Source', href: "/ultimateSource" },
-          'ultimateDestination': { label: 'Ultimate Destination', href: "/ultimateDestination" },
-          'endToEnd': { label: 'End To End Lineage', href: "/endToEnd" },
-          'sourceAndDestination': { label: 'Source and Destination', href: "/sourceAndDestination" },
-          'verticalLineage': { label: 'Vertical Lineage', href: "/verticalLineage" },
-          'about': { label: 'About', href: "/about" }
+          'home': { label: 'Home', href: '/#/' },
+          'asset-catalog': { label: 'Asset Catalog', href: "asset-catalog/search" },
+          'glossary': { label: 'Glossary', href: "glossary" },
+          'asset-lineage': { label: 'Asset Lineage', href: "asset-lineage" },
+          'type-explorer': { label: 'Type Explorer', href: "type-explorer" },
+          'repository-explorer': { label: 'Repository Explorer', href: "repository-explorer" },
+          'ultimateSource': { label: 'Ultimate Source', href: "ultimateSource" },
+          'ultimateDestination': { label: 'Ultimate Destination', href: "ultimateDestination" },
+          'endToEnd': { label: 'End To End Lineage', href: "endToEnd" },
+          'sourceAndDestination': { label: 'Source and Destination', href: "sourceAndDestination" },
+          'verticalLineage': { label: 'Vertical Lineage', href: "verticalLineage" },
+          'about': { label: 'About', href: "about" }
         }
       }
     };
@@ -298,8 +302,8 @@ class MyApp extends mixinBehaviors([AppLocalizeBehavior,RoleComponentsBehavior],
 
   static get observers() {
     return [
-      '_routePageChanged(routeData.page)',
-      '_updateBreadcrumb(routeData.page)'
+      '_routePageChanged(routeData.page, components)',
+      '_updateBreadcrumb(routeData.page)',
     ];
   }
 
@@ -355,16 +359,24 @@ class MyApp extends mixinBehaviors([AppLocalizeBehavior,RoleComponentsBehavior],
 
   }
 
-  _routePageChanged(page) {
+  _routePageChanged(page, components) {
     // Show the corresponding page according to the route.
     //
     // If no page was found in the route data, page will be an empty string.
     // Show 'asset-search' in that case. And if the page doesn't exist, show 'view404'.
 
     if (!page) {
-      this.page = 'asset-catalog';
+      if(components.includes('asset-catalog')) {
+        this.page = 'asset-catalog';
+      } else {
+        this.page = 'home-page';
+      }
     } else if (this.pages.indexOf(page) !== -1) {
-      this.page = page;
+      if(components.includes(page)) {
+        this.page = page;
+      } else {
+        this.page = 'forbidden-403-page';
+      }
     } else {
       this.page = 'view404';
     }
@@ -373,7 +385,6 @@ class MyApp extends mixinBehaviors([AppLocalizeBehavior,RoleComponentsBehavior],
     var drawer = this._getDrawer();
     if (this.page != 'login' && drawer && !drawer.persistent) {
       this._getDrawer().close();
-
     }
   }
 
@@ -422,6 +433,10 @@ class MyApp extends mixinBehaviors([AppLocalizeBehavior,RoleComponentsBehavior],
       case 'view404':
         import('./error404.js');
         break;
+      case 'forbidden-403-page':
+        import('./forbidden403Page.js');
+      case 'home-page':
+        import('./home-page.js');
       default:
         console.warn('NOT_FOUND');
     }

@@ -2,17 +2,20 @@
 /* Copyright Contributors to the ODPi Egeria project. */
 
 export const RoleComponentsBehavior = {
+  properties: {
+    components: {
+      type: Array,
+      value: []
+    }
+  },
 
-        properties: { components: Array},
+  observers: ['_componentsChanged(components)'],
 
-        observers:[ '_componentsChanged(components)' ],
+  _componentsChanged(components) {
+    console.debug('components list changed');
+  },
 
-        _componentsChanged(components) {
-            console.debug('components list changed');
-        },
-
-        _hasComponent(comp){
-            return this.components.length===0 || this.components.includes(comp) ;
-        }
-
+  _hasComponent(comp) {
+    return this.components.length === 0 || this.components.includes(comp);
+  }
 }
