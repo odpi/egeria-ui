@@ -149,13 +149,13 @@ class MyApp extends mixinBehaviors([AppLocalizeBehavior,RoleComponentsBehavior],
       <app-location route="{{route}}" url-space-regex="^[[rootPath]]" use-hash-as-path query-params="{{queryParams}}"></app-location>
 
       <app-route route="{{route}}" pattern="/:page" data="{{routeData}}" tail="{{tail}}"></app-route>
-      
+
       <toast-feedback></toast-feedback>
 
       <template is="dom-if" if="[[!token]]"  restamp="true">
         <login-view id="loginView" token="{{token}}"></login-view>
       </template>
-    
+
       <template is="dom-if" if="[[token]]"  restamp="true">
       <token-ajax id=compAjax" last-response="{{components}}" url="/api/users/components" auto></token-ajax>
 
@@ -174,7 +174,7 @@ class MyApp extends mixinBehaviors([AppLocalizeBehavior,RoleComponentsBehavior],
                             class="drawer-list"
                             swlectedClass="drawer-list-selected"
                             role="navigation">
-                            
+
               <template id="test" is="dom-if" if="[[components]]">
                 <template is="dom-if" if="[[_hasComponent('asset-catalog')]]">
                   <div name="asset-catalog" language="[[language]]"><a href="[[rootPath]]#/asset-catalog/search">Asset Catalog</a></div>
@@ -182,7 +182,7 @@ class MyApp extends mixinBehaviors([AppLocalizeBehavior,RoleComponentsBehavior],
                 <template is="dom-if" if="[[_hasComponent('glossary-view')]]">
                   <div name="glossary" language="[[language]]"><a href="[[rootPath]]#/glossary">Glossary View</a></div>
                 </template>
-                <template is="dom-if" if="[[_hasComponent('asset-lineage')]]"> 
+                <template is="dom-if" if="[[_hasComponent('asset-lineage')]]">
                     <div name="asset-lineage"><a href="[[rootPath]]#/asset-lineage">Asset Lineage</a></div>
                 </template>
                 <template is="dom-if" if="[[_hasComponent('tex')]]">
@@ -375,7 +375,6 @@ class MyApp extends mixinBehaviors([AppLocalizeBehavior,RoleComponentsBehavior],
       this._getDrawer().close();
 
     }
-
   }
 
   _onPageChanged(event) {
@@ -423,6 +422,8 @@ class MyApp extends mixinBehaviors([AppLocalizeBehavior,RoleComponentsBehavior],
       case 'view404':
         import('./error404.js');
         break;
+      default:
+        console.warn('NOT_FOUND');
     }
 
     this._updateBreadcrumb(this.page);
