@@ -206,7 +206,7 @@ class MyApp extends mixinBehaviors([AppLocalizeBehavior,RoleComponentsBehavior],
                 <paper-icon-button on-tap="_toggleDrawer" id="toggle" icon="menu"></paper-icon-button>
 
                 <template is="dom-if" if="[[narrow]]" >
-                  <img src="./images/logo-white.png" style="vertical-align: middle; max-height: 80%; margin-left: 15pt; margin-right: 15pt; display: inline-block; "/>
+                  <div id="logo" class="white"></div>
                 </template>
 
                 <div>
