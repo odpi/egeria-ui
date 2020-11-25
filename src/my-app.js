@@ -52,6 +52,7 @@ class MyApp extends mixinBehaviors([AppLocalizeBehavior,RoleComponentsBehavior],
       <style include="shared-styles">
         :host {
           display: block;
+          height:100vh;
         }
 
         app-drawer-layout:not([narrow]) [drawer-toggle] {
@@ -368,13 +369,13 @@ class MyApp extends mixinBehaviors([AppLocalizeBehavior,RoleComponentsBehavior],
     // Show 'asset-search' in that case. And if the page doesn't exist, show 'view404'.
 
     if (!page) {
-      if(components.includes('asset-catalog')) {
+      if(!!components && components.includes('asset-catalog')) {
         this.page = 'asset-catalog';
       } else {
         this.page = 'home-page';
       }
     } else if (this.pages.indexOf(page) !== -1) {
-      if(components.includes(page)) {
+      if(!!components && components.includes(page)) {
         this.page = page;
       } else {
         this.page = 'forbidden-403-page';
