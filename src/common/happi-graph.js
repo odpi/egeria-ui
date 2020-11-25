@@ -274,7 +274,7 @@ class HappiGraph extends PolymerElement {
         }
       }
 
-      if(newData.nodes.length === 1) {
+      if (newData.nodes.length === 1) {
         orderedNodes = this.mapped(newData);
       }
 
