@@ -274,7 +274,7 @@ class HappiGraph extends PolymerElement {
         }
       }
 
-      if(newData.nodes.length === 1) {
+      if (newData.nodes.length === 1) {
         orderedNodes = this.mapped(newData);
       }
 
@@ -1055,11 +1055,11 @@ class HappiGraph extends PolymerElement {
           font-size: 14px;
           letter-spacing: 0em;
           cursor: default;
-          font-family: 'Roboto', sans-serif;
+          font-family: --var(--custom-font-family);
         }
 
         .node-container>.property {
-          font-family: 'Roboto', sans-serif;
+          font-family: --var(--custom-font-family);
           font-size: 14px;
           cursor: default;
         }

@@ -168,6 +168,7 @@ class GlossaryView extends PolymerElement {
           break;
         case 'categories':
           this._loadTermsByCategory(item.guid);
+          break;
         default:
           console.warn('NOT_FOUND');
       }

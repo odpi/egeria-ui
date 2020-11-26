@@ -264,7 +264,7 @@ class NetworkDiagram extends PolymerElement {
         // Call super.ready() to initialise node hash...
         super.ready();
 
-        // Here's some starter data:
+        /* Here's some starter data:
         if (false) {
         this.nodeArray =  [ {id:1, x:100, y:100, label:"alice",   gen:1},
                           {id:2, x:200, y:100, label:"bob",     gen:1},
@@ -287,6 +287,7 @@ class NetworkDiagram extends PolymerElement {
             this.allNodes[node.id] = node;
         });
         }
+        // */
 
         this.repositoryToColor = {};
         this.colorToRepository = {};

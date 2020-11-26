@@ -11,22 +11,22 @@ $_documentContainer.innerHTML = `<dom-module id="shared-styles">
             --paper-input-container-focus-color: var(--egeria-primary-color);
             --lumo-primary-color: var(--egeria-primary-color);
             --lumo-primary-text-color: var(--egeria-primary-color);
-            
+
             --paper-spinner-color: var(--egeria-primary-color);
             --paper-spinner-stroke-width: 5px;
-           
+
             --app-primary-color: var(--egeria-primary-color);
             --app-secondary-color: var(--egeria-secondary-color);
-            
+
             --paper-toast-background-color: var(--egeria-secondary-color);
-            
+
             --iron-icon-fill-color: var(--egeria-primary-color);
-            
+
             --paper-toggle-button-checked-bar-color:  var(--egeria-primary-color);
             --paper-toggle-button-checked-button-color:  var(--egeria-primary-color);
             --paper-toggle-button-checked-ink-color: var(--egeria-primary-color);
         }
-        
+
         ul#menu li {
           display:inline-block;
         }
@@ -43,6 +43,16 @@ $_documentContainer.innerHTML = `<dom-module id="shared-styles">
             background-position: center;
             text-indent:-9999px;
         }
+
+        #logo.white {
+            background: var(--app-logo-background-white);
+            width: var(--app-logo-width-white);
+            height: var(--app-logo-height-white);
+            background-size: var(--app-logo-background-size);
+            background-position: center;
+            text-indent:-9999px;
+        }
+
         .displayName{
             color: var(--egeria-primary-color);
         }
@@ -50,7 +60,7 @@ $_documentContainer.innerHTML = `<dom-module id="shared-styles">
             min-height: 1em;
             padding: 3px 6px;
             margin: 5px 0;
-        }       
+        }
         .error {
             color: red;
             border: solid 1px red;
@@ -64,7 +74,7 @@ $_documentContainer.innerHTML = `<dom-module id="shared-styles">
         .warning {
             color: orange;
         }
-        
+
         .icon {
             color: var(--egeria-icon-color);
         }
@@ -98,7 +108,7 @@ $_documentContainer.innerHTML = `<dom-module id="shared-styles">
             padding-bottom: 2% !important;
             letter-spacing: 0.004em !important;
         }
-        
+
         h2 {
             font-family: 'Lato', sans-serif !important;
             font-size: 1.5em !important;
@@ -107,13 +117,13 @@ $_documentContainer.innerHTML = `<dom-module id="shared-styles">
             margin-top: 3% !important;
             margin-bottom: 2% !important;
         }
-        
+
          h3{
             margin: 0;
             padding: 2pt;
             color: var( --egeria-primary-color );
         }
-        
+
         paper-button {
           text-transform: none;
         }
@@ -121,7 +131,7 @@ $_documentContainer.innerHTML = `<dom-module id="shared-styles">
             background: var(--egeria-primary-color);
             color: white;
         }
-        
+
     </style>
   </template>
 </dom-module>`;

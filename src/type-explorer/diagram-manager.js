@@ -283,6 +283,8 @@ class DiagramManager extends PolymerElement {
                neighbourhoodDiagram.render(this.cachedFocusType);
                break;
 
+            default:
+                console.warn('NOT_FOUND');
         }
     }
 
