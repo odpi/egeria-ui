@@ -369,13 +369,13 @@ class MyApp extends mixinBehaviors([AppLocalizeBehavior,RoleComponentsBehavior],
     // Show 'asset-search' in that case. And if the page doesn't exist, show 'view404'.
 
     if (!page) {
-      if(!!components && components.includes('asset-catalog')) {
+      if((!!components && components.includes('asset-catalog')) || (!!components && components.length === 0)) {
         this.page = 'asset-catalog';
       } else {
         this.page = 'home-page';
       }
     } else if (this.pages.indexOf(page) !== -1) {
-      if(!!components && components.includes(page)) {
+      if((!!components && components.includes(page)) || (!!components && components.length === 0)) {
         this.page = page;
       } else {
         this.page = 'forbidden-403-page';
@@ -401,7 +401,7 @@ class MyApp extends mixinBehaviors([AppLocalizeBehavior,RoleComponentsBehavior],
     //TODO invalidate token from server
     console.log('LOGOUT: removing token...');
     this.token = null;
-    this.components = undefined;
+    this.components = [];
   }
 
   _hasToken() {
