@@ -369,7 +369,7 @@ class MyApp extends mixinBehaviors([AppLocalizeBehavior,RoleComponentsBehavior],
     // Show 'asset-search' in that case. And if the page doesn't exist, show 'view404'.
 
     if (!page) {
-      if(!!components && components.includes('asset-catalog')) {
+      if((!!components && (components.includes('asset-catalog')) || components.includes("all"))) {
         this.page = 'asset-catalog';
       } else {
         this.page = 'home-page';
