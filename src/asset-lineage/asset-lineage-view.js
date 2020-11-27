@@ -27,8 +27,8 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsB
 
     let thisElement = this;
 
-    this.$.tokenAjax.addEventListener('error', () =>
-      thisElement.$.visgraph.importNodesAndEdges([], []));
+    // this.$.tokenAjax.addEventListener('error', () =>
+    //   thisElement.$.visgraph.importNodesAndEdges([], []));
 
     this.$.processToggle.addEventListener('change', () =>
       this._reload(this.$.useCases.items[this.$.useCases.selected].value, this.$.processToggle.checked));
@@ -239,6 +239,8 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsB
         id: `${e.from}-${e.to}`,
         label: e.label,
         source: e.from,
+        from: e.from,
+        to: e.to,
         target: e.to,
         connectionToSource: false,
         connectionToTarget: true

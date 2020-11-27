@@ -1,4 +1,5 @@
 import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
+import { compute } from './graph-algorithms';
 
 function Point(x, y) {
   if (!(this instanceof Point)) {
@@ -129,158 +130,19 @@ class HappiGraph extends PolymerElement {
     return length >= 1 ? 250 : defaultWidth;
   }
 
-  getStartingPoints(_links) {
-    let startingPoints = [];
-
-    let leftPart = _links.map(l => {
-      return l.source;
-    });
-
-    let rightPart = _links.map(l => {
-      return l.target;
-    });
-
-    for (let i = 0; i < leftPart.length; i++) {
-      if (!rightPart.includes(leftPart[i])) {
-        startingPoints.push(leftPart[i]);
-      }
-    }
-
-    let onlyUnique = (value, index, self) => {
-      return self.indexOf(value) === index;
-    }
-
-    return startingPoints.filter(onlyUnique);
-  }
-
-  bfs(_start, _nodes, type, _index) {
-    let x;
-    let y;
-
-    switch (type) {
-      case 'HORIZONTAL':
-        x = 0;
-        y = _index ? parseInt(_index) : 0;
-
-        break;
-      case 'VERTICAL':
-        x = _index ? parseInt(_index) : 0;
-        y = 0;
-
-        break;
-      default:
-        console.log('NO_TYPE');
-    }
-
-    let listToExplore = [_start];
-
-    _nodes[_start].visited = true;
-    _nodes[_start].x = x;
-    _nodes[_start].y = y;
-
-    switch (type) {
-      case 'HORIZONTAL':
-        while (listToExplore.length > 0) {
-          let nodeIndex = listToExplore.shift();
-          x = x + 1;
-
-          if (_nodes[nodeIndex].links.length > 1) {
-            y = y + 1;
-          }
-
-          _nodes[nodeIndex].links.forEach((childIndex) => {
-            if (!_nodes[childIndex].visited) {
-              _nodes[childIndex].visited = true;
-              _nodes[childIndex].x = x;
-              _nodes[childIndex].y = y;
-
-              listToExplore.push(childIndex);
-            }
-
-            y = 0;
-          });
-        }
-
-        break;
-      case 'VERTICAL':
-
-        while (listToExplore.length > 0) {
-          let nodeIndex = listToExplore.shift();
-
-          y = y - 1;
-
-          if (_nodes[nodeIndex].links.length > 1) {
-            x = x - parseInt(_nodes[nodeIndex].links.length) + 1;
-          }
-
-          _nodes[nodeIndex].links.forEach((childIndex) => {
-            if (!_nodes[childIndex].visited) {
-              _nodes[childIndex].visited = true;
-              _nodes[childIndex].x = x;
-              _nodes[childIndex].y = y;
-
-              listToExplore.push(childIndex);
-            }
-
-            x = x + 1;
-          });
-        }
-        break;
-      default:
-        console.log('NO_TYPE');
-    }
-
-    return _nodes;
-  };
-
-  mapped(data) {
-    let result = {};
-
-    data.nodes.forEach(n => {
-      result[n.id] = {
-        ...n,
-        links: [
-          ...data.links.filter(e => e.source === n.id).map(e => {
-            return e.target
-          })
-        ],
-        visited: false
-      }
-    });
-
-    return result;
-  }
-
   _graphDataUpdate(newData, oldData) {
     this.clearGraph();
 
     if (newData.nodes.length > 0) {
-      let mappedNodes = this.mapped(newData);
       let finalNodes = [];
-      let orderedNodes = {};
 
-      if (newData.links.length > 0 && newData.nodes.length > 0) {
-        let startingPoints = this.getStartingPoints(newData.links);
+      let selectedNode = newData.nodes.filter(n => n.selected === true).pop();
 
-        for (let index in startingPoints) {
-          let bfsNodes = [];
+      let newNodes = compute(selectedNode.id, newData.nodes, newData.links);
 
-          bfsNodes = this.bfs(startingPoints[index], mappedNodes, newData.graphDirection, index);
-
-          orderedNodes = {
-            ...bfsNodes,
-            ...orderedNodes
-          }
-        }
-      }
-
-      if (newData.nodes.length === 1) {
-        orderedNodes = this.mapped(newData);
-      }
-
-      Object.keys(orderedNodes).forEach(k => {
-        finalNodes.push(orderedNodes[k]);
-      });
+      finalNodes = [
+        ...newNodes
+      ];
 
       let myData = {
         graphDirection: newData.graphDirection,
@@ -288,8 +150,8 @@ class HappiGraph extends PolymerElement {
         nodes: finalNodes.map(n => {
           let result = {
             ...n,
-            fx: n.x ? n.x * 350 : 0, // TODO: calculate these coordinates so that
-            fy: n.y ? n.y * 350 : 0, //       all nodes are centered
+            fx: n.w ? n.w * 350 : 0, // TODO: calculate these coordinates so that
+            fy: n.h ? n.h * 350 : 0, //       all nodes are centered
             width: this.getNodeWidth(n.properties.length),
             height: this.getNodeHeight(n.properties.length)
           };
@@ -792,8 +654,8 @@ class HappiGraph extends PolymerElement {
       enterSelection
         .append('g')
         .attr('transform', function (d) {
-          const positionToUseX = (d.fx >= 0) ? d.fx : d.x;
-          const positionToUseY = (d.fy >= 0) ? d.fy : d.y;
+          const positionToUseX = (d.fx >= 0) ? d.fx : d.w;
+          const positionToUseY = (d.fy >= 0) ? d.fy : d.h;
 
           return `translate(${positionToUseX},${positionToUseY})`;
         })
