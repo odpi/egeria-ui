@@ -10,7 +10,7 @@
   },
   "scripts": {
     "serve": "hs -c0 ./build/dev/ -P http://localhost:9000",
-    "start": "polymer serve --port 3000",
+    "start": "polymer serve",
     "start:dev": "polymer serve --proxy-target http://localhost:9000/api --proxy-path api",
     "build": "polymer build",
     "lint": "polymer lint",
