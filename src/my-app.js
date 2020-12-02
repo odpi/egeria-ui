@@ -35,8 +35,7 @@ import './login-view.js';
 import './user-options-menu';
 import './shared-styles.js';
 import './common/breadcrumb.js';
-import {RoleComponentsBehavior} from "./common/role-components";
-
+import { RoleComponentsBehavior } from "./common/role-components";
 
 // Gesture events like tap and track generated from touch will not be
 // preventable, allowing for better scrolling performance.
@@ -46,7 +45,7 @@ setPassiveTouchGestures(true);
 // in `index.html`.
 setRootPath(MyAppGlobals.rootPath);
 
-class MyApp extends mixinBehaviors([AppLocalizeBehavior,RoleComponentsBehavior], PolymerElement) {
+class MyApp extends mixinBehaviors([AppLocalizeBehavior, RoleComponentsBehavior], PolymerElement) {
   static get template() {
     return html`
       <style include="shared-styles">
@@ -272,9 +271,13 @@ class MyApp extends mixinBehaviors([AppLocalizeBehavior,RoleComponentsBehavior],
       pages: {
         type: Array,
         value: [
-          'asset-catalog', 'asset-lineage',
-          'type-explorer', 'repository-explorer', 'about',
-          'glossary']
+          'asset-catalog',
+          'asset-lineage',
+          'type-explorer',
+          'repository-explorer',
+          'about',
+          'glossary'
+        ]
       },
       feedback: {
         type: Object,
@@ -369,13 +372,13 @@ class MyApp extends mixinBehaviors([AppLocalizeBehavior,RoleComponentsBehavior],
     // Show 'asset-search' in that case. And if the page doesn't exist, show 'view404'.
 
     if (!page) {
-      if((!!components && components.includes('asset-catalog')) || (!!components && components.length === 0)) {
+      if ((!!components && components.includes('asset-catalog')) || (!!components && components.length === 0)) {
         this.page = 'asset-catalog';
       } else {
         this.page = 'home-page';
       }
     } else if (this.pages.indexOf(page) !== -1) {
-      if((!!components && components.includes(page)) || (!!components && components.length === 0)) {
+      if ((!!components && components.includes(page)) || (!!components && components.length === 0)) {
         this.page = page;
       } else {
         this.page = 'forbidden-403-page';
@@ -401,7 +404,7 @@ class MyApp extends mixinBehaviors([AppLocalizeBehavior,RoleComponentsBehavior],
     //TODO invalidate token from server
     console.log('LOGOUT: removing token...');
     this.token = null;
-    this.components = [];
+    this.components = null;
   }
 
   _hasToken() {
