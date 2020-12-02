@@ -5,7 +5,7 @@ export const RoleComponentsBehavior = {
   properties: {
     components: {
       type: Array,
-      value: []
+      value: null
     }
   },
 
