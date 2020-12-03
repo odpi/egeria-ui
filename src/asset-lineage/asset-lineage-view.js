@@ -167,6 +167,10 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsB
     this.shadowRoot.querySelector('#happi-graph').fitContent();
   }
 
+  reloadPage() {
+    window.location.reload();
+  }
+
   _noGuid(routeData) {
     return routeData === undefined
       || routeData.guid === undefined
@@ -376,6 +380,20 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsB
     return type === 'RelationalColumn' || type === 'TabularColumn' || type === 'GlossaryTerm';
   }
 
+  _getPropertiesForDisplay(item) {
+    let guid = item.guid;
+    let summary = item.properties.summary;
+    let description = item.properties.description;
+    let displayProperties = { guid : guid };
+    if (summary) {
+      displayProperties.summary = summary;
+    }
+    if (description) {
+      displayProperties.description = description;
+    }
+    return ItemViewBehavior._attributes(displayProperties);
+  }
+
   static get template() {
     return html`
       <style include="shared-styles">
@@ -492,6 +510,9 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsB
             <paper-button raised on-click="fitToScreen">Fit to screen</paper-button>
           </li>
           <li>
+            <paper-button raised on-click="reloadPage">Reload</paper-button>
+          </li>
+          <li>
             <div hidden="[[_displayETLJobsToggle(routeData.usecase)]]">
               <paper-toggle-button id="processToggle" checked>
                 ETL Jobs
@@ -531,6 +552,11 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsB
         <asset-tools items="[[selectedNode.type]]"
                      guid="[[selectedNode.id]]"
                      style="display: inline-flex"></asset-tools>
+     
+        <template is="dom-if" if="[[item.type]]">
+            <props-table items="[[_getPropertiesForDisplay(item)]]" title="Properties" with-row-stripes ></props-table>
+        </template>
+        <div></div>
       </paper-dialog>
     `;
   }
