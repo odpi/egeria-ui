@@ -179,6 +179,7 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsB
       && this.graphData
       && this.graphData.nodes
       && this.graphData.nodes.length == 0;
+
   }
 
   static get observers() {
