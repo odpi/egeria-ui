@@ -182,9 +182,6 @@ class MyApp extends mixinBehaviors([AppLocalizeBehavior, RoleComponentsBehavior]
                 <template is="dom-if" if="[[_hasComponent('glossary-view')]]">
                   <div name="glossary" language="[[language]]"><a href="[[rootPath]]#/glossary">Glossary View</a></div>
                 </template>
-                <template is="dom-if" if="[[_hasComponent('asset-lineage')]]">
-                    <div name="asset-lineage"><a href="[[rootPath]]#/asset-lineage">Asset Lineage</a></div>
-                </template>
                 <template is="dom-if" if="[[_hasComponent('tex')]]">
                     <div name="type-explorer"><a href="[[rootPath]]#/type-explorer">Type Explorer</a></div>
                 </template>
@@ -292,7 +289,7 @@ class MyApp extends mixinBehaviors([AppLocalizeBehavior, RoleComponentsBehavior]
           'home': { label: 'Home', href: '/#/' },
           'asset-catalog': { label: 'Asset Catalog', href: "asset-catalog/search" },
           'glossary': { label: 'Glossary', href: "glossary" },
-          'asset-lineage': { label: 'Asset Lineage', href: "asset-lineage" },
+          'asset-lineage': { label: 'Asset Catalog', href: "asset-catalog/search" },
           'type-explorer': { label: 'Type Explorer', href: "type-explorer" },
           'repository-explorer': { label: 'Repository Explorer', href: "repository-explorer" },
           'ultimateSource': { label: 'Ultimate Source', href: "ultimateSource" },
@@ -341,6 +338,12 @@ class MyApp extends mixinBehaviors([AppLocalizeBehavior, RoleComponentsBehavior]
 
   _onPushCrumb(event) {
     var crumbs = [].concat(this.crumbs);
+    if(crumbs[crumbs.length-1].label === event.detail.label && crumbs.length === 3){
+      // to avoid duplicate entries in crumbs:
+      // do not add if last in crumbs matches valueToAdd
+      // and crumbs length is 3
+      return;
+    }
     crumbs.push(event.detail);
     this.crumbs = crumbs;
   }
