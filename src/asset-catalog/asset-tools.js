@@ -1,6 +1,6 @@
 /* SPDX-License-Identifier: Apache-2.0 */
 /* Copyright Contributors to the ODPi Egeria project. */
-import { PolymerElement, html } from '@polymer/polymer';
+import {PolymerElement, html} from '@polymer/polymer';
 
 import '../shared-styles.js';
 import '@polymer/paper-item/paper-item.js';
@@ -10,7 +10,7 @@ import '@vaadin/vaadin-icons/vaadin-icons.js';
 import {mixinBehaviors} from "@polymer/polymer/lib/legacy/class";
 import {RoleComponentsBehavior} from "../common/role-components";
 
-class AssetTools  extends mixinBehaviors([RoleComponentsBehavior], PolymerElement) {
+class AssetTools extends mixinBehaviors([RoleComponentsBehavior], PolymerElement) {
     static get template() {
         return html`
   
@@ -38,7 +38,8 @@ class AssetTools  extends mixinBehaviors([RoleComponentsBehavior], PolymerElemen
 
       <token-ajax id="tokenAjaxSettings" last-response="{{omas}}" url="/api/omas/settings" auto></token-ajax>
       <template is="dom-if" if="[[components]]">
-        <ul id="menu"> 
+        <ul id="menu">
+        <template is="dom-if" if="[[_hasComponent('ultimate-source')]]">
             <li> 
                 <a href="#/asset-lineage/ultimateSource/[[guid]]" title="Ultimate Source Lineage">
                     <paper-button raised>
@@ -47,6 +48,8 @@ class AssetTools  extends mixinBehaviors([RoleComponentsBehavior], PolymerElemen
                     </paper-button>
                 </a>
             </li>
+            </template>
+            <template is="dom-if" if="[[_hasComponent('end-to-end')]]">
             <li> 
                 <a href="#/asset-lineage/endToEnd/[[guid]]" title="End2End Lineage">
                     <paper-button raised>
@@ -55,6 +58,8 @@ class AssetTools  extends mixinBehaviors([RoleComponentsBehavior], PolymerElemen
                     </paper-button>
                 </a>
             </li>
+            </template>
+            <template is="dom-if" if="[[_hasComponent('ultimate-destination')]]">
             <li> 
                 <a href="#/asset-lineage/ultimateDestination/[[guid]]" title="Ultimate Destination Lineage"> 
                     <paper-button raised>
@@ -63,6 +68,8 @@ class AssetTools  extends mixinBehaviors([RoleComponentsBehavior], PolymerElemen
                     </paper-button>
                 </a>
             </li>
+            </template>
+            <template is="dom-if" if="[[_hasComponent('vertical-lineage')]]">
             <li>
             <dom-if if="[[ _displayVerticalLineageButton(items)]]" >
                 <template>
@@ -75,6 +82,8 @@ class AssetTools  extends mixinBehaviors([RoleComponentsBehavior], PolymerElemen
                 </template>
                 </dom-if>
             </li>
+            </template>
+            <template is="dom-if" if="[[_hasComponent('source-and-destination')]]">
             <li> 
                 <a href="#/asset-lineage/sourceAndDestination/[[guid]]" title="Source and Destination Lineage">
                 <paper-button raised>
@@ -102,7 +111,7 @@ class AssetTools  extends mixinBehaviors([RoleComponentsBehavior], PolymerElemen
         return (item === 'RelationalColumn' || item === 'TabularColumn' || item === 'GlossaryTerm');
     }
 
-    _encode(val){
+    _encode(val) {
         return btoa(val);
     }
 

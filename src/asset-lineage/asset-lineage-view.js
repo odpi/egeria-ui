@@ -19,8 +19,9 @@ import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class';
 import { ItemViewBehavior } from '../common/item';
 
 import '../common/happi-graph';
+import {RoleComponentsBehavior} from "../common/role-components";
 
-class AssetLineageView extends mixinBehaviors([ItemViewBehavior], PolymerElement) {
+class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsBehavior], PolymerElement) {
   ready() {
     super.ready();
 
@@ -161,6 +162,10 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior], PolymerElement
 
   fitToScreen() {
     this.shadowRoot.querySelector('#happi-graph').fitContent();
+  }
+
+  reloadPage() {
+    window.location.reload();
   }
 
   _noGuid(routeData) {
@@ -374,6 +379,20 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior], PolymerElement
     return type === 'RelationalColumn' || type === 'TabularColumn' || type === 'GlossaryTerm';
   }
 
+  _getPropertiesForDisplay(item) {
+    let guid = item.guid;
+    let summary = item.properties.summary;
+    let description = item.properties.description;
+    let displayProperties = { guid : guid };
+    if (summary) {
+      displayProperties.summary = summary;
+    }
+    if (description) {
+      displayProperties.description = description;
+    }
+    return ItemViewBehavior._attributes(displayProperties);
+  }
+
   static get template() {
     return html`
       <style include="shared-styles">
@@ -414,8 +433,14 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior], PolymerElement
       <token-ajax id="tokenAjaxDetails"
                   last-response="{{item}}"></token-ajax>
 
+      <iron-localstorage name="user-components" value="{{components}}"></iron-localstorage>
+
+
       <div>
+        <template is="dom-if" if="[[components]]">
         <vaadin-tabs id ="useCases"  selected="[[ _getUseCase(routeData.usecase) ]]" >
+        
+         <template is="dom-if" if="[[_hasComponent('ultimate-source')]]">   
           <vaadin-tab value="ultimateSource" >
             <a href="[[rootPath]]#/asset-lineage/ultimateSource/[[routeData.guid]]"
                tabindex="-1"
@@ -423,7 +448,9 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior], PolymerElement
               Ultimate Source
             </a>
           </vaadin-tab>
+        </template>
 
+        <template is="dom-if" if="[[_hasComponent('end-to-end')]]">
           <vaadin-tab value="endToEnd">
             <a href="[[rootPath]]#/asset-lineage/endToEnd/[[routeData.guid]]"
                tabindex="-1"
@@ -431,7 +458,9 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior], PolymerElement
               End to End Lineage
             </a>
           </vaadin-tab>
-
+        </template>
+        
+        <template is="dom-if" if="[[_hasComponent('ultimate-destination')]]">
           <vaadin-tab value="ultimateDestination">
             <a href="[[rootPath]]#/asset-lineage/ultimateDestination/[[routeData.guid]]"
                tabindex="-1"
@@ -439,7 +468,9 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior], PolymerElement
               Ultimate Destination
             </a>
           </vaadin-tab>
+        </template>
 
+        <template is="dom-if" if="[[_hasComponent('vertical-lineage')]]">
           <dom-if if="[[_displayVerticalLineageButton(item)]]">
             <template>
               <vaadin-tab value="verticalLineage">
@@ -451,7 +482,9 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior], PolymerElement
               </vaadin-tab>
             </template>
           </dom-if>
-
+        </template>
+      
+        <template is="dom-if" if="[[_hasComponent('source-and-destination')]]">
           <vaadin-tab value="sourceAndDestination">
             <a href="[[rootPath]]#/asset-lineage/sourceAndDestination/[[routeData.guid]]"
                tabindex="-1"
@@ -459,7 +492,11 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior], PolymerElement
               Source and Destination
             </a>
           </vaadin-tab>
-        </vaadin-tabs>
+        </template>
+    </vaadin-tabs>
+    
+    
+        </template>
 
         <ul id="menu">
           <li>
@@ -472,6 +509,9 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior], PolymerElement
             <paper-button raised on-click="fitToScreen">Fit to screen</paper-button>
           </li>
           <li>
+            <paper-button raised on-click="reloadPage">Reload</paper-button>
+          </li>
+          <li>
             <div hidden="[[_displayETLJobsToggle(routeData.usecase)]]">
               <paper-toggle-button id="processToggle" checked>
                 ETL Jobs
@@ -480,7 +520,6 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior], PolymerElement
           </li>
         </ul>
       </div>
-
       <dom-if if="[[_noGuid(routeData)]]" restamp="true">
         <template>
           <div class="warning" style="display: block; margin: auto">
@@ -512,6 +551,11 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior], PolymerElement
         <asset-tools items="[[selectedNode.type]]"
                      guid="[[selectedNode.id]]"
                      style="display: inline-flex"></asset-tools>
+     
+        <template is="dom-if" if="[[item.type]]">
+            <props-table items="[[_getPropertiesForDisplay(item)]]" title="Properties" with-row-stripes ></props-table>
+        </template>
+        <div></div>
       </paper-dialog>
     `;
   }
