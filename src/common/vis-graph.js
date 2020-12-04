@@ -88,8 +88,6 @@ class VisGraph extends mixinBehaviors([ItemViewBehavior], PolymerElement) {
                        title="Type"
                        with-row-stripes></props-table>
         </template>
-
-        <div></div>
       </paper-dialog>
     `;
   }
