@@ -66,7 +66,7 @@ class AssetSearchView extends mixinBehaviors([AppLocalizeBehavior], PolymerEleme
       </style>
 
       <token-ajax id="tokenAjax" last-response="{{searchResp}}"></token-ajax>
-      <token-ajax id="tokenAjaxTypes" last-response="{{items}}"></token-ajax>
+      <token-ajax id="tokenAjaxTypes" last-response="{{supportedTypes}}"></token-ajax>
 
 
       <iron-form id="searchForm">
@@ -91,7 +91,7 @@ class AssetSearchView extends mixinBehaviors([AppLocalizeBehavior], PolymerEleme
                     </vaadin-button>
                 </div>
 
-                <multiselect-combo-box class="multi-combo" id="combo" items="[[items]]"
+                <multiselect-combo-box class="multi-combo" id="combo" items="[[supportedTypes]]"
                     item-label-path="name"
                     ordered="false"
                     placeholder="Open Metadata Type (required)"
@@ -184,12 +184,7 @@ class AssetSearchView extends mixinBehaviors([AppLocalizeBehavior], PolymerEleme
                 type: Array,
                 notify: true
             },
-            item: Object,
-            items:{
-                type: Object,
-                notify: true
-
-            }
+            item: Object
         };
     }
 
@@ -260,7 +255,6 @@ class AssetSearchView extends mixinBehaviors([AppLocalizeBehavior], PolymerEleme
 
     _fetch(){
         if(  this._validateSearch() ) {
-            this.items = [];
             var types = [];
             this.$.combo.selectedItems.forEach(function (item) {
                 types.push(item.name);
