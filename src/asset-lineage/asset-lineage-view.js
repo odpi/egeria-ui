@@ -164,8 +164,8 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsB
     this.shadowRoot.querySelector('#happi-graph').fitContent();
   }
 
-  reloadPage() {
-    window.location.reload();
+  resetGraph() {
+    this._reload(this.routeData.usecase, this.$.processToggle.checked);
   }
 
   _noGuid(routeData) {
@@ -380,10 +380,14 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsB
   }
 
   _getPropertiesForDisplay(item) {
+    let displayName = item.properties.displayName;
     let guid = item.guid;
     let summary = item.properties.summary;
     let description = item.properties.description;
-    let displayProperties = { guid : guid };
+    let displayProperties = {
+      displayName : displayName,
+      guid : guid
+    };
     if (summary) {
       displayProperties.summary = summary;
     }
@@ -509,7 +513,7 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsB
             <paper-button raised on-click="fitToScreen">Fit to screen</paper-button>
           </li>
           <li>
-            <paper-button raised on-click="reloadPage">Reload</paper-button>
+            <paper-button raised on-click="resetGraph">Reset graph</paper-button>
           </li>
           <li>
             <div hidden="[[_displayETLJobsToggle(routeData.usecase)]]">
