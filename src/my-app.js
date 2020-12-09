@@ -338,10 +338,9 @@ class MyApp extends mixinBehaviors([AppLocalizeBehavior, RoleComponentsBehavior]
 
   _onPushCrumb(event) {
     var crumbs = [].concat(this.crumbs);
-    if(crumbs[crumbs.length-1].label === event.detail.label && crumbs.length === 3){
-      // to avoid duplicate entries in crumbs:
-      // do not add if last in crumbs matches valueToAdd
-      // and crumbs length is 3
+    if(crumbs.length === 3){
+      // to avoid entries in crumbs from any clicked node:
+      // do not add if length is 3 (lineage depth from Home page)
       return;
     }
     crumbs.push(event.detail);
