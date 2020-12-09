@@ -143,6 +143,8 @@ class LoginView extends PolymerElement {
   _handleLoginError(evt) {
     if(evt.detail.request.xhr.response.status === 401) {
       this.feedback = 'You have entered incorrect username or password.';
+    } else if(evt.detail.request.xhr.response.status === 500) {
+      this.feedback = 'Sorry. We cannot authenticate you right now. Please come back later.';
     } else {
       this.feedback = 'This user is not authorized to access this application.';
     }
