@@ -187,8 +187,6 @@ class AssetSearchView extends mixinBehaviors([AppLocalizeBehavior], PolymerEleme
 
     ready() {
         super.ready();
-        // this.$.pageSizeSelect.addEventListener('change',(e) => this._pageSizeChanged(e.target.value));
-
         this.$.tokenAjaxTypes.url = '/api/assets/types';
         this.$.tokenAjaxTypes._go();
     }
@@ -213,11 +211,6 @@ class AssetSearchView extends mixinBehaviors([AppLocalizeBehavior], PolymerEleme
         } else {
             this.$.more.disabled = false;
         }
-    }
-
-    _hasMore(){
-        alert(this.items.length);
-        return this.items.length === 0;
     }
 
     _validateSearch(){
