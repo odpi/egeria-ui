@@ -338,12 +338,9 @@ class MyApp extends mixinBehaviors([AppLocalizeBehavior, RoleComponentsBehavior]
 
   _onPushCrumb(event) {
     var crumbs = [].concat(this.crumbs);
-    if(crumbs.length === 3){
-      // to avoid entries in crumbs from any clicked node:
-      // do not add if length is 3 (lineage depth from Home page)
-      return;
-    }
+
     crumbs.push(event.detail);
+
     this.crumbs = crumbs;
   }
 
@@ -443,8 +440,10 @@ class MyApp extends mixinBehaviors([AppLocalizeBehavior, RoleComponentsBehavior]
         break;
       case 'forbidden-403-page':
         import('./forbidden403Page.js');
+        break;
       case 'home-page':
         import('./home-page.js');
+        break;
       default:
         console.warn('NOT_FOUND');
     }
