@@ -56,7 +56,7 @@ class AssetSearchView extends mixinBehaviors([AppLocalizeBehavior], PolymerEleme
         .multi-combo {
             min-width: 350px;
         }
-        #search {
+        #search, #more {
           --iron-icon-fill-color: white;
         }
         vaadin-grid {
@@ -65,7 +65,7 @@ class AssetSearchView extends mixinBehaviors([AppLocalizeBehavior], PolymerEleme
 
       </style>
 
-      <token-ajax id="tokenAjax" last-response="{{searchResp}}"></token-ajax>
+      <token-ajax id="tokenAjax" last-response="{{items}}"></token-ajax>
       <token-ajax id="tokenAjaxTypes" last-response="{{supportedTypes}}"></token-ajax>
 
 
@@ -102,7 +102,7 @@ class AssetSearchView extends mixinBehaviors([AppLocalizeBehavior], PolymerEleme
             </div>
         </form>
       </iron-form>
-      <vaadin-grid id="grid" items="[[searchResp]]" theme="row-stripes"
+      <vaadin-grid id="grid" items="[[assets]]" theme="row-stripes"
                      column-reordering-allowed multi-sort>
             <vaadin-grid-column width="5em" resizable>
                 <template class="header">
@@ -138,22 +138,13 @@ class AssetSearchView extends mixinBehaviors([AppLocalizeBehavior], PolymerEleme
             </vaadin-grid-column>
         </vaadin-grid>
       <div style="display: flex">
-        <div style="display: inline-block">
-          <vaadin-select id="pageSizeSelect" value="10" style="width: 5em">
-              <template>
-                <vaadin-list-box>
-                  <vaadin-item>10</vaadin-item>
-                  <vaadin-item>20</vaadin-item>
-                  <vaadin-item>50</vaadin-item>
-                  <vaadin-item>100</vaadin-item>
-                </vaadin-list-box>
-              </template>
-            </vaadin-select> metadata / page
-          </div>
+          
           <div style="margin: auto">
-            <vaadin-button on-tap="_goPrev" ><iron-icon icon="vaadin:backwards"></iron-icon></vaadin-button>
-            Current page: [[currentPage]]
-            <vaadin-button on-tap="_goNext" ><iron-icon icon="vaadin:forward"></iron-icon></vaadin-button>
+            <vaadin-button id="more" on-click="_goNext" theme="primary"  >
+                <iron-icon icon="vaadin:cloud-download-o"  slot="prefix"></iron-icon>
+                Load more ( [[assets.length]] )
+            </vaadin-button>
+            
           </div>
       </div>
 
@@ -174,14 +165,19 @@ class AssetSearchView extends mixinBehaviors([AppLocalizeBehavior], PolymerEleme
             },
             pageSize: {
                 type: Number,
-                value: 10,
+                value: 20,
             },
             currentPage: {
                 type: Number,
                 computed: '_computeCurrentPage(from,pageSize)'
             },
-            searchResp: {
+            items: {
                 type: Array,
+                observer: '_itemsChanged'
+            },
+            assets: {
+                type: Array,
+                value: [],
                 notify: true
             },
             item: Object
@@ -191,8 +187,6 @@ class AssetSearchView extends mixinBehaviors([AppLocalizeBehavior], PolymerEleme
 
     ready() {
         super.ready();
-        this.$.pageSizeSelect.addEventListener('change',(e) => this._pageSizeChanged(e.target.value));
-
         this.$.tokenAjaxTypes.url = '/api/assets/types';
         this.$.tokenAjaxTypes._go();
     }
@@ -203,6 +197,24 @@ class AssetSearchView extends mixinBehaviors([AppLocalizeBehavior], PolymerEleme
 
     _useCaseChanged(){
         console.log('usecase changed');
+    }
+
+    _itemsChanged(items){
+        if(this.from > 0){
+            this.assets = [].concat(this.assets).concat(items);
+            this.$.grid.scrollToIndex( this.assets.length -1 );
+        } else {
+            this.assets = [].concat(items);
+        }
+        if( items === null || items.length ===0 ){
+            this.$.more.disabled = true;
+            this.dispatchEvent(new CustomEvent('show-modal', {
+                bubbles: true,
+                composed: true,
+                detail: { message: "No more metadata to fetch for this criteria!", level: 'info'}}));
+        } else {
+            this.$.more.disabled = false;
+        }
     }
 
     _validateSearch(){
