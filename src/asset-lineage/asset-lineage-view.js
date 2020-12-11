@@ -145,8 +145,8 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsB
     if (!['condensedNode', 'subProcess', 'Process'].includes(_selectedNode.group)) {
       this.selectedNode = _selectedNode;
 
-      this.$.tokenAjaxDetails.url = `/api/assets/${nodeId}`;
-      this.$.tokenAjaxDetails._go();
+      this.$.tokenAjaxClickedNode.url = `/api/assets/${nodeId}`;
+      this.$.tokenAjaxClickedNode._go();
 
       this.shadowRoot.querySelector('#paper-dialog').open();
     }
@@ -437,84 +437,75 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsB
       <token-ajax id="tokenAjaxDetails"
                   last-response="{{item}}"></token-ajax>
 
-      <iron-localstorage name="user-components" value="{{components}}"></iron-localstorage>
+      <token-ajax id="tokenAjaxClickedNode"
+                  last-response="{{clickedItem}}"></token-ajax>
 
+      <iron-localstorage name="user-components" value="{{components}}"></iron-localstorage>
 
       <div>
         <template is="dom-if" if="[[components]]">
-        <vaadin-tabs id ="useCases"  selected="[[ _getUseCase(routeData.usecase) ]]" >
-        
-         <template is="dom-if" if="[[_hasComponent('ultimate-source')]]">   
-          <vaadin-tab value="ultimateSource" >
-            <a href="[[rootPath]]#/asset-lineage/ultimateSource/[[routeData.guid]]"
-               tabindex="-1"
-               rel="noopener">
-              Ultimate Source
-            </a>
-          </vaadin-tab>
-        </template>
-
-        <template is="dom-if" if="[[_hasComponent('end-to-end')]]">
-          <vaadin-tab value="endToEnd">
-            <a href="[[rootPath]]#/asset-lineage/endToEnd/[[routeData.guid]]"
-               tabindex="-1"
-               rel="noopener">
-              End to End Lineage
-            </a>
-          </vaadin-tab>
-        </template>
-        
-        <template is="dom-if" if="[[_hasComponent('ultimate-destination')]]">
-          <vaadin-tab value="ultimateDestination">
-            <a href="[[rootPath]]#/asset-lineage/ultimateDestination/[[routeData.guid]]"
-               tabindex="-1"
-               rel="noopener">
-              Ultimate Destination
-            </a>
-          </vaadin-tab>
-        </template>
-
-        <template is="dom-if" if="[[_hasComponent('vertical-lineage')]]">
-          <dom-if if="[[_displayVerticalLineageButton(item)]]">
-            <template>
-              <vaadin-tab value="verticalLineage">
-                <a href="[[rootPath]]#/asset-lineage/verticalLineage/[[routeData.guid]]"
-                   tabindex="-1"
-                   rel="noopener">
-                  Vertical Lineage
+          <vaadin-tabs id ="useCases"  selected="[[ _getUseCase(routeData.usecase) ]]" >
+            <template is="dom-if" if="[[_hasComponent('ultimate-source')]]">
+              <vaadin-tab value="ultimateSource" >
+                <a href="[[rootPath]]#/asset-lineage/ultimateSource/[[routeData.guid]]"
+                  tabindex="-1"
+                  rel="noopener">
+                  Ultimate Source
                 </a>
               </vaadin-tab>
             </template>
-          </dom-if>
-        </template>
-      
-        <template is="dom-if" if="[[_hasComponent('source-and-destination')]]">
-          <vaadin-tab value="sourceAndDestination">
-            <a href="[[rootPath]]#/asset-lineage/sourceAndDestination/[[routeData.guid]]"
-               tabindex="-1"
-               rel="noopener">
-              Source and Destination
-            </a>
-          </vaadin-tab>
-        </template>
-    </vaadin-tabs>
-    
-    
+
+            <template is="dom-if" if="[[_hasComponent('end-to-end')]]">
+              <vaadin-tab value="endToEnd">
+                <a href="[[rootPath]]#/asset-lineage/endToEnd/[[routeData.guid]]"
+                  tabindex="-1"
+                  rel="noopener">
+                  End to End Lineage
+                </a>
+              </vaadin-tab>
+            </template>
+
+            <template is="dom-if" if="[[_hasComponent('ultimate-destination')]]">
+              <vaadin-tab value="ultimateDestination">
+                <a href="[[rootPath]]#/asset-lineage/ultimateDestination/[[routeData.guid]]"
+                  tabindex="-1"
+                  rel="noopener">
+                  Ultimate Destination
+                </a>
+              </vaadin-tab>
+            </template>
+
+            <template is="dom-if" if="[[_hasComponent('vertical-lineage')]]">
+              <dom-if if="[[_displayVerticalLineageButton(item)]]">
+                <template>
+                  <vaadin-tab value="verticalLineage">
+                    <a href="[[rootPath]]#/asset-lineage/verticalLineage/[[routeData.guid]]"
+                      tabindex="-1"
+                      rel="noopener">
+                      Vertical Lineage
+                    </a>
+                  </vaadin-tab>
+                </template>
+              </dom-if>
+            </template>
+
+            <template is="dom-if" if="[[_hasComponent('source-and-destination')]]">
+              <vaadin-tab value="sourceAndDestination">
+                <a href="[[rootPath]]#/asset-lineage/sourceAndDestination/[[routeData.guid]]"
+                  tabindex="-1"
+                  rel="noopener">
+                  Source and Destination
+                </a>
+              </vaadin-tab>
+            </template>
+          </vaadin-tabs>
         </template>
 
         <ul id="menu">
-          <li>
-            <paper-button raised on-click="zoomOut">-</paper-button>
-          </li>
-          <li>
-            <paper-button raised on-click="zoomIn">+</paper-button>
-          </li>
-          <li>
-            <paper-button raised on-click="fitToScreen">Fit to screen</paper-button>
-          </li>
-          <li>
-            <paper-button raised on-click="resetGraph">Reset graph</paper-button>
-          </li>
+          <li><paper-button raised on-click="zoomOut">-</paper-button></li>
+          <li><paper-button raised on-click="zoomIn">+</paper-button></li>
+          <li><paper-button raised on-click="fitToScreen">Fit to screen</paper-button></li>
+          <li><paper-button raised on-click="resetGraph">Reset graph</paper-button></li>
           <li>
             <div hidden="[[_displayETLJobsToggle(routeData.usecase)]]">
               <paper-toggle-button id="processToggle" checked>
@@ -555,9 +546,9 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsB
         <asset-tools items="[[selectedNode.group]]"
                      guid="[[selectedNode.id]]"
                      style="display: inline-flex"></asset-tools>
-     
-        <template is="dom-if" if="[[item.type]]">
-            <props-table items="[[_getPropertiesForDisplay(item)]]" title="Properties" with-row-stripes ></props-table>
+
+        <template is="dom-if" if="[[clickedItem.type]]">
+          <props-table items="[[_getPropertiesForDisplay(clickedItem)]]" title="Properties" with-row-stripes ></props-table>
         </template>
         <div></div>
       </paper-dialog>
