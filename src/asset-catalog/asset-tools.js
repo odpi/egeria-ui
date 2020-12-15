@@ -36,7 +36,7 @@ class AssetTools extends mixinBehaviors([RoleComponentsBehavior], PolymerElement
       </style>
       <iron-localstorage name="user-components" value="{{components}}"></iron-localstorage>
 
-      <token-ajax id="tokenAjaxSettings" last-response="{{omas}}" url="/api/omas/settings" auto></token-ajax>
+      <token-ajax id="tokenAjaxSettings" last-response="{{omas}}" url="/api/ui/settings" auto></token-ajax>
       <template is="dom-if" if="[[components]]">
         <ul id="menu">
         <template is="dom-if" if="[[_hasComponent('ultimate-source')]]">
