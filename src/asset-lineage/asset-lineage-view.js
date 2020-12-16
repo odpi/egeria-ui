@@ -548,7 +548,7 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsB
           </a>
         </div>
 
-        <asset-tools items="[[selectedNode.group]]"
+        <asset-tools type="[[selectedNode.group]]"
                      guid="[[selectedNode.id]]"
                      on-button-click="_closeDialog"
                      style="display: inline-flex"></asset-tools>

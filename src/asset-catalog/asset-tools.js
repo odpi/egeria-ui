@@ -71,7 +71,7 @@ class AssetTools extends mixinBehaviors([RoleComponentsBehavior], PolymerElement
             </template>
             <template is="dom-if" if="[[_hasComponent('vertical-lineage')]]">
             <li>
-            <dom-if if="[[ _displayVerticalLineageButton(items)]]" >
+            <dom-if if="[[_displayVerticalLineageButton(type)]]" >
                 <template>
                     <a on-click="_buttonClick" href="#/asset-lineage/verticalLineage/[[guid]]" title="Vertical Lineage">
                         <paper-button raised>
@@ -115,8 +115,8 @@ class AssetTools extends mixinBehaviors([RoleComponentsBehavior], PolymerElement
         }));
     }
 
-    _displayVerticalLineageButton(item) {
-        return (item === 'RelationalColumn' || item === 'TabularColumn' || item === 'GlossaryTerm');
+    _displayVerticalLineageButton(type) {
+        return (type === 'RelationalColumn' || type === 'TabularColumn' || type === 'GlossaryTerm');
     }
 
     _encode(val) {
