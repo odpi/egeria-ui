@@ -549,6 +549,7 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsB
 
         <template is="dom-if" if="[[clickedItem.type]]">
           <props-table items="[[_getPropertiesForDisplay(clickedItem)]]" title="Properties" with-row-stripes ></props-table>
+          <props-table items="[[_attributes(selectedNode.properties)]]" title="Context" with-row-stripes ></props-table>
         </template>
         <div></div>
       </paper-dialog>
