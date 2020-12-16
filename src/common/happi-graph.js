@@ -568,7 +568,7 @@ class HappiGraph extends PolymerElement {
     header.append('text')
       .attr('transform', `translate(70, 30)`)
       .classed('value', true)
-      .text((d) => d.value);
+      .text((d) => d.value.length > 18 ? `${d.value.substring(0, 18)}...` : d.value);
 
     header.append('text')
       .attr('transform', `translate(70, 50)`)
@@ -593,7 +593,7 @@ class HappiGraph extends PolymerElement {
                 .append('text')
                 .attr('transform', `translate(95, ${labelHeight})`)
                 .classed('property', true)
-                .text(() => p.value);
+                .text(() => p.value.length > 18 ? `${p.value.substring(0, 18)}...` : p.value)
 
               if (self.cachedIcons[p.icon]) {
                 let icon = new DOMParser()
