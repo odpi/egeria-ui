@@ -34,6 +34,8 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsB
       .addEventListener('happi-graph-on-node-click', (e) => {
         this.onNodeClick(e.detail ? e.detail.nodeId : null);
       });
+
+    this.shadowRoot.querySelector('#paper-dialog').open();
   }
 
   static get properties() {
@@ -179,6 +181,10 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsB
       && this.graphData
       && this.graphData.nodes
       && this.graphData.nodes.length == 0;
+  }
+
+  _closeDialog(){
+    this.shadowRoot.querySelector('#paper-dialog').close();
   }
 
   static get observers() {
@@ -545,6 +551,7 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsB
 
         <asset-tools items="[[selectedNode.group]]"
                      guid="[[selectedNode.id]]"
+                     on-button-click="_closeDialog"
                      style="display: inline-flex"></asset-tools>
 
         <template is="dom-if" if="[[clickedItem.type]]">
