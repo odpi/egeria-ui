@@ -35,7 +35,6 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsB
         this.onNodeClick(e.detail ? e.detail.nodeId : null);
       });
 
-    this.shadowRoot.querySelector('#paper-dialog').open();
   }
 
   static get properties() {
