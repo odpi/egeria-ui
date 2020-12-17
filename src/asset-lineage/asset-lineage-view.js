@@ -438,6 +438,10 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsB
           padding-left: 0;
           margin-right: 16px;
         }
+
+        .local-wrapper {
+          width:730px;
+        }
       </style>
 
       <app-route route="{{route}}"
@@ -519,8 +523,7 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsB
           <li><paper-button raised on-click="zoomOut">-</paper-button></li>
           <li><paper-button raised on-click="zoomIn">+</paper-button></li>
           <li><paper-button raised on-click="fitToScreen">Fit to screen</paper-button></li>
-          <li><paper-button raised on-click="resetGraph">Reset graph</paper-button></li>
-          <li><paper-button raised on-click="reloadGraph">Reload graph</paper-button></li>
+          <li><paper-button raised on-click="reloadGraph">Reset graph</paper-button></li>
           <li>
             <div hidden="[[_displayETLJobsToggle(routeData.usecase)]]">
               <paper-toggle-button id="processToggle" checked>
@@ -549,28 +552,30 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsB
 
       <!-- extract this to separate component -->
       <paper-dialog id="paper-dialog" class="paper-dialog">
-        <div>
-          <a dialog-confirm
-            style="float: right"
-            title="close">
-            <iron-icon icon="icons:close"
-                      style="width: 24px;height: 24px;"></iron-icon>
-          </a>
-        </div>
+        <div class="local-wrapper">
+          <div>
+            <a dialog-confirm
+              style="float: right"
+              title="close">
+              <iron-icon icon="icons:close"
+                        style="width: 24px;height: 24px;"></iron-icon>
+            </a>
+          </div>
 
-        <asset-tools type="[[selectedNode.group]]"
-                     guid="[[selectedNode.id]]"
-                     on-button-click="_closeDialog"
-                     style="display: inline-flex"></asset-tools>
+          <asset-tools type="[[selectedNode.group]]"
+                      guid="[[selectedNode.id]]"
+                      on-button-click="_closeDialog"
+                      style="display: inline-flex"></asset-tools>
 
-        <template is="dom-if" if="[[clickedItem.type]]">
-          <props-table items="[[_getPropertiesForDisplay(clickedItem)]]" title="Properties" with-row-stripes ></props-table>
+          <template is="dom-if" if="[[clickedItem.type]]">
+            <props-table items="[[_getPropertiesForDisplay(clickedItem)]]" title="Properties" with-row-stripes ></props-table>
 
-          <template is="dom-if" if="[[hasSize(selectedNode.properties)]]" restramp="true">
-            <props-table items="[[_attributes(selectedNode.properties)]]" title="Context" with-row-stripes ></props-table>
+            <template is="dom-if" if="[[hasSize(selectedNode.properties)]]" restramp="true">
+              <props-table items="[[_attributes(selectedNode.properties)]]" title="Context" with-row-stripes ></props-table>
+            </template>
           </template>
-        </template>
-        <div></div>
+          <div></div>
+        </div>
       </paper-dialog>
     `;
   }
