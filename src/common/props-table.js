@@ -19,7 +19,7 @@ class PropsTable extends mixinBehaviors([ItemViewBehavior], PolymerElement) {
 
         .rTable {
           display: table;
-          width: 730px;
+          width: 100%;
           border: solid 1px var( --egeria-primary-color );
         }
 
