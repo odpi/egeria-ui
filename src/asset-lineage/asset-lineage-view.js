@@ -399,7 +399,12 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsB
     if (description) {
       displayProperties.description = description;
     }
-    return ItemViewBehavior._attributes(displayProperties);
+
+    return this._attributes(displayProperties);
+  }
+
+  hasSize(data) {
+    return Object.keys(data).length > 0;
   }
 
   static get template() {
@@ -555,7 +560,10 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsB
 
         <template is="dom-if" if="[[clickedItem.type]]">
           <props-table items="[[_getPropertiesForDisplay(clickedItem)]]" title="Properties" with-row-stripes ></props-table>
-          <props-table items="[[_attributes(selectedNode.properties)]]" title="Context" with-row-stripes ></props-table>
+
+          <template is="dom-if" if="[[hasSize(selectedNode.properties)]]" restramp="true">
+            <props-table items="[[_attributes(selectedNode.properties)]]" title="Context" with-row-stripes ></props-table>
+          </template>
         </template>
         <div></div>
       </paper-dialog>
