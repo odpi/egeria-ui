@@ -19,7 +19,7 @@ import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class';
 import { ItemViewBehavior } from '../common/item';
 
 import '../common/happi-graph';
-import {RoleComponentsBehavior} from "../common/role-components";
+import { RoleComponentsBehavior } from "../common/role-components";
 
 class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsBehavior], PolymerElement) {
   ready() {
@@ -385,8 +385,8 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsB
     let summary = item.properties.summary;
     let description = item.properties.description;
     let displayProperties = {
-      displayName : displayName,
-      guid : guid
+      displayName: displayName,
+      guid: guid
     };
     if (summary) {
       displayProperties.summary = summary;
@@ -536,16 +536,16 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsB
       <paper-dialog id="paper-dialog" class="paper-dialog">
         <div>
           <a dialog-confirm
-             style="float: right"
-             title="close">
+            style="float: right"
+            title="close">
             <iron-icon icon="icons:close"
-                       style="width: 24px;height: 24px;"></iron-icon>
+                      style="width: 24px;height: 24px;"></iron-icon>
           </a>
         </div>
 
         <asset-tools items="[[selectedNode.group]]"
-                     guid="[[selectedNode.id]]"
-                     style="display: inline-flex"></asset-tools>
+                    guid="[[selectedNode.id]]"
+                    style="display: inline-flex"></asset-tools>
 
         <template is="dom-if" if="[[clickedItem.type]]">
           <props-table items="[[_getPropertiesForDisplay(clickedItem)]]" title="Properties" with-row-stripes ></props-table>
