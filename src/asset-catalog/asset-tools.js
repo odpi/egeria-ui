@@ -41,7 +41,7 @@ class AssetTools extends mixinBehaviors([RoleComponentsBehavior], PolymerElement
         <ul id="menu">
         <template is="dom-if" if="[[_hasComponent('ultimate-source')]]">
             <li> 
-                <a href="#/asset-lineage/ultimateSource/[[guid]]" title="Ultimate Source Lineage">
+                <a on-click="_buttonClick" href="#/asset-lineage/ultimateSource/[[guid]]" title="Ultimate Source Lineage">
                     <paper-button raised>
                     <iron-icon icon="vaadin:connect-o" style="transform: rotate(180deg)"></iron-icon>
                     <div>&nbsp;Source</div>
@@ -51,7 +51,7 @@ class AssetTools extends mixinBehaviors([RoleComponentsBehavior], PolymerElement
             </template>
             <template is="dom-if" if="[[_hasComponent('end-to-end')]]">
             <li> 
-                <a href="#/asset-lineage/endToEnd/[[guid]]" title="End2End Lineage">
+                <a on-click="_buttonClick" href="#/asset-lineage/endToEnd/[[guid]]" title="End2End Lineage">
                     <paper-button raised>
                     <iron-icon icon="vaadin:cluster"></iron-icon>
                     <div>&nbsp;End2End</div>
@@ -61,7 +61,7 @@ class AssetTools extends mixinBehaviors([RoleComponentsBehavior], PolymerElement
             </template>
             <template is="dom-if" if="[[_hasComponent('ultimate-destination')]]">
             <li> 
-                <a href="#/asset-lineage/ultimateDestination/[[guid]]" title="Ultimate Destination Lineage"> 
+                <a on-click="_buttonClick" href="#/asset-lineage/ultimateDestination/[[guid]]" title="Ultimate Destination Lineage"> 
                     <paper-button raised>
                     <iron-icon icon="vaadin:connect-o"></iron-icon>
                     <div>&nbsp;Dest</div>
@@ -71,9 +71,9 @@ class AssetTools extends mixinBehaviors([RoleComponentsBehavior], PolymerElement
             </template>
             <template is="dom-if" if="[[_hasComponent('vertical-lineage')]]">
             <li>
-            <dom-if if="[[ _displayVerticalLineageButton(items)]]" >
+            <dom-if if="[[_displayVerticalLineageButton(type)]]" >
                 <template>
-                    <a href="#/asset-lineage/verticalLineage/[[guid]]" title="Vertical Lineage">
+                    <a on-click="_buttonClick" href="#/asset-lineage/verticalLineage/[[guid]]" title="Vertical Lineage">
                         <paper-button raised>
                         <iron-icon  icon="vaadin:file-tree"></iron-icon>
                         <div>&nbsp;Vertical Lineage</div>
@@ -85,7 +85,7 @@ class AssetTools extends mixinBehaviors([RoleComponentsBehavior], PolymerElement
             </template>
             <template is="dom-if" if="[[_hasComponent('source-and-destination')]]">
             <li> 
-                <a href="#/asset-lineage/sourceAndDestination/[[guid]]" title="Source and Destination Lineage">
+                <a on-click="_buttonClick" href="#/asset-lineage/sourceAndDestination/[[guid]]" title="Source and Destination Lineage">
                 <paper-button raised>
                     <iron-icon  icon="vaadin:exchange"></iron-icon>
                     <div>&nbsp;Source & Dest</div>
@@ -94,7 +94,7 @@ class AssetTools extends mixinBehaviors([RoleComponentsBehavior], PolymerElement
             </li>
             <template is="dom-if" if="[[_hasComponent('rex')]]">
                 <li> 
-                    <a href="#/repository-explorer/[[omas.serverName]]/[[ _encode(omas.baseUrl) ]]/[[guid]]" title="Repository explorer">
+                    <a on-click="_buttonClick" href="#/repository-explorer/[[omas.serverName]]/[[ _encode(omas.baseUrl) ]]/[[guid]]" title="Repository explorer">
                         <paper-button raised>
                         <iron-icon icon="vaadin:cogs"></iron-icon>
                         <div>&nbsp;REX</div>
@@ -107,8 +107,16 @@ class AssetTools extends mixinBehaviors([RoleComponentsBehavior], PolymerElement
     `;
     }
 
-    _displayVerticalLineageButton(item) {
-        return (item === 'RelationalColumn' || item === 'TabularColumn' || item === 'GlossaryTerm');
+    _buttonClick(){
+        this.dispatchEvent(new CustomEvent('button-click', {
+            bubbles: true,
+            composed: true,
+            detail: {}
+        }));
+    }
+
+    _displayVerticalLineageButton(type) {
+        return (type === 'RelationalColumn' || type === 'TabularColumn' || type === 'GlossaryTerm');
     }
 
     _encode(val) {

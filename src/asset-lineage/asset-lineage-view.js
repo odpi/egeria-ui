@@ -34,6 +34,7 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsB
       .addEventListener('happi-graph-on-node-click', (e) => {
         this.onNodeClick(e.detail ? e.detail.nodeId : null);
       });
+
   }
 
   static get properties() {
@@ -179,6 +180,10 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsB
       && this.graphData
       && this.graphData.nodes
       && this.graphData.nodes.length == 0;
+  }
+
+  _closeDialog(){
+    this.shadowRoot.querySelector('#paper-dialog').close();
   }
 
   static get observers() {
@@ -543,9 +548,16 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsB
           </a>
         </div>
 
+<<<<<<< HEAD
         <asset-tools items="[[selectedNode.group]]"
                     guid="[[selectedNode.id]]"
                     style="display: inline-flex"></asset-tools>
+=======
+        <asset-tools type="[[selectedNode.group]]"
+                     guid="[[selectedNode.id]]"
+                     on-button-click="_closeDialog"
+                     style="display: inline-flex"></asset-tools>
+>>>>>>> e4756351e78bc0b184ddeaefc3d0b60353dcfb05
 
         <template is="dom-if" if="[[clickedItem.type]]">
           <props-table items="[[_getPropertiesForDisplay(clickedItem)]]" title="Properties" with-row-stripes ></props-table>
