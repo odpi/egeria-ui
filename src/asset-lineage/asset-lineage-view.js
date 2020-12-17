@@ -548,16 +548,10 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsB
           </a>
         </div>
 
-<<<<<<< HEAD
-        <asset-tools items="[[selectedNode.group]]"
-                    guid="[[selectedNode.id]]"
-                    style="display: inline-flex"></asset-tools>
-=======
         <asset-tools type="[[selectedNode.group]]"
                      guid="[[selectedNode.id]]"
                      on-button-click="_closeDialog"
                      style="display: inline-flex"></asset-tools>
->>>>>>> e4756351e78bc0b184ddeaefc3d0b60353dcfb05
 
         <template is="dom-if" if="[[clickedItem.type]]">
           <props-table items="[[_getPropertiesForDisplay(clickedItem)]]" title="Properties" with-row-stripes ></props-table>
