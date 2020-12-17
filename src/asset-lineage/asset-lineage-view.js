@@ -19,7 +19,7 @@ import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class';
 import { ItemViewBehavior } from '../common/item';
 
 import '../common/happi-graph';
-import {RoleComponentsBehavior} from "../common/role-components";
+import { RoleComponentsBehavior } from "../common/role-components";
 
 class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsBehavior], PolymerElement) {
   ready() {
@@ -167,6 +167,10 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsB
 
   resetGraph() {
     this._reload(this.routeData.usecase, this.$.processToggle.checked);
+  }
+
+  reloadGraph() {
+    window.location.reload();
   }
 
   _noGuid(routeData) {
@@ -390,8 +394,8 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsB
     let summary = item.properties.summary;
     let description = item.properties.description;
     let displayProperties = {
-      displayName : displayName,
-      guid : guid
+      displayName: displayName,
+      guid: guid
     };
     if (summary) {
       displayProperties.summary = summary;
@@ -399,7 +403,12 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsB
     if (description) {
       displayProperties.description = description;
     }
-    return ItemViewBehavior._attributes(displayProperties);
+
+    return this._attributes(displayProperties);
+  }
+
+  hasSize(data) {
+    return Object.keys(data).length > 0;
   }
 
   static get template() {
@@ -511,6 +520,7 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsB
           <li><paper-button raised on-click="zoomIn">+</paper-button></li>
           <li><paper-button raised on-click="fitToScreen">Fit to screen</paper-button></li>
           <li><paper-button raised on-click="resetGraph">Reset graph</paper-button></li>
+          <li><paper-button raised on-click="reloadGraph">Reload graph</paper-button></li>
           <li>
             <div hidden="[[_displayETLJobsToggle(routeData.usecase)]]">
               <paper-toggle-button id="processToggle" checked>
@@ -541,10 +551,10 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsB
       <paper-dialog id="paper-dialog" class="paper-dialog">
         <div>
           <a dialog-confirm
-             style="float: right"
-             title="close">
+            style="float: right"
+            title="close">
             <iron-icon icon="icons:close"
-                       style="width: 24px;height: 24px;"></iron-icon>
+                      style="width: 24px;height: 24px;"></iron-icon>
           </a>
         </div>
 
@@ -555,7 +565,10 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsB
 
         <template is="dom-if" if="[[clickedItem.type]]">
           <props-table items="[[_getPropertiesForDisplay(clickedItem)]]" title="Properties" with-row-stripes ></props-table>
-          <props-table items="[[_attributes(selectedNode.properties)]]" title="Context" with-row-stripes ></props-table>
+
+          <template is="dom-if" if="[[hasSize(selectedNode.properties)]]" restramp="true">
+            <props-table items="[[_attributes(selectedNode.properties)]]" title="Context" with-row-stripes ></props-table>
+          </template>
         </template>
         <div></div>
       </paper-dialog>
