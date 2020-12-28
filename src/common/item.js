@@ -1,7 +1,8 @@
 /* SPDX-License-Identifier: Apache-2.0 */
 /* Copyright Contributors to the ODPi Egeria project. */
+import {ItemUtilsBehavior} from './item-utils';
 
-export const ItemViewBehavior = {
+export const ItemViewBehaviorImpl = {
 
   properties: {
     item: Object
@@ -83,3 +84,5 @@ export const ItemViewBehavior = {
       .replace(/^\w/, c => c.toUpperCase()); //uppercase first letter
   }
 }
+
+export const ItemViewBehavior = [ ItemUtilsBehavior, ItemViewBehaviorImpl ]

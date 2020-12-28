@@ -2,7 +2,6 @@
 /* Copyright Contributors to the ODPi Egeria project. */
 import { PolymerElement, html } from '@polymer/polymer';
 import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
-import { ItemViewBehavior} from '../common/item';
 import '@polymer/paper-listbox/paper-listbox.js';
 import '@polymer/paper-styles/paper-styles.js';
 import '@polymer/app-layout/app-grid/app-grid-style.js';
@@ -10,8 +9,12 @@ import '@polymer/app-layout/app-grid/app-grid-style.js';
 import '../shared-styles.js';
 import '../common/props-table';
 import './asset-tools';
+import {ItemUtilsBehavior} from "../common/item-utils";
 
-class AssetDetailsView extends mixinBehaviors([ItemViewBehavior], PolymerElement) {
+class AssetDetailsView extends mixinBehaviors([ItemUtilsBehavior], PolymerElement) {
+
+
+
     static get template() {
         return html`
       <style include="app-grid-style"></style>
@@ -42,8 +45,7 @@ class AssetDetailsView extends mixinBehaviors([ItemViewBehavior], PolymerElement
         }
         
       </style>
-      <app-route route="{{route}}" pattern="/:guid" data="{{routeData}}" tail="{{tail}}"></app-route>
-      <token-ajax id="tokenAjaxDetails" last-response="{{item}}" ></token-ajax>
+<!--      <app-route route="{{route}}" pattern="/:guid" data="{{routeData}}" tail="{{tail}}"></app-route>-->
       
       <dom-if if="[[item]]" restamp> 
         <template> 
@@ -80,20 +82,6 @@ class AssetDetailsView extends mixinBehaviors([ItemViewBehavior], PolymerElement
        
     `;
     }
-
-    static get observers() {
-        return [
-            '_routeChanged(route)'
-        ];
-    }
-
-    _routeChanged(guid) {
-        if ( this.route && this.route.prefix === '/asset-catalog/view') {
-            this.$.tokenAjaxDetails.url = '/api/assets/' + this.routeData.guid;
-            this.$.tokenAjaxDetails._go();
-        }
-    }
-
 }
 
 window.customElements.define('asset-details-view', AssetDetailsView);
