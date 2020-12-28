@@ -52,14 +52,14 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsB
         }
       },
       usecases: {
-        type: Array,
-        value: [
-          'ultimateSource',
-          'endToEnd',
-          'ultimateDestination',
-          'verticalLineage',
-          'sourceAndDestination'
-        ]
+        type: Object,
+        value: {
+          ultimateSource      : 'Ultimate Source',
+          endToEnd            : 'End to End Lineage',
+          ultimateDestination : 'Ultimate Destination',
+          verticalLineage     : 'Vertical Lineage',
+          sourceAndDestination: 'Source and Destination'
+        }
       },
       graphData: {
         type: Object,
@@ -368,9 +368,7 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsB
       }
   }
 
-  _getUseCase(usecase) {
-    return this.usecases.indexOf(usecase);
-  }
+
 
   _displayETLJobsToggle(useCase) {
     return useCase === 'verticalLineage';
@@ -462,13 +460,13 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsB
 
       <div>
         <template is="dom-if" if="[[components]]">
-          <vaadin-tabs id ="useCases"  selected="[[ _getUseCase(routeData.usecase) ]]" >
+          <vaadin-tabs id ="useCases"  selected="[[ _usecaseIndex(routeData.usecase) ]]" >
             <template is="dom-if" if="[[_hasComponent('ultimate-source')]]">
               <vaadin-tab value="ultimateSource" >
                 <a href="[[rootPath]]#/asset-lineage/ultimateSource/[[routeData.guid]]"
                   tabindex="-1"
                   rel="noopener">
-                  Ultimate Source
+                  [[ usecases.ultimateSource ]]
                 </a>
               </vaadin-tab>
             </template>
@@ -478,7 +476,7 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsB
                 <a href="[[rootPath]]#/asset-lineage/endToEnd/[[routeData.guid]]"
                   tabindex="-1"
                   rel="noopener">
-                  End to End Lineage
+                  [[ usecases.endToEnd ]]
                 </a>
               </vaadin-tab>
             </template>
@@ -488,7 +486,7 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsB
                 <a href="[[rootPath]]#/asset-lineage/ultimateDestination/[[routeData.guid]]"
                   tabindex="-1"
                   rel="noopener">
-                  Ultimate Destination
+                  [[ usecases.ultimateDestination ]]
                 </a>
               </vaadin-tab>
             </template>
@@ -500,7 +498,7 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsB
                     <a href="[[rootPath]]#/asset-lineage/verticalLineage/[[routeData.guid]]"
                       tabindex="-1"
                       rel="noopener">
-                      Vertical Lineage
+                      [[ usecases.verticalLineage ]]
                     </a>
                   </vaadin-tab>
                 </template>
@@ -512,7 +510,7 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsB
                 <a href="[[rootPath]]#/asset-lineage/sourceAndDestination/[[routeData.guid]]"
                   tabindex="-1"
                   rel="noopener">
-                  Source and Destination
+                  [[ usecases.sourceAndDestination ]]
                 </a>
               </vaadin-tab>
             </template>

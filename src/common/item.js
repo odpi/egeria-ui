@@ -14,7 +14,9 @@ export const ItemViewBehavior = {
     if (item) {
       this._pushCrumb(this._itemName(item), '/#/asset-catalog/view/'+item.guid);
 
-      if(this.routeData && this.routeData.usecase) this._pushCrumb(this.routeData.usecase,null);
+      if(this.routeData && this.routeData.usecase) {
+        this._pushCrumb( this.usecases[this.routeData.usecase],null);
+      }
 
       this._attributes(item);
 
@@ -27,6 +29,10 @@ export const ItemViewBehavior = {
     }
 
 
+  },
+
+  _usecaseIndex(usecase) {
+    return Object.keys(this.usecases).indexOf(usecase);
   },
 
   _pushCrumb(val, href) {
