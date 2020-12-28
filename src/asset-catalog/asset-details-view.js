@@ -45,8 +45,6 @@ class AssetDetailsView extends mixinBehaviors([ItemUtilsBehavior], PolymerElemen
         }
         
       </style>
-<!--      <app-route route="{{route}}" pattern="/:guid" data="{{routeData}}" tail="{{tail}}"></app-route>-->
-      
       <dom-if if="[[item]]" restamp> 
         <template> 
           <asset-tools guid="[[item.guid]]" type="[[item.type.name]]"></asset-tools>
