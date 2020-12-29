@@ -4,8 +4,10 @@ import { PolymerElement, html } from '@polymer/polymer';
 import '@vaadin/vaadin-tabs/vaadin-tabs.js';
 import '../shared-styles.js';
 import './asset-search-view';
+import {mixinBehaviors} from "@polymer/polymer/lib/legacy/class";
+import {ItemViewBehavior} from "../common/item";
 
-class AssetCatalogView extends PolymerElement {
+class AssetCatalogView extends mixinBehaviors([ItemViewBehavior], PolymerElement)  {
   static get template() {
     return html`
       <style include="shared-styles">
@@ -22,14 +24,15 @@ class AssetCatalogView extends PolymerElement {
         }
       </style>
 
-      <app-route route="{{route}}" pattern="/:usecase" data="{{routeData}}" tail="{{tail}}"></app-route>
+      <app-route route="{{route}}" pattern="/:usecase/:guid" data="{{routeData}}" tail="{{tail}}"></app-route>
+      <token-ajax id="tokenAjaxDetails" last-response="{{item}}" ></token-ajax>
 
       <dom-if if="[[ _tabsVisible(routeData) ]]" >
-        <app-route route="{{tail}}" pattern="/:guid" data="{{routeTailData}}" "></app-route>
+<!--        <app-route route="{{tail}}" pattern="/:guid" data="{{routeTailData}}" "></app-route>-->
 
         <template>
-          <vaadin-tabs id="useCases" selected="[[ _getUseCase(routeData.usecase) ]]">
-            <vaadin-tab value="[[ usecases.0 ]]">
+          <vaadin-tabs id="useCases" selected="[[ _usecaseIndex(routeData.usecase) ]]">
+            <vaadin-tab value="[[ usecases.view ]]">
               <a href="[[rootPath]]#/asset-catalog/view/[[routeTailData.guid]]" tabindex="-1" rel="noopener">
                 Details
               </a>
@@ -45,7 +48,7 @@ class AssetCatalogView extends PolymerElement {
 
       <iron-pages selected="[[routeData.usecase]]" attr-for-selected="name" role="main" fallback-selection="search">
         <asset-search-view language="[[language]]" name="search" route="{{tail}}"></asset-search-view>
-        <asset-details-view language="[[language]]" name="view" route="{{tail}}"></asset-details-view>
+        <asset-details-view language="[[language]]" name="view" item="[[item]]"></asset-details-view>
 <!--        <asset-context-view language="[[language]]" name="context" route="{{tail}}"></asset-context-view>-->
       </iron-pages>
     `;
@@ -54,10 +57,12 @@ class AssetCatalogView extends PolymerElement {
   static get properties() {
     return {
       usecases: {
-        type: Array,
-        value: ['view']
-        // value: ['view', 'context']
-      }
+        type: Object,
+        value: {
+          view                : 'Details',
+          context             : 'Context'
+        }
+      },
     }
   }
 
@@ -66,9 +71,6 @@ class AssetCatalogView extends PolymerElement {
       '_routeChanged(route)'
     ];
   }
-  _getUseCase(usecase) {
-    return this.usecases.indexOf(usecase);
-  }
 
   _tabsVisible(routeData) {
     return routeData !== undefined && routeData.usecase !== undefined && routeData.usecase !== 'search';
@@ -76,6 +78,8 @@ class AssetCatalogView extends PolymerElement {
 
   _routeChanged(route) {
     if (route.prefix === '/asset-catalog') {
+      this.$.tokenAjaxDetails.url = '/api/assets/' + this.routeData.guid;
+      this.$.tokenAjaxDetails._go();
       /**
        * keeping the switch for later add cases
        */
