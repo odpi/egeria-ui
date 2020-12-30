@@ -233,7 +233,11 @@ class MyApp extends mixinBehaviors([AppLocalizeBehavior, RoleComponentsBehavior]
 
               <about-view language="[[language]]" name="about"></about-view>
 
-              <asset-lineage-view language="[[language]]" name="asset-lineage"  route="[[tail]]"></asset-lineage-view>
+              <div name="asset-lineage">
+                <template is="dom-if" if="[[ _isEqualTo(page, 'asset-lineage') ]]" >
+                  <asset-lineage-view language="[[language]]" route="[[tail]]"></asset-lineage-view>
+                </template>
+              </div>
 
               <type-explorer-view language="[[language]]" name="type-explorer"></type-explorer-view>
 
@@ -250,6 +254,10 @@ class MyApp extends mixinBehaviors([AppLocalizeBehavior, RoleComponentsBehavior]
         </app-drawer-layout>
       </template>
     `;
+  }
+
+  _isEqualTo(value1, value2) {
+    return value1 === value2;
   }
 
   static get properties() {
