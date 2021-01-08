@@ -521,7 +521,7 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsB
           <li><paper-button raised on-click="zoomOut">-</paper-button></li>
           <li><paper-button raised on-click="zoomIn">+</paper-button></li>
           <li><paper-button raised on-click="fitToScreen">Fit to screen</paper-button></li>
-          <li><paper-button raised on-click="reloadGraph">Reset graph</paper-button></li>
+          <li><paper-button raised on-click="resetGraph">Reset graph</paper-button></li>
           <li>
             <div hidden="[[_displayETLJobsToggle(routeData.usecase)]]">
               <paper-toggle-button id="processToggle" checked>
