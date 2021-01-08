@@ -35,6 +35,7 @@ class UserOptions extends PolymerElement {
         }
       </style>
       <token-ajax id="userAjax" last-response="{{user}}" url="/api/users/current" auto></token-ajax>
+
       <div style="float: right">
         <paper-menu-button horizontal-align="right"
                            horizontal-offset="20"
@@ -51,7 +52,8 @@ class UserOptions extends PolymerElement {
               </div>
             </paper-icon-item>
 
-            <paper-listbox slot="dropdown-content" style="min-width: 200px">
+            <div slot="dropdown-content"vstyle="display: block"> 
+            <paper-listbox style="min-width: 200px">
                 <paper-item>Signed in as:<br> [[user.username]]</paper-item>
                 <hr>
                 <paper-item>Roles: [[user.roles]]</paper-item>
@@ -60,12 +62,15 @@ class UserOptions extends PolymerElement {
                 <paper-item>Help</paper-item>
                 <paper-item><a href="[[rootPath]]#/about">About</a></paper-item>
                 <hr>
-                <paper-item>
-                  <paper-button on-tap="_logout" icon="exit-to-app" title="Exit">
-                    Sign out
-                  </paper-button>
-                </paper-item>
-             </paper-listbox>
+            </paper-listbox>
+            <paper-item>
+              <a href="[[rootPath]]logout" on-click="_logout" style="flex: auto">
+              Sign out
+              <iron-icon  icon="exit-to-app" style="float: right"></iron-icon>
+              </a>
+            </paper-item>
+            </div>
+            
         </paper-menu-button>
       </div>
 
@@ -82,6 +87,8 @@ class UserOptions extends PolymerElement {
   }
 
   _logout() {
+    this.$.userAjax.url = "/api/logout";
+    this.$.userAjax._go();
     var customEvent = new CustomEvent('logout', {
       bubbles: true,
       composed: true,
