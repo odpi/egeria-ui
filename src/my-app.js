@@ -303,7 +303,7 @@ class MyApp extends mixinBehaviors([AppLocalizeBehavior, RoleComponentsBehavior]
           'ultimateSource': { label: 'Ultimate Source', href: "ultimateSource" },
           'ultimateDestination': { label: 'Ultimate Destination', href: "ultimateDestination" },
           'endToEnd': { label: 'End To End Lineage', href: "endToEnd" },
-          'sourceAndDestination': { label: 'Source and Destination', href: "sourceAndDestinatio" },
+          'sourceAndDestination': { label: 'Source and Destination', href: "sourceAndDestination" },
           'verticalLineage': { label: 'Vertical Lineage', href: "verticalLineage" },
           'about': { label: 'About', href: "about" }
         }
