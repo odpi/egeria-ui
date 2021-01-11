@@ -78,12 +78,14 @@ class AssetCatalogView extends mixinBehaviors([ItemViewBehavior], PolymerElement
 
   _routeChanged(route) {
     if (route.prefix === '/asset-catalog') {
-      this.$.tokenAjaxDetails.url = '/api/assets/' + this.routeData.guid;
-      this.$.tokenAjaxDetails._go();
+      if( this.routeData.guid ){
+        this.$.tokenAjaxDetails.url = '/api/assets/' + this.routeData.guid;
+        this.$.tokenAjaxDetails._go();
+      }
       /**
        * keeping the switch for later add cases
        */
-      switch (this.routeData.usecase) {
+      switch ( this.routeData.usecase ) {
         case 'view':
           import('./asset-details-view');
           break;

@@ -177,7 +177,7 @@ class MyApp extends mixinBehaviors([AppLocalizeBehavior, RoleComponentsBehavior]
 
               <template id="test" is="dom-if" if="[[components]]">
                 <template is="dom-if" if="[[_hasComponent('asset-catalog')]]">
-                  <div name="asset-catalog" language="[[language]]"><a href="[[rootPath]]#/asset-catalog/search">Asset Catalog</a></div>
+                  <div name="asset-catalog" language="[[language]]"><a href="[[rootPath]]#/asset-catalog/search/">Asset Catalog</a></div>
                 </template>
                 <template is="dom-if" if="[[_hasComponent('glossary-view')]]">
                   <div name="glossary" language="[[language]]"><a href="[[rootPath]]#/glossary">Glossary View</a></div>
@@ -295,15 +295,15 @@ class MyApp extends mixinBehaviors([AppLocalizeBehavior, RoleComponentsBehavior]
         type: Object,
         value: {
           'home': { label: 'Home', href: '/#/' },
-          'asset-catalog': { label: 'Asset Catalog', href: "asset-catalog/search" },
+          'asset-catalog': { label: 'Asset Catalog', href: "asset-catalog/search/" },
           'glossary': { label: 'Glossary', href: "glossary" },
-          'asset-lineage': { label: 'Asset Catalog', href: "asset-catalog/search" },
+          'asset-lineage': { label: 'Asset Catalog', href: "asset-catalog/search/" },
           'type-explorer': { label: 'Type Explorer', href: "type-explorer" },
-          'repository-explorer': { label: 'Repository Explorer', href: "repository-explorer" },
+          'repository-explorer': { label: 'Repository Explorer', href: "repository-explorer/" },
           'ultimateSource': { label: 'Ultimate Source', href: "ultimateSource" },
           'ultimateDestination': { label: 'Ultimate Destination', href: "ultimateDestination" },
           'endToEnd': { label: 'End To End Lineage', href: "endToEnd" },
-          'sourceAndDestination': { label: 'Source and Destination', href: "sourceAndDestination" },
+          'sourceAndDestination': { label: 'Source and Destination', href: "sourceAndDestinatio" },
           'verticalLineage': { label: 'Vertical Lineage', href: "verticalLineage" },
           'about': { label: 'About', href: "about" }
         }
