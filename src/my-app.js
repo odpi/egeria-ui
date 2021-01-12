@@ -380,10 +380,8 @@ class MyApp extends mixinBehaviors([AppLocalizeBehavior, RoleComponentsBehavior]
 
     if (!page) {
       if ((!!components && components.includes('asset-catalog')) || (!!components && components.length === 0)) {
-        this.page = 'asset-catalog';
         window.location = "/#/asset-catalog/search";
       } else {
-        this.page = 'home-page';
         window.location = "/#/home-page";
       }
     } else if (this.pages.indexOf(page) !== -1) {
