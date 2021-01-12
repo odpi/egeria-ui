@@ -384,6 +384,7 @@ class MyApp extends mixinBehaviors([AppLocalizeBehavior, RoleComponentsBehavior]
         window.location = "/#/asset-catalog/search";
       } else {
         this.page = 'home-page';
+        window.location = "/#/home-page";
       }
     } else if (this.pages.indexOf(page) !== -1) {
       if ((!!components && components.includes(page)) || (!!components && components.length === 0)) {
