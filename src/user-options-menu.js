@@ -14,6 +14,28 @@ import '@vaadin/vaadin-grid/vaadin-grid-sort-column.js';
 import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
 
 class UserOptions extends PolymerElement {
+
+
+  static get properties() {
+    return {
+      user: {
+        type: Object,
+        notify: true
+      }
+    };
+  }
+
+  _logout() {
+    this.$.userAjax.url = "/api/logout";
+    this.$.userAjax._go();
+    var customEvent = new CustomEvent('logout', {
+      bubbles: true,
+      composed: true,
+      detail: { greeted: "Bye!" }
+    });
+    this.dispatchEvent(customEvent);
+  }
+
   static get template() {
     return html`
       <style>
@@ -64,7 +86,7 @@ class UserOptions extends PolymerElement {
                 <hr>
             </paper-listbox>
             <paper-item>
-              <a href="[[rootPath]]logout" on-click="_logout" style="flex: auto">
+              <a href="[[rootPath]]" on-click="_logout" style="flex: auto">
               Sign out
               <iron-icon  icon="exit-to-app" style="float: right"></iron-icon>
               </a>
@@ -75,26 +97,6 @@ class UserOptions extends PolymerElement {
       </div>
 
     `;
-  }
-
-  static get properties() {
-    return {
-      user: {
-        type: Object,
-        notify: true
-      }
-    };
-  }
-
-  _logout() {
-    this.$.userAjax.url = "/api/logout";
-    this.$.userAjax._go();
-    var customEvent = new CustomEvent('logout', {
-      bubbles: true,
-      composed: true,
-      detail: { greeted: "Bye!" }
-    });
-    this.dispatchEvent(customEvent);
   }
 }
 

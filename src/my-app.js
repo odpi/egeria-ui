@@ -46,6 +46,223 @@ setPassiveTouchGestures(true);
 setRootPath(MyAppGlobals.rootPath);
 
 class MyApp extends mixinBehaviors([AppLocalizeBehavior, RoleComponentsBehavior], PolymerElement) {
+
+
+  _isEqualTo(value1, value2) {
+    return value1 === value2;
+  }
+
+  static get properties() {
+    return {
+      language: { value: 'en' },
+      page: {
+        type: String,
+        reflectToAttribute: true,
+        observer: '_pageChanged',
+      },
+      token: {
+        type: Object,
+        notify: true
+      },
+      routeData: Object,
+      pages: {
+        type: Array,
+        value: [
+            'login',
+            'asset-catalog',
+            'asset-lineage',
+            'type-explorer',
+            'repository-explorer',
+            'about',
+            'glossary'
+        ]
+      },
+      feedback: {
+        type: Object,
+        notify: true
+      },
+      crumbs: {
+        type: Array
+      },
+      allCrumbs: {
+        type: Object,
+        value: {
+          'home': { label: 'Home', href: '/#/' },
+          'asset-catalog': { label: 'Asset Catalog', href: "asset-catalog/search/" },
+          'glossary': { label: 'Glossary', href: "glossary" },
+          'asset-lineage': { label: 'Asset Catalog', href: "asset-catalog/search/" },
+          'type-explorer': { label: 'Type Explorer', href: "type-explorer" },
+          'repository-explorer': { label: 'Repository Explorer', href: "repository-explorer/" },
+          'ultimateSource': { label: 'Ultimate Source', href: "ultimateSource" },
+          'ultimateDestination': { label: 'Ultimate Destination', href: "ultimateDestination" },
+          'endToEnd': { label: 'End To End Lineage', href: "endToEnd" },
+          'sourceAndDestination': { label: 'Source and Destination', href: "sourceAndDestination" },
+          'verticalLineage': { label: 'Vertical Lineage', href: "verticalLineage" },
+          'about': { label: 'About', href: "about" }
+        }
+      }
+    };
+  }
+
+  static get observers() {
+    return [
+      '_routePageChanged(routeData.page, components)',
+      '_updateBreadcrumb(routeData.page)',
+    ];
+  }
+
+  ready() {
+    super.ready();
+    this.addEventListener('logout', this._onLogout);
+    this.addEventListener('open-page', this._onPageChanged);
+    this.addEventListener('show-modal', this._onShowModal);
+    this.addEventListener('set-title', this._onSetTitle);
+    this.addEventListener('push-crumb', this._onPushCrumb);
+  }
+
+  _getDrawer() {
+    var dL = this.shadowRoot.querySelector('#drawerLayout');
+    if (dL) {
+      return dL.drawer;
+    }
+    return;
+  }
+
+  _toggleDrawer() {
+    var dL = this.shadowRoot.querySelector('#drawerLayout');
+    if (dL.forceNarrow || !dL.narrow) {
+      dL.forceNarrow = !dL.forceNarrow;
+    } else {
+      dL.drawer.toggle();
+    }
+  }
+
+  _onPushCrumb(event) {
+    var crumbs = [].concat(this.crumbs);
+
+    crumbs.push(event.detail);
+
+    this.crumbs = crumbs;
+  }
+
+  _onShowModal(event) {
+    this.modalMessage = event.detail.message;
+
+    this.shadowRoot.querySelector("#modal").open();
+  }
+
+  _updateBreadcrumb(page) {
+    if (!page) return;
+    var crumbs = [];
+    var allCrumbs = new Map(Object.entries(this.allCrumbs));
+
+    crumbs.push(allCrumbs.get('home'));
+    var crumb = allCrumbs.get(page);
+    if (crumb) {
+      crumbs.push(crumb);
+    }
+    this.crumbs = crumbs;
+
+  }
+
+  _routePageChanged(page, components) {
+    // Show the corresponding page according to the route.
+    //
+    // If no page was found in the route data, page will be an empty string.
+    // Show 'asset-search' in that case. And if the page doesn't exist, show 'view404'.
+
+    if (!page) {
+      if ((!!components && components.includes('asset-catalog')) || (!!components && components.length === 0)) {
+        this.page = 'asset-catalog';
+        window.location = "/#/asset-catalog/search";
+      } else {
+        this.page = 'home-page';
+      }
+    } else if (this.pages.indexOf(page) !== -1) {
+      if ((!!components && components.includes(page)) || (!!components && components.length === 0)) {
+        this.page = page;
+      } else {
+        this.page = 'forbidden-403-page';
+      }
+    } else {
+      this.page = 'view404';
+    }
+
+    // Close a non-persistent drawer when the page & route are changed.
+    var drawer = this._getDrawer();
+    if (this.page != 'login' && drawer && !drawer.persistent) {
+      this._getDrawer().close();
+    }
+  }
+
+  _onPageChanged(event) {
+    this.page = event.detail.page;
+    this.subview = event.detail.subview;
+    this.guid = event.detail.guid;
+  }
+
+  _onLogout(event) {
+    //TODO invalidate token from server
+    console.log('LOGOUT: removing token...');
+    this.token = null;
+    this.components = null;
+    this.routeData = null;
+  }
+
+  _hasToken() {
+    return typeof this.token !== "undefined" && this.token != null;
+  }
+
+  _pageChanged(page) {
+    // Import the page component on demand.
+    //
+    // Note: `polymer build` doesn't like string concatenation in the import
+    // statement, so break it up.
+
+    switch (page) {
+      case 'asset-lineage':
+        import('./asset-lineage/asset-lineage-view.js');
+        break;
+      case 'type-explorer':
+        import('./type-explorer/type-explorer-view.js');
+        break;
+      case 'repository-explorer':
+        import('./repository-explorer/repository-explorer-view.js');
+        break;
+      case 'asset-catalog':
+        import('./asset-catalog/asset-catalog-view.js');
+        break;
+      case 'glossary':
+        import('./glossary/glossary-view.js');
+        break;
+      case 'about':
+        import('./about-view.js');
+        break;
+      case 'view404':
+        import('./error404.js');
+        break;
+      case 'forbidden-403-page':
+        import('./forbidden403Page.js');
+        break;
+      case 'home-page':
+        import('./home-page.js');
+        break;
+      default:
+        console.warn('NOT_FOUND');
+    }
+
+    this._updateBreadcrumb(this.page);
+  }
+
+  attached() {
+    this.loadResources(
+      // The specified file only contains the flattened translations for that language:
+      'locales/en.json',  //e.g. for es {"hi": "hola"}
+      'en',               // unflatten -> {"es": {"hi": "hola"}}
+      true                // merge so existing resources won't be clobbered
+    );
+  }
+
   static get template() {
     return html`
       <style include="shared-styles">
@@ -254,219 +471,6 @@ class MyApp extends mixinBehaviors([AppLocalizeBehavior, RoleComponentsBehavior]
         </app-drawer-layout>
       </template>
     `;
-  }
-
-  _isEqualTo(value1, value2) {
-    return value1 === value2;
-  }
-
-  static get properties() {
-    return {
-      language: { value: 'en' },
-      page: {
-        type: String,
-        reflectToAttribute: true,
-        observer: '_pageChanged',
-      },
-      token: {
-        type: Object,
-        notify: true
-      },
-      routeData: Object,
-      pages: {
-        type: Array,
-        value: [
-          'asset-catalog',
-          'asset-lineage',
-          'type-explorer',
-          'repository-explorer',
-          'about',
-          'glossary'
-        ]
-      },
-      feedback: {
-        type: Object,
-        notify: true
-      },
-      crumbs: {
-        type: Array
-      },
-      allCrumbs: {
-        type: Object,
-        value: {
-          'home': { label: 'Home', href: '/#/' },
-          'asset-catalog': { label: 'Asset Catalog', href: "asset-catalog/search/" },
-          'glossary': { label: 'Glossary', href: "glossary" },
-          'asset-lineage': { label: 'Asset Catalog', href: "asset-catalog/search/" },
-          'type-explorer': { label: 'Type Explorer', href: "type-explorer" },
-          'repository-explorer': { label: 'Repository Explorer', href: "repository-explorer/" },
-          'ultimateSource': { label: 'Ultimate Source', href: "ultimateSource" },
-          'ultimateDestination': { label: 'Ultimate Destination', href: "ultimateDestination" },
-          'endToEnd': { label: 'End To End Lineage', href: "endToEnd" },
-          'sourceAndDestination': { label: 'Source and Destination', href: "sourceAndDestination" },
-          'verticalLineage': { label: 'Vertical Lineage', href: "verticalLineage" },
-          'about': { label: 'About', href: "about" }
-        }
-      }
-    };
-  }
-
-  static get observers() {
-    return [
-      '_routePageChanged(routeData.page, components)',
-      '_updateBreadcrumb(routeData.page)',
-    ];
-  }
-
-  ready() {
-    super.ready();
-    this.addEventListener('logout', this._onLogout);
-    this.addEventListener('open-page', this._onPageChanged);
-    this.addEventListener('show-modal', this._onShowModal);
-    this.addEventListener('set-title', this._onSetTitle);
-    this.addEventListener('push-crumb', this._onPushCrumb);
-  }
-
-  _getDrawer() {
-    var dL = this.shadowRoot.querySelector('#drawerLayout');
-    if (dL) {
-      return dL.drawer;
-    }
-    return;
-  }
-
-  _toggleDrawer() {
-    var dL = this.shadowRoot.querySelector('#drawerLayout');
-    if (dL.forceNarrow || !dL.narrow) {
-      dL.forceNarrow = !dL.forceNarrow;
-    } else {
-      dL.drawer.toggle();
-    }
-  }
-
-  _onPushCrumb(event) {
-    var crumbs = [].concat(this.crumbs);
-
-    crumbs.push(event.detail);
-
-    this.crumbs = crumbs;
-  }
-
-  _onShowModal(event) {
-    this.modalMessage = event.detail.message;
-
-    this.shadowRoot.querySelector("#modal").open();
-  }
-
-  _updateBreadcrumb(page) {
-    if (!page) return;
-    var crumbs = [];
-    var allCrumbs = new Map(Object.entries(this.allCrumbs));
-
-    crumbs.push(allCrumbs.get('home'));
-    var crumb = allCrumbs.get(page);
-    if (crumb) {
-      crumbs.push(crumb);
-    }
-    this.crumbs = crumbs;
-
-  }
-
-  _routePageChanged(page, components) {
-    // Show the corresponding page according to the route.
-    //
-    // If no page was found in the route data, page will be an empty string.
-    // Show 'asset-search' in that case. And if the page doesn't exist, show 'view404'.
-
-    if (!page) {
-      if ((!!components && components.includes('asset-catalog')) || (!!components && components.length === 0)) {
-        this.page = 'asset-catalog';
-        window.location = "/#/asset-catalog/search";
-      } else {
-        this.page = 'home-page';
-      }
-    } else if (this.pages.indexOf(page) !== -1) {
-      if ((!!components && components.includes(page)) || (!!components && components.length === 0)) {
-        this.page = page;
-      } else {
-        this.page = 'forbidden-403-page';
-      }
-    } else {
-      this.page = 'view404';
-    }
-
-    // Close a non-persistent drawer when the page & route are changed.
-    var drawer = this._getDrawer();
-    if (this.page != 'login' && drawer && !drawer.persistent) {
-      this._getDrawer().close();
-    }
-  }
-
-  _onPageChanged(event) {
-    this.page = event.detail.page;
-    this.subview = event.detail.subview;
-    this.guid = event.detail.guid;
-  }
-
-  _onLogout(event) {
-    //TODO invalidate token from server
-    console.log('LOGOUT: removing token...');
-    this.token = null;
-    this.components = null;
-  }
-
-  _hasToken() {
-    return typeof this.token !== "undefined" && this.token != null;
-  }
-
-  _pageChanged(page) {
-    // Import the page component on demand.
-    //
-    // Note: `polymer build` doesn't like string concatenation in the import
-    // statement, so break it up.
-
-    switch (page) {
-      case 'asset-lineage':
-        import('./asset-lineage/asset-lineage-view.js');
-        break;
-      case 'type-explorer':
-        import('./type-explorer/type-explorer-view.js');
-        break;
-      case 'repository-explorer':
-        import('./repository-explorer/repository-explorer-view.js');
-        break;
-      case 'asset-catalog':
-        import('./asset-catalog/asset-catalog-view.js');
-        break;
-      case 'glossary':
-        import('./glossary/glossary-view.js');
-        break;
-      case 'about':
-        import('./about-view.js');
-        break;
-      case 'view404':
-        import('./error404.js');
-        break;
-      case 'forbidden-403-page':
-        import('./forbidden403Page.js');
-        break;
-      case 'home-page':
-        import('./home-page.js');
-        break;
-      default:
-        console.warn('NOT_FOUND');
-    }
-
-    this._updateBreadcrumb(this.page);
-  }
-
-  attached() {
-    this.loadResources(
-      // The specified file only contains the flattened translations for that language:
-      'locales/en.json',  //e.g. for es {"hi": "hola"}
-      'en',               // unflatten -> {"es": {"hi": "hola"}}
-      true                // merge so existing resources won't be clobbered
-    );
   }
 }
 
