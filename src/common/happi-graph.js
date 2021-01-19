@@ -565,10 +565,53 @@ class HappiGraph extends PolymerElement {
         .append('g')
         .classed('header', true);
 
-    header.append('text')
-      .attr('transform', `translate(70, 30)`)
-      .classed('value', true)
-      .text((d) => d.value.length > 18 ? `${d.value.substring(0, 18)}...` : d.value);
+    let textHeader = header.append('text')
+                          .attr('transform', `translate(70, 30)`)
+                          .attr('data-text-length', (d) => d.value.length)
+                          .attr('data-value', (d) => d.value)
+                          .classed('value', true)
+                          .text((d) => d.value.length > 18 ? `${d.value.substring(0, 18)}...` : d.value)
+
+    textHeader
+      .on('mouseover', function (d) {
+      let currentNode = d3.select(this);
+
+      let textLength = parseInt(currentNode.attr('data-text-length'));
+
+      if(textLength > 18) {
+        let value = currentNode.attr('data-value');
+
+        let fullHeaderBackground = d3.select(this.parentNode)
+                            .append('rect')
+                            .classed('full-header-background', true)
+                            .attr('transform', `translate(20, -10)`);
+
+        let fullHeader = d3.select(this.parentNode)
+                              .append('text')
+                              .classed('full-header', true)
+                              .attr('transform', `translate(30, 0)`)
+                              .text(() => value);
+
+        let localBBox = fullHeader.node().getBBox();
+
+        fullHeaderBackground.attr('x', localBBox.x)
+                              .attr('y', localBBox.y)
+                              .attr('width', localBBox.width + 20)
+                              .attr('height', localBBox.height + 20);
+      }
+
+
+      })
+      .on('mouseout', function (d) {
+        let currentNode = d3.select(this);
+
+        let textLength = parseInt(currentNode.attr('data-text-length'));
+
+        if(textLength > 18) {
+          d3.select(this.parentNode.getElementsByClassName('full-header-background')[0]).remove();
+          d3.select(this.parentNode.getElementsByClassName('full-header')[0]).remove();
+        }
+      });
 
     header.append('text')
       .attr('transform', `translate(70, 50)`)
@@ -589,18 +632,64 @@ class HappiGraph extends PolymerElement {
             let iconHeight = 80;
 
             for (const p of d.properties) {
-              selection
-                .append('text')
-                .attr('transform', `translate(95, ${labelHeight})`)
-                .classed('property', true)
-                .text(() => p.value.length > 18 ? `${p.value.substring(0, 18)}...` : p.value)
+              let propertyGroup = selection.append('g').classed('property-group', true);
+
+              let property = propertyGroup
+                              .append('text')
+                              .attr('transform', `translate(95, ${labelHeight})`)
+                              .attr('data-text-length', p.value.length)
+                              .attr('data-label-height', labelHeight)
+                              .attr('data-value', p.value)
+                              .classed('property', true)
+                              .text(() => p.value.length > 18 ? `${p.value.substring(0, 18)}...` : p.value);
+
+              property
+                .on('mouseover', function (d) {
+
+                  let currentNode = d3.select(this);
+
+                  let textLength = parseInt(currentNode.attr('data-text-length'));
+
+                  if(textLength > 18) {
+                    let dataLabelHeight = parseInt(currentNode.attr('data-label-height'));
+                    let value = currentNode.attr('data-value');
+
+                    let fullPropertyBackground = d3.select(this.parentNode)
+                                        .append('rect')
+                                        .classed('full-property-background', true)
+                                        .attr('transform', `translate(70, ${dataLabelHeight - 40})`);
+
+                    let fullProperty = d3.select(this.parentNode)
+                                          .append('text')
+                                          .classed('full-property', true)
+                                          .attr('transform', `translate(78, ${dataLabelHeight - 32})`)
+                                          .text(() => value);
+
+                    let localBBox = fullProperty.node().getBBox();
+
+                    fullPropertyBackground.attr('x', localBBox.x)
+                                          .attr('y', localBBox.y)
+                                          .attr('width', localBBox.width + 18)
+                                          .attr('height', localBBox.height + 16);
+                  }
+                })
+                .on('mouseout', function (d) {
+                  let currentNode = d3.select(this);
+
+                  let textLength = parseInt(currentNode.attr('data-text-length'));
+
+                  if(textLength > 18) {
+                    d3.select(this.parentNode.getElementsByClassName('full-property-background')[0]).remove();
+                    d3.select(this.parentNode.getElementsByClassName('full-property')[0]).remove();
+                  }
+                });
 
               if (self.cachedIcons[p.icon]) {
                 let icon = new DOMParser()
                   .parseFromString(self.cachedIcons[p.icon], 'application/xml')
                   .documentElement;
 
-                selection
+                propertyGroup
                   .append('g')
                   .attr('transform', `translate(65, ${iconHeight - 15})`)
                   .classed('property-icon', true)
@@ -619,7 +708,7 @@ class HappiGraph extends PolymerElement {
                       .parseFromString(data, 'application/xml')
                       .documentElement;
 
-                    selection
+                    propertyGroup
                       .append('g')
                       .attr('transform', `translate(65, ${iconHeight - 15})`)
                       .classed('property-icon', true)
@@ -920,17 +1009,37 @@ class HappiGraph extends PolymerElement {
           font-family: --var(--custom-font-family);
         }
 
-        .node-container>.property {
+        .node-container > .property-group > .property {
           font-family: --var(--custom-font-family);
           font-size: 14px;
           cursor: default;
         }
 
-        .node-container > .property-icon > svg > path {
+        .node-container > .property-group > .full-property-background {
+          fill: #ffffff;
+          stroke: #cccccc;
+          stroke-width: 1px;
+          rx: 10;
+          ry: 10;
+        }
+
+        .node-container > .property-group > .property-icon > svg > path {
           fill: var(--egeria-primary-color);
         }
 
         .node-container>.header>.value {}
+
+        .node-container > .header > .full-header-background {
+          fill: #ffffff;
+          stroke: #cccccc;
+          stroke-width: 1px;
+          rx: 10;
+          ry: 10;
+        }
+
+        .node-container .header > .full-header {
+          font-size: 16px;
+        }
 
         .node-container>.header>.label {
           fill: #AFAFAF;
