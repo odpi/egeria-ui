@@ -70,11 +70,11 @@ class UserOptions extends PolymerElement {
                            style="margin-top: 10px">
             <paper-icon-item slot="dropdown-trigger">
               <div class="avatar" slot="item-icon">
-                <img src="./icons/user.svg" height="100%"/>
+                <img src="./images/user.svg" height="100%"/>
               </div>
             </paper-icon-item>
 
-            <div slot="dropdown-content"vstyle="display: block"> 
+            <div slot="dropdown-content"vstyle="display: block">
             <paper-listbox style="min-width: 200px">
                 <paper-item>Signed in as:<br> [[user.username]]</paper-item>
                 <hr>
@@ -92,7 +92,7 @@ class UserOptions extends PolymerElement {
               </a>
             </paper-item>
             </div>
-            
+
         </paper-menu-button>
       </div>
 
