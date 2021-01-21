@@ -1,5 +1,6 @@
 import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
 import { compute } from './graph-algorithms';
+import { happiGraphIconsMap } from './happi-graph-icons';
 
 function Point(x, y) {
   if (!(this instanceof Point)) {
@@ -107,10 +108,6 @@ class HappiGraph extends PolymerElement {
             iterations: 1
           }
         }
-      },
-      cachedIcons: {
-        type: Object,
-        value: {}
       }
     }
   }
@@ -491,36 +488,15 @@ class HappiGraph extends PolymerElement {
       .attr('fill', '#5C82EB');
 
     node.each(function (d) {
-      if (self.cachedIcons[d.type]) {
-        let icon = new DOMParser()
-          .parseFromString(self.cachedIcons[d.type], 'application/xml')
-          .documentElement;
+      let icon = new DOMParser()
+        .parseFromString(happiGraphIconsMap[d.type], 'application/xml')
+        .documentElement;
 
-        d3.select(this)
-          .append('g')
-          .attr('transform', `translate(31,28)`)
-          .node()
-          .append(icon);
-      } else {
-        // TODO: extract as config property for
-        //       happi-graph component
-        //       (e.g. 'icons/bi-folder.svg')
-        fetch(`icons/${d.type}.svg`)
-          .then(response => response.text())
-          .then(data => {
-            let icon = new DOMParser()
-              .parseFromString(data, 'application/xml')
-              .documentElement;
-
-            d3.select(this)
-              .append('g')
-              .attr('transform', `translate(31,28)`)
-              .node()
-              .append(icon);
-
-            self.cachedIcons[d.type] = data;
-          });
-      }
+      d3.select(this)
+        .append('g')
+        .attr('transform', `translate(31,28)`)
+        .node()
+        .append(icon);
     })
   }
 
@@ -684,42 +660,18 @@ class HappiGraph extends PolymerElement {
                   }
                 });
 
-              if (self.cachedIcons[p.icon]) {
-                let icon = new DOMParser()
-                  .parseFromString(self.cachedIcons[p.icon], 'application/xml')
-                  .documentElement;
+              let icon = new DOMParser()
+                .parseFromString(happiGraphIconsMap[p.icon], 'application/xml')
+                .documentElement;
 
-                propertyGroup
-                  .append('g')
-                  .attr('transform', `translate(65, ${iconHeight - 15})`)
-                  .classed('property-icon', true)
-                  .node()
-                  .append(icon);
+              propertyGroup
+                .append('g')
+                .attr('transform', `translate(65, ${iconHeight - 15})`)
+                .classed('property-icon', true)
+                .node()
+                .append(icon);
 
-                iconHeight = iconHeight + 30;
-              } else {
-                // TODO: extract as config property for
-                //       happi-graph component
-                //       (e.g. 'icons/bi-folder.svg')
-                fetch(`icons/${p.icon}.svg`)
-                  .then(response => response.text())
-                  .then(data => {
-                    let icon = new DOMParser()
-                      .parseFromString(data, 'application/xml')
-                      .documentElement;
-
-                    propertyGroup
-                      .append('g')
-                      .attr('transform', `translate(65, ${iconHeight - 15})`)
-                      .classed('property-icon', true)
-                      .node()
-                      .append(icon);
-
-                    iconHeight = iconHeight + 30;
-
-                    self.cachedIcons[p.icon] = data;
-                  });
-              }
+              iconHeight = iconHeight + 30;
 
               labelHeight = labelHeight + 30;
             }
