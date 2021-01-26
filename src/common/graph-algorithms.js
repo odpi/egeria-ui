@@ -45,7 +45,7 @@ function mapped(_data) {
   return result;
 }
 
-function calc(_startNode, _data) {
+function calc(_startNode, _data, orientation) {
   _startNode = { ..._startNode, visited: true, w: 0, h: 0 };
 
   _data = {
@@ -65,8 +65,16 @@ function calc(_startNode, _data) {
     let linksCount = currentNode.linksFrom.length;
 
     if (linksCount > 0) {
-      let ww = currentNode.w - parseInt(linksCount / 2);
-      let hh = currentNode.h + 1;
+      let ww, hh;
+
+      if(orientation === 'HORIZONTAL') {
+        ww = currentNode.w - 1;
+        hh = currentNode.h - parseInt(linksCount / 2);
+      } else if(orientation === 'VERTICAL') {
+        ww = currentNode.w - parseInt(linksCount / 2);
+        hh = currentNode.h + 1;
+      }
+
 
       currentNode.linksFrom.forEach(linkedNode => {
         _data = {
@@ -75,10 +83,19 @@ function calc(_startNode, _data) {
         };
 
         if(linksCount === 2) {
-          ww++;
-          ww++;
+          if(orientation === 'HORIZONTAL') {
+            hh++;
+            hh++;
+          } else if(orientation === 'VERTICAL') {
+            ww++;
+            ww++;
+          }
         } else {
-          ww++;
+          if(orientation === 'HORIZONTAL') {
+            hh++;
+          } else if(orientation === 'VERTICAL') {
+            ww++;
+          }
         }
 
         // if (!_data[linkedNode].visited) {
@@ -97,8 +114,15 @@ function calc(_startNode, _data) {
       let linksCount = currentNode.linksTo.length;
 
       if (linksCount > 0) {
-        let ww = currentNode.w - parseInt(linksCount / 2);
-        let hh = currentNode.h - 1;
+        let ww, hh;
+
+        if(orientation === 'HORIZONTAL') {
+          hh = currentNode.h - parseInt(linksCount / 2);
+          ww = currentNode.w + 1;
+        } else if(orientation === 'VERTICAL') {
+          ww = currentNode.w - parseInt(linksCount / 2);
+          hh = currentNode.h - 1;
+        }
 
         currentNode.linksTo.forEach(linkedNode => {
           _data = {
@@ -107,10 +131,19 @@ function calc(_startNode, _data) {
           };
 
           if(linksCount === 2) {
-            ww++;
-            ww++;
+            if(orientation === 'HORIZONTAL') {
+              hh++;
+              hh++;
+            } else if(orientation === 'VERTICAL') {
+              ww++;
+              ww++;
+            }
           } else {
-            ww++;
+            if(orientation === 'HORIZONTAL') {
+              hh++;
+            } else if(orientation === 'VERTICAL') {
+              ww++;
+            }
           }
 
           // if (!_data[linkedNode].visited) {
@@ -124,12 +157,12 @@ function calc(_startNode, _data) {
   return _data;
 }
 
-export const compute = (_startNodeId, _nodes, _links) => {
+export const compute = (_startNodeId, _nodes, _links, orientation) => {
     let mappedData = mapped({nodes: _nodes, links: _links});
 
     let startNode = mappedData[_startNodeId];
 
-    let computed = calc(startNode, mappedData);
+    let computed = calc(startNode, mappedData, orientation);
 
     let result = [];
 
