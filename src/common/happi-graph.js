@@ -135,7 +135,7 @@ class HappiGraph extends PolymerElement {
 
       let selectedNode = newData.nodes.filter(n => n.selected === true).pop();
 
-      let newNodes = compute(selectedNode.id, newData.nodes, newData.links);
+      let newNodes = compute(selectedNode.id, newData.nodes, newData.links, newData.graphDirection);
 
       finalNodes = [
         ...newNodes

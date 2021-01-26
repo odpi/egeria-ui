@@ -27,8 +27,9 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsB
 
     let thisElement = this;
 
-    this.$.processToggle.addEventListener('change', () =>
-      this._reload(this.$.useCases.items[this.$.useCases.selected].value, this.$.processToggle.checked));
+    this.$.processToggle.addEventListener('change', () => {
+      this._reload(this.routeData.usecase, this.$.processToggle.checked);
+    });
 
     this.shadowRoot.querySelector('#happi-graph')
       .addEventListener('happi-graph-on-node-click', (e) => {
@@ -460,7 +461,7 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsB
 
       <div>
         <template is="dom-if" if="[[components]]">
-          <vaadin-tabs id ="useCases"  selected="[[ _usecaseIndex(routeData.usecase) ]]" >
+          <vaadin-tabs id="useCases" selected="[[ _usecaseIndex(routeData.usecase) ]]">
             <template is="dom-if" if="[[_hasComponent('ultimate-source')]]">
               <vaadin-tab value="ultimateSource" >
                 <a href="[[rootPath]]#/asset-lineage/ultimateSource/[[routeData.guid]]"
