@@ -87,7 +87,7 @@ class HappiGraph extends PolymerElement {
       },
       fitContentPadding: {
         type: Number,
-        value: 350
+        value: 150
       },
       forceProperties: {
         type: Object,
@@ -122,9 +122,9 @@ class HappiGraph extends PolymerElement {
   }
 
   getNodeWidth(length) {
-    let defaultWidth = 200;
+    let defaultWidth = 260;
 
-    return length >= 1 ? 250 : defaultWidth;
+    return length >= 1 ? 280 : defaultWidth;
   }
 
   _graphDataUpdate(newData, oldData) {
@@ -147,8 +147,8 @@ class HappiGraph extends PolymerElement {
         nodes: finalNodes.map(n => {
           let result = {
             ...n,
-            fx: n.w ? n.w * 350 : 0, // TODO: calculate these coordinates so that
-            fy: n.h ? n.h * 350 : 0, //       all nodes are centered
+            fx: n.w ? n.w * 400 : 0, // TODO: calculate these coordinates so that
+            fy: n.h ? n.h * 400 : 0, //       all nodes are centered
             width: this.getNodeWidth(n.properties.length),
             height: this.getNodeHeight(n.properties.length)
           };
