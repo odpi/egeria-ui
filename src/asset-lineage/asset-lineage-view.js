@@ -146,10 +146,6 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsB
 
     if (!['condensedNode', 'subProcess', 'Process'].includes(_selectedNode.group)) {
       this.selectedNode = _selectedNode;
-
-      this.$.tokenAjaxClickedNode.url = `/api/assets/${nodeId}`;
-      this.$.tokenAjaxClickedNode._go();
-
       this.shadowRoot.querySelector('#paper-dialog').open();
     }
   }
@@ -388,10 +384,10 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsB
   }
 
   _getPropertiesForDisplay(item) {
-    let displayName = item.properties.displayName;
-    let guid = item.guid;
-    let summary = item.properties.summary;
-    let description = item.properties.description;
+    let displayName = item.label;
+    let guid = item.id;
+    let summary = item.summary;
+    let description = item.description;
     let displayProperties = {
       displayName: displayName,
       guid: guid
@@ -566,8 +562,8 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsB
                       on-button-click="_closeDialog"
                       style="display: inline-flex"></asset-tools>
 
-          <template is="dom-if" if="[[clickedItem.type]]">
-            <props-table items="[[_getPropertiesForDisplay(clickedItem)]]" title="Properties" with-row-stripes ></props-table>
+          <template is="dom-if" if="[[selectedNode]]">
+            <props-table items="[[_getPropertiesForDisplay(selectedNode)]]" title="Properties" with-row-stripes ></props-table>
 
             <template is="dom-if" if="[[hasSize(selectedNode.properties)]]" restramp="true">
               <props-table items="[[_attributes(selectedNode.properties)]]" title="Context" with-row-stripes ></props-table>
