@@ -1,6 +1,7 @@
 import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
 import { compute } from './graph-algorithms';
 import { happiGraphIconsMap } from './happi-graph-icons';
+import './happi-graph-legend';
 
 function Point(x, y) {
   if (!(this instanceof Point)) {
@@ -996,6 +997,27 @@ class HappiGraph extends PolymerElement {
         .node-container>.header>.label {
           fill: #AFAFAF;
         }
+
+        .happi-graph-container {
+          height:100%;
+          width:100%;
+
+          position:relative;
+        }
+
+        .happi-graph-svg {
+          position:absolute;
+          top:0;
+          left:0;
+          width: 100%;
+          height: 100%;
+        }
+
+        .happi-graph-legend {
+          position: absolute;
+          top:0;
+          right:0;
+        }
       </style>
 
       <!-- <button on-click="customZoomOut">-</button> -->
@@ -1003,20 +1025,37 @@ class HappiGraph extends PolymerElement {
       <!-- <button on-click="fitContent">Fit</button> -->
 
       <!-- <button on-click="clearGraph">Clear</button> -->
+      <div class="happi-graph-container">
+        <div class="happi-graph-svg">
+          <svg width="100%" height="100%">
+            <defs>
+              <marker id="arrow-start"
+                      markerWidth="10"
+                      markerHeight="10"
+                      refx="0"
+                      refy="3"
+                      orient="auto"
+                      markerUnits="strokeWidth">
+                <path d="M9,0 L9,6 L0,3 z" fill="#000" />
+              </marker>
 
-      <svg width="100%" height="100%">
-        <defs>
-          <marker id="arrow-start" markerWidth="10" markerHeight="10" refx="0" refy="3" orient="auto"
-            markerUnits="strokeWidth">
-            <path d="M9,0 L9,6 L0,3 z" fill="#000" />
-          </marker>
+              <marker id="arrow-end"
+                      markerWidth="10"
+                      markerHeight="10"
+                      refx="0"
+                      refy="3"
+                      orient="auto"
+                      markerUnits="strokeWidth">
+                <path d="M0,0 L0,6 L9,3 z" fill="#000" />
+              </marker>
+            </defs>
+          </svg>
+        </div>
 
-          <marker id="arrow-end" markerWidth="10" markerHeight="10" refx="0" refy="3" orient="auto"
-            markerUnits="strokeWidth">
-            <path d="M0,0 L0,6 L9,3 z" fill="#000" />
-          </marker>
-        </defs>
-      </svg>
+        <div class="happi-graph-legend">
+          <happi-graph-legend graph-data="{{ graphData }}"></happi-graph-legend>
+        </div>
+      </div>
     `;
   }
 }
