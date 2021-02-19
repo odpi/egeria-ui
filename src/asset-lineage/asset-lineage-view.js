@@ -343,7 +343,11 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsB
   }
 
   hasSize(data) {
-    return Object.keys(data).length > 0;
+    if(data) {
+      return Object.keys(data).length > 0;
+    } else {
+      return false;
+    }
   }
 
   static get template() {
