@@ -923,6 +923,10 @@ class HappiGraph extends PolymerElement {
     }
   }
 
+  hasSize(a) {
+    return a.length > 0;
+  }
+
   static get template() {
     return html`
       <style>
@@ -1052,9 +1056,11 @@ class HappiGraph extends PolymerElement {
           </svg>
         </div>
 
-        <div class="happi-graph-legend">
-          <happi-graph-legend graph-data="{{ graphData }}"></happi-graph-legend>
-        </div>
+        <template is="dom-if" if="[[ hasSize(graphData.nodes) ]]">
+          <div class="happi-graph-legend">
+            <happi-graph-legend graph-data="{{ graphData }}"></happi-graph-legend>
+          </div>
+        </template>
       </div>
     `;
   }
