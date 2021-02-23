@@ -57,6 +57,9 @@ class ToastFeedback extends PolymerElement {
     _onFeedback(e) {
         this.message = e.detail.message;
         this.level = e.detail.level;
+        if( e.detail.duration !== undefined){
+            this.$.toast.duration = e.detail.duration;
+        }
         this.$.toast.open();
     }
 

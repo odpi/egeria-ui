@@ -206,14 +206,14 @@ class AssetSearchView extends mixinBehaviors([AppLocalizeBehavior], PolymerEleme
         } else {
             this.assets = [].concat(items);
         }
-        if( items === null || items.length ===0 ){
+        if( items!== null && items.length ===0 ){
             this.$.more.disabled = true;
             this.dispatchEvent(new CustomEvent('show-modal', {
                 bubbles: true,
                 composed: true,
                 detail: { message: "No more metadata to fetch for this criteria!", level: 'info'}}));
         } else {
-            this.$.more.disabled = false;
+            this.$.more.disabled = items!== null;
         }
     }
 
