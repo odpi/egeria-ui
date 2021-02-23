@@ -116,10 +116,10 @@ class TokenAjax extends PolymerElement {
                     detail: {message: "We are experiencing an unexpected error. Please try again later!", level: 'error'}}));
             }
         }else if(evt.detail.error.type === "timeout"){
-            this.dispatchEvent(new CustomEvent('xhr-timeout', {
+            this.dispatchEvent(new CustomEvent('xhr-error', {
                 bubbles: true,
                 composed: true,
-                detail: { status: status }}));
+                detail: { status: status, error: 'timeout' }}));
             window.dispatchEvent(new CustomEvent('show-feedback', {
                 bubbles: true,
                 composed: true,
