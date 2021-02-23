@@ -196,7 +196,7 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsB
   }
 
   _graphDataChanged(data) {
-    if (data === null || data.nodes.length === 0) {
+    if ( data!==null &&  data.nodes.length === 0 ) {
       this.dispatchEvent(new CustomEvent('show-modal', {
         bubbles: true,
         composed: true,
