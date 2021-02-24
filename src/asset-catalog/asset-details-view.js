@@ -5,6 +5,7 @@ import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
 import '@polymer/paper-listbox/paper-listbox.js';
 import '@polymer/paper-styles/paper-styles.js';
 import '@polymer/app-layout/app-grid/app-grid-style.js';
+import '@polymer/iron-collapse/iron-collapse.js';
 
 import '../shared-styles.js';
 import '../common/props-table';
@@ -12,6 +13,20 @@ import './asset-tools';
 import {ItemUtilsBehavior} from "../common/item-utils";
 
 class AssetDetailsView extends mixinBehaviors([ItemUtilsBehavior], PolymerElement) {
+
+    _itemClassifications(val) {
+        return this._attributes(val).concat(this._attributes(val.properties));
+    }
+    _toggleClassifications(){
+        this.shadowRoot.querySelector('#collapse').toggle();
+        let el = this.shadowRoot.querySelector('#collapseIcon');
+        if(el.style.transform){
+            el.style.removeProperty('transform');
+        } else{
+            el.style.transform = 'rotate(90deg)';
+        }
+
+    }
 
 
 
@@ -59,18 +74,24 @@ class AssetDetailsView extends mixinBehaviors([ItemUtilsBehavior], PolymerElemen
           </dom-if>
           
           <dom-if if="[[ _hasKey(item,'classifications')]]"> 
-           <template> 
-              <h3 style="text-align: center;">Classifications</h3>
-              <ul class="app-grid" style="margin: 0; padding: 0">
-                  <dom-repeat items="[[item.classifications]]">
-                    <template>
-                    <li class="gridItem"> <props-table items="[[_attributes(item)]]"  title="" with-row-stripes></props-table> </li>
-                    <li class="gridItem"> <props-table items="[[_attributes(item.properties)]]"  title="" with-row-stripes></props-table> </li>
-                    </template>
-                  </dom-repeat>
-              </ul>
+           <template>
+               <div id="classifications" style="min-height: 250px;">
+                  <h2 style="padding-left: 24px; cursor: pointer" on-click="_toggleClassifications">
+                      Classifications ( [[item.classifications.length]] )
+                      <iron-icon id="collapseIcon" icon="icons:chevron-right"></iron-icon>
+                  </h2>
+                   
+                   <iron-collapse id="collapse">
+                       <dom-repeat items="[[ item.classifications ]]">
+                           <template>
+                               <props-table items="[[ _itemClassifications(item) ]]"  title="Classification" with-row-stripes></props-table>
+                           </template>
+                       </dom-repeat>
+                   </iron-collapse>
+               </div>
            </template>
-          </dom-if> 
+          </dom-if>
+          
         </template>
       </dom-if>
       

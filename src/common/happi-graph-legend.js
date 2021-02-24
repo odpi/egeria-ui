@@ -34,7 +34,9 @@ class HappiGraphLegend extends PolymerElement {
     let propertiesMap = {};
 
     if(_nodes.length) {
+
       _nodes.map(n => {
+        propertiesMap[n.label] = n.icon;
         n.properties.map(p => {
           propertiesMap[p.groupName] = p.icon;
         });
