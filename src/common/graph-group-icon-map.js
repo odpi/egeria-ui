@@ -67,5 +67,10 @@ export const graphGroupIconMap = {
 };
 
 export const getIconByGroup = (groupName) => {
-  return happiGraphIconsMap[graphGroupIconMap[groupName].icon];
+  if( graphGroupIconMap[groupName] !== undefined) {
+    return happiGraphIconsMap[graphGroupIconMap[groupName].icon];
+  }
+  else {
+    return happiGraphIconsMap['simple-square'];
+  }
 };
