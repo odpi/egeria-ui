@@ -19,7 +19,13 @@ class AssetDetailsView extends mixinBehaviors([ItemUtilsBehavior], PolymerElemen
     }
     _toggleClassifications(){
         this.shadowRoot.querySelector('#collapse').toggle();
-        this.shadowRoot.querySelector('#end').scrollIntoView();
+        let el = this.shadowRoot.querySelector('#collapseIcon');
+        if(el.style.transform){
+            el.style.removeProperty('transform');
+        } else{
+            el.style.transform = 'rotate(90deg)';
+        }
+
     }
 
 
@@ -68,22 +74,25 @@ class AssetDetailsView extends mixinBehaviors([ItemUtilsBehavior], PolymerElemen
           </dom-if>
           
           <dom-if if="[[ _hasKey(item,'classifications')]]"> 
-           <template> 
-              <h3 style="padding-left: 24px; cursor: pointer" on-click="_toggleClassifications">
-                  Classifications ( [[item.classifications.length]] ) 
-              </h3>
-               
-               <iron-collapse id="collapse">
-                   <dom-repeat items="[[ item.classifications ]]">
-                       <template>
-                           <props-table items="[[ _itemClassifications(item) ]]"  title="" with-row-stripes></props-table>
-                       </template>
-                   </dom-repeat>
-               </iron-collapse>
+           <template>
+               <div id="classifications" style="min-height: 250px;">
+                  <h2 style="padding-left: 24px; cursor: pointer" on-click="_toggleClassifications">
+                      Classifications ( [[item.classifications.length]] )
+                      <iron-icon id="collapseIcon" icon="icons:chevron-right"></iron-icon>
+                  </h2>
+                   
+                   <iron-collapse id="collapse">
+                       <dom-repeat items="[[ item.classifications ]]">
+                           <template>
+                               <props-table items="[[ _itemClassifications(item) ]]"  title="Classification" with-row-stripes></props-table>
+                           </template>
+                       </dom-repeat>
+                   </iron-collapse>
+               </div>
            </template>
-          </dom-if> 
+          </dom-if>
+          
         </template>
-          <p id="end"></p>
       </dom-if>
       
       <dom-if if="[[ !item ]]" restamp > 
