@@ -17,18 +17,6 @@ class AssetDetailsView extends mixinBehaviors([ItemUtilsBehavior], PolymerElemen
     _itemClassifications(val) {
         return this._attributes(val).concat(this._attributes(val.properties));
     }
-    _toggleClassifications(){
-        this.shadowRoot.querySelector('#collapse').toggle();
-        let el = this.shadowRoot.querySelector('#collapseIcon');
-        if(el.style.transform){
-            el.style.removeProperty('transform');
-        } else{
-            el.style.transform = 'rotate(90deg)';
-        }
-
-    }
-
-
 
     static get template() {
         return html`
@@ -85,22 +73,14 @@ class AssetDetailsView extends mixinBehaviors([ItemUtilsBehavior], PolymerElemen
           
           <dom-if if="[[ _hasKey(item,'classifications')]]"> 
            <template>
-               <div id="classifications" style="min-height: 250px;">
-                  <h2 style="padding-left: 24px; cursor: pointer" on-click="_toggleClassifications">
-                      Classifications ( [[item.classifications.length]] )
-                      <iron-icon id="collapseIcon" icon="icons:chevron-right"></iron-icon>
-                  </h2>
-                   
-                   <iron-collapse id="collapse">
-                       <dom-repeat items="[[ item.classifications ]]">
-                           <template>
-                               <props-table items="[[ _itemClassifications(item) ]]"  
-                                            title="Classification" 
-                                            with-row-stripes></props-table>
-                           </template>
-                       </dom-repeat>
-                   </iron-collapse>
-               </div>
+               <dom-repeat items="[[ item.classifications ]]">
+                   <template>
+                       <props-table items="[[ _itemClassifications(item) ]]"  
+                                    title="Classification: [[item.name]]" 
+                                    with-row-stripes
+                                    collapsable></props-table>
+                   </template>
+               </dom-repeat>
            </template>
           </dom-if>
           
