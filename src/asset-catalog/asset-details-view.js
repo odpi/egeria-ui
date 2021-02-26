@@ -63,13 +63,23 @@ class AssetDetailsView extends mixinBehaviors([ItemUtilsBehavior], PolymerElemen
       <dom-if if="[[item]]" restamp> 
         <template> 
           <asset-tools guid="[[item.guid]]" type="[[item.type.name]]"></asset-tools>
-          <props-table items="[[_attributes(item.properties)]]" title="Properties" with-row-stripes ></props-table>
-          <props-table items="[[_attributes(item.type)]]"  title="Type" with-row-stripes ></props-table>
-          <props-table items="[[_attributes(item)]]"  title="Attributes" with-row-stripes ></props-table>
+          <props-table items="[[_attributes(item.properties)]]" 
+                       title="Properties" 
+                       with-row-stripes ></props-table>
+          <props-table items="[[_attributes(item.type)]]"  
+                       title="Type" 
+                       with-row-stripes ></props-table>
+          <props-table items="[[_attributes(item)]]"  
+                       title="Attributes" 
+                       with-row-stripes 
+                       collapsable ></props-table>
           
           <dom-if if="[[_hasKeys(item.additionalProperties)]]"> 
             <template>
-                <props-table items="[[_attributes(item.additionalProperties)]]" title="Additional Properties" with-row-stripes ></props-table>
+                <props-table items="[[_attributes(item.additionalProperties)]]" 
+                             title="Additional Properties" 
+                             with-row-stripes 
+                              ></props-table>
             </template>
           </dom-if>
           
@@ -84,7 +94,9 @@ class AssetDetailsView extends mixinBehaviors([ItemUtilsBehavior], PolymerElemen
                    <iron-collapse id="collapse">
                        <dom-repeat items="[[ item.classifications ]]">
                            <template>
-                               <props-table items="[[ _itemClassifications(item) ]]"  title="Classification" with-row-stripes></props-table>
+                               <props-table items="[[ _itemClassifications(item) ]]"  
+                                            title="Classification" 
+                                            with-row-stripes></props-table>
                            </template>
                        </dom-repeat>
                    </iron-collapse>
