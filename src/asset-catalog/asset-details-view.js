@@ -69,7 +69,10 @@ class AssetDetailsView extends mixinBehaviors([ItemUtilsBehavior], PolymerElemen
           
           <dom-if if="[[_hasKeys(item.additionalProperties)]]"> 
             <template>
-                <props-table items="[[_attributes(item.additionalProperties)]]" title="Additional Properties" with-row-stripes ></props-table>
+                <props-table items="[[_attributes(item.additionalProperties)]]" 
+                             title="Additional Properties" 
+                             with-row-stripes 
+                             collapsable ></props-table>
             </template>
           </dom-if>
           
