@@ -124,7 +124,7 @@ class PropsTable extends mixinBehaviors([ItemViewBehavior], PolymerElement) {
                 </div>
               </template>
             </dom-if>
-            <dom-repeat items="[[items]]">
+            <dom-repeat items="[[ items ]]">
               <template>
                 <div class$="rTableRow [[_rowStripeClass(index)]]">
                   <div class="rTableCell label">[[item.key]]</div>
