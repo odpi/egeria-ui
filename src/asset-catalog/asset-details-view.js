@@ -87,7 +87,9 @@ class AssetDetailsView extends mixinBehaviors([ItemUtilsBehavior], PolymerElemen
                    <iron-collapse id="collapse">
                        <dom-repeat items="[[ item.classifications ]]">
                            <template>
-                               <props-table items="[[ _itemClassifications(item) ]]"  title="Classification" with-row-stripes></props-table>
+                               <props-table items="[[ _itemClassifications(item) ]]"  
+                                            title="Classification" 
+                                            with-row-stripes></props-table>
                            </template>
                        </dom-repeat>
                    </iron-collapse>
