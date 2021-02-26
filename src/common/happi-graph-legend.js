@@ -5,6 +5,7 @@ import {
 
 import '@polymer/paper-icon-button/paper-icon-button.js';
 import '@polymer/iron-icons/iron-icons.js';
+import '@vaadin/vaadin-button/vaadin-button.js';
 
 import {
   getIconByGroup
@@ -97,12 +98,19 @@ class HappiGraphLegend extends PolymerElement {
         .dropdown {
           display:flex;
           justify-content:flex-end;
+          cursor: pointer;
         }
       </style>
 
-      <div class="dropdown">
-        <paper-icon-button on-click="toggleMinimize" icon="icons:arrow-drop-down-circle"></paper-icon-button>
-      </div>
+      <vaadin-button id="toggleLegend" on-tap="toggleMinimize" class="dropdown">
+        Legend
+        <template is="dom-if" if="[[ !isMinimized ]]">
+          <iron-icon icon="vaadin:angle-down" slot="suffix"></iron-icon>
+        </template>
+        <template is="dom-if" if="[[ isMinimized ]]">
+          <iron-icon icon="vaadin:angle-double-right" slot="suffix"></iron-icon>
+        </template>
+      </vaadin-button>
 
       <template is="dom-if" if="[[ isMinimized ]]" restamp="true">
         <div class="svg-icons">
