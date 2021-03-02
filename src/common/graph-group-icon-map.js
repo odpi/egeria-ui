@@ -22,6 +22,9 @@ export const graphGroupIconMap = {
   DataFile: {
     icon: 'bi-file-earmark'
   },
+  CSVFile: {
+    icon: 'bi-file-earmark'
+  },
   DisplayName: {
     icon: 'simple-square'
   },
