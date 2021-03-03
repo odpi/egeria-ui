@@ -9,7 +9,7 @@ import '@vaadin/vaadin-button/vaadin-button.js';
 
 import {
   getIconByGroup
-} from '../common/graph-group-icon-map';
+} from './item-group-icon-map';
 
 class HappiGraphLegend extends PolymerElement {
   static get properties() {

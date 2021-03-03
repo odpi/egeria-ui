@@ -22,8 +22,8 @@ import '../common/happi-graph';
 import { RoleComponentsBehavior } from "../common/role-components";
 
 import {
-  graphGroupIconMap
-} from '../common/graph-group-icon-map';
+  itemGroupIconMap
+} from '../common/item-group-icon-map';
 
 class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsBehavior], PolymerElement) {
   ready() {
@@ -156,14 +156,14 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsB
           return {
             value: n.properties[k],
             label: k,
-            icon: graphGroupIconMap[camelCased] ? graphGroupIconMap[camelCased].icon : 'simple-square',
+            icon: itemGroupIconMap[camelCased] ? itemGroupIconMap[camelCased].icon : 'simple-square',
             groupName: camelCased
           }
         });
 
         let result = {
           id: n.id,
-          type: graphGroupIconMap[n.group].icon,
+          type: itemGroupIconMap[n.group].icon,
           value: n.label ? n.label : 'N/A',
           label: n.group ? n.group : 'N/A',
           selected: n.id === this.routeData.guid,

@@ -1,6 +1,6 @@
 import { happiGraphIconsMap } from './happi-graph-icons';
 
-export const graphGroupIconMap = {
+export const itemGroupIconMap = {
   AssetZoneMembership: {
     icon: 'simple-square'
   },
