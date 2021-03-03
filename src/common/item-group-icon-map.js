@@ -70,8 +70,8 @@ export const itemGroupIconMap = {
 };
 
 export const getIconByGroup = (groupName) => {
-  if( graphGroupIconMap[groupName] !== undefined) {
-    return happiGraphIconsMap[graphGroupIconMap[groupName].icon];
+  if( itemGroupIconMap[groupName] !== undefined) {
+    return happiGraphIconsMap[itemGroupIconMap[groupName].icon];
   }
   else {
     return happiGraphIconsMap['simple-square'];
