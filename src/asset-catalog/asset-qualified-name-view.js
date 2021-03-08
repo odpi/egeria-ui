@@ -72,7 +72,6 @@ class AssetQualifiedNamView extends PolymerElement {
                     width: 20px;
                     height: 20px;
                     background-color: var(--egeria-primary-color);
-                    
                 }
                 
             </style>

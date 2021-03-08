@@ -10,6 +10,7 @@ import '@polymer/paper-input/paper-input-behavior.js';
 import '@vaadin/vaadin-grid/vaadin-grid.js';
 import '@vaadin/vaadin-grid/vaadin-grid-selection-column.js';
 import '@vaadin/vaadin-grid/vaadin-grid-sort-column.js';
+import '@vaadin/vaadin-grid/vaadin-grid-filter-column.js';
 import '@vaadin/vaadin-button/vaadin-button.js';
 import '@vaadin/vaadin-select/vaadin-select';
 import 'multiselect-combo-box/multiselect-combo-box.js';
@@ -262,7 +263,8 @@ class AssetSearchView extends mixinBehaviors([AppLocalizeBehavior], PolymerEleme
                          column-reordering-allowed multi-sort>
                 <vaadin-grid-column width="20%" resizable>
                     <template class="header">
-                        <vaadin-grid-sorter path="properties.displayName">Name</vaadin-grid-sorter>
+                        <div><vaadin-grid-sorter path="properties.displayName">Name</vaadin-grid-sorter></div>
+                        <div><vaadin-grid-filter path="properties.displayName"></vaadin-grid-filter></div>
                     </template>
                     <template>
                         <a href="#/asset-catalog/view/[[item.guid]]">
@@ -273,14 +275,16 @@ class AssetSearchView extends mixinBehaviors([AppLocalizeBehavior], PolymerEleme
 
                 <vaadin-grid-column width="10%" resizable>
                     <template class="header">
-                        <vaadin-grid-sorter path="type.name">Type</vaadin-grid-sorter>
+                        <div><vaadin-grid-sorter path="type.name">Type</vaadin-grid-sorter></div>
+                        <div><vaadin-grid-filter path="type.name"></vaadin-grid-filter></div>
                     </template>
                     <template>[[item.type.name]]</template>
                 </vaadin-grid-column>
                 
-                <vaadin-grid-column width="40%" resizable>
+                <vaadin-grid-column path="properties.qualifiedName" header="Context Info" width="40%" resizable>
                     <template class="header">
-                        <vaadin-grid-sorter path="properties.qualifiedName">Context Info</vaadin-grid-sorter>
+                        <div><vaadin-grid-sorter path="properties.qualifiedName">Context Info</vaadin-grid-sorter></div>
+                        <div><vaadin-grid-filter path="properties.qualifiedName"></vaadin-grid-filter></div>
                     </template>
                     <template>
                         <asset-qualified-name-view qualified="[[ item.properties.qualifiedName ]]"></asset-qualified-name-view>
@@ -289,7 +293,8 @@ class AssetSearchView extends mixinBehaviors([AppLocalizeBehavior], PolymerEleme
 
                 <vaadin-grid-column width="30%" resizable>
                     <template class="header">
-                        <vaadin-grid-sorter path="properties.summary">Description</vaadin-grid-sorter>
+                        <div><vaadin-grid-sorter path="properties.summary">Description</vaadin-grid-sorter></div>
+                        <div><vaadin-grid-filter path="properties.summary"></vaadin-grid-filter></div>
                     </template>
                     <template>[[item.properties.summary]]</template>
                 </vaadin-grid-column>
