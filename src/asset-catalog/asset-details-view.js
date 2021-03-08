@@ -68,10 +68,10 @@ class AssetDetailsView extends mixinBehaviors([ItemUtilsBehavior], PolymerElemen
             </template>
           </dom-if>
             
-            <props-table items="[[_attributes(item)]]"
-                         title="Attributes"
-                         with-row-stripes
-                         collapsable ></props-table>
+          <props-table items="[[_attributes(item)]]"
+                       title="Attributes"
+                       with-row-stripes
+                       collapsable ></props-table>  
             
           <dom-if if="[[ _hasKey(item,'classifications')]]"> 
            <template>

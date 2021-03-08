@@ -280,7 +280,7 @@ class AssetSearchView extends mixinBehaviors([AppLocalizeBehavior], PolymerEleme
                 
                 <vaadin-grid-column width="40%" resizable>
                     <template class="header">
-                        <vaadin-grid-sorter path="properties.qualifiedName">QualifiedName</vaadin-grid-sorter>
+                        <vaadin-grid-sorter path="properties.qualifiedName">Context Info</vaadin-grid-sorter>
                     </template>
                     <template>
                         <asset-qualified-name-view qualified="[[ item.properties.qualifiedName ]]"></asset-qualified-name-view>
