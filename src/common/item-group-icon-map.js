@@ -7,6 +7,9 @@ export const itemGroupIconMap = {
   Category: {
     icon: 'carbon-category'
   },
+  category: {
+    icon: 'carbon-category'
+  },
   Column: {
     icon: 'simple-square'
   },
@@ -14,6 +17,9 @@ export const itemGroupIconMap = {
     icon: 'simple-square'
   },
   Connection: {
+    icon: 'mdi-transit-connection-variant'
+  },
+  Host: {
     icon: 'mdi-transit-connection-variant'
   },
   Database: {
@@ -24,6 +30,18 @@ export const itemGroupIconMap = {
   },
   CSVFile: {
     icon: 'bi-file-earmark'
+  },
+  File: {
+    icon: 'bi-file-earmark'
+  },
+  Database_schema: {
+    icon: 'system-uicons-hierarchy'
+  },
+  Database_column: {
+    icon: 'mdi-table-column'
+  },
+  Database_table: {
+    icon: 'bi-table'
   },
   DisplayName: {
     icon: 'simple-square'
@@ -41,6 +59,9 @@ export const itemGroupIconMap = {
     icon: 'carbon-category'
   },
   GlossaryTerm: {
+    icon: 'ion-list-circle-outline'
+  },
+  Term: {
     icon: 'ion-list-circle-outline'
   },
   Path: {
