@@ -1,0 +1,27 @@
+# SPDX-License-Identifier: Apache-2.0
+# Copyright Contributors to the ODPi Egeria project.
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: weekly
+  open-pull-requests-limit: 25
+  reviewers:
+  - sarbull
+  - bogdan_sava
+- package-ecosystem: "github-actions"
+  directory: "/"
+  schedule:
+    interval: weekly
+  open-pull-requests-limit: 25
+  reviewers:
+  - planetf1
+# To be added once the docker image is migrated here
+#- package-ecosystem: docker
+#  directory: "/"
+#  schedule:
+#    interval: weekly
+#  open-pull-requests-limit: 5
+#  reviewers:
+#  - planetf1
