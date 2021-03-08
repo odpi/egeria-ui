@@ -5,10 +5,47 @@ import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class.js';
 import { ItemViewBehavior } from '../common/item';
 import '@polymer/paper-listbox/paper-listbox.js';
 import '@polymer/app-layout/app-grid/app-grid-style.js';
+import '@polymer/iron-collapse/iron-collapse.js';
 
 import '../shared-styles.js';
 
 class PropsTable extends mixinBehaviors([ItemViewBehavior], PolymerElement) {
+
+  static get properties() {
+    return {
+      title: String,
+      withHeader: { type: Boolean, value: false },
+      withRowStripes: { type: Boolean, value: false },
+      collapsable: {type: Boolean, value: false}
+    }
+  }
+  ready() {
+    super.ready();
+    if( this.collapsable ){
+      this.shadowRoot.querySelector('h3').style.cursor = 'pointer';
+    }
+  }
+
+  _rowStripeClass(index) {
+    if (this.withRowStripes && index % 2 == 1) {
+      return 'rTableRowStripe';
+    }
+    return '';
+  }
+
+  _toggle(){
+    if( this.collapsable ){
+      this.shadowRoot.querySelector('#collapse').toggle();
+      let el = this.shadowRoot.querySelector('#collapseIndicator');
+      if(el.style.transform){
+        el.style.removeProperty('transform');
+      } else{
+        el.style.transform = 'rotate(90deg)';
+      }
+      this.shadowRoot.querySelector('#end').scrollIntoView();
+    }
+  }
+
   static get template() {
     return html`
       <style include="shared-styles">
@@ -21,6 +58,7 @@ class PropsTable extends mixinBehaviors([ItemViewBehavior], PolymerElement) {
           display: table;
           width: 100%;
           border: solid 1px var( --egeria-primary-color );
+          overflow: auto;
         }
 
         .rTableRow {
@@ -66,43 +104,41 @@ class PropsTable extends mixinBehaviors([ItemViewBehavior], PolymerElement) {
           font-weight: normal;
         }
       </style>
-
-      <h3>[[title]]</h3>
-      <div class="rTable">
-        <dom-if if="[[withHeader]]">
-          <template>
-            <div class="rTableRow">
-              <div class="rTableHead">Property</div>
-              <div class="rTableHead">Value</div>
-            </div>
-          </template>
-        </dom-if>
-        <dom-repeat items="[[items]]">
-          <template>
-            <div class$="rTableRow [[_rowStripeClass(index)]]">
-              <div class="rTableCell label">[[item.key]]</div>
-              <div class="rTableCell">[[item.value]]</div>
-            </div>
-          </template>
-        </dom-repeat>
+      <div id="container" >
+        <h3 on-click="_toggle">
+          [[title]]
+          <dom-if if="[[ collapsable ]]"> 
+              <template>
+                <iron-icon id="collapseIndicator" icon="icons:chevron-right"></iron-icon>
+              </template>
+          </dom-if>
+        </h3>
+        
+        <iron-collapse id="collapse" opened="[[ !collapsable ]]"  no-animation>
+          <div class="rTable">
+            <dom-if if="[[withHeader]]">
+              <template>
+                <div class="rTableRow">
+                  <div class="rTableHead">Property</div>
+                  <div class="rTableHead">Value</div>
+                </div>
+              </template>
+            </dom-if>
+            <dom-repeat items="[[ items ]]">
+              <template>
+                <div class$="rTableRow [[_rowStripeClass(index)]]">
+                  <div class="rTableCell label">[[item.key]]</div>
+                  <div class="rTableCell">[[item.value]]</div>
+                </div>
+              </template>
+            </dom-repeat>
+          </div>
+        </iron-collapse>
+        <div id="end"></div>
       </div>
     `;
   }
 
-  static get properties() {
-    return {
-      title: String,
-      withHeader: { type: Boolean, value: false },
-      withRowStripes: { type: Boolean, value: false }
-    }
-  }
-
-  _rowStripeClass(index) {
-    if (this.withRowStripes && index % 2 == 1) {
-      return 'rTableRowStripe';
-    }
-    return '';
-  }
 }
 
 window.customElements.define('props-table', PropsTable);

@@ -5,6 +5,7 @@ import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
 import '@polymer/paper-listbox/paper-listbox.js';
 import '@polymer/paper-styles/paper-styles.js';
 import '@polymer/app-layout/app-grid/app-grid-style.js';
+import '@polymer/iron-collapse/iron-collapse.js';
 
 import '../shared-styles.js';
 import '../common/props-table';
@@ -13,7 +14,9 @@ import {ItemUtilsBehavior} from "../common/item-utils";
 
 class AssetDetailsView extends mixinBehaviors([ItemUtilsBehavior], PolymerElement) {
 
-
+    _itemClassifications(val) {
+        return this._attributes(val).concat(this._attributes(val.properties));
+    }
 
     static get template() {
         return html`
@@ -48,29 +51,39 @@ class AssetDetailsView extends mixinBehaviors([ItemUtilsBehavior], PolymerElemen
       <dom-if if="[[item]]" restamp> 
         <template> 
           <asset-tools guid="[[item.guid]]" type="[[item.type.name]]"></asset-tools>
-          <props-table items="[[_attributes(item.properties)]]" title="Properties" with-row-stripes ></props-table>
-          <props-table items="[[_attributes(item.type)]]"  title="Type" with-row-stripes ></props-table>
-          <props-table items="[[_attributes(item)]]"  title="Attributes" with-row-stripes ></props-table>
+          <props-table items="[[_attributes(item.properties)]]" 
+                       title="Properties" 
+                       with-row-stripes ></props-table>
+          <props-table items="[[_attributes(item.type)]]"  
+                       title="Type" 
+                       with-row-stripes ></props-table>
+          <props-table items="[[_attributes(item)]]"  
+                       title="Attributes" 
+                       with-row-stripes 
+                       collapsable ></props-table>
           
           <dom-if if="[[_hasKeys(item.additionalProperties)]]"> 
             <template>
-                <props-table items="[[_attributes(item.additionalProperties)]]" title="Additional Properties" with-row-stripes ></props-table>
+                <props-table items="[[_attributes(item.additionalProperties)]]" 
+                             title="Additional Properties" 
+                             with-row-stripes 
+                              ></props-table>
             </template>
           </dom-if>
           
           <dom-if if="[[ _hasKey(item,'classifications')]]"> 
-           <template> 
-              <h3 style="text-align: center;">Classifications</h3>
-              <ul class="app-grid" style="margin: 0; padding: 0">
-                  <dom-repeat items="[[item.classifications]]">
-                    <template>
-                    <li class="gridItem"> <props-table items="[[_attributes(item)]]"  title="" with-row-stripes></props-table> </li>
-                    <li class="gridItem"> <props-table items="[[_attributes(item.properties)]]"  title="" with-row-stripes></props-table> </li>
-                    </template>
-                  </dom-repeat>
-              </ul>
+           <template>
+               <dom-repeat items="[[ item.classifications ]]">
+                   <template>
+                       <props-table items="[[ _itemClassifications(item) ]]"  
+                                    title="Classification : [[item.name]]" 
+                                    with-row-stripes
+                                    collapsable></props-table>
+                   </template>
+               </dom-repeat>
            </template>
-          </dom-if> 
+          </dom-if>
+          
         </template>
       </dom-if>
       

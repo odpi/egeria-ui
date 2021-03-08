@@ -21,6 +21,10 @@ import { ItemViewBehavior } from '../common/item';
 import '../common/happi-graph';
 import { RoleComponentsBehavior } from "../common/role-components";
 
+import {
+  itemGroupIconMap
+} from '../common/item-group-icon-map';
+
 class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsBehavior], PolymerElement) {
   ready() {
     super.ready();
@@ -65,71 +69,6 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsB
       graphData: {
         type: Object,
         observer: '_graphDataChanged'
-      },
-      groups: {
-        type: Object,
-        value: {
-          AssetZoneMembership: {
-            icon: 'simple-square'
-          },
-          Category: {
-            icon: 'carbon-category'
-          },
-          Column: {
-            icon: 'simple-square'
-          },
-          condensedNode: {
-            icon: 'simple-square'
-          },
-          Connection: {
-            icon: 'mdi-transit-connection-variant'
-          },
-          Database: {
-            icon: 'dashicons-database'
-          },
-          DataFile: {
-            icon: 'bi-file-earmark'
-          },
-          Endpoint: {
-            icon: 'simple-square'
-          },
-          FileFolder: {
-            icon: 'bi-folder'
-          },
-          Glossary: {
-            icon: 'carbon-data-structured'
-          },
-          GlossaryCategory: {
-            icon: 'carbon-category'
-          },
-          GlossaryTerm: {
-            icon: 'ion-list-circle-outline'
-          },
-          Path: {
-            icon: 'file-icons-microsoft-infopath'
-          },
-          Process: {
-            icon: 'whh-cog'
-          },
-          RelationalColumn: {
-            icon: 'mdi-table-column'
-          },
-          RelationalTable: {
-            icon: 'bi-table'
-          },
-          Schema: {
-            icon: 'system-uicons-hierarchy'
-          },
-          subProcess: {
-            icon: 'mdi-cogs'
-          },
-          TabularColumn: {
-            icon: 'carbon-column'
-          },
-          TransformationProject: {
-            icon: 'file-icons-microsoft-project'
-          }
-        }
       }
     }
   }
@@ -146,10 +85,6 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsB
 
     if (!['condensedNode', 'subProcess', 'Process'].includes(_selectedNode.group)) {
       this.selectedNode = _selectedNode;
-
-      this.$.tokenAjaxClickedNode.url = `/api/assets/${nodeId}`;
-      this.$.tokenAjaxClickedNode._go();
-
       this.shadowRoot.querySelector('#paper-dialog').open();
     }
   }
@@ -221,13 +156,14 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsB
           return {
             value: n.properties[k],
             label: k,
-            icon: this.groups[camelCased] ? this.groups[camelCased].icon : 'simple-square'
+            icon: itemGroupIconMap[camelCased] ? itemGroupIconMap[camelCased].icon : 'simple-square',
+            groupName: camelCased
           }
         });
 
         let result = {
           id: n.id,
-          type: this.groups[n.group].icon,
+          type: itemGroupIconMap[n.group].icon,
           value: n.label ? n.label : 'N/A',
           label: n.group ? n.group : 'N/A',
           selected: n.id === this.routeData.guid,
@@ -260,7 +196,7 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsB
   }
 
   _graphDataChanged(data) {
-    if (data === null || data.nodes.length === 0) {
+    if ( data!==null &&  data.nodes.length === 0 ) {
       this.dispatchEvent(new CustomEvent('show-modal', {
         bubbles: true,
         composed: true,
@@ -388,10 +324,10 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsB
   }
 
   _getPropertiesForDisplay(item) {
-    let displayName = item.properties.displayName;
-    let guid = item.guid;
-    let summary = item.properties.summary;
-    let description = item.properties.description;
+    let displayName = item.label;
+    let guid = item.id;
+    let summary = item.summary;
+    let description = item.description;
     let displayProperties = {
       displayName: displayName,
       guid: guid
@@ -407,7 +343,11 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsB
   }
 
   hasSize(data) {
-    return Object.keys(data).length > 0;
+    if(data) {
+      return Object.keys(data).length > 0;
+    } else {
+      return false;
+    }
   }
 
   static get template() {
@@ -566,8 +506,8 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsB
                       on-button-click="_closeDialog"
                       style="display: inline-flex"></asset-tools>
 
-          <template is="dom-if" if="[[clickedItem.type]]">
-            <props-table items="[[_getPropertiesForDisplay(clickedItem)]]" title="Properties" with-row-stripes ></props-table>
+          <template is="dom-if" if="[[selectedNode]]">
+            <props-table items="[[_getPropertiesForDisplay(selectedNode)]]" title="Properties" with-row-stripes ></props-table>
 
             <template is="dom-if" if="[[hasSize(selectedNode.properties)]]" restramp="true">
               <props-table items="[[_attributes(selectedNode.properties)]]" title="Context" with-row-stripes ></props-table>
