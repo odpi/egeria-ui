@@ -34,6 +34,15 @@ export const itemGroupIconMap = {
   File: {
     icon: 'bi-file-earmark'
   },
+  Database_schema: {
+    icon: 'system-uicons-hierarchy'
+  },
+  Database_column: {
+    icon: 'mdi-table-column'
+  },
+  Database_table: {
+    icon: 'bi-table'
+  },
   DisplayName: {
     icon: 'simple-square'
   },
@@ -69,16 +78,6 @@ export const itemGroupIconMap = {
   },
   Schema: {
     icon: 'system-uicons-hierarchy'
-  },
-  Database_schema: {
-    icon: 'system-uicons-hierarchy'
-  },
-
-  Database_column: {
-    icon: 'mdi-table-column'
-  },
-  Database_table: {
-    icon: 'bi-table'
   },
   subProcess: {
     icon: 'mdi-cogs'
