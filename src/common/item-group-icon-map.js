@@ -28,6 +28,9 @@ export const itemGroupIconMap = {
   DataFile: {
     icon: 'bi-file-earmark'
   },
+  Data_file: {
+    icon: 'bi-file-earmark'
+  },
   CSVFile: {
     icon: 'bi-file-earmark'
   },
