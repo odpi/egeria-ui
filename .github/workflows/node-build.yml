@@ -1,0 +1,78 @@
+# SPDX-License-Identifier: Apache-2.0
+# # Copyright Contributors to the ODPi Egeria project.
+#
+name: Egeria UI build
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [main]
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v2
+      - name: Setup Node.js 
+        uses: actions/setup-node@v2.1.5
+        with:
+          # Polymer requires Node 10 LTS (not 12,14)
+          node-version: "10"  
+      - name: Install Dependencies
+        run: npm install
+      - name: Lint
+        run: npm run lint
+      - name: Test
+        run: npm run test
+      - name: Build 
+        run: npm run build
+      # Get package version from the package.json
+      - name: get-npm-version
+        id: package-version
+        uses: martinbeentjes/npm-get-version-action@master
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Login to DockerHub
+        uses: docker/login-action@v1 
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+        if: ${{ github.event_name == 'push' && github.repository == 'odpi/egeria-ui' }}
+      # For releases (ie not main) we push the image - but not the latest tag
+      - name: Build and push (not master merge)
+        if: github.ref != 'refs/heads/master'
+        id: docker_build_release
+        uses: docker/build-push-action@v2 
+        with:
+          push:  ${{ github.event_name == 'push' && github.repository == 'odpi/egeria-ui' }} 
+          tags: odpi/egeria-ui:${{ steps.package-version.outputs.current-version}}
+          context: .
+          file: ./Dockerfile
+      # For main code stream we push the image and add the latest tag
+      - name: Build and push (master merge)
+        if: github.ref == 'refs/heads/master'
+        id: docker_build_master
+        uses: docker/build-push-action@v2
+        with:
+          push:  ${{ github.event_name == 'push' && github.repository == 'odpi/egeria-ui' }} 
+          tags: odpi/egeria-ui:${{ steps.package-version.outputs.current-version}}, odpi/egeria-ui:latest
+          context: .
+          file: ./Dockerfile
+      # Note the digest 
+      - name: Image digest (release)
+        if: github.ref != 'refs/heads/main'
+        run: echo ${{ steps.docker_build_release.outputs.digest }}
+      - name: Image digest (main)
+        if: github.ref == 'refs/heads/main'
+        run: echo ${{ steps.docker_build_master.outputs.digest }}
+      # Save an artifact of the build tree & upload
+      - name: Create Archive
+        run: tar -zcf /tmp/egeria-ui.tar.gz .
+      - name: Upload 
+        uses: actions/upload-artifact@v2
+        with:
+          name: Egeria UI {{ steps.package-version.outputs.current-version}}
+          path: /tmp/egeria-ui.tar.gz
