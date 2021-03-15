@@ -11,7 +11,7 @@ stages:
     steps:
     - task: NodeTool@0
       inputs:
-        versionSpec: '8.9.0'
+        versionSpec: '10.13.0'
       displayName: 'Install Node.js'
     - task: CmdLine@2
       env:
@@ -23,8 +23,14 @@ stages:
           UI_VERSION=$(jq -r ".version" ./package.json)
           echo "processing ui-static version: ${UI_VERSION}"
           echo "##vso[task.setvariable variable=UI_VERSION]$UI_VERSION"
+          echo "Node version..."
+          node -v
+          echo "NPM version..."
+          npm -v
           npm install
           npm test
+          echo "Printing package-lock..."
+          cat package-lock.json
           npm run build
     - task: ArchiveFiles@2
       inputs:

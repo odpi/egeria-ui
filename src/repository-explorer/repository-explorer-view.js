@@ -10,7 +10,6 @@ import "../../node_modules/@polymer/paper-styles/paper-styles.js";
 import "../../node_modules/@polymer/paper-dropdown-menu/paper-dropdown-menu.js";
 import "../../node_modules/@polymer/paper-listbox/paper-listbox.js";
 import "../../node_modules/@polymer/paper-item/paper-item.js";
-import "../../node_modules/@polymer/paper-menu-button/paper-menu-button.js";
 import "../../node_modules/@polymer/paper-input/paper-input-behavior.js";
 import "../../node_modules/@polymer/paper-dialog/paper-dialog.js";
 import "../../node_modules/@polymer/paper-dialog-behavior/paper-dialog-behavior.js";
