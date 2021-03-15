@@ -252,6 +252,14 @@ class HappiGraph extends PolymerElement {
     this.initializeForces();
     this.updateForces();
     this.update();
+
+    window.addEventListener('hide-unhide-statistics', () => this.hideUnhideStatistics());
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+
+    window.removeEventListener('hide-unhide-statistics', () => console.log('REMOVED_EVENT_LISTENER'));
   }
 
   onNodeClick(node) {
