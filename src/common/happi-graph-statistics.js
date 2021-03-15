@@ -101,7 +101,7 @@ class HappiGraphStatistics extends PolymerElement {
           <vaadin-grid-column width="30%">
               <template class="header">
                   <div>
-                    <vaadin-grid-sorter path="apparitions">Apparitions</vaadin-grid-sorter>
+                    <vaadin-grid-sorter path="apparitions">Occurrences</vaadin-grid-sorter>
                   </div>
               </template>
               <template>[[ item.apparitions ]]</template>
