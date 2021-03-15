@@ -47,6 +47,11 @@ class HappiGraphStatistics extends PolymerElement {
     }
   }
 
+  onClick() {
+    // TODO: Remove CustomEvent from window and bind it to component
+    window.dispatchEvent(new CustomEvent('hide-unhide-statistics', {}));
+  }
+
   static get template() {
     return html`
       <style>
@@ -64,10 +69,23 @@ class HappiGraphStatistics extends PolymerElement {
           max-width: 50%;
           margin: 0 auto;
           border: 4px solid var(--egeria-primary-color);
+          padding:0px 10px 10px 10px;
+          background: #fff;
+        }
+
+        .close-button {
+          display: flex;
+          justify-content: flex-end;
         }
       </style>
 
       <div class="container">
+        <div class="close-button">
+          <!-- import paper-icon-button when extracting the happi-graph component -->
+          <paper-icon-button icon="icons:close"
+                             on-click="onClick"></paper-icon-button>
+        </div>
+
         <vaadin-grid id="statistics-grid" items="[[ typeMapData ]]" theme="row-stripes">
           <vaadin-grid-column width="70%">
               <template class="header">
