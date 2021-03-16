@@ -9,11 +9,19 @@
     "disableUsageStatistics": true
   },
   "scripts": {
-    "serve": "hs -c0 ./build/dev/ -P http://localhost:9000",
+    "serve": "hs -c0 ./build/prod/",
+
+    "prestart": "node prebuild.js",
     "start": "polymer serve",
-    "start:dev": "polymer serve --proxy-target http://localhost:9000/api --proxy-path api",
+    "start:dev": "npm run start --api-url=http://localhost:9000",
+
+    "prebuild": "node prebuild.js",
     "build": "polymer build",
+
+    "prelint": "node prebuild.js",
     "lint": "polymer lint",
+
+    "pretest": "node prebuild.js",
     "test": "polymer test",
     "license-checker": "license-checker --exclude [MIT] --production --direct --csv --out LICENSE_LIST.csv"
   },

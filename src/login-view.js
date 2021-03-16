@@ -13,7 +13,13 @@ import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
 import './shared-styles.js';
 import './form-feedback.js';
 
+import { ENV } from '../env';
+
 class LoginView extends PolymerElement {
+  getApiUrl() {
+    return ENV['API_URL'];
+  }
+
   static get template() {
     return html`
       <style include="shared-styles">
@@ -75,7 +81,7 @@ class LoginView extends PolymerElement {
       </style>
 
       <iron-localstorage name="my-app-storage" value="{{token}}"></iron-localstorage>
-      <iron-ajax id="ajax" url="/api/public/app/info" auto last-response="{{app}}"></iron-ajax>
+      <iron-ajax id="ajax" url="[[ getApiUrl() ]]/api/public/app/info" auto last-response="{{app}}"></iron-ajax>
 
       <div class="container"><h1>[[app.title]]</h1></div>
 
@@ -88,7 +94,7 @@ class LoginView extends PolymerElement {
       <div class="container">
         <div class="login">
           <iron-form id="form">
-            <form method="post" action="/api/auth/login">
+            <form method="post" action="[[ getApiUrl() ]]/api/auth/login">
               <paper-input value="{{username}}"
                            label="Username"
                            name="username"

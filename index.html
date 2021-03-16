@@ -1,6 +1,5 @@
 <!doctype html>
 <html lang="en">
-
 <head>
   <meta charset="utf-8">
   <meta name="generator" content="Polymer Starter Kit">
@@ -37,89 +36,34 @@
   <meta name="msapplication-TileColor" content="#3f51b5">
   <meta name="msapplication-tap-highlight" content="no">
 
-  <!--    [polymer-root-path] dynamically generated to match spring-boot app contextPath -->
-  <!--    generates window.MyAppGlobals = { rootPath: '/[request.contextPath]' };-->
-  <script src="/api/public/js/global"></script>
-
-  <script>
-    // Load and register pre-caching Service Worker
-    if (window.location.protocol != 'https:' && 'serviceWorker' in navigator) {
-      window.addEventListener('load', function () {
-        navigator.serviceWorker.register('service-worker.js', {
-          scope: MyAppGlobals.rootPath
-        });
-      });
-    }
-  </script>
-
-  <!-- Load webcomponents-loader.js to check and load any polyfills your browser needs -->
-
   <!--
       QUICK FIX FOR IE 11
       <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.5.7/core.min.js"></script>
     -->
 
+  <!-- Load webcomponents-loader.js to check and load any polyfills your browser needs -->
   <script src="node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
   <script src="node_modules/web-animations-js/web-animations-next-lite.min.js"></script>
   <script src="node_modules/d3/dist/d3.min.js"></script>
   <script src="node_modules/visjs-network/dist/vis-network.min.js"></script>
   <link href="node_modules/visjs-network/dist/vis-network.min.css" rel="stylesheet" type="text/css">
 
+  <!-- default theme, it can be overwritten -->
+  <link href="/themes/css/style.css" rel="stylesheet" type="text/css">
+
+  <script>
+    // Load and register pre-caching Service Worker
+    if (window.location.protocol != 'https:' && 'serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('service-worker.js', {
+          scope: '/'
+        });
+      });
+    }
+  </script>
+
   <!-- Load your application shell -->
   <script type="module" src="src/my-app.js"></script>
-
-  <!-- Add any global styles for body, document, etc. -->
-  <style>
-    :root {
-      --custom-font-family: sans-serif;
-
-      font-family: var(--custom-font-family);
-      --lumo-font-family: var(--custom-font-family);
-      --paper-font-subhead_-_font-family: var(--custom-font-family);
-      --paper-font-common-base_-_font-family: var(--custom-font-family);
-      --paper-font-body1_-_font-family: var(--custom-font-family);
-      --paper-font-subhead_-_font-family: var(--custom-font-family);
-      --paper-font-common-code_-_font-family: var(--custom-font-family);
-
-      --login-background: url(images/default-login-background.svg) no-repeat right bottom;
-
-      --egeria-primary-color-rgb: 113, 204, 220;
-      --egeria-primary-color: rgb(var(--egeria-primary-color-rgb));
-
-      --egeria-secondary-color: #24272a;
-      --egeria-background-color: white;
-      --egeria-stripes-color: #efefef;
-      --egeria-icon-color: var(--egeria-primary-color);
-      --egeria-button-ink-color: white;
-
-      --egeria-view-margin: 0 24px;
-      --egeria-view-min-height: calc(100vh - 110px);
-
-      --app-background-color: #eeeeee;
-      --app-logo-background: url(images/Logo_transparent.png) no-repeat top left;
-      --app-logo-width: 256px;
-      --app-logo-height: 64px;
-      --app-logo-background-size: 120px auto;
-
-      --app-logo-background-white: url(images/logo-white.png) no-repeat top left;
-      --app-logo-width-white: 140px;
-      --app-logo-height-white: 64px;
-    }
-
-    body {
-      margin: 0;
-      line-height: 1.5;
-      min-height: 100vh;
-      background-color: var(--app-background-color);
-      color: var(--egeria-secondary-color);
-    }
-
-    iron-overlay-backdrop {
-      --iron-overlay-backdrop-background-color: #24272a;
-      --iron-overlay-backdrop-opacity: 0.2;
-    }
-  </style>
-  <link href="/api/public/css/theme" rel="stylesheet" type="text/css">
 </head>
 
 <body>
