@@ -6,6 +6,7 @@ import '@polymer/iron-ajax/iron-ajax.js';
 
 import './spinner.js';
 
+import { ENV } from '../env';
 
 class TokenAjax extends PolymerElement {
 
@@ -130,17 +131,18 @@ class TokenAjax extends PolymerElement {
 
     }
 
-    _onLoadingChanged(){
-        //console.debug('cn-loading changed... ' + this.loading);
-    }
+    _onLoadingChanged(){}
 
     _loadingChanged(loading){
-        //console.debug('loading changed... ' + this.loading);
         if(this.loading){
             this.$.backdrop.open();
         }else{
             this.$.backdrop.close();
         }
+    }
+
+    getApiUrl() {
+        return ENV['API_URL'];
     }
 
     static get template() {
@@ -149,10 +151,10 @@ class TokenAjax extends PolymerElement {
         :host {
             /*display: none;*/
         }
-        
+
         </style>
         <iron-localstorage id="storage" name="my-app-storage" value="{{token}}"></iron-localstorage>
-        <iron-ajax id="ajax" url="[[url]]"
+        <iron-ajax id="ajax" url="[[ getApiUrl() ]][[ url ]]"
                    handle-as="json"
                    last-response="{{lastResponse}}"
                    timeout="[[timeout]]"
@@ -161,13 +163,13 @@ class TokenAjax extends PolymerElement {
                    loading="{{loading}}"
                    method="[[method]]"
                    on-loading-changed="_onLoadingChanged"
-                   headers="{{headers}}"
-                   >
+                   headers="{{headers}}">
         </iron-ajax>
-        <spinner-overlay id="backdrop" with-backdrop scroll-action="lock" 
-            always-on-top 
+
+        <spinner-overlay id="backdrop" with-backdrop scroll-action="lock"
+            always-on-top
             no-cancel-on-outside-click
-            no-cancel-on-esc-key>       
+            no-cancel-on-esc-key>
         </spinner-overlay>
     `;
     }

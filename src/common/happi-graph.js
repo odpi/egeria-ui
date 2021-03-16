@@ -2,6 +2,7 @@ import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
 import { compute } from './graph-algorithms';
 import { happiGraphIconsMap } from './happi-graph-icons';
 import './happi-graph-legend';
+import './happi-graph-statistics';
 
 function Point(x, y) {
   if (!(this instanceof Point)) {
@@ -109,6 +110,10 @@ class HappiGraph extends PolymerElement {
             iterations: 1
           }
         }
+      },
+      visibleStatistics: {
+        type: Boolean,
+        value: false
       }
     }
   }
@@ -247,6 +252,14 @@ class HappiGraph extends PolymerElement {
     this.initializeForces();
     this.updateForces();
     this.update();
+
+    window.addEventListener('hide-unhide-statistics', () => this.hideUnhideStatistics());
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+
+    window.removeEventListener('hide-unhide-statistics', () => console.log('REMOVED_EVENT_LISTENER'));
   }
 
   onNodeClick(node) {
@@ -274,6 +287,18 @@ class HappiGraph extends PolymerElement {
 
   customZoomOut() {
     this.customZoom(-1);
+  }
+
+  hideUnhideStatistics() {
+    this.visibleStatistics = !this.visibleStatistics;
+  }
+
+  isStatisticsVisible(nodes, flag) {
+    if(nodes.length > 0) {
+      return this.visibleStatistics;
+    } else {
+      return false;
+    }
   }
 
   zooming() {
@@ -1023,6 +1048,12 @@ class HappiGraph extends PolymerElement {
           right:0;
           margin-right: var(--lumo-space-xs);
         }
+
+        .happi-graph-statistics {
+          height:100%;
+          width:100%;
+          position: absolute;
+        }
       </style>
 
       <!-- <button on-click="customZoomOut">-</button> -->
@@ -1060,6 +1091,12 @@ class HappiGraph extends PolymerElement {
         <template is="dom-if" if="[[ hasSize(graphData.nodes) ]]">
           <div class="happi-graph-legend">
             <happi-graph-legend graph-data="{{ graphData }}"></happi-graph-legend>
+          </div>
+        </template>
+
+        <template is="dom-if" if="[[ isStatisticsVisible(graphData.nodes, visibleStatistics) ]]">
+          <div class="happi-graph-statistics">
+            <happi-graph-statistics graph-data="{{ graphData }}"></happi-graph-statistics>
           </div>
         </template>
       </div>

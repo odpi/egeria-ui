@@ -17,7 +17,6 @@ import '@polymer/iron-pages/iron-pages.js';
 import '@polymer/iron-selector/iron-selector.js';
 import '@polymer/iron-localstorage/iron-localstorage';
 import '@polymer/paper-icon-button/paper-icon-button.js';
-import '@polymer/paper-menu-button/paper-menu-button.js';
 import '@polymer/paper-item/paper-item.js';
 import '@polymer/paper-dropdown-menu/paper-dropdown-menu.js';
 import '@polymer/paper-listbox/paper-listbox.js';
@@ -43,7 +42,7 @@ setPassiveTouchGestures(true);
 
 // Set Polymer's root path to the same value we passed to our service worker
 // in `index.html`.
-setRootPath(MyAppGlobals.rootPath);
+setRootPath('/');
 
 class MyApp extends mixinBehaviors([AppLocalizeBehavior, RoleComponentsBehavior], PolymerElement) {
 

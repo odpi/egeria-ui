@@ -2,7 +2,6 @@
 /* Copyright Contributors to the ODPi Egeria project. */
 import { PolymerElement, html } from '@polymer/polymer';
 import '@polymer/paper-button/paper-button';
-import '@polymer/paper-menu-button';
 import '@polymer/paper-dropdown-menu/paper-dropdown-menu';
 import '@polymer/paper-listbox';
 import '@polymer/paper-item';
@@ -14,10 +13,10 @@ class DataView extends PolymerElement {
     static get template() {
         return html`
       <style include="shared-styles">
-        
+
       </style>
       <token-ajax id="tokenAjax" last-response="{{searchResp}}"></token-ajax>
-      
+
       <vaadin-grid id="grid" items="{{data.records}}" theme="row-stripes"
                      on-active-item-changed="_onActiveItemChanged"
                      column-reordering-allowed multi-sort
@@ -38,7 +37,7 @@ class DataView extends PolymerElement {
             </template>
 
       </vaadin-grid>
-       
+
     `;
     }
 

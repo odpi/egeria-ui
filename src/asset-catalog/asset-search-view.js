@@ -87,7 +87,7 @@ class AssetSearchView extends mixinBehaviors([AppLocalizeBehavior], PolymerEleme
                 detail: {message: "No more metadata to fetch for this criteria!", level: 'info'}
             }));
         } else {
-            this.$.more.disabled = items !== null;
+            this.$.more.disabled = items === null;
         }
     }
 
