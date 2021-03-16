@@ -42,7 +42,7 @@ setPassiveTouchGestures(true);
 
 // Set Polymer's root path to the same value we passed to our service worker
 // in `index.html`.
-setRootPath(MyAppGlobals.rootPath);
+setRootPath('/');
 
 class MyApp extends mixinBehaviors([AppLocalizeBehavior, RoleComponentsBehavior], PolymerElement) {
 
