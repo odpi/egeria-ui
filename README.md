@@ -1,93 +1,79 @@
 # Table of contents
+
 1. [Prerequisites](#prerequisites)
-2. [Install dependencies](#install-dependencies)
-3. [Run Tests](#run-tests)
-4. [Development start](#development-start)
-    1. [Mocked API Method](#mocked-api-method)
-        1. [UI](#ui)
-        2. [Mocked API](#mocked-api)
-    2. [Local API Method](#local-api-method)
-        1. [UI](#ui-1)
-        2. [API](#api)
-    3. [Production Method](#production-method)
-        1. [UI](#ui-2)
-        2. [API](#api-2)
-5. [Release cycle](#release-cycle)
-6. [Using egeria-ui as a dependency](#using-egeria-ui-as-a-dependency)
-7. [Links](#links)
-8. [License](#license)
+2. [Dependencies](#dependencies)
+3. [Tests](#tests)
+4. [Development](#development)
+5. [Production](#production)
+    1. [Standalone build](#tandalone-build)
+    1. [Preconfigured build with API_URL parameter](#preconfigured-build-with-api_url-parameter)
+6. [Themes](#themes)
+7. [Release cycle](#release-cycle)
+8. [Links](#links)
+9. [License](#license)
 
 ## Prerequisites
-|         |   Version  |
-|---------|------------|
-| NodeJS  |     8.x    |
-| NPM     |     5.x    |
+|         |        Version      |
+|---------|---------------------|
+| NodeJS  |     10.13.0 (LTS)   |
+| NPM     |        6.4.1        |
 
-Usually NPM version that works comes with the NODEJS dependency.
-
-
-## Install dependencies
+## Dependencies
 ```bash
 $ npm install
 ```
 
-## Run tests
+## Tests
 ```bash
 $ npm test
 ```
 
-## Development start
+## Development
 
-### Mocked API method
+### Development with backend API
 
-#### UI
+The backend API URL from odpi/egeria (ui-chassis-spring, here [0]), which needs
+to start with CORS filter on.
+
 ```bash
-$ git clone https://github.com/odpi/egeria-ui
-$ cd egeria-ui
-$ npm install
-$ npm run serve # will start a static server on http://localhost:8080 and will proxy any missing
-                # API Endpoints to the Mocked API
+$ npm run start --api-url=http://localhost:8443
 ```
 
-#### Mocked API
+### Development with mocked API
+
+The backend API URL from odpi/egeria-api-mocks (egeria-api-mocks, here [1]).
+
 ```bash
-$ git clone https://github.com/odpi/egeria-api-mocks
-$ cd egeria-api-mocks
-$ npm install
-$ npm start # will start a Mocked API on http://localhost:9000
+$ npm run start --api-url=http://localhost:9000
 ```
 
-### Local API method
-#### UI
+## Production
+
+### Standalone build
+
+Outputs the build in `/build/prod` with no config what so ever.
+
 ```bash
-$ git clone https://github.com/odpi/egeria-ui
-$ cd egeria-ui
-$ npm install
-$ npm start # will start a static server on http://localhost:8081, no API endpoint will work if you access this directly.
+$ npm run build
 ```
 
-#### API
+### Preconfigured build with API_URL parameter
+
+Outputs the build with all HTTP requests prefixed with the given API_URL parameter.
+The API server needs to have the CORS filter on.
+
 ```bash
-$ git clone https://github.com/odpi/egeria
-$ cd open-metadata-implementation/user-interfaces/ui-chassis/ui-chassis-spring/
-$ mvn spring-boot:run -Dspring-boot.run.folders=/path/to/themes/ -Dspring-boot.run.arguments="--theme=default --zuul.routes.ui.url=http://localhost:8081 --omas.server.name= --omas.server.url= --open.lineage.server.url= --open.lineage.server.name= --server.ssl.trust-store=/path/to/egeria/truststore.p12"
+npm run build --api-url=http://api.app.prod
 ```
 
-### Production method
-#### UI
-```bash
-$ npm install
-$ npm test
-$ npm run build # will be generating a static folder under ./build/dev
-                # folder which needs to be served using static server at a given address (e.g. https://ui.production) ⚠️ Warning.
-```
+## Themes
 
-#### API
-Build the egeria project [2] and deploy it with all the required ENV variables, also pass `--zuul.routes.ui.url=https://ui.production` as an ENV variable to the `.jar` ⚠️ Warning.
-
+The theme folder now sits statically under the `themes` folder, changing the files
+here will change the theme directly. It is directly referenced in the `index.html` page.
 
 ## Release cycle
-Egeria-UI use GitHub as its dependency provider, this means that all the releases are being pushed to the Github Egeria-UI repository here [1].
+Egeria-UI use GitHub as its dependency provider, this means that all the releases
+are being pushed to the Github Egeria-UI repository here [2].
 
 ```bash
 $ git clone https://github.com/odpi/egeria-ui     # clone and checkout to master branch
@@ -101,31 +87,15 @@ $ git push origin master --tags
 $                                                 # the released version will be available at the git version tag or in the
                                                   # release page here [1]
 ```
-## Verification and merge builds
-
-We use Azure Pipelines to verify any PRs build successfully before they can merge. Once merged the code is
-again built. See https://dev.azure.com/ODPi/Egeria/_build?definitionScope=%5CEgeria%20UI
-
-## Using egeria-ui as a dependency
-For any other NPM package who wants to add `egeria-ui@0.0.0` as a dependency it can use the direct URL dependency from GitHub like this:
-```json
-{
-  "name": "your-own-npm-package",
-  "dependencies": {
-    "egeria-ui": "https://github.com/odpi/egeria-ui#v0.0.0"
-  }
-}
-```
-You can also use a branch name or commit ID to point to a version, useful for work in progress or to use lastest merged code in master (e.g. #master, #d12c09a).
 
 ## Links
 [0] - https://github.com/odpi/egeria/tree/master/open-metadata-implementation/user-interfaces/ui-chassis/ui-chassis-spring/
 
-[1] - https://github.com/odpi/egeria-ui/releases
+[1] - https://github.com/odpi/egeria-api-mocks
 
-[2] - https://github.com/odpi/egeria
-
+[2] - https://github.com/odpi/egeria-ui
 
 ## License
 SPDX-License-Identifier: Apache-2.0
+
 Copyright Contributors to the ODPi Egeria project.
