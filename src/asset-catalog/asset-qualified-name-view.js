@@ -73,6 +73,10 @@ class AssetQualifiedNamView extends PolymerElement {
                     height: 20px;
                     background-color: var(--egeria-primary-color);
                 }
+                .label {
+                    display: inline-flex;
+                    vertical-align: super;
+                }
                 
             </style>
             <ul>
@@ -80,10 +84,9 @@ class AssetQualifiedNamView extends PolymerElement {
                   <template>
                       <li title="[[ _capitalizeFirstLetter(item.key) ]]">
                           <div class="masked" 
-                               style$= "mask: url('data:image/svg+xml;utf8,[[ getIcon(item.key) ]]');
-                                        -webkit-mask-image: url('data:image/svg+xml;utf8,[[ getIcon(item.key) ]]');"
-                          ></div>
-                          <span>[[ item.value ]]</span>
+                               style$= "-webkit-mask-image: url('data:image/svg+xml;utf8,[[ getIcon(item.key) ]]');">
+                          </div>
+                          <div class="label">[[ item.value ]]</div>
                       </li>
                   </template>
                 </dom-repeat>
