@@ -29,6 +29,9 @@ class AssetQualifiedNamView extends PolymerElement {
         let response = []
         let match = regexpNames.exec(str);
         do {
+            if( !match || !match.groups ){
+                return [{key:'qualifiedName',value:str}];
+            }
             response.push(match.groups);
         } while ((match = regexpNames.exec(str)) !== null);
         return response;
@@ -79,18 +82,21 @@ class AssetQualifiedNamView extends PolymerElement {
                 }
                 
             </style>
-            <ul>
-                <dom-repeat items="[[ _parseQualifiedName(qualified) ]]">
-                  <template>
-                      <li title="[[ _capitalizeFirstLetter(item.key) ]]">
-                          <div class="masked" 
-                               style$= "-webkit-mask-image: url('data:image/svg+xml;utf8,[[ getIcon(item.key) ]]');">
-                          </div>
-                          <div class="label">[[ item.value ]]</div>
-                      </li>
-                  </template>
-                </dom-repeat>
-            </ul>`;
+            <template is="dom-if" if="[[qualified]]"> 
+                <ul>
+                    <dom-repeat items="[[ _parseQualifiedName(qualified) ]]">
+                        <template>
+                            <li title="[[ _capitalizeFirstLetter(item.key) ]]">
+                            <div class="masked"
+                            style$= "-webkit-mask-image: url('data:image/svg+xml;utf8,[[ getIcon(item.key) ]]');">
+                            </div>
+                            <div class="label">[[ item.value ]]</div>
+                            </li>
+                        </template>
+                    </dom-repeat>
+                </ul>
+            </template>
+        `;
     }
 }
 
