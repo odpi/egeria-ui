@@ -20,7 +20,7 @@ jobs:
         uses: actions/setup-node@v2.1.5
         with:
           # Polymer requires Node 10 LTS (not 12,14)
-          node-version: "10"  
+          node-version: "10.13.0"  
       - name: Report npm and node version
         run: |
           node -v
