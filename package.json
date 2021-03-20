@@ -10,16 +10,18 @@
   },
   "scripts": {
     "serve": "hs -c0 ./build/prod/",
-    "prestart": "node prebuild.js",
+    "prestart": "npm run generate:env",
     "start": "polymer serve",
     "start:dev": "npm run start --api-url=http://localhost:9000",
-    "prebuild": "node prebuild.js",
+    "prebuild": "npm run generate:env",
     "build": "polymer build",
-    "prelint": "node prebuild.js",
+    "postbuild": "node about.js",
+    "prelint": "npm run generate:env",
     "lint": "polymer lint",
-    "pretest": "node prebuild.js",
+    "pretest": "npm run generate:env",
     "test": "polymer test",
-    "license-checker": "license-checker --exclude [MIT] --production --direct --csv --out LICENSE_LIST.csv"
+    "license-checker": "license-checker --exclude [MIT] --production --direct --csv --out LICENSE_LIST.csv",
+    "generate:env": "node prebuild.js"
   },
   "dependencies": {
     "@polymer/app-layout": "3.1.0",
