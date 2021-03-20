@@ -27,19 +27,18 @@ LABEL org.opencontainers.image.vendor = "ODPi" \
       org.opencontainers.image.ext.docker.params = ""
 
 # Initial version -- build from git
-RUN apk update && apk upgrade && \
-    apk add --no-cache bash git openssh
 
-WORKDIR /app
-RUN git clone https://github.com/odpi/egeria-ui
-WORKDIR egeria-ui
-RUN npm install
-RUN npm run build
+RUN mkdir -p /home/node/egeria-ui
+WORKDIR /home/node/egeria-ui
+
+# Note we copy the entire tree -- once the dev team have clarified what is needed, this can be optimized
+# We also do not yet do a multi stage build, as this requires clarity over what needs to be present in the runtime
+# vs the development environment. In addition we may wish to use nginx or similar for a production case.
+
+COPY --chown=node:node .  .
 
 
-FROM nginx:latest
+USER 1000
+EXPOSE 8081
 
-COPY etc/nginx.conf /etc/nginx/conf.d/default.conf
-COPY --from=build /app/egeria-ui/build/prod/ /var/www
-CMD ["nginx", "-g", "daemon off;"]
-
+CMD [ "npm", "run", "start" ]
