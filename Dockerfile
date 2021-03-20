@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # Copyright Contributors to the Egeria project
 
-FROM node:10-alpine as build
+FROM nginx:latest
 
 ARG version=2.8-SNAPSHOT
 ARG VCS_REF=unknown
@@ -22,24 +22,11 @@ LABEL org.opencontainers.image.vendor = "ODPi" \
       org.opencontainers.image.version = "$version" \
       org.opencontainers.image.documentation = "https://egeria.odpi.org/open-metadata-resources/open-metadata-deployment/docker/egeria-uistatic/" \
       org.opencontainers.image.ext.vcs-date = "$VCS_DATE" \
-      org.opencontainers.image.ext.docker.cmd = "docker run -p 8080:8080 -d odpi/egeria-uistatic" \
+      org.opencontainers.image.ext.docker.cmd = "docker run -p 80:80 -d odpi/egeria-uistatic" \
       org.opencontainers.image.ext.docker.debug = "" \
       org.opencontainers.image.ext.docker.params = ""
 
-# Initial version -- build from git
-RUN apk update && apk upgrade && \
-    apk add --no-cache bash git openssh
-
-WORKDIR /app
-RUN git clone https://github.com/odpi/egeria-ui
-WORKDIR egeria-ui
-RUN npm install
-RUN npm run build
-
-
-FROM nginx:latest
-
+# Just copy the built files & serve via nginx
+COPY build/prod/* /var/www/
 COPY etc/nginx.conf /etc/nginx/conf.d/default.conf
-COPY --from=build /app/egeria-ui/build/prod/ /var/www
 CMD ["nginx", "-g", "daemon off;"]
-
