@@ -21,6 +21,10 @@ jobs:
         with:
           # Polymer requires Node 10 LTS (not 12,14)
           node-version: "10"  
+      - name: Report npm and node version
+        run: |
+          node -v
+          npm -v
       - name: Install Dependencies
         run: npm install
       - name: Lint
