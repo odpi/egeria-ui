@@ -212,7 +212,6 @@ class AssetSearchView extends mixinBehaviors([AppLocalizeBehavior], PolymerEleme
 
                 .multi-combo {
                     min-width: 350px;
-                    /*width: 100%;*/
                 }
 
                 #search, #more {
@@ -235,7 +234,6 @@ class AssetSearchView extends mixinBehaviors([AppLocalizeBehavior], PolymerEleme
                     --paper-checkbox-label-color: var(--egeria-primary-color);
                     --paper-checkbox-label-spacing: 0;
                     --paper-checkbox-margin: 3px 8px 3px 0;
-                    /*--paper-checkbox-vertical-align: top;*/
                 }
 
             </style>
