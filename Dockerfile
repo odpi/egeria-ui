@@ -3,7 +3,7 @@
 
 FROM nginx:latest
 
-ARG version=1.3.0
+ARG version=1.4.0
 ARG VCS_REF=unknown
 ARG VCS_ORIGIN=unknown
 ARG BUILD_TIME=unknown
@@ -22,7 +22,7 @@ LABEL org.opencontainers.image.vendor = "odpi" \
       org.opencontainers.image.version = "$version" \
       org.opencontainers.image.documentation = "https://egeria.odpi.org/open-metadata-resources/open-metadata-deployment/docker/egeria-ui/" \
       org.opencontainers.image.ext.vcs-date = "$VCS_DATE" \
-      org.opencontainers.image.ext.docker.cmd = "docker run -p 80:80 -d odpi/egeria-ui:1.3.0" \
+      org.opencontainers.image.ext.docker.cmd = "docker run -p 80:80 -d odpi/egeria-ui:latest" \
       org.opencontainers.image.ext.docker.debug = "" \
       org.opencontainers.image.ext.docker.params = ""
 
