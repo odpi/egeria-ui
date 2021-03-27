@@ -196,7 +196,6 @@ class AssetSearchView extends mixinBehaviors([AppLocalizeBehavior], PolymerEleme
                         };
                         --paper-input-container-input-invalid: {
                             background: rgba(255, 0, 0, 0.2);
-                            /*width: 95%;*/
                         }
                     }
                 </style>
@@ -225,7 +224,7 @@ class AssetSearchView extends mixinBehaviors([AppLocalizeBehavior], PolymerEleme
                 paper-checkbox {
                     align-self: center;
                     border: 1px solid var(--egeria-primary-color);
-                    padding: 8px 16px;
+                    padding: 8px;
 
                     --paper-checkbox-checked-color: var(--egeria-primary-color);
                     --paper-checkbox-checked-ink-color: var(--egeria-primary-color);
@@ -236,6 +235,11 @@ class AssetSearchView extends mixinBehaviors([AppLocalizeBehavior], PolymerEleme
                     --paper-checkbox-margin: 3px 8px 3px 0;
                 }
 
+                paper-input { 
+                    width: 300px;
+                    display: inline-block;
+                    text-align: left;
+                }
             </style>
             
             <token-ajax id="tokenAjax" last-response="{{items}}"></token-ajax>
@@ -250,28 +254,25 @@ class AssetSearchView extends mixinBehaviors([AppLocalizeBehavior], PolymerEleme
                         <paper-checkbox id="exactMatch">Exact match</paper-checkbox>
                         <paper-checkbox id="caseSensitive">Case sensitive</paper-checkbox>
                         <multiselect-combo-box class="multi-combo" id="combo" items="[[supportedTypes]]"
-                            item-label-path="name"
-                            ordered="false"
-                            placeholder="Open Metadata Type (required)"
-                            required
-                            error-message="Please select one">
+                                               item-label-path="name"
+                                               ordered="false"
+                                               placeholder="Open Metadata Type (required)"
+                                               required
+                                               error-message="Please select one">
                         </multiselect-combo-box>
                         <div>
-                                <div style="width: 200pt; display: inline-block; text-align: left; margin: 20px;">
-                                    <paper-input class="custom" id="searchField"
-                                        label="Search" value="{{q}}"
-                                        no-label-float
-                                        required
-                                        minlength="2"
-                                        autofocus>
-                                        <iron-icon icon="search" slot="prefix" id="searchFieldIcon"
-                                        style="background: transparent"></iron-icon>
-                                    </paper-input>
-                                </div>
-    
-                                <vaadin-button id="searchSubmit" theme="primary" on-tap="_search">
-                                    <iron-icon id="search" icon="search"></iron-icon>
-                                </vaadin-button>
+                            <paper-input id="searchField"
+                                         label="Search" value="{{q}}"
+                                         no-label-float
+                                         required
+                                         minlength="2"
+                                         autofocus>
+                                <iron-icon icon="search" slot="prefix" id="searchFieldIcon"></iron-icon>
+                            </paper-input>
+
+                            <vaadin-button id="searchSubmit" theme="primary" on-tap="_search">
+                                <iron-icon id="search" icon="search"></iron-icon>
+                            </vaadin-button>
                         </div>
                     </div>
                 </form>
