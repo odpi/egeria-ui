@@ -240,11 +240,9 @@ class AssetSearchView extends mixinBehaviors([AppLocalizeBehavior], PolymerEleme
                     display: inline-block;
                     text-align: left;
                 }
-                
-                .form-content{
-                    text-align: center;
-                    margin: 20px;
-                }
+
+                .align-center { text-align:center; }
+                .m20 { margin: 20px; }
             </style>
             
             <token-ajax id="tokenAjax" last-response="{{items}}"></token-ajax>
@@ -254,7 +252,7 @@ class AssetSearchView extends mixinBehaviors([AppLocalizeBehavior], PolymerEleme
             <iron-form id="searchForm">
                 <form method="get">
                     <iron-a11y-keys keys="enter" on-keys-pressed="_search"></iron-a11y-keys>
-                    <div class="form-content"> 
+                    <div class="align-center m20"> 
                     
                         <paper-checkbox id="exactMatch">Exact match</paper-checkbox>
                         <paper-checkbox id="caseSensitive">Case sensitive</paper-checkbox>
