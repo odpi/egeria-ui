@@ -382,11 +382,6 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsB
           margin: auto;
         }
 
-        ul#menu, ul#menu li {
-          padding-left: 0;
-          margin-right: 16px;
-        }
-
         .local-wrapper {
           width:730px;
         }
@@ -471,21 +466,6 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsB
             </template>
           </vaadin-tabs>
         </template>
-
-        <!-- <ul id="menu"> -->
-          <!-- <li><paper-button raised on-click="zoomOut">-</paper-button></li>
-          <li><paper-button raised on-click="zoomIn">+</paper-button></li>
-          <li><paper-button raised on-click="fitToScreen">Fit to screen</paper-button></li>
-          <li><paper-button raised on-click="resetGraph">Reset graph</paper-button></li>
-          <li><paper-button raised on-click="showStatistics">Statistics</paper-button></li> -->
-          <!-- <li> -->
-            <!-- <div hidden="[[_displayETLJobsToggle(routeData.usecase)]]">
-              <paper-toggle-button id="processToggle" checked>
-                ETL Jobs
-              </paper-toggle-button>
-            </div> -->
-          <!-- </li>
-        </ul> -->
       </div>
       <dom-if if="[[_noGuid(routeData)]]" restamp="true">
         <template>

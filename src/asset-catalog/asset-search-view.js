@@ -7,6 +7,7 @@ import '@polymer/iron-a11y-keys/iron-a11y-keys.js';
 import '@polymer/paper-button/paper-button.js';
 import '@polymer/paper-styles/paper-styles.js';
 import '@polymer/paper-input/paper-input-behavior.js';
+import '@polymer/paper-checkbox/paper-checkbox.js';
 import '@vaadin/vaadin-grid/vaadin-grid.js';
 import '@vaadin/vaadin-grid/vaadin-grid-selection-column.js';
 import '@vaadin/vaadin-grid/vaadin-grid-sort-column.js';
@@ -147,7 +148,11 @@ class AssetSearchView extends mixinBehaviors([AppLocalizeBehavior], PolymerEleme
             this.$.combo.selectedItems.forEach(function (item) {
                 types.push(item.name);
             });
-            this.$.tokenAjax.url = '/api/assets/search?q=' + this.q.trim() + '&types=' + types;
+            this.$.tokenAjax.url = '/api/assets/search?q=' + this.q.trim()
+                + '&types=' + types
+                + '&exactMatch=' + this.$.exactMatch.checked
+                + '&caseSensitive=' + this.$.caseSensitive.checked
+            ;
             if (this.from > 0)
                 this.$.tokenAjax.url += '&from=' + this.from;
             if (this.pageSize > 0)
@@ -191,14 +196,11 @@ class AssetSearchView extends mixinBehaviors([AppLocalizeBehavior], PolymerEleme
                         };
                         --paper-input-container-input-invalid: {
                             background: rgba(255, 0, 0, 0.2);
-                            width: 95%;
                         }
-
                     }
                 </style>
             </custom-style>
-
-
+            
             <style include="shared-styles">
                 :host {
                     display: flex;
@@ -218,9 +220,31 @@ class AssetSearchView extends mixinBehaviors([AppLocalizeBehavior], PolymerEleme
                 vaadin-grid {
                     flex-grow: 1;
                 }
+                
+                paper-checkbox {
+                    align-self: center;
+                    border: 1px solid var(--egeria-primary-color);
+                    padding: 8px;
 
+                    --paper-checkbox-checked-color: var(--egeria-primary-color);
+                    --paper-checkbox-checked-ink-color: var(--egeria-primary-color);
+                    --paper-checkbox-unchecked-color: var(--egeria-secondary-color);
+                    --paper-checkbox-unchecked-ink-color: var(--egeria-secondary-color);
+                    --paper-checkbox-label-color: var(--egeria-primary-color);
+                    --paper-checkbox-label-spacing: 0;
+                    --paper-checkbox-margin: 3px 8px 3px 0;
+                }
+
+                paper-input { 
+                    width: 300px;
+                    display: inline-block;
+                    text-align: left;
+                }
+
+                .align-center { text-align:center; }
+                .m20 { margin: 20px; }
             </style>
-
+            
             <token-ajax id="tokenAjax" last-response="{{items}}"></token-ajax>
             <token-ajax id="tokenAjaxTypes" last-response="{{supportedTypes}}"></token-ajax>
 
@@ -228,26 +252,10 @@ class AssetSearchView extends mixinBehaviors([AppLocalizeBehavior], PolymerEleme
             <iron-form id="searchForm">
                 <form method="get">
                     <iron-a11y-keys keys="enter" on-keys-pressed="_search"></iron-a11y-keys>
-                    <div>
-                        <div style="display: inline-block; vertical-align: top">
-                            <div style="width: 200pt; display: inline-block;">
-                                <paper-input class="custom" id="searchField"
-                                             label="Search" value="{{q}}"
-                                             no-label-float
-                                             required
-                                             minlength="2"
-
-                                             autofocus>
-                                    <iron-icon icon="search" slot="prefix" class="icon"
-                                               style="background: transparent"></iron-icon>
-                                </paper-input>
-                            </div>
-
-                            <vaadin-button id="searchSubmit" theme="primary" on-tap="_search">
-                                <iron-icon id="search" icon="search"></iron-icon>
-                            </vaadin-button>
-                        </div>
-
+                    <div class="align-center m20"> 
+                    
+                        <paper-checkbox id="exactMatch">Exact match</paper-checkbox>
+                        <paper-checkbox id="caseSensitive">Case sensitive</paper-checkbox>
                         <multiselect-combo-box class="multi-combo" id="combo" items="[[supportedTypes]]"
                                                item-label-path="name"
                                                ordered="false"
@@ -255,7 +263,20 @@ class AssetSearchView extends mixinBehaviors([AppLocalizeBehavior], PolymerEleme
                                                required
                                                error-message="Please select one">
                         </multiselect-combo-box>
+                        <div>
+                            <paper-input id="searchField"
+                                         label="Search" value="{{q}}"
+                                         no-label-float
+                                         required
+                                         minlength="2"
+                                         autofocus>
+                                <iron-icon icon="search" slot="prefix" id="searchFieldIcon"></iron-icon>
+                            </paper-input>
 
+                            <vaadin-button id="searchSubmit" theme="primary" on-tap="_search">
+                                <iron-icon id="search" icon="search"></iron-icon>
+                            </vaadin-button>
+                        </div>
                     </div>
                 </form>
             </iron-form>
