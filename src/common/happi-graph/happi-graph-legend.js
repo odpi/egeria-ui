@@ -3,25 +3,30 @@ import {
   html
 } from '@polymer/polymer/polymer-element.js';
 
-import '@polymer/paper-icon-button/paper-icon-button.js';
 import '@polymer/iron-icons/iron-icons.js';
-import '@vaadin/vaadin-button/vaadin-button.js';
+import '@polymer/paper-button/paper-button.js';
 
-import {
-  getIconByGroup
-} from './item-group-icon-map';
+import { simpleSquareIcon } from './happi-graph-helpers';
 
 class HappiGraphLegend extends PolymerElement {
   static get properties() {
     return {
+      iconsMap: {
+        type: Object,
+        value: {}
+      },
+      propertiesMap: {
+        type: Object,
+        value: {}
+      },
       labels: {
         type: Object,
         value: []
       },
-      graphData: {
+      graphNodes: {
         type: Object,
         value: {},
-        observer: '_graphDataUpdate'
+        observer: '_graphNodesUpdate'
       },
       isMinimized: {
         type: Boolean,
@@ -30,14 +35,15 @@ class HappiGraphLegend extends PolymerElement {
     };
   }
 
-  _graphDataUpdate(newGraphData) {
-    let _nodes = newGraphData.nodes;
+  _graphNodesUpdate(newGraphNodes) {
+    let _nodes = newGraphNodes;
     let propertiesMap = {};
 
     if(_nodes.length) {
 
       _nodes.map(n => {
         propertiesMap[n.label] = n.icon;
+
         n.properties.map(p => {
           propertiesMap[p.groupName] = p.icon;
         });
@@ -54,7 +60,11 @@ class HappiGraphLegend extends PolymerElement {
   }
 
   getIcon(groupName) {
-    return getIconByGroup(groupName);
+    if(this.propertiesMap[groupName] && this.iconsMap[this.propertiesMap[groupName].icon]) {
+      return this.iconsMap[this.propertiesMap[groupName].icon];
+    } else {
+      return simpleSquareIcon;
+    }
   }
 
   static get template() {
@@ -63,6 +73,7 @@ class HappiGraphLegend extends PolymerElement {
         :host {
           display: block;
           font-size:12px;
+          font-family: var(--happi-graph-font-family);
         }
 
         img {
@@ -72,8 +83,8 @@ class HappiGraphLegend extends PolymerElement {
         }
 
         .svg-icons {
-          color: var(--egeria-secondary-color);
-          background:rgb(var(--egeria-primary-color-rgb), 0.9);
+          color: var(--happi-graph-secondary-color);
+          background: rgb(var(--happi-graph-primary-color-rgb), 0.9);
           padding:10px;
           max-width:400px;
 
@@ -100,17 +111,46 @@ class HappiGraphLegend extends PolymerElement {
           justify-content:flex-end;
           cursor: pointer;
         }
+
+        paper-button {
+          margin: 0;
+          padding: 0.2em 0.2em 0.4em 0.57em;
+          font-size:15px;
+          color: var(--happi-graph-primary-color);
+          background-color: #f4f5f7;
+          text-transform: none;
+          --paper-button: {
+            @apply(--layout-vertical);
+            @apply(--layout-center-center);
+          };
+        }
+
+        paper-button.keyboard-focus {
+          font-weight: normal;
+        }
+
+        .label {
+          margin-top:4px;
+        }
+
+        .label iron-icon {
+          margin-top:-3px;
+        }
       </style>
 
-      <vaadin-button id="toggleLegend" on-tap="toggleMinimize" class="dropdown">
-        Legend
-        <template is="dom-if" if="[[ !isMinimized ]]">
-          <iron-icon icon="vaadin:angle-down" slot="suffix"></iron-icon>
-        </template>
-        <template is="dom-if" if="[[ isMinimized ]]">
-          <iron-icon icon="vaadin:angle-double-right" slot="suffix"></iron-icon>
-        </template>
-      </vaadin-button>
+      <paper-button on-click="toggleMinimize" class="dropdown">
+        <div class="label">
+          Legend
+
+          <template is="dom-if" if="[[ !isMinimized ]]">
+            <iron-icon icon="icons:expand-more"></iron-icon>
+          </template>
+
+          <template is="dom-if" if="[[ isMinimized ]]">
+            <iron-icon icon="icons:chevron-right"></iron-icon>
+          </template>
+        </div>
+      </paper-button>
 
       <template is="dom-if" if="[[ isMinimized ]]" restamp="true">
         <div class="svg-icons">

@@ -163,5 +163,15 @@ export const compute = (_startNodeId, _nodes, _links, orientation) => {
       result.push(computed[k]);
     });
 
+    result = result.map(n => {
+      let result = {
+        ...n,
+        x: n.w ? n.w * 300 : 0, // TODO: calculate these coordinates so that
+        y: n.h ? n.h * 300 : 0, //       all nodes are centered
+      };
+
+      return result;
+    })
+
     return result;
 };
