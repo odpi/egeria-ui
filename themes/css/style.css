@@ -32,6 +32,12 @@
   --app-logo-background-white: url(images/logo-white.png) no-repeat top left;
   --app-logo-width-white: 140px;
   --app-logo-height-white: 64px;
+
+  --happi-graph-font-family: var(--custom-font-family);
+  --happi-graph-primary-color-rgb: var(--egeria-primary-color-rgb);
+  --happi-graph-primary-color: rgb(var(--happi-graph-primary-color-rgb));
+  --happi-graph-secondary-color: var(--egeria-secondary-color);
+  --happi-graph-gray-color: #AFAFAF;
 }
 
 body {

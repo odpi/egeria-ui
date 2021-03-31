@@ -11,6 +11,7 @@ import '@polymer/paper-toggle-button/paper-toggle-button.js';
 import '@polymer/paper-progress/paper-progress';
 import '@vaadin/vaadin-radio-button/vaadin-radio-button.js';
 import '@vaadin/vaadin-radio-button/vaadin-radio-group.js';
+import '@vaadin/vaadin-grid/vaadin-grid.js';
 import '@vaadin/vaadin-tabs/vaadin-tabs.js';
 import '@vaadin/vaadin-item/vaadin-item.js';
 import '@vaadin/vaadin-list-box/vaadin-list-box.js';
@@ -18,18 +19,20 @@ import '@vaadin/vaadin-list-box/vaadin-list-box.js';
 import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class';
 import { ItemViewBehavior } from '../common/item';
 
-import '../common/happi-graph';
+import '../common/happi-graph/happi-graph';
 import { RoleComponentsBehavior } from "../common/role-components";
 
 import {
   itemGroupIconMap
 } from '../common/item-group-icon-map';
 
+import {
+  happiGraphIconsMap
+} from '../common/happi-graph-icons';
+
 class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsBehavior], PolymerElement) {
   ready() {
     super.ready();
-
-    let thisElement = this;
 
     this.$.processToggle.addEventListener('change', () => {
       this._reload(this.routeData.usecase, this.$.processToggle.checked);
@@ -40,6 +43,18 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsB
         this.onNodeClick(e.detail ? e.detail.nodeId : null);
       });
 
+    this.shadowRoot.querySelector('#happi-graph')
+      .addEventListener('happi-graph-on-cached-graph', (e) => {
+        this._reload(this.routeData.usecase, this.$.processToggle.checked);
+      });
+  }
+
+  getItemGroupIconMap() {
+    return itemGroupIconMap;
+  }
+
+  getHappiGraphIconsMap() {
+    return happiGraphIconsMap;
   }
 
   static get properties() {
@@ -69,6 +84,10 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsB
       graphData: {
         type: Object,
         observer: '_graphDataChanged'
+      },
+      typeMapData: {
+        type: Object,
+        value: {}
       }
     }
   }
@@ -106,7 +125,33 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsB
   }
 
   showStatistics() {
-    this.shadowRoot.querySelector('#happi-graph').hideUnhideStatistics();
+    let _nodes = this.happiGraphData.nodes;
+
+    let typeMap = {};
+
+    if(_nodes.length) {
+      _nodes.map(n => {
+        if(typeMap[n.group]) {
+          typeMap[n.group]++;
+        } else {
+          typeMap[n.group] = 1;
+        }
+      });
+
+      this.typeMapData = [
+        ...Object.keys(typeMap).map(k => {
+          return {
+            key: k,
+            occurrences: typeMap[k]
+          };
+        })
+      ];
+    } else {
+      this.typeMapData = [];
+    }
+
+    this.shadowRoot.querySelector('#paper-dialog-statistics').open();
+    // this.shadowRoot.querySelector('#happi-graph').hideUnhideStatistics();
   }
 
   reloadGraph() {
@@ -150,53 +195,16 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsB
   _updateHappiGraph(data) {
     let myData = {
       graphDirection: this.happiGraphData.graphDirection, // HORIZONTAL, VERTICAL
-
-      nodes: data.nodes.map(n => {
-        let keys = Object.keys(n.properties ? n.properties : {});
-
-        let props = keys.map(k => {
-          let camelCased = k.charAt(0).toUpperCase() + k.slice(1);
-
-          return {
-            value: n.properties[k],
-            label: k,
-            icon: itemGroupIconMap[camelCased] ? itemGroupIconMap[camelCased].icon : 'simple-square',
-            groupName: camelCased
-          }
-        });
-
-        let result = {
-          id: n.id,
-          type: itemGroupIconMap[n.group].icon,
-          value: n.label ? n.label : 'N/A',
-          label: n.group ? n.group : 'N/A',
-          selected: n.id === this.routeData.guid,
-          properties: [
-            ...props
-          ]
-        };
-
-        return result;
-      }),
-      links: []
+      nodes: [ ...data.nodes ],
+      links: [ ...data.edges ],
+      selectedNodeId: this.routeData.guid
     };
 
-    myData.links = data.edges.map(e => {
-      return {
-        id: `${e.from}-${e.to}`,
-        label: e.label,
-        source: e.from,
-        from: e.from,
-        to: e.to,
-        target: e.to,
-        connectionToSource: false,
-        connectionToTarget: true
+    if(myData.nodes.length > 0) {
+      this.happiGraphData = {
+        ...myData
       };
-    });
-
-    this.happiGraphData = {
-      ...myData
-    };
+    }
   }
 
   _graphDataChanged(data) {
@@ -211,13 +219,10 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsB
       }));
     }
 
-    if (data !== null) {
+    if (data !== null && data.nodes.length > 0) {
       this._updateHappiGraph(data);
     } else {
-      this._updateHappiGraph({
-        nodes: [],
-        edges: []
-      });
+      this.shadowRoot.querySelector('#happi-graph').removeData();
     }
   }
 
@@ -377,13 +382,13 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsB
           margin: auto;
         }
 
-        ul#menu, ul#menu li {
-          padding-left: 0;
-          margin-right: 16px;
-        }
-
         .local-wrapper {
           width:730px;
+        }
+
+        .pull-right {
+          display: flex;
+          justify-content: flex-end;
         }
       </style>
 
@@ -461,21 +466,6 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsB
             </template>
           </vaadin-tabs>
         </template>
-
-        <ul id="menu">
-          <li><paper-button raised on-click="zoomOut">-</paper-button></li>
-          <li><paper-button raised on-click="zoomIn">+</paper-button></li>
-          <li><paper-button raised on-click="fitToScreen">Fit to screen</paper-button></li>
-          <li><paper-button raised on-click="resetGraph">Reset graph</paper-button></li>
-          <li><paper-button raised on-click="showStatistics">Statistics</paper-button></li>
-          <li>
-            <div hidden="[[_displayETLJobsToggle(routeData.usecase)]]">
-              <paper-toggle-button id="processToggle" checked>
-                ETL Jobs
-              </paper-toggle-button>
-            </div>
-          </li>
-        </ul>
       </div>
       <dom-if if="[[_noGuid(routeData)]]" restamp="true">
         <template>
@@ -491,8 +481,55 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsB
       </dom-if>
 
       <div id="container">
-        <happi-graph id="happi-graph" graph-data="[[happiGraphData]]"></happi-graph>
+        <happi-graph id="happi-graph"
+                     icons-map="[[ getHappiGraphIconsMap() ]]"
+                     properties-map="[[ getItemGroupIconMap() ]]"
+                     graph-data="[[ happiGraphData ]]">
+          <div slot="pre-actions">
+            <div hidden="[[_displayETLJobsToggle(routeData.usecase)]]">
+                <paper-toggle-button id="processToggle" checked>
+                  ETL Jobs
+                </paper-toggle-button>
+              </div>
+          </div>
+          <div slot="post-actions">
+            <paper-icon-button icon="icons:assessment" on-click="showStatistics"></paper-icon-button>
+          </div>
+        </happi-graph>
       </div>
+
+      <paper-dialog id="paper-dialog-statistics"
+                    class="paper-dialog-statistics"
+                    allow-click-through="[[ false ]]">
+        <div class="local-wrapper">
+          <div class="pull-right">
+            <paper-icon-button dialog-confirm icon="icons:close"></paper-icon-button>
+          </div>
+
+          <!-- extract this to separate component -->
+          <vaadin-grid id="statistics-grid" items="[[ typeMapData ]]" theme="row-stripes">
+            <vaadin-grid-column width="70%">
+              <template class="header">
+                  <div>
+                    <vaadin-grid-sorter path="key">Type</vaadin-grid-sorter>
+                  </div>
+              </template>
+              <template>
+                  [[ item.key ]]
+              </template>
+            </vaadin-grid-column>
+
+            <vaadin-grid-column width="30%">
+              <template class="header">
+                  <div>
+                    <vaadin-grid-sorter path="occurrences">Occurrences</vaadin-grid-sorter>
+                  </div>
+              </template>
+              <template>[[ item.occurrences ]]</template>
+            </vaadin-grid-column>
+          </vaadin-grid>
+        </div>
+      </paper-dialog>
 
       <!-- extract this to separate component -->
       <paper-dialog id="paper-dialog" class="paper-dialog">
