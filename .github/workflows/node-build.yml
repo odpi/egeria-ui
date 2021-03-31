@@ -33,6 +33,8 @@ jobs:
         run: npm run test
       - name: Build
         run: npm run build
+        env:
+          NODE_OPTIONS: "--max_old_space_size=6144"
       # Get package version from the package.json
       - name: get-npm-version
         id: package-version
