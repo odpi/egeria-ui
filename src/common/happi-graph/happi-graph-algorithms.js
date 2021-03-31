@@ -166,8 +166,8 @@ export const compute = (_startNodeId, _nodes, _links, orientation) => {
     result = result.map(n => {
       let result = {
         ...n,
-        x: n.w ? n.w * 300 : 0, // TODO: calculate these coordinates so that
-        y: n.h ? n.h * 300 : 0, //       all nodes are centered
+        x: n.w ? n.w * 400 : 0, // TODO: calculate these coordinates so that
+        y: n.h ? n.h * 400 : 0, //       all nodes are centered
       };
 
       return result;

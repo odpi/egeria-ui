@@ -98,7 +98,7 @@ class HappiGraph extends PolymerElement {
           value: n.label ? n.label : 'N/A',
           label: n.group ? n.group : 'N/A',
           selected: n.id === newGraphData.selectedNodeId,
-          width: 250,
+          width: 300,
           height: getNodeHeight(props.length),
           properties: [
             ...props
@@ -294,8 +294,8 @@ class HappiGraph extends PolymerElement {
     let graphBBox = this.allGroup.node().getBBox();
 
     let scaledBy = Math.min(
-      (svgWidth - 50) / graphBBox.width,
-      (svgHeight - 50) / graphBBox.height,
+      (svgWidth - 100) / graphBBox.width,
+      (svgHeight - 100) / graphBBox.height,
       1
     );
 
@@ -448,8 +448,8 @@ class HappiGraph extends PolymerElement {
           display:flex;
           flex-direction: column;
           position:absolute;
-          top:0;
-          left:0;
+          top:5px;
+          left:5px;
         }
       </style>
 
