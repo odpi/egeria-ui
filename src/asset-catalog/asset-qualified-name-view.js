@@ -5,9 +5,10 @@ import {PolymerElement, html} from '@polymer/polymer';
 import '../shared-styles.js';
 import '@polymer/paper-styles/paper-styles.js';
 import '@vaadin/vaadin-icons/vaadin-icons.js';
+
 import {
     getIconByGroup
-} from '../common/item-group-icon-map';
+} from 'egeria-js-commons';
 
 class AssetQualifiedNamView extends PolymerElement {
 
@@ -60,7 +61,7 @@ class AssetQualifiedNamView extends PolymerElement {
                     vertical-align:middle;
                     margin-right:5px;
                 }
-                ul{ 
+                ul{
                     margin: 0;
                     padding: 0;
                 }
@@ -69,8 +70,8 @@ class AssetQualifiedNamView extends PolymerElement {
                     padding-right: 10px;
                     font-size: smaller ;
                 }
-                
-                .masked { 
+
+                .masked {
                     display: inline-flex;
                     width: 20px;
                     height: 20px;
@@ -80,9 +81,9 @@ class AssetQualifiedNamView extends PolymerElement {
                     display: inline-flex;
                     vertical-align: super;
                 }
-                
+
             </style>
-            <template is="dom-if" if="[[qualified]]"> 
+            <template is="dom-if" if="[[qualified]]">
                 <ul>
                     <dom-repeat items="[[ _parseQualifiedName(qualified) ]]">
                         <template>
