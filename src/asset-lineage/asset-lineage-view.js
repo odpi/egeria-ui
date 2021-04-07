@@ -19,16 +19,14 @@ import '@vaadin/vaadin-list-box/vaadin-list-box.js';
 import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class';
 import { ItemViewBehavior } from '../common/item';
 
-import '../common/happi-graph/happi-graph';
 import { RoleComponentsBehavior } from "../common/role-components";
 
-import {
-  itemGroupIconMap
-} from '../common/item-group-icon-map';
+import 'happi-graph/happi-graph';
 
 import {
-  happiGraphIconsMap
-} from '../common/happi-graph-icons';
+  iconsMap,
+  itemGroupIconMap
+} from 'egeria-js-commons';
 
 class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsBehavior], PolymerElement) {
   ready() {
@@ -54,7 +52,7 @@ class AssetLineageView extends mixinBehaviors([ItemViewBehavior, RoleComponentsB
   }
 
   getHappiGraphIconsMap() {
-    return happiGraphIconsMap;
+    return iconsMap;
   }
 
   static get properties() {
