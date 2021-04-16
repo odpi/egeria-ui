@@ -171,14 +171,14 @@ class MyApp extends mixinBehaviors([AppLocalizeBehavior, RoleComponentsBehavior]
     // Show 'asset-search' in that case. And if the page doesn't exist, show 'view404'.
 
     if (!page) {
-      if ((!!components && components.includes('asset-catalog')) || (!!components && components.length === 0)) {
+      if (!!components && this._hasComponent('asset-catalog')){
         this.page = 'asset-catalog';
         window.location = "/#/asset-catalog/search";
       } else {
         this.page = 'home-page';
       }
     } else if (this.pages.indexOf(page) !== -1) {
-      if ((!!components && components.includes(page)) || (!!components && components.length === 0)) {
+      if (!!components && this._hasComponent(page)) {
         this.page = page;
       } else {
         this.page = 'forbidden-403-page';

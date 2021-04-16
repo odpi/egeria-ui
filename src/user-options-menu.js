@@ -55,8 +55,14 @@ class UserOptions extends PolymerElement {
         paper-button {
           text-transform: none;
         }
+        ul.no-bullets {
+          list-style-type: none; /* Remove bullets */
+          padding: 0; /* Remove padding */
+          margin: 0; /* Remove margins */
+        }
       </style>
       <token-ajax id="userAjax" last-response="{{user}}" url="/api/users/current" auto></token-ajax>
+      <token-ajax id="ajax" last-response="{{roles}}" url="/api/users/roles" auto></token-ajax>
 
       <div style="float: right">
         <paper-menu-button horizontal-align="right"
@@ -76,9 +82,22 @@ class UserOptions extends PolymerElement {
 
             <div slot="dropdown-content"vstyle="display: block">
             <paper-listbox style="min-width: 200px">
-                <paper-item>Signed in as:<br> [[user.username]]</paper-item>
+                <paper-item>Signed in as:<br> 
+                  [[ user.username ]]
+                </paper-item>
                 <hr>
-                <paper-item>Roles: [[user.roles]]</paper-item>
+                <paper-item>
+                  <span>Roles:</span>
+                </paper-item>
+                <paper-item>
+                  <ul class="no-bullets">
+                  <dom-repeat items="[[ roles ]]">
+                    <template>
+                      <li><span>[[ item ]] </span></li>
+                    </template>
+                  </dom-repeat>
+                  </ul>
+                </paper-item>
                 <hr>
                 <paper-item>Settings</paper-item>
                 <paper-item>Help</paper-item>

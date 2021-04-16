@@ -10,6 +10,6 @@ export const RoleComponentsBehavior = {
   },
 
   _hasComponent(comp) {
-    return this.components.length === 0 || this.components.includes(comp);
+    return this.components.includes("*") || this.components.includes(comp);
   }
 }
