@@ -15,7 +15,8 @@ class EgeriaAssetCatalog extends PolymerElement {
 
       queryParams: { type: String, value: '' },
 
-      guid: { type: String, value: '' }
+      guid: { type: String, value: '' },
+      components: { type: Array, value: [] }
     }
   }
 
@@ -49,7 +50,8 @@ class EgeriaAssetCatalog extends PolymerElement {
     return html`
       <template is="dom-if" if="[[ _isEqualTo(page, 'details') ]]">
         <egeria-asset-details guid="[[ guid ]]"
-                              pages="[[ nextPages ]]"></egeria-asset-details>
+                              pages="[[ nextPages ]]"
+                              components="[[ components ]]"></egeria-asset-details>
       </template>
 
       <template is="dom-if" if="[[ _isEqualTo(page, 'search') ]]">

@@ -46,7 +46,7 @@ class EgeriaAssetLineageViewer extends PolymerElement {
 
         .container {
           background-color: var(--egeria-background-color);
-          height:100%;
+          height: 100%;
         }
       </style>
 

@@ -33,11 +33,11 @@ class AssetDetailsView extends mixinBehaviors([ItemUtilsBehavior], PolymerElemen
           overflow-scrolling: auto;
           overflow: visible;
         }
-        
+
         .gridItem{
             list-style: none;
         }
-        
+
         h3{
             font-weight: normal;
         }
@@ -46,53 +46,53 @@ class AssetDetailsView extends mixinBehaviors([ItemUtilsBehavior], PolymerElemen
             --app-grid-columns: 1;
           }
         }
-        
+
       </style>
-      <dom-if if="[[item]]" restamp> 
-        <template> 
+      <dom-if if="[[item]]" restamp>
+        <template>
           <asset-tools guid="[[item.guid]]" type="[[item.type.name]]"></asset-tools>
-          <props-table items="[[_attributes(item.properties)]]" 
-                       title="Properties" 
+          <props-table items="[[_attributes(item.properties)]]"
+                       title="Properties"
                        with-row-stripes ></props-table>
-          <props-table items="[[_attributes(item.type)]]"  
-                       title="Type" 
+          <props-table items="[[_attributes(item.type)]]"
+                       title="Type"
                        with-row-stripes ></props-table>
-          
-          
-          <dom-if if="[[_hasKeys(item.additionalProperties)]]"> 
+
+
+          <dom-if if="[[_hasKeys(item.additionalProperties)]]">
             <template>
-                <props-table items="[[_attributes(item.additionalProperties)]]" 
-                             title="Additional Properties" 
-                             with-row-stripes 
+                <props-table items="[[_attributes(item.additionalProperties)]]"
+                             title="Additional Properties"
+                             with-row-stripes
                               ></props-table>
             </template>
           </dom-if>
-            
+
           <props-table items="[[_attributes(item)]]"
                        title="Attributes"
                        with-row-stripes
-                       collapsable ></props-table>  
-            
-          <dom-if if="[[ _hasKey(item,'classifications')]]"> 
+                       collapsable ></props-table>
+
+          <dom-if if="[[ _hasKey(item,'classifications')]]">
            <template>
                <dom-repeat items="[[ item.classifications ]]">
                    <template>
-                       <props-table items="[[ _itemClassifications(item) ]]"  
-                                    title="Classification : [[item.name]]" 
+                       <props-table items="[[ _itemClassifications(item) ]]"
+                                    title="Classification : [[item.name]]"
                                     with-row-stripes
                                     collapsable></props-table>
                    </template>
                </dom-repeat>
            </template>
           </dom-if>
-          
+
         </template>
       </dom-if>
-      
-      <dom-if if="[[ !item ]]" restamp > 
+
+      <dom-if if="[[ !item ]]" restamp >
         <template> Item not found</template>
       </dom-if>
-       
+
     `;
     }
 }

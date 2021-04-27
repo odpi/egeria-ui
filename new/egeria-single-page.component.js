@@ -34,11 +34,7 @@ import '../src/token-ajax';
 import '../src/toast-feedback';
 import '../src/shared-styles.js';
 
-import { routes } from './routes';
-import { getCookie } from './commons/cookies';
-
 import './egeria-login.component';
-// import './asset-catalog/egeria-asset-catalog';
 import './asset-catalog-latest/egeria-asset-catalog.container';
 import './asset-lineage/egeria-asset-lineage.container';
 import './egeria-about.component';
@@ -57,65 +53,11 @@ class EgeriaSinglePage extends PolymerElement {
       roles: { type: Array, value: [] },
       isLoggedIn: { type: Boolean, value: false },
 
-      queryParams: {},
-      routeData: {},
-      tail: {},
-
-      route: { type: Object },
       pages: { type: Array, value: [''], observer: '_pagesChanged' },
       nextPages: { type: Array, value: [''] },
-      page: { type: String, value: '' }
-    };
-  }
+      page: { type: String, value: '' },
 
-  static get observers() {
-    return [
-      '_routeCycle(route, components)'
-    ];
-  }
-
-  _routeCycle(newRoute, components) {
-    if(newRoute && components && Array.isArray(components)) {
-
-      let route = newRoute.path.replace(/^\/|\/$/g, '');
-
-      if(routes.map(n => n.path).includes(`/${route}`) || true) {
-
-        if(getCookie('token') || route === 'login' || route === '') {
-          let hasComponent = routes.filter(n => n.name === 'login').map(n => n.path).includes(`/${route}`)
-                              || routes.filter(n => n.name === 'root').map(n => n.path).includes(`/${route}`)
-                              || components.includes((() => {
-                                  let filteredRoute = routes.filter(n => n.path === `/${route}`).pop()
-
-                                  if(filteredRoute) {
-                                    return filteredRoute.name;
-                                  } else {
-                                    return false;
-                                  }
-                                })())
-                              || components.includes('*');
-
-          if(hasComponent) {
-            this.pages = route.split('/');
-          } else {
-            this.pages = ['forbidden'];
-          }
-
-          document.title = `Egeria UI ${this.page ? `- ${this.pages.join(' - ')}`: ''}`;
-        } else {
-          // let queryParamsAsString = Object.keys(this.queryParams)
-          //                                 .filter((k) => k !== 'redirect')
-          //                                 .map(k => `${k}=${this.queryParams[k]}`).join('&');
-
-          let queryParamsAsString = window.location.search;
-
-          let encodedPath = `/login?redirect=${encodeURIComponent(`/${route}${queryParamsAsString ? `${queryParamsAsString}` : ``}`)}`;
-
-          window.location.href = encodedPath;
-        }
-      } else {
-        this.pages = ['error'];
-      }
+      queryParams: { type: String, value: '' }
     }
   }
 
@@ -141,10 +83,6 @@ class EgeriaSinglePage extends PolymerElement {
     return a === b;
   }
 
-  _doesntInclude(value) {
-    return !['login', 'forbidden', 'error'].includes(value);
-  }
-
   _hasComponent(array, component) {
     if(array.length === 0) {
       return true;
@@ -159,10 +97,6 @@ class EgeriaSinglePage extends PolymerElement {
         :host {
           display:block;
           height:100%;
-        }
-
-        app-drawer {
-          border-right: 1px solid #cccccc;
         }
 
         app-drawer-layout:not([narrow]) [drawer-toggle] {
@@ -261,71 +195,56 @@ class EgeriaSinglePage extends PolymerElement {
           position:absolute;
           bottom:0;
         }
+
+        .content {
+          height:var(--egeria-view-min-height);
+          margin:var(--egeria-view-margin);
+        }
       </style>
 
-      <app-location route="{{ route }}"
-                    query-params="{{ queryParams }}"></app-location>
+      <app-drawer-layout id="drawerLayout"
+                        flex
+                        forceNarrow
+                        narrow="{{ narrow }}"
+                        fullbleed="">
+        <app-drawer id="drawer"
+                    slot="drawer"
+                    swipe-open="[[ narrow ]]">
+          <div id="logo"></div>
 
-      <app-route route="{{ route }}"
-                  pattern="/:page"
-                  data="{{ routeData }}"
-                  tail="{{ tail }}"></app-route>
+          <iron-selector selected="[[page]]"
+                        attr-for-selected="name"
+                        class="drawer-list"
+                        swlectedClass="drawer-list-selected"
+                        role="navigation">
 
-      <template is="dom-if" if="[[ _isEqualTo(page, 'error') ]]" >
-        <h1>Error page</h1>
-      </template>
-
-      <template is="dom-if" if="[[ _isEqualTo(page, 'forbidden') ]]" >
-        <h1>Forbidden</h1>
-      </template>
-
-      <template is="dom-if" if="[[ _isEqualTo(page, 'login') ]]">
-        <egeria-login query-params="[[ queryParams ]]"></egeria-login>
-      </template>
-
-      <template is="dom-if" if="[[ _doesntInclude(page) ]]" restamp="true">
-        <app-drawer-layout id="drawerLayout"
-                          flex
-                          forceNarrow
-                          narrow="{{ narrow }}"
-                          fullbleed="">
-          <app-drawer id="drawer"
-                      slot="drawer"
-                      swipe-open="[[ narrow ]]">
-            <div id="logo"></div>
-
-            <iron-selector selected="[[page]]"
-                          attr-for-selected="name"
-                          class="drawer-list"
-                          swlectedClass="drawer-list-selected"
-                          role="navigation">
-
-              <template id="test" is="dom-if" if="[[components]]">
-                <template is="dom-if" if="[[_hasComponent(components, 'asset-catalog')]]">
-                  <div name="asset-catalog" language="[[language]]"><a href="/asset-catalog/search">Asset Catalog</a></div>
-                </template>
-                <template is="dom-if" if="[[_hasComponent(components, 'glossary-view')]]">
-                  <div name="glossary" language="[[ language ]]"><a href="/glossary">Glossary View</a></div>
-                </template>
-                <template is="dom-if" if="[[_hasComponent(components, 'tex')]]">
-                    <div name="type-explorer"><a href="/type-explorer">Type Explorer</a></div>
-                </template>
-                <template is="dom-if" if="[[ _hasComponent(components, 'rex') ]]">
-                    <div name="repository-explorer"><a href="/repository-explorer">Repository Explorer</a></div>
-                </template>
-                <template is="dom-if" if="[[ _hasComponent(components, 'about') ]]">
-                  <div name="about"><a href="/about">About</a></div>
-                </template>
+            <template id="test" is="dom-if" if="[[components]]">
+              <template is="dom-if" if="[[_hasComponent(components, 'asset-catalog')]]">
+                <div name="asset-catalog" language="[[language]]"><a href="/asset-catalog/search">Asset Catalog</a></div>
               </template>
-            </iron-selector>
+              <template is="dom-if" if="[[_hasComponent(components, 'glossary-view')]]">
+                <div name="glossary" language="[[ language ]]"><a href="/glossary">Glossary View</a></div>
+              </template>
+              <template is="dom-if" if="[[_hasComponent(components, 'tex')]]">
+                <div name="type-explorer"><a href="/type-explorer">Type Explorer</a></div>
+              </template>
+              <template is="dom-if" if="[[ _hasComponent(components, 'rex') ]]">
+                <div name="repository-explorer"><a href="/repository-explorer">Repository Explorer</a></div>
+              </template>
+              <template is="dom-if" if="[[ _hasComponent(components, 'about') ]]">
+                <div name="about"><a href="/about">About</a></div>
+              </template>
+            </template>
+          </iron-selector>
 
-            <div class="user-options-wrapper">
-              <div class="user-options">
-                <egeria-user-options></egeria-user-options>
-              </div>
+          <div class="user-options-wrapper">
+            <div class="user-options">
+              <egeria-user-options></egeria-user-options>
             </div>
-          </app-drawer>
+          </div>
+        </app-drawer>
 
+        <div class="content">
           <template is="dom-if" if="[[ _isEqualTo(page, 'asset-catalog') ]]">
             <egeria-asset-catalog pages="[[ nextPages ]]"
                                   components="[[ components ]]"></egeria-asset-catalog>
@@ -350,9 +269,8 @@ class EgeriaSinglePage extends PolymerElement {
           <template is="dom-if" if="[[ _isEqualTo(page, 'about') ]]">
             <egeria-about></egeria-about>
           </template>
-
-        </app-drawer-layout>
-      </template>
+        </div>
+      </app-drawer-layout>
     `;
   }
 }

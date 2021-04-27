@@ -1,12 +1,29 @@
 /* SPDX-License-Identifier: Apache-2.0 */
 /* Copyright Contributors to the ODPi Egeria project. */
 import { PolymerElement, html } from '@polymer/polymer';
+import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class.js';
+import { ItemUtilsBehavior } from '../../src/common/item-utils.js';
+import { egeriaFetch } from '../commons/fetch';
+import './egeria-asset-tools.component';
+import '../commons/egeria-props-table.component';
 
-class EgeriaAssetDetails extends PolymerElement {
+class EgeriaAssetDetails extends mixinBehaviors([ItemUtilsBehavior], PolymerElement) {
   static get properties() {
     return {
-      guid: { type: String, value: '' }
+      guid: { type: String, value: '' },
+      item: { type: Object, value: null },
+      components: { type: Array, value: [] }
     }
+  }
+
+  ready() {
+    super.ready();
+
+    egeriaFetch(`/api/assets/${ this.atob(this.guid) }`)
+      .then(response => response.json())
+      .then(response => {
+        this.item = response;
+      });
   }
 
   atob(string) {
@@ -15,14 +32,38 @@ class EgeriaAssetDetails extends PolymerElement {
 
   static get template() {
     return html`
-      Asset details
+      <style>
+        :host {
+          display:block;
+          height:100%;
+          background:var(--egeria-background-color);
+        }
+      </style>
 
-      guid: [[ atob(guid) ]]
+      <template is="dom-if" if="[[ item ]]">
+        <egeria-asset-tools guid="[[ item.guid ]]"
+                            type="[[ item.type.name ]]"
+                            components="[[ components ]]"></egeria-asset-tools>
 
+        <egeria-props-table items="[[ _attributes(item.properties) ]]"
+                            title="Properties"
+                            with-row-stripes></egeria-props-table>
 
+        <egeria-props-table items="[[ _attributes(item.type) ]]"
+                            title="Type"
+                            with-row-stripes ></egeria-props-table>
 
+        <template is="dom-if" if="[[ _hasKeys(item.additionalProperties) ]]">
+          <egeria-props-table items="[[ _attributes(item.additionalProperties) ]]"
+                              title="Additional Properties"
+                              with-row-stripes></egeria-props-table>
+        </template>
 
-
+        <egeria-props-table items="[[ _attributes(item) ]]"
+                            title="Attributes"
+                            with-row-stripes
+                            collapsable></egeria-props-table>
+      </template>
     `;
   }
 }

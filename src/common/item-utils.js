@@ -2,7 +2,6 @@
 /* Copyright Contributors to the ODPi Egeria project. */
 
 export const ItemUtilsBehavior = {
-
     _attributes(obj) {
         var arr = [];
         if (obj === undefined) {

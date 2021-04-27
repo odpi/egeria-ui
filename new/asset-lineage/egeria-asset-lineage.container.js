@@ -166,7 +166,7 @@ class EgeriaAssetLineage extends PolymerElement {
 
         :host {
           display:block;
-          height:100%;
+          height:calc(100% - 48px);
         }
 
         paper-tab {

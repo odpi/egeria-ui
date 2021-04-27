@@ -12,6 +12,10 @@ export const routes = [
     path: '/asset-catalog',
   },
   {
+    name: 'asset-lineage',
+    path: '/asset-lineage',
+  },
+  {
     name: 'glossary',
     path: '/glossary',
   },
@@ -28,3 +32,15 @@ export const routes = [
     path: '/about'
   }
 ];
+
+export const routeCheck = (route) => {
+  let routeArray = route.split('/');
+
+  if(routeArray.length > 0) {
+    return routes.map(r => r.path).includes(`/${routeArray[0]}`);
+  }
+
+  if(routeArray.length === 0) {
+    return true;
+  }
+};
