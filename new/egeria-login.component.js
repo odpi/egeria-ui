@@ -9,12 +9,14 @@ import '@polymer/paper-button/paper-button.js';
 import '@polymer/paper-styles/paper-styles.js';
 import '@polymer/paper-input/paper-input-behavior.js';
 
-import './shared-styles.js';
-import './form-feedback.js';
+import '../src/shared-styles.js';
+import '../src/form-feedback.js';
+
+import { setCookie } from './commons/cookies';
 
 import { ENV } from '../env';
 
-class LoginView extends PolymerElement {
+class EgeriaLogin extends PolymerElement {
   getApiUrl() {
     return ENV['API_URL'];
   }
@@ -79,7 +81,7 @@ class LoginView extends PolymerElement {
         }
       </style>
 
-      <iron-localstorage name="my-app-storage" value="{{token}}"></iron-localstorage>
+      <iron-localstorage name="my-app-storage" value="{{ token }}"></iron-localstorage>
       <iron-ajax id="ajax" url="[[ getApiUrl() ]]/api/public/app/info" auto last-response="{{app}}"></iron-ajax>
 
       <div class="container"><h1>[[app.title]]</h1></div>
@@ -94,14 +96,14 @@ class LoginView extends PolymerElement {
         <div class="login">
           <iron-form id="form">
             <form method="post" action="[[ getApiUrl() ]]/api/auth/login">
-              <paper-input value="{{username}}"
+              <paper-input value="{{ username }}"
                            label="Username"
                            name="username"
                            required
                            error-message="Username is required"
                            autofocus></paper-input>
 
-              <paper-input value="{{password}}"
+              <paper-input value="{{ password }}"
                            label="Password"
                            name="password"
                            required
@@ -143,6 +145,12 @@ class LoginView extends PolymerElement {
     this.token = evt.detail.xhr.getResponseHeader('x-auth-token');
     this.feedback = 'Authentication successful!';
     this.feedbackLevel = 'info';
+
+    setCookie('token', this.token);
+
+    let redirectUrl = `${this.queryParams.redirect ? decodeURIComponent(this.queryParams.redirect) : '/'}`;
+
+    window.location.href = redirectUrl;
   }
 
   _handleLoginError(evt) {
@@ -162,4 +170,4 @@ class LoginView extends PolymerElement {
   }
 }
 
-window.customElements.define('login-view', LoginView);
+window.customElements.define('egeria-login', EgeriaLogin);

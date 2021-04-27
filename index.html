@@ -2,15 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Polymer Starter Kit">
   <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
 
   <title>Egeria UI</title>
   <meta name="description" content="Egeria UI Application">
-  <link rel="icon" href="images/favicon.ico">
+  <link rel="icon" href="/images/favicon.ico">
 
   <!-- See https://goo.gl/OOhYW5 -->
-  <link rel="manifest" href="manifest.json">
+  <link rel="manifest" href="/manifest.json">
 
   <!-- See https://goo.gl/qRE0vM -->
   <meta name="theme-color" content="#3f51b5">
@@ -25,11 +24,11 @@
   <meta name="apple-mobile-web-app-title" content="Egeria UI">
 
   <!-- Homescreen icons -->
-  <link rel="apple-touch-icon" href="images/manifest/icon-48x48.png">
-  <link rel="apple-touch-icon" sizes="72x72" href="images/manifest/icon-72x72.png">
-  <link rel="apple-touch-icon" sizes="96x96" href="images/manifest/icon-96x96.png">
-  <link rel="apple-touch-icon" sizes="144x144" href="images/manifest/icon-144x144.png">
-  <link rel="apple-touch-icon" sizes="192x192" href="images/manifest/icon-192x192.png">
+  <link rel="apple-touch-icon" href="/images/manifest/icon-48x48.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/images/manifest/icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="96x96" href="/images/manifest/icon-96x96.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/images/manifest/icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="192x192" href="/images/manifest/icon-192x192.png">
 
   <!-- Tile icon for Windows 8 (144x144 + tile color) -->
   <meta name="msapplication-TileImage" content="images/manifest/icon-144x144.png">
@@ -42,35 +41,33 @@
     -->
 
   <!-- Load webcomponents-loader.js to check and load any polyfills your browser needs -->
-  <script src="node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
-  <script src="node_modules/web-animations-js/web-animations-next-lite.min.js"></script>
-  <script src="node_modules/d3/dist/d3.min.js"></script>
-  <script src="node_modules/visjs-network/dist/vis-network.min.js"></script>
-  <link href="node_modules/visjs-network/dist/vis-network.min.css" rel="stylesheet" type="text/css">
+  <script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+  <script src="/node_modules/web-animations-js/web-animations-next-lite.min.js"></script>
+  <!-- <script src="node_modules/visjs-network/dist/vis-network.min.js"></script> -->
+  <!-- <link href="node_modules/visjs-network/dist/vis-network.min.css" rel="stylesheet" type="text/css"> -->
 
   <!-- default theme, it can be overwritten -->
   <link href="/themes/css/style.css" rel="stylesheet" type="text/css">
 
   <script>
     // Load and register pre-caching Service Worker
-    if (window.location.protocol != 'https:' && 'serviceWorker' in navigator) {
-      window.addEventListener('load', function () {
-        navigator.serviceWorker.register('service-worker.js', {
-          scope: '/'
-        });
-      });
-    }
+    // if (window.location.protocol != 'https:' && 'serviceWorker' in navigator) {
+    //   window.addEventListener('load', function () {
+    //     navigator.serviceWorker.register('service-worker.js', {
+    //       scope: '/'
+    //     });
+    //   });
+    // }
   </script>
 
   <!-- Load your application shell -->
-  <script type="module" src="src/my-app.js"></script>
+  <script type="module" src="/new/egeria-app.container.js"></script>
 </head>
 
 <body>
-  <my-app id="my-app"></my-app>
-  <noscript>
-    Please enable JavaScript to view this website.
-  </noscript>
+  <egeria-app></egeria-app>
+
+  <noscript>Please enable JavaScript to view this website.</noscript>
 </body>
 
 </html>

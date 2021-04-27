@@ -35,6 +35,7 @@ import './user-options-menu';
 import './shared-styles.js';
 import './common/breadcrumb.js';
 import { RoleComponentsBehavior } from "./common/role-components";
+import { setCookie } from '../new/commons/cookies';
 
 // Gesture events like tap and track generated from touch will not be
 // preventable, allowing for better scrolling performance.
@@ -204,6 +205,9 @@ class MyApp extends mixinBehaviors([AppLocalizeBehavior, RoleComponentsBehavior]
     //TODO invalidate token from server
     console.log('LOGOUT: removing token...');
     this.token = null;
+
+    setCookie('token', null);
+
     this.components = null;
     this.routeData = null;
   }

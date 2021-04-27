@@ -200,7 +200,7 @@ class AssetSearchView extends mixinBehaviors([AppLocalizeBehavior], PolymerEleme
                     }
                 </style>
             </custom-style>
-            
+
             <style include="shared-styles">
                 :host {
                     display: flex;
@@ -220,7 +220,7 @@ class AssetSearchView extends mixinBehaviors([AppLocalizeBehavior], PolymerEleme
                 vaadin-grid {
                     flex-grow: 1;
                 }
-                
+
                 paper-checkbox {
                     align-self: center;
                     border: 1px solid var(--egeria-primary-color);
@@ -235,7 +235,7 @@ class AssetSearchView extends mixinBehaviors([AppLocalizeBehavior], PolymerEleme
                     --paper-checkbox-margin: 3px 8px 3px 0;
                 }
 
-                paper-input { 
+                paper-input {
                     width: 300px;
                     display: inline-block;
                     text-align: left;
@@ -244,7 +244,7 @@ class AssetSearchView extends mixinBehaviors([AppLocalizeBehavior], PolymerEleme
                 .align-center { text-align:center; }
                 .m20 { margin: 20px; }
             </style>
-            
+
             <token-ajax id="tokenAjax" last-response="{{items}}"></token-ajax>
             <token-ajax id="tokenAjaxTypes" last-response="{{supportedTypes}}"></token-ajax>
 
@@ -252,8 +252,8 @@ class AssetSearchView extends mixinBehaviors([AppLocalizeBehavior], PolymerEleme
             <iron-form id="searchForm">
                 <form method="get">
                     <iron-a11y-keys keys="enter" on-keys-pressed="_search"></iron-a11y-keys>
-                    <div class="align-center m20"> 
-                    
+                    <div class="align-center m20">
+
                         <paper-checkbox id="exactMatch">Exact match</paper-checkbox>
                         <paper-checkbox id="caseSensitive">Case sensitive</paper-checkbox>
                         <multiselect-combo-box class="multi-combo" id="combo" items="[[supportedTypes]]"
@@ -301,7 +301,7 @@ class AssetSearchView extends mixinBehaviors([AppLocalizeBehavior], PolymerEleme
                     </template>
                     <template>[[item.type.name]]</template>
                 </vaadin-grid-column>
-                
+
                 <vaadin-grid-column path="properties.qualifiedName" header="Context Info" width="40%" resizable>
                     <template class="header">
                         <div><vaadin-grid-sorter path="properties.qualifiedName">Context Info</vaadin-grid-sorter></div>

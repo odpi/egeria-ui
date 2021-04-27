@@ -2,3 +2,4 @@ node_modules
 build
 debug.log
 env.js
+.DS_Store

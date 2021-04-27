@@ -9,7 +9,7 @@
   --paper-font-subhead_-_font-family: var(--custom-font-family);
   --paper-font-common-code_-_font-family: var(--custom-font-family);
 
-  --login-background: url(images/default-login-background.svg) no-repeat right bottom;
+  --login-background: url(/images/default-login-background.svg) no-repeat right bottom;
 
   --egeria-primary-color-rgb: 113, 204, 220;
   --egeria-primary-color: rgb(var(--egeria-primary-color-rgb));
@@ -24,12 +24,12 @@
   --egeria-view-min-height: calc(100vh - 110px);
 
   --app-background-color: #eeeeee;
-  --app-logo-background: url(images/Logo_transparent.png) no-repeat top left;
+  --app-logo-background: url(/images/Logo_transparent.png) no-repeat top left;
   --app-logo-width: 256px;
   --app-logo-height: 64px;
   --app-logo-background-size: 120px auto;
 
-  --app-logo-background-white: url(images/logo-white.png) no-repeat top left;
+  --app-logo-background-white: url(/images/logo-white.png) no-repeat top left;
   --app-logo-width-white: 140px;
   --app-logo-height-white: 64px;
 
@@ -40,10 +40,14 @@
   --happi-graph-gray-color: #AFAFAF;
 }
 
+html {
+  height:100%;
+}
+
 body {
   margin: 0;
   line-height: 1.5;
-  min-height: 100vh;
+  height:100%;
   background-color: var(--app-background-color);
   color: var(--egeria-secondary-color);
 }
