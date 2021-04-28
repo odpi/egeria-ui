@@ -35,7 +35,7 @@ import './user-options-menu';
 import './shared-styles.js';
 import './common/breadcrumb.js';
 import { RoleComponentsBehavior } from "./common/role-components";
-import { setCookie } from '../new/commons/cookies';
+import { setCookie } from '../new/commons/local-storage';
 
 // Gesture events like tap and track generated from touch will not be
 // preventable, allowing for better scrolling performance.

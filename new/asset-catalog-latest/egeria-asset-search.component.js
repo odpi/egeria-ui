@@ -53,7 +53,6 @@ class EgeriaAssetSearch extends PolymerElement {
     this.q = this.queryParams['q'];
     this.q ? this.q = this.q.trim() : 0;
     this.$.combo.selectedItems = this.queryParams['types'] ? this.queryParams['types'].split(',').map(i => { return {name: i}}) : [];
-    console.log(this.$.combo.selectedItems);
   }
 
   _computeCurrentPage(from, pageSize) {

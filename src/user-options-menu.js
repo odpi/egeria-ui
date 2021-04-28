@@ -13,7 +13,7 @@ import '@vaadin/vaadin-grid/vaadin-grid-sort-column.js';
 
 import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
 
-import { setCookie } from '../new/commons/cookies';
+import { setCookie } from '../new/commons/local-storage';
 
 class UserOptions extends PolymerElement {
 
