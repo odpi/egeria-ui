@@ -6,7 +6,7 @@ import '@polymer/iron-ajax/iron-ajax.js';
 
 import './spinner.js';
 
-import { getCookie } from '../new/commons/cookies';
+import { getCookie } from '../new/commons/local-storage';
 import { ENV } from '../env';
 
 class TokenAjax extends PolymerElement {

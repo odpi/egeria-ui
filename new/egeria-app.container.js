@@ -26,7 +26,7 @@ setPassiveTouchGestures(false);
 setRootPath('/');
 
 import { routes, routeCheck } from './routes';
-import { getCookie } from './commons/cookies';
+import { getCookie } from './commons/local-storage';
 
 import { egeriaFetch } from './commons/fetch';
 

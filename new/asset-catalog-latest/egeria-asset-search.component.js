@@ -25,6 +25,7 @@ class EgeriaAssetSearch extends PolymerElement {
       from: { type: Number, value: 0 },
       pageSize: { type: Number, value: 20 },
       currentPage: { type: Number, computed: '_computeCurrentPage(from,pageSize)' },
+      queryParams: { type: Object, value: {} },
       items: { type: Array, observer: '_itemsChanged' },
       assets: { type: Array, value: [], notify: true },
       item: { type: Object, value: {} },
@@ -40,6 +41,19 @@ class EgeriaAssetSearch extends PolymerElement {
       .then(data => {
         this.types = data;
       });
+
+    window.location.search.replace('?','').split('&').map(q => {
+      let data = q.split('=');
+
+      this.queryParams[data[0]] = data[1];
+    });
+
+    this.$.exactMatch.checked = this.queryParams['exactMatch'] ? true : false;
+    this.$.caseSensitive.checked = this.queryParams['caseSensitive'] ? true : false;
+    this.q = this.queryParams['q'];
+    this.q ? this.q = this.q.trim() : 0;
+    this.$.combo.selectedItems = this.queryParams['types'] ? this.queryParams['types'].split(',').map(i => { return {name: i}}) : [];
+    console.log(this.$.combo.selectedItems);
   }
 
   _computeCurrentPage(from, pageSize) {
@@ -79,6 +93,8 @@ class EgeriaAssetSearch extends PolymerElement {
       this.$.combo.selectedItems.forEach(function (item) {
         types.push(item.name);
       });
+
+      console.log(types);
 
       let url = '/api/assets/search';
 

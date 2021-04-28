@@ -7,6 +7,7 @@ import '@polymer/paper-item/paper-item.js';
 import '@polymer/paper-item/paper-item-body.js';
 import '@polymer/paper-styles/paper-styles.js';
 import '@vaadin/vaadin-icons/vaadin-icons.js';
+import { egeriaFetch } from '../commons/fetch.js';
 
 class EgeriaAssetTools extends PolymerElement {
   static get properties() {
@@ -14,8 +15,19 @@ class EgeriaAssetTools extends PolymerElement {
       guid: { type: String, value: '' },
       type: { type: String, value: '' },
       item: { type: Object, value: {} },
-      components: { type: Array, value: [] }
+      components: { type: Array, value: [] },
+      settings: { type: Object, value: {} }
     }
+  }
+
+  ready() {
+    super.ready();
+
+    egeriaFetch(`/api/ui/settings`)
+      .then(response => response.json())
+      .then(response => {
+        this.settings = response;
+      });
   }
 
   btoa(string) {
@@ -28,6 +40,22 @@ class EgeriaAssetTools extends PolymerElement {
     }
 
     return Array.isArray(this.components) && (this.components.includes("*") || this.components.includes(component));
+  }
+
+  _buttonClick(){
+    this.dispatchEvent(new CustomEvent('button-click', {
+      bubbles: true,
+      composed: true,
+      detail: {}
+    }));
+  }
+
+  _displayVerticalLineageButton(type) {
+    return (type === 'RelationalColumn' || type === 'TabularColumn' || type === 'GlossaryTerm');
+  }
+
+  _encode(val) {
+    return btoa(val);
   }
 
   static get template() {
@@ -126,22 +154,6 @@ class EgeriaAssetTools extends PolymerElement {
           </ul>
         </template>
       `;
-  }
-
-  _buttonClick(){
-    this.dispatchEvent(new CustomEvent('button-click', {
-      bubbles: true,
-      composed: true,
-      detail: {}
-    }));
-  }
-
-  _displayVerticalLineageButton(type) {
-    return (type === 'RelationalColumn' || type === 'TabularColumn' || type === 'GlossaryTerm');
-  }
-
-  _encode(val) {
-    return btoa(val);
   }
 }
 

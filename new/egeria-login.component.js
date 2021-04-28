@@ -12,7 +12,7 @@ import '@polymer/paper-input/paper-input-behavior.js';
 import '../src/shared-styles.js';
 import '../src/form-feedback.js';
 
-import { setCookie } from './commons/cookies';
+import { setCookie } from './commons/local-storage';
 
 import { ENV } from '../env';
 

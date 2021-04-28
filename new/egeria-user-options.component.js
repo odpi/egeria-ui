@@ -13,7 +13,8 @@ import '@vaadin/vaadin-grid/vaadin-grid-sort-column.js';
 
 import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
 
-import { setCookie } from '../new/commons/cookies';
+import { setCookie } from '../new/commons/local-storage';
+import { egeriaFetch } from './commons/fetch';
 
 class EgeriaUserOptions extends PolymerElement {
   static get properties() {
@@ -26,18 +27,10 @@ class EgeriaUserOptions extends PolymerElement {
   }
 
   _logout() {
-    this.$.userAjax.url = "/api/logout";
-    this.$.userAjax._go();
-
-    var customEvent = new CustomEvent('logout', {
-      bubbles: true,
-      composed: true,
-      detail: { greeted: "Bye!" }
-    });
-
-    setCookie('token', null);
-
-    this.dispatchEvent(customEvent);
+    egeriaFetch(`/api/logout`)
+      .then(() => {
+        setCookie('token', null);
+      });
   }
 
   static get template() {
@@ -105,7 +98,7 @@ class EgeriaUserOptions extends PolymerElement {
                 <hr>
                 <paper-item>Settings</paper-item>
                 <paper-item>Help</paper-item>
-                <paper-item><a href="[[rootPath]]#/about">About</a></paper-item>
+                <paper-item><a href="/about">About</a></paper-item>
                 <hr>
               </paper-listbox>
 

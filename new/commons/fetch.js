@@ -1,4 +1,4 @@
-import { getCookie } from './cookies';
+import { getCookie } from './local-storage';
 import { ENV } from '../../env';
 
 export const egeriaFetch = (url, headers) => {

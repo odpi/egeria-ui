@@ -10,15 +10,9 @@ import '@vaadin/vaadin-tabs/vaadin-tabs.js';
 
 import './egeria-asset-lineage-viewer.component';
 
-import { ENV } from '../../env';
-import { getCookie } from '../commons/cookies';
 import { egeriaFetch } from '../commons/fetch';
 
 class EgeriaAssetLineage extends PolymerElement {
-  getApiUrl() {
-    return ENV['API_URL']
-  }
-
   static get properties() {
     return {
       pages: { type: Array, observer: '_pagesChanged' },
