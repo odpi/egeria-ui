@@ -67,7 +67,15 @@ class EgeriaUserOptions extends PolymerElement {
       </style>
 
       <div style="float: right">
-        <paper-menu-button>
+        <paper-menu-button horizontal-align="right"
+                           horizontal-offset="20"
+                           horizontal-offset="20"
+                           horizontal-offset="20"
+                           horizontal-align="bottom"
+                           vertical-offset="65"
+                           vertical-offset="65"
+                           vertical-offset="65"
+                           style="margin-top: 10px">
             <paper-icon-item slot="dropdown-trigger">
               <div class="avatar" slot="item-icon">
                 <img src="/images/user.svg" height="100%"/>

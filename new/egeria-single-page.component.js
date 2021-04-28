@@ -239,13 +239,37 @@ class EgeriaSinglePage extends PolymerElement {
               </template>
             </template>
           </iron-selector>
-
-          <div class="user-options-wrapper">
-            <div class="user-options">
-              <egeria-user-options></egeria-user-options>
-            </div>
-          </div>
         </app-drawer>
+
+        <app-header-layout>
+          <app-header slot="header" condenses fixed effects="waterfall">
+            <app-toolbar>
+              <paper-icon-button on-tap="_toggleDrawer" id="toggle" icon="menu"></paper-icon-button>
+
+              <template is="dom-if" if="[[narrow]]" >
+                <div id="logo" class="white"></div>
+              </template>
+
+              <div>
+                <template is="dom-if" if="[[!narrow]]" >
+                  Open Metadata -
+                </template>
+                [[page]]
+              </div>
+
+              <div main-title="">
+
+              </div>
+
+              <div style="float: right">
+                <egeria-user-options></egeria-user-options>
+              </div>
+            </app-toolbar>
+
+            <div class="breadcrumb">
+              <!-- <bread-crumb id="breadcrumb" items="[[crumbs]]"></bread-crumb> -->
+            </div>
+          </app-header>
 
         <div class="content">
           <template is="dom-if" if="[[ _isEqualTo(page, 'asset-catalog') ]]">
