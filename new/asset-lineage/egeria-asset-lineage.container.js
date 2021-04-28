@@ -12,6 +12,7 @@ import './egeria-asset-lineage-viewer.component';
 
 import { ENV } from '../../env';
 import { getCookie } from '../commons/cookies';
+import { egeriaFetch } from '../commons/fetch';
 
 class EgeriaAssetLineage extends PolymerElement {
   getApiUrl() {
@@ -100,15 +101,7 @@ class EgeriaAssetLineage extends PolymerElement {
 
     this.graphData = null;
 
-    return fetch(
-        `${ this.getApiUrl() }/api/lineage/entities/${ window.atob( this.guid ) }/${ pathSuffix }?includeProcesses=true`,
-        {
-          headers: {
-            'content-type': 'application/json',
-            'x-auth-token': getCookie('token')
-          }
-        }
-      )
+    return egeriaFetch(`/api/lineage/entities/${ window.atob( this.guid ) }/${ pathSuffix }?includeProcesses=true`)
       .then(data => data.json())
       .then(data => {
         this.checkLineage(data);

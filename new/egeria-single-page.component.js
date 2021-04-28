@@ -39,6 +39,9 @@ import './asset-catalog-latest/egeria-asset-catalog.container';
 import './asset-lineage/egeria-asset-lineage.container';
 import './egeria-about.component';
 import './egeria-user-options.component';
+import './glossary/egeria-glossary.component';
+import './type-explorer/egeria-type-explorer.component';
+import './repository-explorer/egeria-repository-explorer.component';
 
 class EgeriaSinglePage extends PolymerElement {
   static get properties() {
@@ -255,15 +258,15 @@ class EgeriaSinglePage extends PolymerElement {
           </template>
 
           <template is="dom-if" if="[[ _isEqualTo(page, 'glossary') ]]">
-            <h3>glossary</h3>
+            <egeria-glossary></egeria-glossary>
           </template>
 
           <template is="dom-if" if="[[ _isEqualTo(page, 'type-explorer') ]]">
-            <h3>type-explorer</h3>
+            <egeria-type-explorer></egeria-type-explorer>
           </template>
 
           <template is="dom-if" if="[[ _isEqualTo(page, 'repository-explorer') ]]">
-            <h3>repository-explorer</h3>
+            <egeria-repository-explorer></egeria-repository-explorer>
           </template>
 
           <template is="dom-if" if="[[ _isEqualTo(page, 'about') ]]">
