@@ -34,6 +34,7 @@ import '../src/token-ajax';
 import '../src/toast-feedback';
 import '../src/shared-styles.js';
 
+import './egeria-spinner.component';
 import './egeria-login.component';
 import './asset-catalog-latest/egeria-asset-catalog.container';
 import './asset-lineage/egeria-asset-lineage.container';
@@ -92,6 +93,18 @@ class EgeriaSinglePage extends PolymerElement {
     }
 
     return Array.isArray(array) && (array.includes("*") || array.includes(component));
+  }
+
+  ready() {
+    super.ready();
+
+    window.addEventListener('egeria-open-spinner', e => {
+      this.$.spinner.open();
+    });
+
+    window.addEventListener('egeria-close-spinner', e => {
+      this.$.spinner.close();
+    });
   }
 
   static get template() {
@@ -298,6 +311,13 @@ class EgeriaSinglePage extends PolymerElement {
           </template>
         </div>
       </app-drawer-layout>
+
+      <egeria-spinner id="spinner"
+                      with-backdrop
+                      scroll-action="lock"
+                      always-on-top
+                      no-cancel-on-outside-click
+                      no-cancel-on-esc-key></egeria-spinner>
     `;
   }
 }

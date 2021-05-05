@@ -13,13 +13,14 @@ class SpinnerOverlay extends mixinBehaviors(IronOverlayBehavior, PolymerElement)
             :host {
               background: transparent;
             }
-            
+
             paper-spinner-lite {
-                width: 80pt;
-                height: 80pt;              
+              width: 80pt;
+              height: 80pt;
             }
           </style>
-          <paper-spinner-lite active></paper-spinner-lite> 
+
+          <paper-spinner-lite active></paper-spinner-lite>
     `;
     }
 }
