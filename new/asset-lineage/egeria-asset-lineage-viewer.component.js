@@ -24,16 +24,52 @@ class EgeriaAssetLineageViewer extends PolymerElement {
     };
   }
 
+  ready() {
+    super.ready();
+
+    this.shadowRoot.querySelector('#happi-graph')
+      .addEventListener('happi-graph-on-node-click', (e) => {
+        let evt = new CustomEvent('happi-graph-on-node-click', {
+          detail: {
+            ...e.detail
+          },
+          bubbles: true,
+          composed: true
+        });
+
+        window.dispatchEvent(evt);
+      });
+
+    this.shadowRoot.querySelector('#happi-graph')
+      .addEventListener('happi-graph-on-cached-graph', (e) => {
+        let evt = new CustomEvent('happi-graph-on-cached-graph', {
+          detail: {
+            ...e.detail
+          },
+          bubbles: true,
+          composed: true
+        });
+
+        window.dispatchEvent(evt);
+      });
+  }
+
+  showStatistics() {
+    let evt = new CustomEvent('egeria-toggle-statistics', {
+      detail: {},
+      bubbles: true,
+      composed: true
+    });
+
+    window.dispatchEvent(evt);
+  }
+
   getItemGroupIconMap() {
     return itemGroupIconMap;
   }
 
   getHappiGraphIconsMap() {
     return iconsMap;
-  }
-
-  onNodeClick(nodeId) {
-    console.log(nodeId);
   }
 
   static get template() {

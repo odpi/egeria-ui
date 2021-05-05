@@ -2,17 +2,25 @@
 /* Copyright Contributors to the ODPi Egeria project. */
 
 import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
+import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class';
+import { ItemUtilsBehavior } from '../../src/common/item-utils';
 
 import '@polymer/paper-tabs/paper-tabs';
 import '@polymer/paper-tabs/paper-tab';
-
+import '@polymer/paper-dialog/paper-dialog';
 import '@vaadin/vaadin-tabs/vaadin-tabs.js';
+import '@vaadin/vaadin-grid/vaadin-grid.js';
+import '@vaadin/vaadin-grid/vaadin-grid-selection-column.js';
+import '@vaadin/vaadin-grid/vaadin-grid-sort-column.js';
+
+import '../commons/egeria-props-table.component';
 
 import './egeria-asset-lineage-viewer.component';
+import '../asset-catalog-latest/egeria-asset-tools.component';
 
 import { egeriaFetch } from '../commons/fetch';
 
-class EgeriaAssetLineage extends PolymerElement {
+class EgeriaAssetLineage extends mixinBehaviors([ItemUtilsBehavior], PolymerElement) {
   static get properties() {
     return {
       pages: { type: Array, observer: '_pagesChanged' },
@@ -23,6 +31,11 @@ class EgeriaAssetLineage extends PolymerElement {
       guid: { type: String, value: null },
       includeProcesses: { type: Boolean, value: true },
       graphData: { type: Object, value: null },
+      selectedNode: { type: Object, value: null },
+      typeMapData: {
+        type: Object,
+        value: {}
+      },
 
       pageList: {
         type: Object,
@@ -143,6 +156,100 @@ class EgeriaAssetLineage extends PolymerElement {
     return a === b;
   }
 
+  ready() {
+    super.ready();
+
+    window.addEventListener('happi-graph-on-node-click', e => {
+      this.onNodeClick(e.detail);
+    });
+
+    window.addEventListener('happi-graph-on-cached-graph', e => {
+      this.fetchGraphData();
+    });
+
+    window.addEventListener('egeria-toggle-statistics', e => {
+      this.toggleStatistics();
+    });
+  }
+
+  onNodeClick({ nodeId }) {
+    let _selectedNode = null;
+
+    if (nodeId) {
+      _selectedNode = this.graphData
+        .nodes
+        .filter(n => n.id === nodeId)
+        .pop();
+    }
+
+    if (!['condensedNode', 'subProcess', 'Process'].includes(_selectedNode.group)) {
+      this.selectedNode = _selectedNode;
+
+      this.shadowRoot.querySelector('#paper-dialog').open();
+    }
+  }
+
+  _getPropertiesForDisplay(item) {
+    let displayName = item.label;
+    let guid = item.id;
+    let summary = item.summary;
+    let description = item.description;
+    let displayProperties = {
+      displayName: displayName,
+      guid: guid
+    };
+    if (summary) {
+      displayProperties.summary = summary;
+    }
+    if (description) {
+      displayProperties.description = description;
+    }
+
+    return this._attributes(displayProperties);
+  }
+
+  hasSize(data) {
+    if(data) {
+      return Object.keys(data).length > 0;
+    } else {
+      return false;
+    }
+  }
+
+  toggleStatistics() {
+    this.showStatistics();
+  }
+
+  showStatistics() {
+    let _nodes = this.graphData.nodes;
+
+    let typeMap = {};
+
+    if(_nodes.length) {
+      _nodes.map(n => {
+        if(typeMap[n.group]) {
+          typeMap[n.group]++;
+        } else {
+          typeMap[n.group] = 1;
+        }
+      });
+
+      this.typeMapData = [
+        ...Object.keys(typeMap).map(k => {
+          return {
+            key: k,
+            occurrences: typeMap[k]
+          };
+        })
+      ];
+    } else {
+      this.typeMapData = [];
+    }
+
+    this.shadowRoot.querySelector('#paper-dialog-statistics').open();
+    // this.shadowRoot.querySelector('#happi-graph').hideUnhideStatistics();
+  }
+
   static get template() {
     return html`
       <style>
@@ -170,6 +277,15 @@ class EgeriaAssetLineage extends PolymerElement {
           justify-content: center;
 
           height: 100%;
+        }
+
+        .local-wrapper {
+          width:730px;
+        }
+
+        .pull-right {
+          display: flex;
+          justify-content: flex-end;
         }
       </style>
 
@@ -239,6 +355,67 @@ class EgeriaAssetLineage extends PolymerElement {
 
             repository-explorer
           </template>
+
+          <!-- extract this to separate component -->
+          <paper-dialog id="paper-dialog" class="paper-dialog">
+            <div class="local-wrapper">
+              <div>
+                <a dialog-confirm
+                  style="float: right"
+                  title="close">
+                  <iron-icon icon="icons:close"
+                            style="width: 24px;height: 24px;"></iron-icon>
+                </a>
+              </div>
+
+              <egeria-asset-tools type="[[ selectedNode.group ]]"
+                          guid="[[ selectedNode.id ]]"
+                          on-button-click="_closeDialog"
+                          style="display: inline-flex"></egeria-asset-tools>
+
+              <template is="dom-if" if="[[ selectedNode ]]">
+                <egeria-props-table items="[[ _getPropertiesForDisplay(selectedNode) ]]" title="Properties" with-row-stripes></egeria-props-table>
+
+                <template is="dom-if" if="[[ hasSize(selectedNode.properties) ]]" restramp="true">
+                  <egeria-props-table items="[[ _attributes(selectedNode.properties )]]" title="Context" with-row-stripes></egeria-props-table>
+                </template>
+              </template>
+              <div></div>
+            </div>
+          </paper-dialog>
+
+          <paper-dialog id="paper-dialog-statistics"
+                        class="paper-dialog-statistics"
+                        allow-click-through="[[ false ]]">
+            <div class="local-wrapper">
+              <div class="pull-right">
+                <paper-icon-button dialog-confirm icon="icons:close"></paper-icon-button>
+              </div>
+
+              <!-- extract this to separate component -->
+              <vaadin-grid id="statistics-grid" items="[[ typeMapData ]]" theme="row-stripes">
+                <vaadin-grid-column width="70%">
+                  <template class="header">
+                      <div>
+                        <vaadin-grid-sorter path="key">Type</vaadin-grid-sorter>
+                      </div>
+                  </template>
+                  <template>
+                      [[ item.key ]]
+                  </template>
+                </vaadin-grid-column>
+
+                <vaadin-grid-column width="30%">
+                  <template class="header">
+                      <div>
+                        <vaadin-grid-sorter path="occurrences">Occurrences</vaadin-grid-sorter>
+                      </div>
+                  </template>
+                  <template>[[ item.occurrences ]]</template>
+                </vaadin-grid-column>
+              </vaadin-grid>
+            </div>
+          </paper-dialog>
         </template>
       </div>
     `;

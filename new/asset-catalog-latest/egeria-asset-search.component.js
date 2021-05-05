@@ -53,6 +53,10 @@ class EgeriaAssetSearch extends PolymerElement {
     this.q = this.queryParams['q'];
     this.q ? this.q = this.q.trim() : 0;
     this.$.combo.selectedItems = this.queryParams['types'] ? this.queryParams['types'].split(',').map(i => { return {name: i}}) : [];
+
+    if(this.q && this.$.combo.selectedItems.length > 0) {
+      this._fetch();
+    }
   }
 
   _computeCurrentPage(from, pageSize) {
@@ -92,8 +96,6 @@ class EgeriaAssetSearch extends PolymerElement {
       this.$.combo.selectedItems.forEach(function (item) {
         types.push(item.name);
       });
-
-      console.log(types);
 
       let url = '/api/assets/search';
 
@@ -244,18 +246,8 @@ class EgeriaAssetSearch extends PolymerElement {
           <iron-a11y-keys keys="enter" on-keys-pressed="_search"></iron-a11y-keys>
 
           <div class="align-center m20">
-            <paper-checkbox id="exactMatch">Exact match</paper-checkbox>
-            <paper-checkbox id="caseSensitive">Case sensitive</paper-checkbox>
 
-            <multiselect-combo-box class="multi-combo" id="combo" items="[[ types ]]"
-                                   item-label-path="name"
-                                   ordered="false"
-                                   placeholder="Open Metadata Type (required)"
-                                   required
-                                   error-message="Please select one">
-            </multiselect-combo-box>
-
-            <div>
+          <div>
                 <paper-input id="searchField"
                              label="Search"
                              value="{{ q }}"
@@ -269,7 +261,20 @@ class EgeriaAssetSearch extends PolymerElement {
                 <vaadin-button id="searchSubmit" theme="primary" on-tap="_search">
                   <iron-icon id="search" icon="search"></iron-icon>
                 </vaadin-button>
-            </div>
+
+                <multiselect-combo-box class="multi-combo" id="combo" items="[[ types ]]"
+                                   item-label-path="name"
+                                   ordered="false"
+                                   placeholder="Open Metadata Type (required)"
+                                   required
+                                   error-message="Please select one">
+            </multiselect-combo-box>
+          </div>
+
+          <div>
+            <paper-checkbox id="exactMatch">Exact match</paper-checkbox>
+            <paper-checkbox id="caseSensitive">Case sensitive</paper-checkbox>
+          </div>
           </div>
         </form>
       </iron-form>
