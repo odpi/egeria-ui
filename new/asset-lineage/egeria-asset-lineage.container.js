@@ -32,6 +32,7 @@ class EgeriaAssetLineage extends mixinBehaviors([ItemUtilsBehavior], PolymerElem
       includeProcesses: { type: Boolean, value: true },
       graphData: { type: Object, value: null },
       selectedNode: { type: Object, value: null },
+      toggleETLJobs: { type: Boolean, value: true },
       typeMapData: {
         type: Object,
         value: {}
@@ -108,7 +109,7 @@ class EgeriaAssetLineage extends mixinBehaviors([ItemUtilsBehavior], PolymerElem
 
     this.graphData = null;
 
-    return egeriaFetch(`/api/lineage/entities/${ window.atob( this.guid ) }/${ pathSuffix }?includeProcesses=true`)
+    return egeriaFetch(`/api/lineage/entities/${ window.atob( this.guid ) }/${ pathSuffix }?includeProcesses=${this.toggleETLJobs}`)
       .then(data => data.json())
       .then(data => {
         this.checkLineage(data);
@@ -170,6 +171,16 @@ class EgeriaAssetLineage extends mixinBehaviors([ItemUtilsBehavior], PolymerElem
     window.addEventListener('egeria-toggle-statistics', e => {
       this.toggleStatistics();
     });
+
+    window.addEventListener('egeria-toggle-etl-jobs', e => {
+      this.onToggleETLJobs();
+    });
+  }
+
+  onToggleETLJobs() {
+    this.toggleETLJobs = !this.toggleETLJobs;
+
+    this.fetchGraphData();
   }
 
   onNodeClick({ nodeId }) {
@@ -341,7 +352,8 @@ class EgeriaAssetLineage extends mixinBehaviors([ItemUtilsBehavior], PolymerElem
 
           <template is="dom-if" if="[[ _isEqualTo(page, 'vertical-lineage') ]]">
             <egeria-asset-lineage-viewer graph-direction="VERTICAL"
-                                         graph-data="[[ graphData ]]"></egeria-asset-lineage-viewer>
+                                         graph-data="[[ graphData ]]"
+                                         toggle-etl-jobs="[[ toggleETLJobs ]]"></egeria-asset-lineage-viewer>
           </template>
 
           <template is="dom-if" if="[[ _isEqualTo(page, 'source-and-destination') ]]">

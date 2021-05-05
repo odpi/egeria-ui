@@ -20,7 +20,8 @@ class EgeriaAssetLineageViewer extends PolymerElement {
       page: { type: String, value: '' },
 
       graphDirection: { type: String, value: null },
-      graphData: { type: Object, value: null }
+      graphData: { type: Object, value: null },
+      toggleEtlJobs: { type: Boolean, value: null }
     };
   }
 
@@ -64,6 +65,17 @@ class EgeriaAssetLineageViewer extends PolymerElement {
     window.dispatchEvent(evt);
   }
 
+  onToggleETLJobs() {
+    let evt = new CustomEvent('egeria-toggle-etl-jobs', {
+      detail: {},
+      bubbles: true,
+      composed: true
+    });
+
+    window.dispatchEvent(evt);
+
+  }
+
   getItemGroupIconMap() {
     return itemGroupIconMap;
   }
@@ -94,7 +106,7 @@ class EgeriaAssetLineageViewer extends PolymerElement {
                      graph-data="[[ graphData ]]">
           <div slot="pre-actions">
             <div hidden="[[ _displayETLJobsToggle(routeData.usecase) ]]">
-                <paper-toggle-button id="processToggle" checked>
+                <paper-toggle-button id="processToggle" checked="[[ toggleEtlJobs ]]" on-change="onToggleETLJobs">
                   ETL Jobs
                 </paper-toggle-button>
               </div>
