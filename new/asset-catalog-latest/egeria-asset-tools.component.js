@@ -8,6 +8,7 @@ import '@polymer/paper-item/paper-item-body.js';
 import '@polymer/paper-styles/paper-styles.js';
 import '@vaadin/vaadin-icons/vaadin-icons.js';
 import { egeriaFetch } from '../commons/fetch.js';
+import { ENV } from '../../env';
 
 class EgeriaAssetTools extends PolymerElement {
   static get properties() {
@@ -31,7 +32,7 @@ class EgeriaAssetTools extends PolymerElement {
   }
 
   btoa(string) {
-    return window.btoa(string);
+    return ENV['PRODUCTION'] ? string : window.btoa(string);
   }
 
   _hasComponent(component) {

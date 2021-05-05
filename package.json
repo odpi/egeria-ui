@@ -13,7 +13,7 @@
     "prestart": "npm run generate:env",
     "start": "polymer serve",
     "start:dev": "npm run start --api-url=http://localhost:9000",
-    "prebuild": "npm run generate:env",
+    "prebuild": "npm run generate:env --production=true",
     "build": "polymer build",
     "postbuild": "node about.js",
     "prelint": "npm run generate:env",

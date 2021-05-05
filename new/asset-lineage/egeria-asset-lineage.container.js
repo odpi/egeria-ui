@@ -19,6 +19,7 @@ import './egeria-asset-lineage-viewer.component';
 import '../asset-catalog-latest/egeria-asset-tools.component';
 
 import { egeriaFetch } from '../commons/fetch';
+import { ENV } from '../../env';
 
 class EgeriaAssetLineage extends mixinBehaviors([ItemUtilsBehavior], PolymerElement) {
   static get properties() {
@@ -70,6 +71,10 @@ class EgeriaAssetLineage extends mixinBehaviors([ItemUtilsBehavior], PolymerElem
     };
   }
 
+  atob(string) {
+    return ENV['PRODUCTION'] ? string : window.atob(string);
+  }
+
   _pagesChanged(newPages) {
     if(newPages) {
       if(newPages.length > 1) {
@@ -78,7 +83,7 @@ class EgeriaAssetLineage extends mixinBehaviors([ItemUtilsBehavior], PolymerElem
 
         this.guid = guid;
 
-        this.decodedGuid = window.atob(guid);
+        this.decodedGuid = this.atob(guid);
 
         this.page = page;
         this.nextPages = nextPages;
@@ -109,7 +114,7 @@ class EgeriaAssetLineage extends mixinBehaviors([ItemUtilsBehavior], PolymerElem
 
     this.graphData = null;
 
-    return egeriaFetch(`/api/lineage/entities/${ window.atob( this.guid ) }/${ pathSuffix }?includeProcesses=${this.toggleETLJobs}`)
+    return egeriaFetch(`/api/lineage/entities/${ this.atob( this.guid ) }/${ pathSuffix }?includeProcesses=${ this.toggleETLJobs }`)
       .then(data => data.json())
       .then(data => {
         this.checkLineage(data);

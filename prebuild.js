@@ -1,5 +1,6 @@
 const fs = require('fs');
 let apiUrl = process.env.npm_config_api_url || '';
+let production = process.env.npm_config_production || true;
 
 if(apiUrl === '/' || apiUrl === null || apiUrl === undefined) {
   apiUrl = '';
@@ -7,7 +8,8 @@ if(apiUrl === '/' || apiUrl === null || apiUrl === undefined) {
 
 let data = `export const ENV = {
   'API_URL': '${ apiUrl }',
-  'ROOT_PATH': '/'
+  'ROOT_PATH': '/',
+  'PRODUCTION': ${ production }
 }
 `;
 

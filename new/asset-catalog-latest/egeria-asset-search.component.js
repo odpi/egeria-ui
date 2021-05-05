@@ -17,6 +17,7 @@ import 'multiselect-combo-box/multiselect-combo-box.js';
 import './egeria-qualified-name.component';
 
 import { egeriaFetch } from '../commons/fetch';
+import { ENV } from '../../env';
 
 class EgeriaAssetSearch extends PolymerElement {
   static get properties() {
@@ -175,7 +176,7 @@ class EgeriaAssetSearch extends PolymerElement {
   }
 
   btoa(string) {
-    return window.btoa(string);
+    return ENV['PRODUCTION'] ? string : window.btoa(string);
   }
 
   static get template() {

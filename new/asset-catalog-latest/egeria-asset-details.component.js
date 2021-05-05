@@ -7,6 +7,8 @@ import { egeriaFetch } from '../commons/fetch';
 import './egeria-asset-tools.component';
 import '../commons/egeria-props-table.component';
 
+import { ENV } from '../../env';
+
 class EgeriaAssetDetails extends mixinBehaviors([ItemUtilsBehavior], PolymerElement) {
   static get properties() {
     return {
@@ -27,7 +29,7 @@ class EgeriaAssetDetails extends mixinBehaviors([ItemUtilsBehavior], PolymerElem
   }
 
   atob(string) {
-    return window.atob(string);
+    return ENV['PRODUCTION'] ? string : window.atob(string);
   }
 
   static get template() {
