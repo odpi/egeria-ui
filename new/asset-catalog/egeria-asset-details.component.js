@@ -12,15 +12,27 @@ import { ENV } from '../../env';
 class EgeriaAssetDetails extends mixinBehaviors([EgeriaItemUtilsBehavior], PolymerElement) {
   static get properties() {
     return {
-      guid: { type: String, value: '' },
+      guid: { type: String, value: '', observer: '_onGuidChange' },
       item: { type: Object, value: null },
       components: { type: Array, value: [] }
     }
   }
 
+  _onGuidChange() {
+    this.updateData();
+  }
+
   ready() {
     super.ready();
 
+    egeriaFetch(`/api/assets/${ this.atob(this.guid) }`)
+      .then(response => response.json())
+      .then(response => {
+        this.item = response;
+      });
+  }
+
+  updateData() {
     egeriaFetch(`/api/assets/${ this.atob(this.guid) }`)
       .then(response => response.json())
       .then(response => {

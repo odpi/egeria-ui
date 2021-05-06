@@ -10,6 +10,7 @@ import '@vaadin/vaadin-grid/vaadin-grid.js';
 import '@vaadin/vaadin-grid/vaadin-grid-column.js';
 
 import { egeriaFetch } from '../commons/fetch.js';
+import { ENV } from '../../env';
 
 class EgeriaGlossary extends PolymerElement {
   static get properties() {
@@ -43,7 +44,7 @@ class EgeriaGlossary extends PolymerElement {
   }
 
   btoa(string) {
-    return window.btoa(string);
+    return ENV['PRODUCTION'] ? string : window.btoa(string);
   }
 
   _activeItemChanged(event) {
