@@ -1,0 +1,452 @@
+/* SPDX-License-Identifier: Apache-2.0 */
+/* Copyright Contributors to the ODPi Egeria project. */
+
+import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
+import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class';
+import { EgeriaItemUtilsBehavior } from '../commons/egeria-item-utils.behaviour';
+
+import '@polymer/paper-tabs/paper-tabs';
+import '@polymer/paper-tabs/paper-tab';
+import '@polymer/paper-dialog/paper-dialog';
+import '@vaadin/vaadin-tabs/vaadin-tabs.js';
+import '@vaadin/vaadin-grid/vaadin-grid.js';
+import '@vaadin/vaadin-grid/vaadin-grid-selection-column.js';
+import '@vaadin/vaadin-grid/vaadin-grid-sort-column.js';
+
+import '../commons/egeria-props-table.component';
+
+import './egeria-asset-lineage-viewer.component';
+import '../asset-catalog/egeria-asset-tools.component';
+
+import { egeriaFetch } from '../commons/fetch';
+import { ENV } from '../../env';
+
+class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior], PolymerElement) {
+  static get properties() {
+    return {
+      pages: { type: Array, observer: '_pagesChanged' },
+      nextPages: { type: Array, value: [''] },
+      page: { type: String, value: '' },
+      hasVerticalTab: { type: Boolean, value: false },
+
+      guid: { type: String, value: null },
+      includeProcesses: { type: Boolean, value: true },
+      graphData: { type: Object, value: null },
+      selectedNode: { type: Object, value: null },
+      toggleETLJobs: { type: Boolean, value: true },
+      typeMapData: {
+        type: Object,
+        value: {}
+      },
+
+      pageList: {
+        type: Object,
+        value: [
+          {
+            name: 'ultimate-source',
+            apiSuffix: 'ultimate-source'
+          },
+          {
+            name: 'end-to-end',
+            apiSuffix: 'end2end'
+          },
+          {
+            name: 'ultimate-destination',
+            apiSuffix: 'ultimate-destination'
+          },
+          {
+            name: 'vertical-lineage',
+            apiSuffix: 'vertical-lineage'
+          },
+          {
+            name: 'source-and-destination',
+            apiSuffix: 'source-and-destination'
+          },
+          {
+            name: 'repository-explorer',
+            apiSuffix: ''
+          }
+        ]
+      }
+    };
+  }
+
+  atob(string) {
+    return ENV['PRODUCTION'] ? string : window.atob(string);
+  }
+
+  _pagesChanged(newPages) {
+    if(newPages) {
+      if(newPages.length > 1) {
+        const [guid, ...currentPage] = this.pages;
+        const [page, ...nextPages] = currentPage;
+
+        this.guid = guid;
+
+        this.decodedGuid = this.atob(guid);
+
+        this.page = page;
+        this.nextPages = nextPages;
+
+        if(![
+          'ultimate-source',
+          'end-to-end',
+          'ultimate-destination',
+          'vertical-lineage',
+          'source-and-destination',
+          'repository-explorer'
+        ].includes(page)) {
+          window.location.href = '/error';
+        } else {
+          this.fetchGraphData();
+        }
+      } else {
+        window.location.href = '/error';
+      }
+    }
+  }
+
+  fetchGraphData() {
+    let pathSuffix = this.pageList
+                .filter(p => p.name === this.page)
+                .pop()
+                .apiSuffix;
+
+    this.graphData = null;
+
+    return egeriaFetch(`/api/lineage/entities/${ this.atob( this.guid ) }/${ pathSuffix }?includeProcesses=${ this.toggleETLJobs }`)
+      .then(data => {
+        this.checkLineage(data);
+        this.checkForVerticalTab(data.nodes);
+
+        this.graphData = {
+          nodes: [ ...data.nodes ],
+          links: [ ...data.edges ],
+          selectedNodeId: this.decodedGuid
+        };
+      });
+  }
+
+  hasGraphData(graphData) {
+    return graphData !== null;
+  }
+
+  checkLineage(graphData) {
+    if (graphData === null || graphData.nodes.length === 0) {
+      let evt = new CustomEvent('egeria-open-modal', {
+        detail: {
+          message: 'No lineage information available.'
+        },
+        bubbles: true,
+        composed: true
+      });
+
+      window.dispatchEvent(evt);
+
+      console.log('No lineage information available.');
+    }
+  }
+
+  checkForVerticalTab(nodes) {
+    let selectedNode = nodes.filter((n) => {
+      return n.id === this.decodedGuid;
+    }).pop();
+
+    if(selectedNode) {
+      this.hasVerticalTab = [
+        'RelationalColumn',
+        'TabularColumn',
+        'GlossaryTerm'
+      ].includes(selectedNode.group);
+    } else {
+      this.hasVerticalTab = false;
+    }
+  }
+
+  _isEqualTo(a, b) {
+    return a === b;
+  }
+
+  ready() {
+    super.ready();
+
+    window.addEventListener('happi-graph-on-node-click', e => {
+      this.onNodeClick(e.detail);
+    });
+
+    window.addEventListener('happi-graph-on-cached-graph', e => {
+      this.fetchGraphData();
+    });
+
+    window.addEventListener('egeria-toggle-statistics', e => {
+      this.toggleStatistics();
+    });
+
+    window.addEventListener('egeria-toggle-etl-jobs', e => {
+      this.onToggleETLJobs();
+    });
+  }
+
+  onToggleETLJobs() {
+    this.toggleETLJobs = !this.toggleETLJobs;
+
+    this.fetchGraphData();
+  }
+
+  onNodeClick({ nodeId }) {
+    let _selectedNode = null;
+
+    if (nodeId) {
+      _selectedNode = this.graphData
+        .nodes
+        .filter(n => n.id === nodeId)
+        .pop();
+    }
+
+    if (!['condensedNode', 'subProcess', 'Process'].includes(_selectedNode.group)) {
+      this.selectedNode = _selectedNode;
+
+      this.shadowRoot.querySelector('#paper-dialog').open();
+    }
+  }
+
+  _getPropertiesForDisplay(item) {
+    let displayName = item.label;
+    let guid = item.id;
+    let summary = item.summary;
+    let description = item.description;
+    let displayProperties = {
+      displayName: displayName,
+      guid: guid
+    };
+    if (summary) {
+      displayProperties.summary = summary;
+    }
+    if (description) {
+      displayProperties.description = description;
+    }
+
+    return this._attributes(displayProperties);
+  }
+
+  hasSize(data) {
+    if(data) {
+      return Object.keys(data).length > 0;
+    } else {
+      return false;
+    }
+  }
+
+  toggleStatistics() {
+    this.showStatistics();
+  }
+
+  showStatistics() {
+    let _nodes = this.graphData.nodes;
+
+    let typeMap = {};
+
+    if(_nodes.length) {
+      _nodes.map(n => {
+        if(typeMap[n.group]) {
+          typeMap[n.group]++;
+        } else {
+          typeMap[n.group] = 1;
+        }
+      });
+
+      this.typeMapData = [
+        ...Object.keys(typeMap).map(k => {
+          return {
+            key: k,
+            occurrences: typeMap[k]
+          };
+        })
+      ];
+    } else {
+      this.typeMapData = [];
+    }
+
+    this.shadowRoot.querySelector('#paper-dialog-statistics').open();
+    // this.shadowRoot.querySelector('#happi-graph').hideUnhideStatistics();
+  }
+
+  static get template() {
+    return html`
+      <style>
+        :root {
+          --paper-tab-ink: var(--egeria-primary-color);
+          --paper-tabs-selection-bar-color: var(--egeria-primary-color);
+        }
+
+        :host {
+          display:block;
+          height:calc(100% - 48px);
+        }
+
+        paper-tab {
+          padding:0;
+        }
+
+        paper-tab a {
+          color: #000;
+          text-decoration:none;
+          font-weight:normal;
+
+          display:flex;
+          align-items: center;
+          justify-content: center;
+
+          height: 100%;
+        }
+
+        .local-wrapper {
+          width:730px;
+        }
+
+        .pull-right {
+          display: flex;
+          justify-content: flex-end;
+        }
+      </style>
+
+
+      <div style="height:100%;">
+        <template is="dom-if" if="[[ hasGraphData(graphData) ]]" restamp="true">
+          <paper-tabs attr-for-selected="name" selected="{{ page }}">
+            <paper-tab name="ultimate-source">
+              <a name="ultimate-source" href="/asset-lineage/[[ guid ]]/ultimate-source">
+                <span>Ultimate Source</span>
+              </a>
+            </paper-tab>
+            <paper-tab name="end-to-end">
+              <a href="/asset-lineage/[[ guid ]]/end-to-end">
+                <span>End to end</span>
+              </a>
+            </paper-tab>
+            <paper-tab name="ultimate-destination">
+              <a href="/asset-lineage/[[ guid ]]/ultimate-destination">
+                <span>Ultimate Destination</span>
+              </a>
+            </paper-tab>
+
+            <template is="dom-if" if="[[ hasVerticalTab ]]">
+              <paper-tab name="vertical-lineage">
+                <a href="/asset-lineage/[[ guid ]]/vertical-lineage">
+                  <span>Vertical Lineage</span>
+                </a>
+              </paper-tab>
+            </template>
+
+            <paper-tab name="source-and-destination">
+              <a href="/asset-lineage/[[ guid ]]/source-and-destination">
+                <span>Source and Destination</span>
+              </a>
+            </paper-tab>
+          </paper-tabs>
+
+          <template is="dom-if" if="[[ _isEqualTo(page, 'ultimate-source') ]]">
+            <egeria-asset-lineage-viewer has-vertical-tab="[[ hasVerticalTab ]]"
+                                         graph-data="[[ graphData ]]"
+                                         graph-direction="HORIZONTAL"></egeria-asset-lineage-viewer>
+          </template>
+
+          <template is="dom-if" if="[[ _isEqualTo(page, 'end-to-end') ]]">
+            <egeria-asset-lineage-viewer has-vertical-tab="[[ hasVerticalTab ]]"
+                                         graph-direction="HORIZONTAL"
+                                         graph-data="[[ graphData ]]"></egeria-asset-lineage-viewer>
+          </template>
+
+          <template is="dom-if" if="[[ _isEqualTo(page, 'ultimate-destination') ]]">
+            <egeria-asset-lineage-viewer has-vertical-tab="[[ hasVerticalTab ]]"
+                                         graph-direction="HORIZONTAL"
+                                         graph-data="[[ graphData ]]"></egeria-asset-lineage-viewer>
+          </template>
+
+          <template is="dom-if" if="[[ _isEqualTo(page, 'vertical-lineage') ]]">
+            <egeria-asset-lineage-viewer has-vertical-tab="[[ hasVerticalTab ]]"
+                                         graph-direction="VERTICAL"
+                                         graph-data="[[ graphData ]]"
+                                         toggle-etl-jobs="[[ toggleETLJobs ]]"></egeria-asset-lineage-viewer>
+          </template>
+
+          <template is="dom-if" if="[[ _isEqualTo(page, 'source-and-destination') ]]">
+            <egeria-asset-lineage-viewer has-vertical-tab="[[ hasVerticalTab ]]"
+                                         graph-direction="HORIZONTAL"
+                                         graph-data="[[ graphData ]]"></egeria-asset-lineage-viewer>
+          </template>
+
+          <template is="dom-if" if="[[ _isEqualTo(page, 'repository-explorer') ]]">
+            'repository-explorer'
+            <!-- nextPages -> [omas.serverName, omas.baseUrl] -->
+
+            repository-explorer
+          </template>
+
+          <!-- extract this to separate component -->
+          <paper-dialog id="paper-dialog" class="paper-dialog">
+            <div class="local-wrapper">
+              <div>
+                <a dialog-confirm
+                  style="float: right"
+                  title="close">
+                  <iron-icon icon="icons:close"
+                            style="width: 24px;height: 24px;"></iron-icon>
+                </a>
+              </div>
+
+              <egeria-asset-tools type="[[ selectedNode.group ]]"
+                          guid="[[ selectedNode.id ]]"
+                          on-button-click="_closeDialog"
+                          style="display: inline-flex"></egeria-asset-tools>
+
+              <template is="dom-if" if="[[ selectedNode ]]">
+                <egeria-props-table items="[[ _getPropertiesForDisplay(selectedNode) ]]" title="Properties" with-row-stripes></egeria-props-table>
+
+                <template is="dom-if" if="[[ hasSize(selectedNode.properties) ]]" restramp="true">
+                  <egeria-props-table items="[[ _attributes(selectedNode.properties )]]" title="Context" with-row-stripes></egeria-props-table>
+                </template>
+              </template>
+              <div></div>
+            </div>
+          </paper-dialog>
+
+          <paper-dialog id="paper-dialog-statistics"
+                        class="paper-dialog-statistics"
+                        allow-click-through="[[ false ]]">
+            <div class="local-wrapper">
+              <div class="pull-right">
+                <paper-icon-button dialog-confirm icon="icons:close"></paper-icon-button>
+              </div>
+
+              <!-- extract this to separate component -->
+              <vaadin-grid id="statistics-grid" items="[[ typeMapData ]]" theme="row-stripes">
+                <vaadin-grid-column width="70%">
+                  <template class="header">
+                      <div>
+                        <vaadin-grid-sorter path="key">Type</vaadin-grid-sorter>
+                      </div>
+                  </template>
+                  <template>
+                      [[ item.key ]]
+                  </template>
+                </vaadin-grid-column>
+
+                <vaadin-grid-column width="30%">
+                  <template class="header">
+                      <div>
+                        <vaadin-grid-sorter path="occurrences">Occurrences</vaadin-grid-sorter>
+                      </div>
+                  </template>
+                  <template>[[ item.occurrences ]]</template>
+                </vaadin-grid-column>
+              </vaadin-grid>
+            </div>
+          </paper-dialog>
+        </template>
+      </div>
+    `;
+  }
+}
+
+window.customElements.define('egeria-asset-lineage', EgeriaAssetLineage);
