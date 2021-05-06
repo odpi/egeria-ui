@@ -134,6 +134,16 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior], Polym
 
   checkLineage(graphData) {
     if (graphData === null || graphData.nodes.length === 0) {
+      let evt = new CustomEvent('egeria-open-modal', {
+        detail: {
+          message: 'No lineage information available.'
+        },
+        bubbles: true,
+        composed: true
+      });
+
+      window.dispatchEvent(evt);
+
       console.log('No lineage information available.');
     }
   }

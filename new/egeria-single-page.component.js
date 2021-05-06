@@ -28,6 +28,7 @@ import '@polymer/iron-icons/iron-icons.js';
 import '@polymer/iron-form/iron-form.js';
 import '@vaadin/vaadin-icons/vaadin-icons.js';
 import '@polymer/paper-styles/paper-styles.js';
+import '@polymer/paper-dialog/paper-dialog';
 
 import '../old/my-icons.js';
 import '../old/shared-styles.js';
@@ -59,7 +60,9 @@ class EgeriaSinglePage extends PolymerElement {
       nextPages: { type: Array, value: [''] },
       page: { type: String, value: '' },
 
-      queryParams: { type: String, value: '' }
+      queryParams: { type: String, value: '' },
+
+      modalMessage: { type: String, value: '' }
     }
   }
 
@@ -102,6 +105,12 @@ class EgeriaSinglePage extends PolymerElement {
 
     window.addEventListener('egeria-close-spinner', e => {
       this.$.spinner.close();
+    });
+
+    window.addEventListener('egeria-open-modal', e => {
+      this.modalMessage = e.detail.message;
+
+      this.shadowRoot.querySelector("#modal").open();
     });
   }
 
@@ -309,6 +318,14 @@ class EgeriaSinglePage extends PolymerElement {
           </template>
         </div>
       </app-drawer-layout>
+
+      <paper-dialog id="modal" modal>
+        <p>[[ modalMessage ]]</p>
+
+        <div class="buttons">
+          <paper-button dialog-confirm autofocus>OK</paper-button>
+        </div>
+      </paper-dialog>
 
       <egeria-spinner id="spinner"
                       with-backdrop
