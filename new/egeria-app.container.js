@@ -13,9 +13,8 @@ import '@polymer/iron-icons/iron-icons.js';
 import '@polymer/app-route/app-location.js';
 import '@polymer/app-route/app-route.js';
 
-// import './my-app';
-
 import './egeria-single-page.component';
+import './egeria-error-page.component';
 
 // Gesture events like tap and track generated from touch will not be
 // preventable, allowing for better scrolling performance.
@@ -27,7 +26,6 @@ setRootPath('/');
 
 import { routes, routeCheck } from './routes';
 import { getCookie } from './commons/local-storage';
-
 import { egeriaFetch } from './commons/fetch';
 
 class EgeriaApp extends PolymerElement {
@@ -170,11 +168,11 @@ class EgeriaApp extends PolymerElement {
         </template>
 
         <template is="dom-if" if="[[ _isEqualTo(page, 'error') ]]" >
-          <h1>Not found</h1>
+          <egeria-error-page status-code="404" message="Page not found"></egeria-error-page>
         </template>
 
         <template is="dom-if" if="[[ _isEqualTo(page, 'forbidden') ]]" >
-          <h1>Forbidden</h1>
+          <egeria-error-page status-code="403" message="Forbidden"></egeria-error-page>
         </template>
 
         <template is="dom-if" if="[[ _isEqualTo(page, 'homepage') ]]">
