@@ -42,14 +42,6 @@ class EgeriaAssetTools extends PolymerElement {
     return Array.isArray(this.components) && (this.components.includes("*") || this.components.includes(component));
   }
 
-  _buttonClick(){
-    this.dispatchEvent(new CustomEvent('button-click', {
-      bubbles: true,
-      composed: true,
-      detail: {}
-    }));
-  }
-
   _displayVerticalLineageButton(type) {
     return (type === 'RelationalColumn' || type === 'TabularColumn' || type === 'GlossaryTerm');
   }
@@ -85,7 +77,7 @@ class EgeriaAssetTools extends PolymerElement {
           <ul id="menu">
             <template is="dom-if" if="[[ _hasComponent('ultimate-source') ]]">
               <li>
-                <a on-click="_buttonClick" href="/asset-lineage/[[ btoa(guid) ]]/ultimate-source" title="Ultimate Source Lineage">
+                <a href="/asset-lineage/[[ btoa(guid) ]]/ultimate-source" title="Ultimate Source Lineage">
                   <paper-button raised>
                   <iron-icon icon="vaadin:connect-o" style="transform: rotate(180deg)"></iron-icon>
 
@@ -96,7 +88,7 @@ class EgeriaAssetTools extends PolymerElement {
             </template>
             <template is="dom-if" if="[[ _hasComponent('end-to-end') ]]">
               <li>
-                <a on-click="_buttonClick" href="/asset-lineage/[[ btoa(guid) ]]/end-to-end" title="End2End Lineage">
+                <a href="/asset-lineage/[[ btoa(guid) ]]/end-to-end" title="End2End Lineage">
                   <paper-button raised>
                     <iron-icon icon="vaadin:cluster"></iron-icon>
 
@@ -107,7 +99,7 @@ class EgeriaAssetTools extends PolymerElement {
             </template>
             <template is="dom-if" if="[[ _hasComponent('ultimate-destination') ]]">
             <li>
-              <a on-click="_buttonClick" href="/asset-lineage/[[ btoa(guid) ]]/ultimate-destination" title="Ultimate Destination Lineage">
+              <a href="/asset-lineage/[[ btoa(guid) ]]/ultimate-destination" title="Ultimate Destination Lineage">
                 <paper-button raised>
                   <iron-icon icon="vaadin:connect-o"></iron-icon>
 
@@ -119,7 +111,7 @@ class EgeriaAssetTools extends PolymerElement {
             <template is="dom-if" if="[[ _hasComponent('vertical-lineage') ]]">
               <template is="dom-if" if="[[ _displayVerticalLineageButton(type) ]]">
                 <li>
-                  <a on-click="_buttonClick" href="/asset-lineage/[[ btoa(guid) ]]/vertical-lineage" title="Vertical Lineage">
+                  <a href="/asset-lineage/[[ btoa(guid) ]]/vertical-lineage" title="Vertical Lineage">
                     <paper-button raised>
                       <iron-icon  icon="vaadin:file-tree"></iron-icon>
 
@@ -131,7 +123,7 @@ class EgeriaAssetTools extends PolymerElement {
             </template>
             <template is="dom-if" if="[[ _hasComponent('source-and-destination') ]]">
               <li>
-                  <a on-click="_buttonClick" href="/asset-lineage/[[ btoa(guid) ]]/source-and-destination" title="Source and Destination Lineage">
+                  <a href="/asset-lineage/[[ btoa(guid) ]]/source-and-destination" title="Source and Destination Lineage">
                     <paper-button raised>
                       <iron-icon  icon="vaadin:exchange"></iron-icon>
 
@@ -142,7 +134,7 @@ class EgeriaAssetTools extends PolymerElement {
             </template>
             <template is="dom-if" if="[[ _hasComponent('rex') ]]">
               <li>
-                <a on-click="_buttonClick" href="/repository-explorer/[[ omas.serverName ]]/[[ _encode(omas.baseUrl) ]]/[[ guid ]]" title="Repository explorer">
+                <a href="/repository-explorer/[[ omas.serverName ]]/[[ _encode(omas.baseUrl) ]]/[[ guid ]]" title="Repository explorer">
                   <paper-button raised>
                     <iron-icon icon="vaadin:cogs"></iron-icon>
 

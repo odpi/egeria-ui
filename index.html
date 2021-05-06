@@ -43,22 +43,9 @@
   <!-- Load webcomponents-loader.js to check and load any polyfills your browser needs -->
   <script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
   <script src="/node_modules/web-animations-js/web-animations-next-lite.min.js"></script>
-  <!-- <script src="node_modules/visjs-network/dist/vis-network.min.js"></script> -->
-  <!-- <link href="node_modules/visjs-network/dist/vis-network.min.css" rel="stylesheet" type="text/css"> -->
 
   <!-- default theme, it can be overwritten -->
   <link href="/themes/css/style.css" rel="stylesheet" type="text/css">
-
-  <!-- <script>
-    Load and register pre-caching Service Worker
-    if (window.location.protocol != 'https:' && 'serviceWorker' in navigator) {
-      window.addEventListener('load', function () {
-        navigator.serviceWorker.register('service-worker.js', {
-          scope: '/'
-        });
-      });
-    }
-  </script> -->
 
   <!-- Load your application shell -->
   <script type="module" src="/new/egeria-app.container.js"></script>
