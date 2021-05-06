@@ -148,7 +148,9 @@ class EgeriaLogin extends PolymerElement {
 
     setCookie('token', this.token);
 
-    let redirectUrl = `${this.queryParams.redirect ? decodeURIComponent(this.queryParams.redirect) : '/'}`;
+    let decodedUrl = this.queryParams.redirect ? decodeURIComponent(this.queryParams.redirect) : '/';
+
+    let redirectUrl = !decodedUrl.indexOf('http') ? '/' : decodedUrl;
 
     window.location.href = redirectUrl;
   }
