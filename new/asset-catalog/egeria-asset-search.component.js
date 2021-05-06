@@ -66,6 +66,7 @@ class EgeriaAssetSearch extends PolymerElement {
 
   _goNext() {
     this.from += this.pageSize;
+
     this._fetch();
   }
 
@@ -127,18 +128,24 @@ class EgeriaAssetSearch extends PolymerElement {
     if (!this.$.searchField.validate()) {
       validSearch = false;
 
-      this.dispatchEvent(new CustomEvent('show-modal', {
+      window.dispatchEvent(new CustomEvent('egeria-open-modal', {
         bubbles: true,
         composed: true,
-        detail: {message: "Search criteria minimum length is 2 characters !", level: 'error'}
+        detail: {
+          message: 'Search criteria minimum length is 2 characters !',
+          level: 'error'
+        }
       }));
     } else if (!this.$.combo.validate()) {
       validSearch = false;
 
-      this.dispatchEvent(new CustomEvent('show-modal', {
+      window.dispatchEvent(new CustomEvent('egeria-open-modal', {
         bubbles: true,
         composed: true,
-        detail: {message: "Please select at least one Open Metadata Type !", level: 'error'}
+        detail: {
+          message: 'Please select at least one Open Metadata Type !',
+          level: 'error'
+        }
       }));
     }
 
@@ -155,10 +162,14 @@ class EgeriaAssetSearch extends PolymerElement {
 
     if (items !== null && items.length === 0) {
       this.$.more.disabled = true;
-      this.dispatchEvent(new CustomEvent('show-modal', {
+
+      window.dispatchEvent(new CustomEvent('egeria-open-modal', {
         bubbles: true,
         composed: true,
-        detail: {message: "No more metadata to fetch for this criteria!", level: 'info'}
+        detail: {
+          message: 'No more metadata to fetch for this criteria!',
+          level: 'info'
+        }
       }));
     } else {
       this.$.more.disabled = items === null;
@@ -249,26 +260,26 @@ class EgeriaAssetSearch extends PolymerElement {
           <div class="align-center m20">
 
           <div>
-                <paper-input id="searchField"
-                             label="Search"
-                             value="{{ q }}"
-                             no-label-float
-                             required
-                             minlength="2"
-                             autofocus>
-                    <iron-icon icon="search" slot="prefix" id="searchFieldIcon"></iron-icon>
-                </paper-input>
+            <paper-input id="searchField"
+                          label="Search"
+                          value="{{ q }}"
+                          no-label-float
+                          required
+                          minlength="2"
+                          autofocus>
+                <iron-icon icon="search" slot="prefix" id="searchFieldIcon"></iron-icon>
+            </paper-input>
 
-                <vaadin-button id="searchSubmit" theme="primary" on-tap="_search">
-                  <iron-icon id="search" icon="search"></iron-icon>
-                </vaadin-button>
+            <vaadin-button id="searchSubmit" theme="primary" on-tap="_search">
+              <iron-icon id="search" icon="search"></iron-icon>
+            </vaadin-button>
 
-                <multiselect-combo-box class="multi-combo" id="combo" items="[[ types ]]"
-                                   item-label-path="name"
-                                   ordered="false"
-                                   placeholder="Open Metadata Type (required)"
-                                   required
-                                   error-message="Please select one">
+            <multiselect-combo-box class="multi-combo" id="combo" items="[[ types ]]"
+                                item-label-path="name"
+                                ordered="false"
+                                placeholder="Open Metadata Type (required)"
+                                required
+                                error-message="Please select one">
             </multiselect-combo-box>
           </div>
 
