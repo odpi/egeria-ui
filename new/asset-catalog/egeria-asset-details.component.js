@@ -26,7 +26,6 @@ class EgeriaAssetDetails extends mixinBehaviors([EgeriaItemUtilsBehavior], Polym
     super.ready();
 
     egeriaFetch(`/api/assets/${ this.atob(this.guid) }`)
-      .then(response => response.json())
       .then(response => {
         this.item = response;
       });
@@ -34,7 +33,6 @@ class EgeriaAssetDetails extends mixinBehaviors([EgeriaItemUtilsBehavior], Polym
 
   updateData() {
     egeriaFetch(`/api/assets/${ this.atob(this.guid) }`)
-      .then(response => response.json())
       .then(response => {
         this.item = response;
       });

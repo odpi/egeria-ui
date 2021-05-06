@@ -25,7 +25,6 @@ class EgeriaAssetTools extends PolymerElement {
     super.ready();
 
     egeriaFetch(`/api/ui/settings`)
-      .then(response => response.json())
       .then(response => {
         this.settings = response;
       });

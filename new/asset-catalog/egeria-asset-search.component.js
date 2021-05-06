@@ -38,7 +38,6 @@ class EgeriaAssetSearch extends PolymerElement {
     super.ready();
 
     egeriaFetch(`/api/assets/types`)
-      .then(response => response.json())
       .then(data => {
         this.types = data;
       });
@@ -115,7 +114,6 @@ class EgeriaAssetSearch extends PolymerElement {
       }
 
       egeriaFetch(url)
-        .then(response => response.json())
         .then(data => {
           this.items = data;
         });

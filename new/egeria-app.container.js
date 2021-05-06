@@ -55,10 +55,10 @@ class EgeriaApp extends PolymerElement {
     this.isLoading = true;
 
     Promise.all([
-      egeriaFetch(`/api/public/app/info`).then(response => response.json()),
-      egeriaFetch(`/api/users/components`).then(response => response.json()),
-      egeriaFetch(`/api/users/current`).then(response => response.json()),
-      egeriaFetch(`/api/users/roles`).then(response => response.json())
+      egeriaFetch(`/api/public/app/info`),
+      egeriaFetch(`/api/users/components`),
+      egeriaFetch(`/api/users/current`),
+      egeriaFetch(`/api/users/roles`)
     ]).then((responses) => {
       let [ appInfo, components, currentUser, roles ] = responses;
 

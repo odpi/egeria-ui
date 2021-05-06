@@ -25,19 +25,16 @@ class EgeriaGlossary extends PolymerElement {
     super.ready();
 
     egeriaFetch(`/api/glossaries`)
-      .then(response => response.json())
       .then(response => {
         this.glossaries = response;
       });
 
     egeriaFetch(`/api/glossaries/terms`)
-      .then(response => response.json())
       .then(response => {
         this.terms = response;
       });
 
     egeriaFetch(`/api/glossaries/categories`)
-      .then(response => response.json())
       .then(response => {
         this.categories = response;
       });
