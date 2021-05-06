@@ -21,7 +21,8 @@ class EgeriaAssetLineageViewer extends PolymerElement {
 
       graphDirection: { type: String, value: null },
       graphData: { type: Object, value: null },
-      toggleEtlJobs: { type: Boolean, value: null }
+      toggleEtlJobs: { type: Boolean, value: null },
+      hasVerticalTab: { type: Boolean, value: false }
     };
   }
 
@@ -105,12 +106,13 @@ class EgeriaAssetLineageViewer extends PolymerElement {
                      graph-direction="[[ graphDirection ]]"
                      graph-data="[[ graphData ]]">
           <div slot="pre-actions">
-            <div hidden="[[ _displayETLJobsToggle(routeData.usecase) ]]">
-                <paper-toggle-button id="processToggle" checked="[[ toggleEtlJobs ]]" on-change="onToggleETLJobs">
-                  ETL Jobs
-                </paper-toggle-button>
-              </div>
+            <template is="dom-if" if="[[ !hasVerticalTab ]]">
+              <paper-toggle-button id="processToggle" checked="[[ toggleEtlJobs ]]" on-change="onToggleETLJobs">
+                ETL Jobs
+              </paper-toggle-button>
+            </template>
           </div>
+
           <div slot="post-actions">
             <paper-icon-button icon="icons:assessment" on-click="showStatistics"></paper-icon-button>
           </div>

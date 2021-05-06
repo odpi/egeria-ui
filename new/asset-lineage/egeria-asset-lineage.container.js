@@ -115,7 +115,6 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior], Polym
     this.graphData = null;
 
     return egeriaFetch(`/api/lineage/entities/${ this.atob( this.guid ) }/${ pathSuffix }?includeProcesses=${ this.toggleETLJobs }`)
-      .then(data => data.json())
       .then(data => {
         this.checkLineage(data);
         this.checkForVerticalTab(data.nodes);
@@ -149,10 +148,6 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior], Polym
   }
 
   checkForVerticalTab(nodes) {
-    this.hasVerticalTab = true;
-
-    return;
-
     let selectedNode = nodes.filter((n) => {
       return n.id === this.decodedGuid;
     }).pop();
@@ -164,7 +159,7 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior], Polym
         'GlossaryTerm'
       ].includes(selectedNode.group);
     } else {
-      return false;
+      this.hasVerticalTab = false;
     }
   }
 
@@ -351,28 +346,33 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior], Polym
           </paper-tabs>
 
           <template is="dom-if" if="[[ _isEqualTo(page, 'ultimate-source') ]]">
-            <egeria-asset-lineage-viewer graph-data="[[ graphData ]]"
+            <egeria-asset-lineage-viewer has-vertical-tab="[[ hasVerticalTab ]]"
+                                         graph-data="[[ graphData ]]"
                                          graph-direction="HORIZONTAL"></egeria-asset-lineage-viewer>
           </template>
 
           <template is="dom-if" if="[[ _isEqualTo(page, 'end-to-end') ]]">
-            <egeria-asset-lineage-viewer graph-direction="HORIZONTAL"
+            <egeria-asset-lineage-viewer has-vertical-tab="[[ hasVerticalTab ]]"
+                                         graph-direction="HORIZONTAL"
                                          graph-data="[[ graphData ]]"></egeria-asset-lineage-viewer>
           </template>
 
           <template is="dom-if" if="[[ _isEqualTo(page, 'ultimate-destination') ]]">
-            <egeria-asset-lineage-viewer graph-direction="HORIZONTAL"
+            <egeria-asset-lineage-viewer has-vertical-tab="[[ hasVerticalTab ]]"
+                                         graph-direction="HORIZONTAL"
                                          graph-data="[[ graphData ]]"></egeria-asset-lineage-viewer>
           </template>
 
           <template is="dom-if" if="[[ _isEqualTo(page, 'vertical-lineage') ]]">
-            <egeria-asset-lineage-viewer graph-direction="VERTICAL"
+            <egeria-asset-lineage-viewer has-vertical-tab="[[ hasVerticalTab ]]"
+                                         graph-direction="VERTICAL"
                                          graph-data="[[ graphData ]]"
                                          toggle-etl-jobs="[[ toggleETLJobs ]]"></egeria-asset-lineage-viewer>
           </template>
 
           <template is="dom-if" if="[[ _isEqualTo(page, 'source-and-destination') ]]">
-            <egeria-asset-lineage-viewer graph-direction="HORIZONTAL"
+            <egeria-asset-lineage-viewer has-vertical-tab="[[ hasVerticalTab ]]"
+                                         graph-direction="HORIZONTAL"
                                          graph-data="[[ graphData ]]"></egeria-asset-lineage-viewer>
           </template>
 
