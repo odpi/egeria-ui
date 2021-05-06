@@ -15,6 +15,7 @@ import '@polymer/app-route/app-route.js';
 
 import './egeria-single-page.component';
 import './egeria-error-page.component';
+import './egeria-home.component';
 
 // Gesture events like tap and track generated from touch will not be
 // preventable, allowing for better scrolling performance.
@@ -176,7 +177,7 @@ class EgeriaApp extends PolymerElement {
         </template>
 
         <template is="dom-if" if="[[ _isEqualTo(page, 'homepage') ]]">
-          <h1>Homepage</h1>
+          <egeria-home></egeria-home>
         </template>
 
         <template is="dom-if" if="[[ _doesntInclude(page) ]]">
