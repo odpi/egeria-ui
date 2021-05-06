@@ -3,8 +3,8 @@
 import { PolymerElement, html } from "@polymer/polymer/polymer-element.js";
 import { MutableData } from "@polymer/polymer/lib/mixins/mutable-data.js";
 
-import '../../src/shared-styles.js';
-import '../../src/token-ajax.js';
+import '../../old/shared-styles.js';
+import '../../old/token-ajax.js';
 
 
 class RelationshipSearchResults extends MutableData(PolymerElement) {

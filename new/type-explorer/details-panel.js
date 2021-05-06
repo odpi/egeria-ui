@@ -3,8 +3,8 @@
 /* Copyright Contributors to the ODPi Egeria project. */
 import { PolymerElement, html } from "@polymer/polymer/polymer-element.js";
 
-import '../../src/shared-styles.js';
-import '../../src/token-ajax.js';
+import '../../old/shared-styles.js';
+import '../../old/token-ajax.js';
 
 /**
 *

@@ -2,12 +2,9 @@
 
 /* Copyright Contributors to the ODPi Egeria project. */
 
-
-import { mixinBehaviors } from "../../node_modules/@polymer/polymer/lib/legacy/class.js";
-import { AppLocalizeBehavior } from "../../node_modules/@polymer/app-localize-behavior/app-localize-behavior.js";
-import { PolymerElement, html } from "../../node_modules/@polymer/polymer/polymer-element.js";
-import '../../src/shared-styles.js';
-import '../../src/token-ajax.js';
+import { PolymerElement, html } from "@polymer/polymer/polymer-element.js";
+import '../../old/shared-styles.js';
+import '../../old/token-ajax.js';
 
 /**
 *

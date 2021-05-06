@@ -3,7 +3,7 @@
 
 import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
 import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class';
-import { ItemUtilsBehavior } from '../../src/common/item-utils';
+import { EgeriaItemUtilsBehavior } from '../commons/egeria-item-utils.behaviour';
 
 import '@polymer/paper-tabs/paper-tabs';
 import '@polymer/paper-tabs/paper-tab';
@@ -16,12 +16,12 @@ import '@vaadin/vaadin-grid/vaadin-grid-sort-column.js';
 import '../commons/egeria-props-table.component';
 
 import './egeria-asset-lineage-viewer.component';
-import '../asset-catalog-latest/egeria-asset-tools.component';
+import '../asset-catalog/egeria-asset-tools.component';
 
 import { egeriaFetch } from '../commons/fetch';
 import { ENV } from '../../env';
 
-class EgeriaAssetLineage extends mixinBehaviors([ItemUtilsBehavior], PolymerElement) {
+class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior], PolymerElement) {
   static get properties() {
     return {
       pages: { type: Array, observer: '_pagesChanged' },

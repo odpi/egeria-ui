@@ -4,7 +4,7 @@
 
 import '@polymer/polymer/polymer-element.js';
 
-import '../../src/shared-styles.js';
+import '../../old/shared-styles.js';
 
 
 /**

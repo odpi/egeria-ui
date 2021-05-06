@@ -2,7 +2,7 @@
 /* Copyright Contributors to the ODPi Egeria project. */
 import {PolymerElement, html} from '@polymer/polymer';
 
-import '../../src/shared-styles.js';
+import '../../old/shared-styles.js';
 import '@polymer/paper-styles/paper-styles.js';
 import '@vaadin/vaadin-icons/vaadin-icons.js';
 

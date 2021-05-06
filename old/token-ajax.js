@@ -4,8 +4,6 @@
 import {PolymerElement, html} from '@polymer/polymer/polymer-element.js';
 import '@polymer/iron-ajax/iron-ajax.js';
 
-import './spinner.js';
-
 import { getCookie } from '../new/commons/local-storage';
 import { ENV } from '../env';
 

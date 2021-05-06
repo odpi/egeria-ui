@@ -2,8 +2,8 @@
 /* Copyright Contributors to the ODPi Egeria project. */
 import { PolymerElement, html } from '@polymer/polymer';
 
-import '../../src/shared-styles.js';
-import '../asset-catalog-latest/egeria-asset-tools.component';
+import '../../old/shared-styles.js';
+import '../asset-catalog/egeria-asset-tools.component';
 import '@vaadin/vaadin-split-layout/vaadin-split-layout';
 import '@vaadin/vaadin-button/vaadin-button.js';
 import '@vaadin/vaadin-grid/vaadin-grid.js';

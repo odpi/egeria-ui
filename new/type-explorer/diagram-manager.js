@@ -4,8 +4,8 @@
 
 import { PolymerElement, html } from "../../node_modules/@polymer/polymer/polymer-element.js";
 
-import '../../src/shared-styles.js';
-import '../../src/token-ajax.js';
+import '../../old/shared-styles.js';
+import '../../old/token-ajax.js';
 
 import './inheritance-diagram.js';
 import './neighbourhood-diagram.js';

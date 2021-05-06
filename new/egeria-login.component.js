@@ -9,8 +9,8 @@ import '@polymer/paper-button/paper-button.js';
 import '@polymer/paper-styles/paper-styles.js';
 import '@polymer/paper-input/paper-input-behavior.js';
 
-import '../src/shared-styles.js';
-import '../src/form-feedback.js';
+import '../old/shared-styles.js';
+import '../old/form-feedback.js';
 
 import { setCookie } from './commons/local-storage';
 

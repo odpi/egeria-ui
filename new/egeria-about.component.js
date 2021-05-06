@@ -7,7 +7,7 @@ import '@polymer/paper-item/paper-item.js';
 import '@polymer/paper-item/paper-item-body';
 import '@polymer/paper-styles/paper-styles';
 import '@polymer/paper-styles/color';
-import '../src/shared-styles.js';
+import '../old/shared-styles.js';
 
 class EgeriaAbout extends PolymerElement {
   static get template() {

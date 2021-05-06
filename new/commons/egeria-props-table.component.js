@@ -4,7 +4,7 @@ import { PolymerElement, html } from '@polymer/polymer';
 import '@polymer/paper-listbox/paper-listbox.js';
 import '@polymer/app-layout/app-grid/app-grid-style.js';
 import '@polymer/iron-collapse/iron-collapse.js';
-import '../../src/shared-styles.js';
+import '../../old/shared-styles.js';
 
 class EgeriaPropsTable extends PolymerElement {
   static get properties() {

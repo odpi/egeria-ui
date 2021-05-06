@@ -1,6 +1,6 @@
 const fs = require('fs');
 let apiUrl = process.env.npm_config_api_url || '';
-let production = process.env.npm_config_production || true;
+let production = process.env.npm_config_production || false;
 
 if(apiUrl === '/' || apiUrl === null || apiUrl === undefined) {
   apiUrl = '';

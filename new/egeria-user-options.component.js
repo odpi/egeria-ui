@@ -103,7 +103,7 @@ class EgeriaUserOptions extends PolymerElement {
               </paper-listbox>
 
               <paper-item>
-                <a href="[[rootPath]]" on-click="_logout" style="flex: auto">
+                <a href="/login" on-click="_logout" style="flex: auto">
                   Sign out
 
                   <iron-icon icon="exit-to-app" style="float: right"></iron-icon>
@@ -112,7 +112,6 @@ class EgeriaUserOptions extends PolymerElement {
             </div>
         </paper-menu-button>
       </div>
-
     `;
   }
 }

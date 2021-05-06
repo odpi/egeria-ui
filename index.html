@@ -31,7 +31,7 @@
   <link rel="apple-touch-icon" sizes="192x192" href="/images/manifest/icon-192x192.png">
 
   <!-- Tile icon for Windows 8 (144x144 + tile color) -->
-  <meta name="msapplication-TileImage" content="images/manifest/icon-144x144.png">
+  <meta name="msapplication-TileImage" content="/images/manifest/icon-144x144.png">
   <meta name="msapplication-TileColor" content="#3f51b5">
   <meta name="msapplication-tap-highlight" content="no">
 
@@ -49,16 +49,16 @@
   <!-- default theme, it can be overwritten -->
   <link href="/themes/css/style.css" rel="stylesheet" type="text/css">
 
-  <script>
-    // Load and register pre-caching Service Worker
-    // if (window.location.protocol != 'https:' && 'serviceWorker' in navigator) {
-    //   window.addEventListener('load', function () {
-    //     navigator.serviceWorker.register('service-worker.js', {
-    //       scope: '/'
-    //     });
-    //   });
-    // }
-  </script>
+  <!-- <script>
+    Load and register pre-caching Service Worker
+    if (window.location.protocol != 'https:' && 'serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('service-worker.js', {
+          scope: '/'
+        });
+      });
+    }
+  </script> -->
 
   <!-- Load your application shell -->
   <script type="module" src="/new/egeria-app.container.js"></script>

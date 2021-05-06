@@ -29,7 +29,6 @@ const spinner = (flag) => {
 
 export const egeriaFetch = (url, headers) => {
   spinner(true);
-  console.log('spinner(true)');
 
   return fetch(
     `${ ENV['API_URL'] }${ url }`,
@@ -42,6 +41,5 @@ export const egeriaFetch = (url, headers) => {
     }
   ).finally(() => {
     spinner(false);
-    console.log('spinner(false)');
   });
 };

@@ -29,14 +29,12 @@ import '@polymer/iron-form/iron-form.js';
 import '@vaadin/vaadin-icons/vaadin-icons.js';
 import '@polymer/paper-styles/paper-styles.js';
 
-import '../src/my-icons.js';
-import '../src/token-ajax';
-import '../src/toast-feedback';
-import '../src/shared-styles.js';
+import '../old/my-icons.js';
+import '../old/shared-styles.js';
 
 import './egeria-spinner.component';
 import './egeria-login.component';
-import './asset-catalog-latest/egeria-asset-catalog.container';
+import './asset-catalog/egeria-asset-catalog.container';
 import './asset-lineage/egeria-asset-lineage.container';
 import './egeria-about.component';
 import './egeria-user-options.component';
@@ -275,7 +273,7 @@ class EgeriaSinglePage extends PolymerElement {
               </div>
 
               <div style="float: right">
-                <egeria-user-options></egeria-user-options>
+                <egeria-user-options user="[[ currentUser ]]" roles="[[ roles ]]"></egeria-user-options>
               </div>
             </app-toolbar>
 

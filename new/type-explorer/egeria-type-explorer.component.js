@@ -23,7 +23,9 @@ import "@vaadin/vaadin-grid/vaadin-grid-sort-column.js";
 import "@vaadin/vaadin-text-field/vaadin-text-field.js";
 import "@vaadin/vaadin-button/vaadin-button.js";
 import { PolymerElement, html } from "@polymer/polymer/polymer-element.js";
-import '../../src/shared-styles.js';
+
+import '../../old/shared-styles.js';
+
 import "@polymer/paper-checkbox/paper-checkbox.js";
 import "@polymer/paper-radio-button/paper-radio-button.js";
 import "@polymer/paper-radio-group/paper-radio-group.js";

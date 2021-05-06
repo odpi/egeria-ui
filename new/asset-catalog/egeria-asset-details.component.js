@@ -2,14 +2,14 @@
 /* Copyright Contributors to the ODPi Egeria project. */
 import { PolymerElement, html } from '@polymer/polymer';
 import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class.js';
-import { ItemUtilsBehavior } from '../../src/common/item-utils.js';
+import { EgeriaItemUtilsBehavior } from '../commons/egeria-item-utils.behaviour';
 import { egeriaFetch } from '../commons/fetch';
 import './egeria-asset-tools.component';
 import '../commons/egeria-props-table.component';
 
 import { ENV } from '../../env';
 
-class EgeriaAssetDetails extends mixinBehaviors([ItemUtilsBehavior], PolymerElement) {
+class EgeriaAssetDetails extends mixinBehaviors([EgeriaItemUtilsBehavior], PolymerElement) {
   static get properties() {
     return {
       guid: { type: String, value: '' },
