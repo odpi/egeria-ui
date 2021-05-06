@@ -203,7 +203,7 @@ class EgeriaAssetSearch extends PolymerElement {
         :host {
           display: flex;
           flex-flow: column;
-          min-height: var(--egeria-view-min-height);
+          min-height: calc(100vh - 64px);
         }
 
         .multi-combo {

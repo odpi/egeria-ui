@@ -211,7 +211,7 @@ class EgeriaSinglePage extends PolymerElement {
         }
 
         .content {
-          height:var(--egeria-view-min-height);
+          height:calc(100vh - 64px);
           margin:var(--egeria-view-margin);
         }
       </style>
