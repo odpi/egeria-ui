@@ -151,7 +151,7 @@ class EgeriaApp extends PolymerElement {
       <style>
         :host {
           display:block;
-          height:100%;
+          height:100vh;
         }
       </style>
 
