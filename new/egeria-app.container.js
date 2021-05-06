@@ -5,7 +5,6 @@ import { setPassiveTouchGestures, setRootPath } from '@polymer/polymer/lib/utils
 import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
 
 /* Commons */
-// import '../src/token-ajax';
 import '@polymer/iron-localstorage/iron-localstorage';
 import '@vaadin/vaadin-icons/vaadin-icons.js';
 import '@polymer/iron-icons/iron-icons.js';
