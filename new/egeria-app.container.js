@@ -97,8 +97,13 @@ class EgeriaApp extends PolymerElement {
   }
 
   canAccess(route, components) {
+    // Added this so that i dont add
+    // asset-catalog-search role on the backend
+    let routeArray = route.split('/');
+    let firstRoute = routeArray[0];
+
     return components.includes('*')
-            || (routes.filter(r => components.includes(r.name))).map(r => r.name).includes(route);
+            || (routes.filter(r => components.includes(r.name))).map(r => r.name).includes(firstRoute);
   }
 
   updatePageTitle(page, pages) {
