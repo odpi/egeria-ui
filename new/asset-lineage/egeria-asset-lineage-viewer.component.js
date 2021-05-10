@@ -9,7 +9,8 @@ import '@polymer/paper-toggle-button/paper-toggle-button.js';
 
 import {
   iconsMap,
-  itemGroupIconMap
+  itemGroupIconMap,
+  linksTypeIconMap
 } from 'egeria-js-commons';
 
 class EgeriaAssetLineageViewer extends PolymerElement {
@@ -85,6 +86,10 @@ class EgeriaAssetLineageViewer extends PolymerElement {
     return iconsMap;
   }
 
+  getHappiGraphLinksTypeIconMap() {
+    return linksTypeIconMap;
+  }
+
   static get template() {
     return html`
       <style>
@@ -103,6 +108,7 @@ class EgeriaAssetLineageViewer extends PolymerElement {
         <happi-graph id="happi-graph"
                      icons-map="[[ getHappiGraphIconsMap() ]]"
                      properties-map="[[ getItemGroupIconMap() ]]"
+                     links-type-icon-map="[[ getHappiGraphLinksTypeIconMap() ]]"
                      graph-direction="[[ graphDirection ]]"
                      graph-data="[[ graphData ]]">
           <div slot="pre-actions">
