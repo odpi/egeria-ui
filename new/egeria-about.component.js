@@ -9,7 +9,20 @@ import '@polymer/paper-styles/paper-styles';
 import '@polymer/paper-styles/color';
 import '../old/shared-styles.js';
 
+import { updateBreadcrumb } from './breadcrumb/egeria-breadcrumb-events';
+
 class EgeriaAbout extends PolymerElement {
+  ready() {
+    super.ready();
+
+    updateBreadcrumb([
+      {
+        href: '/about',
+        name: 'about'
+      },
+    ]);
+  }
+
   static get template() {
     return html`
        <style include="shared-styles">

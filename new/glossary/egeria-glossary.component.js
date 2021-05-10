@@ -11,6 +11,7 @@ import '@vaadin/vaadin-grid/vaadin-grid-column.js';
 
 import { egeriaFetch } from '../commons/fetch.js';
 import { ENV } from '../../env';
+import { updateBreadcrumb } from '../breadcrumb/egeria-breadcrumb-events';
 
 class EgeriaGlossary extends PolymerElement {
   static get properties() {
@@ -23,6 +24,13 @@ class EgeriaGlossary extends PolymerElement {
 
   ready() {
     super.ready();
+
+    updateBreadcrumb([
+      {
+        href: '/glossary',
+        name: 'glossary view'
+      }
+    ]);
 
     egeriaFetch(`/api/glossaries`)
       .then(response => {

@@ -20,6 +20,7 @@ import '../asset-catalog/egeria-asset-tools.component';
 
 import { egeriaFetch } from '../commons/fetch';
 import { ENV } from '../../env';
+import { updateBreadcrumb } from '../breadcrumb/egeria-breadcrumb-events';
 
 class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior], PolymerElement) {
   static get properties() {
@@ -124,6 +125,19 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior], Polym
           links: [ ...data.edges ],
           selectedNodeId: this.decodedGuid
         };
+
+        updateBreadcrumb([
+          { href: null, name: 'asset-lineage' },
+          {
+            href: `/asset-catalog/${ this.guid }/details`,
+            name: (() => {
+              let node = this.graphData.nodes.filter(n => n.id === this.decodedGuid).pop();
+
+              return node ? node.label : this.guid;
+            })()
+          },
+          { href: `/asset-lineage/${ this.guid }/${ this.page }`, name: this.page }
+        ]);
       });
   }
 
@@ -268,7 +282,6 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior], Polym
     }
 
     this.shadowRoot.querySelector('#paper-dialog-statistics').open();
-    // this.shadowRoot.querySelector('#happi-graph').hideUnhideStatistics();
   }
 
   static get template() {

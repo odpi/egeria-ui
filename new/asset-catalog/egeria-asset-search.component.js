@@ -18,6 +18,7 @@ import './egeria-qualified-name.component';
 
 import { egeriaFetch } from '../commons/fetch';
 import { ENV } from '../../env';
+import { updateBreadcrumb } from '../breadcrumb/egeria-breadcrumb-events';
 
 class EgeriaAssetSearch extends PolymerElement {
   static get properties() {
@@ -36,6 +37,17 @@ class EgeriaAssetSearch extends PolymerElement {
 
   ready() {
     super.ready();
+
+    updateBreadcrumb([
+      {
+        href: '/asset-catalog/search',
+        name: 'asset-catalog'
+      },
+      {
+        href: '/asset-catalog/search',
+        name: 'search'
+      }
+    ]);
 
     egeriaFetch(`/api/assets/types`)
       .then(data => {
@@ -229,7 +241,6 @@ class EgeriaAssetSearch extends PolymerElement {
 
         paper-checkbox {
           align-self: center;
-          border: 1px solid var(--egeria-primary-color);
           padding: 8px;
 
           --paper-checkbox-checked-color: var(--egeria-primary-color);
@@ -239,6 +250,7 @@ class EgeriaAssetSearch extends PolymerElement {
           --paper-checkbox-label-color: var(--egeria-primary-color);
           --paper-checkbox-label-spacing: 0;
           --paper-checkbox-margin: 3px 8px 3px 0;
+          --paper-checkbox-unchecked-color: var(--egeria-primary-color);
         }
 
         paper-input {
@@ -256,35 +268,34 @@ class EgeriaAssetSearch extends PolymerElement {
           <iron-a11y-keys keys="enter" on-keys-pressed="_search"></iron-a11y-keys>
 
           <div class="align-center m20">
+            <div>
+              <paper-input id="searchField"
+                           label="Search"
+                           value="{{ q }}"
+                           no-label-float
+                           required
+                           minlength="2"
+                           autofocus>
+                  <iron-icon icon="search" slot="prefix" id="searchFieldIcon"></iron-icon>
+              </paper-input>
 
-          <div>
-            <paper-input id="searchField"
-                          label="Search"
-                          value="{{ q }}"
-                          no-label-float
-                          required
-                          minlength="2"
-                          autofocus>
-                <iron-icon icon="search" slot="prefix" id="searchFieldIcon"></iron-icon>
-            </paper-input>
+              <vaadin-button id="searchSubmit" theme="primary" on-tap="_search">
+                <iron-icon id="search" icon="search"></iron-icon>
+              </vaadin-button>
 
-            <vaadin-button id="searchSubmit" theme="primary" on-tap="_search">
-              <iron-icon id="search" icon="search"></iron-icon>
-            </vaadin-button>
+              <paper-checkbox id="exactMatch">Exact match</paper-checkbox>
+              <paper-checkbox id="caseSensitive">Case sensitive</paper-checkbox>
+            </div>
 
-            <multiselect-combo-box class="multi-combo" id="combo" items="[[ types ]]"
-                                item-label-path="name"
-                                ordered="false"
-                                placeholder="Open Metadata Type (required)"
-                                required
-                                error-message="Please select one">
-            </multiselect-combo-box>
-          </div>
-
-          <div>
-            <paper-checkbox id="exactMatch">Exact match</paper-checkbox>
-            <paper-checkbox id="caseSensitive">Case sensitive</paper-checkbox>
-          </div>
+            <div>
+              <multiselect-combo-box class="multi-combo" id="combo" items="[[ types ]]"
+                                     item-label-path="name"
+                                     ordered="false"
+                                     placeholder="Open Metadata Type (required)"
+                                     required
+                                     error-message="Please select one">
+              </multiselect-combo-box>
+            </div>
           </div>
         </form>
       </iron-form>

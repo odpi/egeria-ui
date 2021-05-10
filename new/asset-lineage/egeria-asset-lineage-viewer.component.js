@@ -75,7 +75,6 @@ class EgeriaAssetLineageViewer extends PolymerElement {
     });
 
     window.dispatchEvent(evt);
-
   }
 
   getItemGroupIconMap() {

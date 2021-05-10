@@ -33,6 +33,7 @@ import '@polymer/paper-dialog/paper-dialog';
 import '../old/my-icons.js';
 import '../old/shared-styles.js';
 
+import './breadcrumb/egeria-breadcrumb.component';
 import './egeria-spinner.component';
 import './egeria-login.component';
 import './asset-catalog/egeria-asset-catalog.container';
@@ -62,7 +63,9 @@ class EgeriaSinglePage extends PolymerElement {
 
       queryParams: { type: String, value: '' },
 
-      modalMessage: { type: String, value: '' }
+      modalMessage: { type: String, value: '' },
+
+      crumbs: { type: Array, value: [] }
     }
   }
 
@@ -111,6 +114,10 @@ class EgeriaSinglePage extends PolymerElement {
       this.modalMessage = e.detail.message;
 
       this.shadowRoot.querySelector("#modal").open();
+    });
+
+    window.addEventListener('egeria-update-breadcrumb', e => {
+      this.crumbs = e.detail.breadcrumbs;
     });
   }
 
@@ -287,33 +294,33 @@ class EgeriaSinglePage extends PolymerElement {
             </app-toolbar>
 
             <div class="breadcrumb">
-              <!-- <bread-crumb id="breadcrumb" items="[[crumbs]]"></bread-crumb> -->
+              <egeria-breadcrumb id="breadcrumb" crumbs="[[ crumbs ]]"></egeria-breadcrumb>
             </div>
           </app-header>
 
         <div class="content">
-          <template is="dom-if" if="[[ _isEqualTo(page, 'asset-catalog') ]]">
+          <template is="dom-if" if="[[ _isEqualTo(page, 'asset-catalog') ]]" restamp="true">
             <egeria-asset-catalog pages="[[ nextPages ]]"
                                   components="[[ components ]]"></egeria-asset-catalog>
           </template>
 
-          <template is="dom-if" if="[[ _isEqualTo(page, 'asset-lineage') ]]">
+          <template is="dom-if" if="[[ _isEqualTo(page, 'asset-lineage') ]]" restamp="true">
             <egeria-asset-lineage pages="[[ nextPages ]]"></egeria-asset-lineage>
           </template>
 
-          <template is="dom-if" if="[[ _isEqualTo(page, 'glossary') ]]">
+          <template is="dom-if" if="[[ _isEqualTo(page, 'glossary') ]]" restamp="true">
             <egeria-glossary></egeria-glossary>
           </template>
 
-          <template is="dom-if" if="[[ _isEqualTo(page, 'type-explorer') ]]">
+          <template is="dom-if" if="[[ _isEqualTo(page, 'type-explorer') ]]" restamp="true">
             <egeria-type-explorer></egeria-type-explorer>
           </template>
 
-          <template is="dom-if" if="[[ _isEqualTo(page, 'repository-explorer') ]]">
+          <template is="dom-if" if="[[ _isEqualTo(page, 'repository-explorer') ]]" restamp="true">
             <egeria-repository-explorer></egeria-repository-explorer>
           </template>
 
-          <template is="dom-if" if="[[ _isEqualTo(page, 'about') ]]">
+          <template is="dom-if" if="[[ _isEqualTo(page, 'about') ]]" restamp="true">
             <egeria-about></egeria-about>
           </template>
         </div>
