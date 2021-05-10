@@ -35,7 +35,7 @@ import './connection-manager.js';
 import './focus-manager.js';
 import './diagram-manager.js';
 import './details-panel.js';
-
+import { updateBreadcrumb } from '../breadcrumb/egeria-breadcrumb-events';
 /**
 *
 * EgeriaTypeExplorer is the top level web component for the Type Explorer UI component.
@@ -57,6 +57,12 @@ class EgeriaTypeExplorer extends mixinBehaviors([AppLocalizeBehavior], PolymerEl
     this.initialise();
     this.theTypeManager = this.$.typeManager;
 
+    updateBreadcrumb([
+      {
+        href: '/type-explorer',
+        name: 'type-explorer'
+      },
+    ]);
   }
 
   initialise() {

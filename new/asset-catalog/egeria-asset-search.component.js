@@ -18,6 +18,7 @@ import './egeria-qualified-name.component';
 
 import { egeriaFetch } from '../commons/fetch';
 import { ENV } from '../../env';
+import { updateBreadcrumb } from '../breadcrumb/egeria-breadcrumb-events';
 
 class EgeriaAssetSearch extends PolymerElement {
   static get properties() {
@@ -36,6 +37,17 @@ class EgeriaAssetSearch extends PolymerElement {
 
   ready() {
     super.ready();
+
+    updateBreadcrumb([
+      {
+        href: '/asset-catalog/search',
+        name: 'asset-catalog'
+      },
+      {
+        href: '/asset-catalog/search',
+        name: 'search'
+      }
+    ]);
 
     egeriaFetch(`/api/assets/types`)
       .then(data => {

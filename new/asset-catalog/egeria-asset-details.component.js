@@ -8,6 +8,7 @@ import './egeria-asset-tools.component';
 import '../commons/egeria-props-table.component';
 
 import { ENV } from '../../env';
+import { updateBreadcrumb } from '../breadcrumb/egeria-breadcrumb-events';
 
 class EgeriaAssetDetails extends mixinBehaviors([EgeriaItemUtilsBehavior], PolymerElement) {
   static get properties() {
@@ -28,6 +29,21 @@ class EgeriaAssetDetails extends mixinBehaviors([EgeriaItemUtilsBehavior], Polym
     egeriaFetch(`/api/assets/${ this.atob(this.guid) }`)
       .then(response => {
         this.item = response;
+
+        updateBreadcrumb([
+          {
+            href: '/asset-catalog/search',
+            name: 'asset-catalog'
+          },
+          {
+            href: `/asset-catalog/${ this.guid }/details`,
+            name: this.item.properties.displayName
+          },
+          {
+            href: `/asset-catalog/${ this.guid }/details`,
+            name: `details`
+          }
+        ]);
       });
   }
 

@@ -48,13 +48,13 @@ class EgeriaAssetCatalog extends PolymerElement {
 
   static get template() {
     return html`
-      <template is="dom-if" if="[[ _isEqualTo(page, 'details') ]]">
+      <template is="dom-if" if="[[ _isEqualTo(page, 'details') ]]" restamp="true">
         <egeria-asset-details guid="[[ guid ]]"
                               pages="[[ nextPages ]]"
                               components="[[ components ]]"></egeria-asset-details>
       </template>
 
-      <template is="dom-if" if="[[ _isEqualTo(page, 'search') ]]">
+      <template is="dom-if" if="[[ _isEqualTo(page, 'search') ]]" restamp="true">
         <egeria-asset-search pages="[[ nextPages ]]"></egeria-asset-search>
       </template>
     `;

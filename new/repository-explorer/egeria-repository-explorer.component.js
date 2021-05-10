@@ -39,6 +39,7 @@ import './graph-controls.js';
 
 import './rex-styles.js';
 
+import { updateBreadcrumb } from '../breadcrumb/egeria-breadcrumb-events';
 
 /**
  *
@@ -489,6 +490,13 @@ class EgeriaRepositoryExplorer extends mixinBehaviors([AppLocalizeBehavior], Pol
             }
 
         }
+
+        updateBreadcrumb([
+            {
+                href: '/repository-explorer',
+                name: 'repository-explorer'
+            }
+        ]);
     }
 
     initialise() {
