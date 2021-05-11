@@ -21,6 +21,62 @@ class EgeriaLogin extends PolymerElement {
     return ENV['API_URL'];
   }
 
+  static get properties() {
+    return {
+      token: {
+        type: Object,
+        notify: true
+      },
+      feedback: String,
+      feedbackLevel: String,
+      titleChunks: { type: Array, value: [] },
+      app: {
+        type: Object,
+        observer: '_updateApp'
+      }
+    };
+  }
+
+  _updateApp() {
+    this.titleChunks = !['', undefined].includes(this.app) ? this.app.title.split('|') : [];
+  }
+
+  ready() {
+    super.ready();
+    this.addEventListener('iron-form-response', this._handleLoginSuccess);
+    this.addEventListener('iron-form-error', this._handleLoginError);
+  }
+
+  _handleLoginSuccess(evt) {
+    this.token = evt.detail.xhr.getResponseHeader('x-auth-token');
+    this.feedback = 'Authentication successful!';
+    this.feedbackLevel = 'info';
+
+    setCookie('token', this.token);
+
+    let decodedUrl = this.queryParams.redirect ? decodeURIComponent(this.queryParams.redirect) : '/';
+
+    let redirectUrl = !decodedUrl.indexOf('http') ? '/' : decodedUrl;
+
+    window.location.href = redirectUrl;
+  }
+
+  _handleLoginError(evt) {
+    if(evt.detail.request.xhr.response.status === 401) {
+      this.feedback = 'You have entered incorrect username or password.';
+    } else if(evt.detail.request.xhr.response.status === 403) {
+      this.feedback = 'This user is not authorized to access this application.';
+    } else {
+      this.feedback = 'Sorry. We cannot authenticate you right now. Please come back later.';
+    }
+
+    this.feedbackLevel = 'error';
+  }
+
+  _logIn() {
+    this.$.form.submit();
+  }
+
   static get template() {
     return html`
       <style include="shared-styles">
@@ -41,7 +97,7 @@ class EgeriaLogin extends PolymerElement {
         div.container h1 {
           color: var(--egeria-primary-color) !important;
           font-family: var(--custom-font-family) !important;
-          font-size: 50px !important;
+          font-size: 30px !important;
           margin-bottom: 0 !important;
         }
 
@@ -84,7 +140,13 @@ class EgeriaLogin extends PolymerElement {
       <iron-localstorage name="my-app-storage" value="{{ token }}"></iron-localstorage>
       <iron-ajax id="ajax" url="[[ getApiUrl() ]]/api/public/app/info" auto last-response="{{app}}"></iron-ajax>
 
-      <div class="container"><h1>[[app.title]]</h1></div>
+      <div class="container">
+        <h1>
+          <template is="dom-repeat" items="[[ titleChunks ]]">
+            [[ item ]] <br/>
+          </template>
+        </h1>
+      </div>
 
       <div class="container logo">
         <p>Powered by</p>
@@ -122,53 +184,6 @@ class EgeriaLogin extends PolymerElement {
         </div>
       </div>
     `;
-  }
-
-  static get properties() {
-    return {
-      token: {
-        type: Object,
-        notify: true
-      },
-      feedback: String,
-      feedbackLevel: String
-    };
-  }
-
-  ready() {
-    super.ready();
-    this.addEventListener('iron-form-response', this._handleLoginSuccess);
-    this.addEventListener('iron-form-error', this._handleLoginError);
-  }
-
-  _handleLoginSuccess(evt) {
-    this.token = evt.detail.xhr.getResponseHeader('x-auth-token');
-    this.feedback = 'Authentication successful!';
-    this.feedbackLevel = 'info';
-
-    setCookie('token', this.token);
-
-    let decodedUrl = this.queryParams.redirect ? decodeURIComponent(this.queryParams.redirect) : '/';
-
-    let redirectUrl = !decodedUrl.indexOf('http') ? '/' : decodedUrl;
-
-    window.location.href = redirectUrl;
-  }
-
-  _handleLoginError(evt) {
-    if(evt.detail.request.xhr.response.status === 401) {
-      this.feedback = 'You have entered incorrect username or password.';
-    } else if(evt.detail.request.xhr.response.status === 403) {
-      this.feedback = 'This user is not authorized to access this application.';
-    } else {
-      this.feedback = 'Sorry. We cannot authenticate you right now. Please come back later.';
-    }
-
-    this.feedbackLevel = 'error';
-  }
-
-  _logIn() {
-    this.$.form.submit();
   }
 }
 
