@@ -9,7 +9,7 @@ export const RoleComponentsBehavior = {
     }
   },
 
-  _hasComponent(comp) {
-    return this.components.includes("*") || this.components.includes(comp);
+  _hasComponent(component) {
+    return this.components.includes("*") || this.components.includes(component);
   }
 }

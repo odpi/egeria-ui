@@ -29,7 +29,9 @@ import '@polymer/iron-form/iron-form.js';
 import '@vaadin/vaadin-icons/vaadin-icons.js';
 import '@polymer/paper-styles/paper-styles.js';
 import '@polymer/paper-dialog/paper-dialog';
+import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class.js';
 
+import { RoleComponentsBehavior } from '../old/common/role-components';
 import '../old/my-icons.js';
 import '../old/shared-styles.js';
 
@@ -44,14 +46,13 @@ import './glossary/egeria-glossary.component';
 import './type-explorer/egeria-type-explorer.component';
 import './repository-explorer/egeria-repository-explorer.component';
 
-class EgeriaSinglePage extends PolymerElement {
+class EgeriaSinglePage extends mixinBehaviors(RoleComponentsBehavior, PolymerElement) {
   static get properties() {
     return {
       language: {
         value: 'en'
       },
 
-      components: { type: Array, value: null },
       currentUser: { type: Object, value: {} },
       appInfo: { type: Object, value: {} },
       roles: { type: Array, value: [] },
@@ -89,14 +90,6 @@ class EgeriaSinglePage extends PolymerElement {
 
   _isEqualTo(a, b) {
     return a === b;
-  }
-
-  _hasComponent(array, component) {
-    if(array.length === 0) {
-      return true;
-    }
-
-    return Array.isArray(array) && (array.includes("*") || array.includes(component));
   }
 
   ready() {
@@ -248,20 +241,20 @@ class EgeriaSinglePage extends PolymerElement {
                         swlectedClass="drawer-list-selected"
                         role="navigation">
 
-            <template id="test" is="dom-if" if="[[components]]">
-              <template is="dom-if" if="[[_hasComponent(components, 'asset-catalog')]]">
+            <template id="test" is="dom-if" if="[[ components ]]">
+              <template is="dom-if" if="[[_hasComponent('asset-catalog')]]">
                 <div name="asset-catalog" language="[[language]]"><a href="/asset-catalog/search">Asset Catalog</a></div>
               </template>
-              <template is="dom-if" if="[[_hasComponent(components, 'glossary-view')]]">
+              <template is="dom-if" if="[[_hasComponent('glossary-view')]]">
                 <div name="glossary" language="[[ language ]]"><a href="/glossary">Glossary View</a></div>
               </template>
-              <template is="dom-if" if="[[_hasComponent(components, 'tex')]]">
+              <template is="dom-if" if="[[_hasComponent('tex')]]">
                 <div name="type-explorer"><a href="/type-explorer">Type Explorer</a></div>
               </template>
-              <template is="dom-if" if="[[ _hasComponent(components, 'rex') ]]">
+              <template is="dom-if" if="[[ _hasComponent('rex') ]]">
                 <div name="repository-explorer"><a href="/repository-explorer">Repository Explorer</a></div>
               </template>
-              <template is="dom-if" if="[[ _hasComponent(components, 'about') ]]">
+              <template is="dom-if" if="[[ _hasComponent('about') ]]">
                 <div name="about"><a href="/about">About</a></div>
               </template>
             </template>
@@ -305,7 +298,8 @@ class EgeriaSinglePage extends PolymerElement {
           </template>
 
           <template is="dom-if" if="[[ _isEqualTo(page, 'asset-lineage') ]]" restamp="true">
-            <egeria-asset-lineage pages="[[ nextPages ]]"></egeria-asset-lineage>
+            <egeria-asset-lineage pages="[[ nextPages ]]"
+                                  components="[[ components ]]"></egeria-asset-lineage>
           </template>
 
           <template is="dom-if" if="[[ _isEqualTo(page, 'glossary') ]]" restamp="true">

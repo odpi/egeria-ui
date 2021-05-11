@@ -7,16 +7,18 @@ import '@polymer/paper-item/paper-item.js';
 import '@polymer/paper-item/paper-item-body.js';
 import '@polymer/paper-styles/paper-styles.js';
 import '@vaadin/vaadin-icons/vaadin-icons.js';
+import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class.js';
+
+import { RoleComponentsBehavior } from '../../old/common/role-components';
 import { egeriaFetch } from '../commons/fetch.js';
 import { ENV } from '../../env';
 
-class EgeriaAssetTools extends PolymerElement {
+class EgeriaAssetTools extends mixinBehaviors(RoleComponentsBehavior, PolymerElement) {
   static get properties() {
     return {
       guid: { type: String, value: '' },
       type: { type: String, value: '' },
       item: { type: Object, value: {} },
-      components: { type: Array, value: [] },
       settings: { type: Object, value: {} }
     }
   }
@@ -32,14 +34,6 @@ class EgeriaAssetTools extends PolymerElement {
 
   btoa(string) {
     return ENV['PRODUCTION'] ? string : window.btoa(string);
-  }
-
-  _hasComponent(component) {
-    if(this.components.length === 0) {
-      return true;
-    }
-
-    return Array.isArray(this.components) && (this.components.includes("*") || this.components.includes(component));
   }
 
   _displayVerticalLineageButton(type) {
