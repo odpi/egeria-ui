@@ -35,6 +35,7 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
       includeProcesses: { type: Boolean, value: true },
       graphData: { type: Object, value: null },
       selectedNode: { type: Object, value: null },
+      selectedNodeDetails: { type: Object, value: null },
       toggleETLJobs: { type: Boolean, value: true },
       typeMapData: {
         type: Object,
@@ -100,12 +101,39 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
         ].includes(page)) {
           window.location.href = '/error';
         } else {
-          this.fetchGraphData();
+          Promise.all([
+            this.setSelectedNode(),
+            this.fetchGraphData(),
+          ]).then((responses) => {
+            let [ selectedNodeDetails, data] = responses;
+
+            this.updateData(data);
+            this.updateSelectedNode(selectedNodeDetails);
+
+            updateBreadcrumb([
+              { href: null, name: 'asset-lineage' },
+              {
+                href: `/asset-catalog/${ this.guid }/details`,
+                name: this.selectedNodeDetails.properties.displayName
+              },
+              { href: `/asset-lineage/${ this.guid }/${ this.page }`, name: this.page }
+            ]);
+          });
         }
       } else {
         window.location.href = '/error';
       }
     }
+  }
+
+  setSelectedNode() {
+    return egeriaFetch(`/api/assets/${ this.atob(this.guid) }`);
+  }
+
+  updateSelectedNode(selectedNodeDetails) {
+    this.selectedNodeDetails = selectedNodeDetails;
+
+    this.checkForVerticalTab(this.selectedNodeDetails);
   }
 
   fetchGraphData() {
@@ -116,30 +144,17 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
 
     this.graphData = null;
 
-    return egeriaFetch(`/api/lineage/entities/${ this.atob( this.guid ) }/${ pathSuffix }?includeProcesses=${ this.toggleETLJobs }`)
-      .then(data => {
-        this.checkLineage(data);
-        this.checkForVerticalTab(data.nodes);
+    return egeriaFetch(`/api/lineage/entities/${ this.atob( this.guid ) }/${ pathSuffix }?includeProcesses=${ this.toggleETLJobs }`);
+  }
 
-        this.graphData = {
-          nodes: [ ...data.nodes ],
-          links: [ ...data.edges ],
-          selectedNodeId: this.decodedGuid
-        };
+  updateData(data) {
+    this.checkLineage(data);
 
-        updateBreadcrumb([
-          { href: null, name: 'asset-lineage' },
-          {
-            href: `/asset-catalog/${ this.guid }/details`,
-            name: (() => {
-              let node = this.graphData.nodes.filter(n => n.id === this.decodedGuid).pop();
-
-              return node ? node.label : this.guid;
-            })()
-          },
-          { href: `/asset-lineage/${ this.guid }/${ this.page }`, name: this.page }
-        ]);
-      });
+    this.graphData = {
+      nodes: [ ...data.nodes ],
+      links: [ ...data.edges ],
+      selectedNodeId: this.decodedGuid
+    };
   }
 
   hasGraphData(graphData) {
@@ -162,20 +177,12 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
     }
   }
 
-  checkForVerticalTab(nodes) {
-    let selectedNode = nodes.filter((n) => {
-      return n.id === this.decodedGuid;
-    }).pop();
-
-    if(selectedNode) {
-      this.hasVerticalTab = [
-        'RelationalColumn',
-        'TabularColumn',
-        'GlossaryTerm'
-      ].includes(selectedNode.group);
-    } else {
-      this.hasVerticalTab = false;
-    }
+  checkForVerticalTab(selectedNodeDetails) {
+    this.hasVerticalTab = [
+      'RelationalColumn',
+      'TabularColumn',
+      'GlossaryTerm'
+    ].includes(selectedNodeDetails && selectedNodeDetails.type ? selectedNodeDetails.type.name : '');
   }
 
   _isEqualTo(a, b) {

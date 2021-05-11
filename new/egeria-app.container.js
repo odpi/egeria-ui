@@ -124,7 +124,11 @@ class EgeriaApp extends PolymerElement {
 
       switch(route) {
         case '':
-          this.pages = ['homepage'];
+          if(components.length) {
+            this.pages = ['homepage'];
+          } else {
+            this.pages = ['forbidden'];
+          }
 
           break;
         case 'login':
@@ -134,7 +138,8 @@ class EgeriaApp extends PolymerElement {
         default:
           if(!routeCheck(route)) {
             this.pages = ['error'];
-          } else if (!getCookie('token') && !['', 'login'].includes(route)) {
+
+          } else if (!getCookie('token') && !['login'].includes(route)) {
             this.redirectToLogin(route);
           } else if(!currentUser) {
             this.redirectToLogin(route);
@@ -181,7 +186,9 @@ class EgeriaApp extends PolymerElement {
         </template>
 
         <template is="dom-if" if="[[ _isEqualTo(page, 'homepage') ]]">
-          <egeria-home></egeria-home>
+          <egeria-home title="[[ appInfo.title ]]"
+                       description="[[ appInfo.description ]]"
+                       components="[[ components ]]"></egeria-home>
         </template>
 
         <template is="dom-if" if="[[ _doesntInclude(page) ]]">
