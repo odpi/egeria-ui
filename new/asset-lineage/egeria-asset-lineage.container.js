@@ -178,15 +178,11 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
   }
 
   checkForVerticalTab(selectedNodeDetails) {
-    if(selectedNodeDetails) {
-      this.hasVerticalTab = [
-        'RelationalColumn',
-        'TabularColumn',
-        'GlossaryTerm'
-      ].includes(selectedNodeDetails.type.name);
-    } else {
-      this.hasVerticalTab = false;
-    }
+    this.hasVerticalTab = [
+      'RelationalColumn',
+      'TabularColumn',
+      'GlossaryTerm'
+    ].includes(selectedNodeDetails && selectedNodeDetails.type ? selectedNodeDetails.type.name : '');
   }
 
   _isEqualTo(a, b) {
