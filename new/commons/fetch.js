@@ -41,7 +41,7 @@ export const egeriaFetch = (url, headers) => {
     }
   )
   .then((response) => {
-    if(response.status === 403 && !['/login', '/'].includes(window.location.pathname)) {
+    if(response.status === 403 && !['/login'].includes(window.location.pathname)) {
       window.location.href='/login';
     }
 

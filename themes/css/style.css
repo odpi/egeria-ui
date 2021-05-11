@@ -38,6 +38,8 @@
   --happi-graph-primary-color: rgb(var(--happi-graph-primary-color-rgb));
   --happi-graph-secondary-color: var(--egeria-secondary-color);
   --happi-graph-gray-color: #AFAFAF;
+
+  --egeria-home-header-background: var(--egeria-stripes-color);
 }
 
 html {
