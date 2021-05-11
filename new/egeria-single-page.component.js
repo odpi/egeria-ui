@@ -305,7 +305,8 @@ class EgeriaSinglePage extends PolymerElement {
           </template>
 
           <template is="dom-if" if="[[ _isEqualTo(page, 'asset-lineage') ]]" restamp="true">
-            <egeria-asset-lineage pages="[[ nextPages ]]"></egeria-asset-lineage>
+            <egeria-asset-lineage pages="[[ nextPages ]]"
+                                  components="[[ components ]]"></egeria-asset-lineage>
           </template>
 
           <template is="dom-if" if="[[ _isEqualTo(page, 'glossary') ]]" restamp="true">

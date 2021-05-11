@@ -29,6 +29,7 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior], Polym
       nextPages: { type: Array, value: [''] },
       page: { type: String, value: '' },
       hasVerticalTab: { type: Boolean, value: false },
+      components: { type: Array, value: [] },
 
       guid: { type: String, value: null },
       includeProcesses: { type: Boolean, value: true },
@@ -284,6 +285,15 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior], Polym
     this.shadowRoot.querySelector('#paper-dialog-statistics').open();
   }
 
+  /* Extract this to a common behaviour */
+  _hasComponent(components, component) {
+    if(components.length === 0) {
+      return true;
+    }
+
+    return Array.isArray(components) && (components.includes("*") || components.includes(component));
+  }
+
   static get template() {
     return html`
       <style>
@@ -327,35 +337,48 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior], Polym
       <div style="height:100%;">
         <template is="dom-if" if="[[ hasGraphData(graphData) ]]" restamp="true">
           <paper-tabs attr-for-selected="name" selected="{{ page }}">
-            <paper-tab name="ultimate-source">
-              <a name="ultimate-source" href="/asset-lineage/[[ guid ]]/ultimate-source">
-                <span>Ultimate Source</span>
-              </a>
-            </paper-tab>
-            <paper-tab name="end-to-end">
-              <a href="/asset-lineage/[[ guid ]]/end-to-end">
-                <span>End to end</span>
-              </a>
-            </paper-tab>
-            <paper-tab name="ultimate-destination">
-              <a href="/asset-lineage/[[ guid ]]/ultimate-destination">
-                <span>Ultimate Destination</span>
-              </a>
-            </paper-tab>
 
-            <template is="dom-if" if="[[ hasVerticalTab ]]">
-              <paper-tab name="vertical-lineage">
-                <a href="/asset-lineage/[[ guid ]]/vertical-lineage">
-                  <span>Vertical Lineage</span>
+            <template is="dom-if" if="[[ _hasComponent(components, 'ultimate-source') ]]">
+              <paper-tab name="ultimate-source">
+                <a name="ultimate-source" href="/asset-lineage/[[ guid ]]/ultimate-source">
+                  <span>Ultimate Source</span>
                 </a>
               </paper-tab>
             </template>
 
-            <paper-tab name="source-and-destination">
-              <a href="/asset-lineage/[[ guid ]]/source-and-destination">
-                <span>Source and Destination</span>
-              </a>
-            </paper-tab>
+            <template is="dom-if" if="[[ _hasComponent(components, 'end-to-end') ]]">
+              <paper-tab name="end-to-end">
+                <a href="/asset-lineage/[[ guid ]]/end-to-end">
+                  <span>End to end</span>
+                </a>
+              </paper-tab>
+            </template>
+
+            <template is="dom-if" if="[[ _hasComponent(components, 'ultimate-destination') ]]">
+              <paper-tab name="ultimate-destination">
+                <a href="/asset-lineage/[[ guid ]]/ultimate-destination">
+                  <span>Ultimate Destination</span>
+                </a>
+              </paper-tab>
+            </template>
+
+            <template is="dom-if" if="[[ _hasComponent(components, 'vertical-lineage') ]]">
+              <template is="dom-if" if="[[ hasVerticalTab ]]">
+                <paper-tab name="vertical-lineage">
+                  <a href="/asset-lineage/[[ guid ]]/vertical-lineage">
+                    <span>Vertical Lineage</span>
+                  </a>
+                </paper-tab>
+              </template>
+            </template>
+
+            <template is="dom-if" if="[[ _hasComponent(components, 'source-and-destination') ]]">
+              <paper-tab name="source-and-destination">
+                <a href="/asset-lineage/[[ guid ]]/source-and-destination">
+                  <span>Source and Destination</span>
+                </a>
+              </paper-tab>
+            </template>
           </paper-tabs>
 
           <template is="dom-if" if="[[ _isEqualTo(page, 'ultimate-source') ]]">
