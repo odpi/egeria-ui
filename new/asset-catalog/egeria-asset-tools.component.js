@@ -19,7 +19,6 @@ class EgeriaAssetTools extends mixinBehaviors(RoleComponentsBehavior, PolymerEle
       guid: { type: String, value: '' },
       type: { type: String, value: '' },
       item: { type: Object, value: {} },
-      components: { type: Array, value: [] },
       settings: { type: Object, value: {} }
     }
   }
@@ -70,7 +69,7 @@ class EgeriaAssetTools extends mixinBehaviors(RoleComponentsBehavior, PolymerEle
 
         <template is="dom-if" if="[[ components ]]">
           <ul id="menu">
-            <template is="dom-if" if="[[ _hasComponent(components, 'ultimate-source') ]]">
+            <template is="dom-if" if="[[ _hasComponent('ultimate-source') ]]">
               <li>
                 <a href="/asset-lineage/[[ btoa(guid) ]]/ultimate-source" title="Ultimate Source Lineage">
                   <paper-button raised>
@@ -81,7 +80,7 @@ class EgeriaAssetTools extends mixinBehaviors(RoleComponentsBehavior, PolymerEle
                 </a>
               </li>
             </template>
-            <template is="dom-if" if="[[ _hasComponent(components, 'end-to-end') ]]">
+            <template is="dom-if" if="[[ _hasComponent('end-to-end') ]]">
               <li>
                 <a href="/asset-lineage/[[ btoa(guid) ]]/end-to-end" title="End2End Lineage">
                   <paper-button raised>
@@ -92,7 +91,7 @@ class EgeriaAssetTools extends mixinBehaviors(RoleComponentsBehavior, PolymerEle
                 </a>
               </li>
             </template>
-            <template is="dom-if" if="[[ _hasComponent(components, 'ultimate-destination') ]]">
+            <template is="dom-if" if="[[ _hasComponent('ultimate-destination') ]]">
             <li>
               <a href="/asset-lineage/[[ btoa(guid) ]]/ultimate-destination" title="Ultimate Destination Lineage">
                 <paper-button raised>
@@ -103,7 +102,7 @@ class EgeriaAssetTools extends mixinBehaviors(RoleComponentsBehavior, PolymerEle
               </a>
             </li>
             </template>
-            <template is="dom-if" if="[[ _hasComponent(components, 'vertical-lineage') ]]">
+            <template is="dom-if" if="[[ _hasComponent('vertical-lineage') ]]">
               <template is="dom-if" if="[[ _displayVerticalLineageButton(type) ]]">
                 <li>
                   <a href="/asset-lineage/[[ btoa(guid) ]]/vertical-lineage" title="Vertical Lineage">
@@ -116,7 +115,7 @@ class EgeriaAssetTools extends mixinBehaviors(RoleComponentsBehavior, PolymerEle
                 </li>
               </template>
             </template>
-            <template is="dom-if" if="[[ _hasComponent(components, 'source-and-destination') ]]">
+            <template is="dom-if" if="[[ _hasComponent('source-and-destination') ]]">
               <li>
                   <a href="/asset-lineage/[[ btoa(guid) ]]/source-and-destination" title="Source and Destination Lineage">
                     <paper-button raised>
@@ -127,7 +126,7 @@ class EgeriaAssetTools extends mixinBehaviors(RoleComponentsBehavior, PolymerEle
                   </a>
               </li>
             </template>
-            <template is="dom-if" if="[[ _hasComponent(components, 'rex') ]]">
+            <template is="dom-if" if="[[ _hasComponent('rex') ]]">
               <li>
                 <a href="/repository-explorer/[[ omas.serverName ]]/[[ _encode(omas.baseUrl) ]]/[[ guid ]]" title="Repository explorer">
                   <paper-button raised>

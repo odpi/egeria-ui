@@ -30,7 +30,6 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
       nextPages: { type: Array, value: [''] },
       page: { type: String, value: '' },
       hasVerticalTab: { type: Boolean, value: false },
-      components: { type: Array, value: [] },
 
       guid: { type: String, value: null },
       includeProcesses: { type: Boolean, value: true },
@@ -330,7 +329,7 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
         <template is="dom-if" if="[[ hasGraphData(graphData) ]]" restamp="true">
           <paper-tabs attr-for-selected="name" selected="{{ page }}">
 
-            <template is="dom-if" if="[[ _hasComponent(components, 'ultimate-source') ]]">
+            <template is="dom-if" if="[[ _hasComponent('ultimate-source') ]]">
               <paper-tab name="ultimate-source">
                 <a name="ultimate-source" href="/asset-lineage/[[ guid ]]/ultimate-source">
                   <span>Ultimate Source</span>
@@ -338,7 +337,7 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
               </paper-tab>
             </template>
 
-            <template is="dom-if" if="[[ _hasComponent(components, 'end-to-end') ]]">
+            <template is="dom-if" if="[[ _hasComponent('end-to-end') ]]">
               <paper-tab name="end-to-end">
                 <a href="/asset-lineage/[[ guid ]]/end-to-end">
                   <span>End to end</span>
@@ -346,7 +345,7 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
               </paper-tab>
             </template>
 
-            <template is="dom-if" if="[[ _hasComponent(components, 'ultimate-destination') ]]">
+            <template is="dom-if" if="[[ _hasComponent('ultimate-destination') ]]">
               <paper-tab name="ultimate-destination">
                 <a href="/asset-lineage/[[ guid ]]/ultimate-destination">
                   <span>Ultimate Destination</span>
@@ -354,7 +353,7 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
               </paper-tab>
             </template>
 
-            <template is="dom-if" if="[[ _hasComponent(components, 'vertical-lineage') ]]">
+            <template is="dom-if" if="[[ _hasComponent('vertical-lineage') ]]">
               <template is="dom-if" if="[[ hasVerticalTab ]]">
                 <paper-tab name="vertical-lineage">
                   <a href="/asset-lineage/[[ guid ]]/vertical-lineage">
@@ -364,7 +363,7 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
               </template>
             </template>
 
-            <template is="dom-if" if="[[ _hasComponent(components, 'source-and-destination') ]]">
+            <template is="dom-if" if="[[ _hasComponent('source-and-destination') ]]">
               <paper-tab name="source-and-destination">
                 <a href="/asset-lineage/[[ guid ]]/source-and-destination">
                   <span>Source and Destination</span>

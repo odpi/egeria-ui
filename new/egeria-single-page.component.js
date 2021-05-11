@@ -53,7 +53,6 @@ class EgeriaSinglePage extends mixinBehaviors(RoleComponentsBehavior, PolymerEle
         value: 'en'
       },
 
-      components: { type: Array, value: null },
       currentUser: { type: Object, value: {} },
       appInfo: { type: Object, value: {} },
       roles: { type: Array, value: [] },
@@ -242,20 +241,20 @@ class EgeriaSinglePage extends mixinBehaviors(RoleComponentsBehavior, PolymerEle
                         swlectedClass="drawer-list-selected"
                         role="navigation">
 
-            <template id="test" is="dom-if" if="[[components]]">
-              <template is="dom-if" if="[[_hasComponent(components, 'asset-catalog')]]">
+            <template id="test" is="dom-if" if="[[ components ]]">
+              <template is="dom-if" if="[[_hasComponent('asset-catalog')]]">
                 <div name="asset-catalog" language="[[language]]"><a href="/asset-catalog/search">Asset Catalog</a></div>
               </template>
-              <template is="dom-if" if="[[_hasComponent(components, 'glossary-view')]]">
+              <template is="dom-if" if="[[_hasComponent('glossary-view')]]">
                 <div name="glossary" language="[[ language ]]"><a href="/glossary">Glossary View</a></div>
               </template>
-              <template is="dom-if" if="[[_hasComponent(components, 'tex')]]">
+              <template is="dom-if" if="[[_hasComponent('tex')]]">
                 <div name="type-explorer"><a href="/type-explorer">Type Explorer</a></div>
               </template>
-              <template is="dom-if" if="[[ _hasComponent(components, 'rex') ]]">
+              <template is="dom-if" if="[[ _hasComponent('rex') ]]">
                 <div name="repository-explorer"><a href="/repository-explorer">Repository Explorer</a></div>
               </template>
-              <template is="dom-if" if="[[ _hasComponent(components, 'about') ]]">
+              <template is="dom-if" if="[[ _hasComponent('about') ]]">
                 <div name="about"><a href="/about">About</a></div>
               </template>
             </template>
