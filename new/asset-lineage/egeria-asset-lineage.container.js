@@ -13,6 +13,7 @@ import '@vaadin/vaadin-grid/vaadin-grid.js';
 import '@vaadin/vaadin-grid/vaadin-grid-selection-column.js';
 import '@vaadin/vaadin-grid/vaadin-grid-sort-column.js';
 
+import { RoleComponentsBehavior } from '../../old/common/role-components';
 import '../commons/egeria-props-table.component';
 
 import './egeria-asset-lineage-viewer.component';
@@ -22,7 +23,7 @@ import { egeriaFetch } from '../commons/fetch';
 import { ENV } from '../../env';
 import { updateBreadcrumb } from '../breadcrumb/egeria-breadcrumb-events';
 
-class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior], PolymerElement) {
+class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleComponentsBehavior], PolymerElement) {
   static get properties() {
     return {
       pages: { type: Array, observer: '_pagesChanged' },
@@ -283,15 +284,6 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior], Polym
     }
 
     this.shadowRoot.querySelector('#paper-dialog-statistics').open();
-  }
-
-  /* Extract this to a common behaviour */
-  _hasComponent(components, component) {
-    if(components.length === 0) {
-      return true;
-    }
-
-    return Array.isArray(components) && (components.includes("*") || components.includes(component));
   }
 
   static get template() {

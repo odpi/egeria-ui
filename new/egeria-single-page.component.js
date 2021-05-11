@@ -29,7 +29,9 @@ import '@polymer/iron-form/iron-form.js';
 import '@vaadin/vaadin-icons/vaadin-icons.js';
 import '@polymer/paper-styles/paper-styles.js';
 import '@polymer/paper-dialog/paper-dialog';
+import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class.js';
 
+import { RoleComponentsBehavior } from '../old/common/role-components';
 import '../old/my-icons.js';
 import '../old/shared-styles.js';
 
@@ -44,7 +46,7 @@ import './glossary/egeria-glossary.component';
 import './type-explorer/egeria-type-explorer.component';
 import './repository-explorer/egeria-repository-explorer.component';
 
-class EgeriaSinglePage extends PolymerElement {
+class EgeriaSinglePage extends mixinBehaviors(RoleComponentsBehavior, PolymerElement) {
   static get properties() {
     return {
       language: {
@@ -89,14 +91,6 @@ class EgeriaSinglePage extends PolymerElement {
 
   _isEqualTo(a, b) {
     return a === b;
-  }
-
-  _hasComponent(array, component) {
-    if(array.length === 0) {
-      return true;
-    }
-
-    return Array.isArray(array) && (array.includes("*") || array.includes(component));
   }
 
   ready() {
