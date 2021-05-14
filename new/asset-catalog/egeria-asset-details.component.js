@@ -63,7 +63,7 @@ class EgeriaAssetDetails extends mixinBehaviors([EgeriaItemUtilsBehavior], Polym
       <style>
         :host {
           display:block;
-          height:100%;
+          min-height: 100%;
           background:var(--egeria-background-color);
         }
       </style>
