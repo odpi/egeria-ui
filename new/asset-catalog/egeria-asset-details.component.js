@@ -96,7 +96,7 @@ class EgeriaAssetDetails extends mixinBehaviors([EgeriaItemUtilsBehavior], Polym
         <!-- classifications -->
         <template is="dom-if" if="[[ _hasKeys(item.classifications) ]]">
           <template is="dom-repeat" items="[[ item.classifications ]]">
-            <egeria-props-table items="[[ _attributes(item) ]]"
+            <egeria-props-table items="[[ _itemClassifications(item, 'properties') ]]"
                                 title="Classification: [[ item.name ]]"
                                 with-row-stripes
                                 collapsable></egeria-props-table>
