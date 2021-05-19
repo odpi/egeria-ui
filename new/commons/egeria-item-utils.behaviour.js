@@ -25,6 +25,10 @@ export const EgeriaItemUtilsBehavior = {
       return key in obj;
   },
 
+  _itemClassifications(val, key) {
+    return this._attributes(val).concat(this._attributes(val[key]));
+  },
+
   _camelCaseToSentence(val) {
       return val
           .replace(/([A-Z])/g, ' $1')
