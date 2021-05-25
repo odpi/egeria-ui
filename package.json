@@ -66,7 +66,7 @@
     "@polymer/paper-toggle-button": "3.0.1",
     "@polymer/polymer": "3.4.1",
     "@vaadin/vaadin": "18.0.6",
-    "@vaadin/vaadin-core": "18.0.6",
+    "@vaadin/vaadin-core": "19.0.8",
     "@webcomponents/webcomponentsjs": "2.5.0",
     "d3": "5.16.0",
     "happi-graph": "https://github.com/odpi/happi-graph#main",
