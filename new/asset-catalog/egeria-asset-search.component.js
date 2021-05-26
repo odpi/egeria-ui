@@ -62,7 +62,7 @@ class EgeriaAssetSearch extends PolymerElement {
 
     this.$.exactMatch.checked = this.queryParams['exactMatch'] ? true : false;
     this.$.caseSensitive.checked = this.queryParams['caseSensitive'] ? true : false;
-    this.q = this.queryParams['q'];
+    this.q = this.queryParams['q'] ? decodeURI(this.queryParams['q']) : '';
     this.q ? this.q = this.q.trim() : 0;
     this.$.combo.selectedItems = this.queryParams['types'] ? this.queryParams['types'].split(',').map(i => { return {name: i}}) : [];
 
