@@ -32,16 +32,12 @@ class EgeriaAssetTools extends mixinBehaviors(RoleComponentsBehavior, PolymerEle
       });
   }
 
-  btoa(string) {
-    return ENV['PRODUCTION'] ? string : window.btoa(string);
-  }
-
   _displayVerticalLineageButton(type) {
     return (type === 'RelationalColumn' || type === 'TabularColumn' || type === 'GlossaryTerm');
   }
 
-  _encode(val) {
-    return btoa(val);
+  _decode(string) {
+    return ENV['PRODUCTION'] ? string : window.btoa(string);
   }
 
   static get template() {
@@ -128,7 +124,7 @@ class EgeriaAssetTools extends mixinBehaviors(RoleComponentsBehavior, PolymerEle
             </template>
             <template is="dom-if" if="[[ _hasComponent('rex') ]]">
               <li>
-                <a href="/repository-explorer/[[ settings.serverName ]]/[[ _encode(settings.baseUrl) ]]/[[ btoa(guid) ]]" title="Repository explorer">
+                <a href="/repository-explorer/[[ _decode(guid) ]]?serverName=[[ settings.serverName ]]&baseUrl=[[ settings.baseUrl ]]" title="Repository explorer">
                   <paper-button raised>
                     <iron-icon icon="vaadin:cogs"></iron-icon>
 

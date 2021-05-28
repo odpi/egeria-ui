@@ -483,10 +483,19 @@ class EgeriaRepositoryExplorer extends mixinBehaviors([AppLocalizeBehavior], Pol
          */
         this.theDiagramManager.setInstanceRetriever(this.theInstanceRetriever);
 
-        if (this.pages.length) {
-            var serverName = this.pages[0];
-            var serverURLRoot = atob(this.pages[1]);
-            var guid = this._decode(this.pages[2]);
+        let queryParams = {};
+
+        window.location.search.replace('?','').split('&').map(q => {
+            let data = q.split('=');
+
+            queryParams[data[0]] = data[1];
+        });
+
+        let serverName = queryParams['serverName'] ? queryParams['serverName'] : '';
+        let serverURLRoot = queryParams['baseUrl'] ? queryParams['baseUrl'] : '';
+
+        if (this.pages.length && serverName !== '' && serverURLRoot !== '') {
+            var guid = this._decode(this.pages[0]);
 
             /*
              * Pass the server details to the connection-manager. Set the enterpriseOption
