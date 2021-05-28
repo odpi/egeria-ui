@@ -460,7 +460,7 @@ class EgeriaRepositoryExplorer extends mixinBehaviors([AppLocalizeBehavior], Pol
         };
     }
 
-    atob(string) {
+    _decode(string) {
         return ENV['PRODUCTION'] ? string : window.atob(string);
     }
 
@@ -486,7 +486,7 @@ class EgeriaRepositoryExplorer extends mixinBehaviors([AppLocalizeBehavior], Pol
         if (this.pages.length) {
             var serverName = this.pages[0];
             var serverURLRoot = atob(this.pages[1]);
-            var guid = this.atob(this.pages[2]);
+            var guid = this._decode(this.pages[2]);
 
             /*
              * Pass the server details to the connection-manager. Set the enterpriseOption
