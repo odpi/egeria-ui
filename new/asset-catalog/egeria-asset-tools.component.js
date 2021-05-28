@@ -32,6 +32,10 @@ class EgeriaAssetTools extends mixinBehaviors(RoleComponentsBehavior, PolymerEle
       });
   }
 
+  btoa(string) {
+    return ENV['PRODUCTION'] ? string : window.btoa(string);
+  }
+
   _displayVerticalLineageButton(type) {
     return (type === 'RelationalColumn' || type === 'TabularColumn' || type === 'GlossaryTerm');
   }
