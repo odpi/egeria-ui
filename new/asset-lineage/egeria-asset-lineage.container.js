@@ -431,6 +431,7 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
 
               <egeria-asset-tools type="[[ selectedNode.group ]]"
                           guid="[[ selectedNode.id ]]"
+                          components="[[ components ]]
                           on-button-click="_closeDialog"
                           style="display: inline-flex"></egeria-asset-tools>
 
