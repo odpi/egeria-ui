@@ -311,7 +311,7 @@ class EgeriaSinglePage extends mixinBehaviors(RoleComponentsBehavior, PolymerEle
           </template>
 
           <template is="dom-if" if="[[ _isEqualTo(page, 'repository-explorer') ]]" restamp="true">
-            <egeria-repository-explorer></egeria-repository-explorer>
+            <egeria-repository-explorer pages="[[ nextPages ]]"></egeria-repository-explorer>
           </template>
 
           <template is="dom-if" if="[[ _isEqualTo(page, 'about') ]]" restamp="true">

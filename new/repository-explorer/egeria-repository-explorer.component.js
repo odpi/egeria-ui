@@ -40,6 +40,7 @@ import './graph-controls.js';
 import './rex-styles.js';
 
 import { updateBreadcrumb } from '../breadcrumb/egeria-breadcrumb-events';
+import { ENV } from '../../env';
 
 /**
  *
@@ -443,6 +444,10 @@ class EgeriaRepositoryExplorer extends mixinBehaviors([AppLocalizeBehavior], Pol
 
     static get properties() {
         return {
+            pages: { type: Array, value: null },
+            serverName: { type: String, value: '' },
+            serverAddress: { type: String, value: '' },
+
             theTypeManager: Object,
             theInstanceRetriever: Object,
             theConnectionManager: Object,
@@ -453,6 +458,10 @@ class EgeriaRepositoryExplorer extends mixinBehaviors([AppLocalizeBehavior], Pol
                 value : null
             }
         };
+    }
+
+    _decode(string) {
+        return ENV['PRODUCTION'] ? string : window.atob(string);
     }
 
     ready() {
@@ -474,10 +483,20 @@ class EgeriaRepositoryExplorer extends mixinBehaviors([AppLocalizeBehavior], Pol
          */
         this.theDiagramManager.setInstanceRetriever(this.theInstanceRetriever);
 
-        if (this.autoLoad !== null) {
-            var serverName = this.autoLoad['serverName'];
-            var serverURLRoot = this.autoLoad['serverURLRoot'];
-            var guid = this.autoLoad['guid'];
+        let queryParams = {};
+
+        window.location.search.replace('?','').split('&').map(q => {
+            let data = q.split('=');
+
+            queryParams[data[0]] = data[1];
+        });
+
+        let serverName = queryParams['serverName'] ? queryParams['serverName'] : '';
+        let serverURLRoot = queryParams['baseUrl'] ? queryParams['baseUrl'] : '';
+
+        if (this.pages.length && serverName !== '' && serverURLRoot !== '') {
+            var guid = this._decode(this.pages[0]);
+
             /*
              * Pass the server details to the connection-manager. Set the enterpriseOption
              * because the server used by the previous page may not host the home metadataCollection
