@@ -220,7 +220,7 @@ class EgeriaSinglePage extends mixinBehaviors(RoleComponentsBehavior, PolymerEle
         }
 
         .content {
-          height:calc(100vh - 64px);
+          height:calc(100vh - 104px);
           margin:var(--egeria-view-margin);
         }
       </style>
