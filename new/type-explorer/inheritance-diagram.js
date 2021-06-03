@@ -8,7 +8,7 @@ import "@polymer/paper-input/paper-input.js";
 import '../../old/shared-styles.js';
 import '../../old/token-ajax.js';
 
-
+import * as d3 from 'd3';
 
 /**
 *
