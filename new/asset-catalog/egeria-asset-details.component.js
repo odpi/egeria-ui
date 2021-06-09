@@ -37,7 +37,7 @@ class EgeriaAssetDetails extends mixinBehaviors([EgeriaItemUtilsBehavior], Polym
           },
           {
             href: `/asset-catalog/${ this.guid }/details`,
-            name: this.item.properties.displayName
+            name: this._fallbackDisplayName( this.item )
           },
           {
             href: `/asset-catalog/${ this.guid }/details`,

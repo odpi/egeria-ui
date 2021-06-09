@@ -17,8 +17,19 @@ export const EgeriaItemUtilsBehavior = {
       return arr;
   },
 
+  _fallbackDisplayName(obj) {
+      if( this._hasKey(obj, 'properties') && this._hasKey(obj.properties, 'displayName') ) {
+          return obj.properties.displayName;
+      }
+      if( this._hasKey(obj, 'properties') && this._hasKey(obj.properties, 'name') ) {
+          return obj.properties.name;
+      }
+      return obj.guid;
+
+  },
+
   _hasKeys(obj) {
-      return Object.keys(obj).length > 0;
+      return obj !== undefined && obj !== null && Object.keys(obj).length > 0;
   },
 
   _hasKey(obj, key) {
