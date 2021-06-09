@@ -160,16 +160,6 @@ class InstanceRetriever extends PolymerElement {
         value: ""
       },
 
-      searchText: {
-        type: String,
-        value: ""
-      },
-
-      searchCategory: {
-        type: String,
-        value: ""
-      },
-
       /*
        * The focusInstance object is used to store:
        *  - the GUID that a user has input in preparation for a Get and
@@ -321,10 +311,9 @@ class InstanceRetriever extends PolymerElement {
    * The following method is only intended to be called from the page load of the
    * top level repository explorer page. It is not a normal way to alter the focus
    */
-  loadEntity(entityGUID) {
+  setEntity(entityGUID) {
     this.getInstanceGUID = entityGUID;
     this.getInstanceCategory = "Entity";
-    this.doGet();
   }
 
   // UI handlers
@@ -362,6 +351,12 @@ class InstanceRetriever extends PolymerElement {
    */
   inEvtTypesLoaded() {
     this.$.filterManager.inEvtTypesLoaded();
+  }
+
+  inEvtRepositoryConnectionEstablished(){
+    if(this.getInstanceGUID !== undefined && this.getInstanceGUID.length > 0) {
+      this.doGet();
+    }
   }
 
   /*
