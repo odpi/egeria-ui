@@ -18,7 +18,7 @@ export const EgeriaItemUtilsBehavior = {
   },
 
   _hasKeys(obj) {
-      return Object.keys(obj).length > 0;
+      return obj !== undefined && obj !== null && Object.keys(obj).length > 0;
   },
 
   _hasKey(obj, key) {
