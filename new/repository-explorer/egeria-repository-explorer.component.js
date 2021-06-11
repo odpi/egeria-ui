@@ -483,19 +483,8 @@ class EgeriaRepositoryExplorer extends mixinBehaviors([AppLocalizeBehavior], Pol
          */
         this.theDiagramManager.setInstanceRetriever(this.theInstanceRetriever);
 
-        let queryParams = {};
-
-        window.location.search.replace('?','').split('&').map(q => {
-            let data = q.split('=');
-
-            queryParams[data[0]] = data[1];
-        });
-
-        let serverName = queryParams['serverName'] ? queryParams['serverName'] : '';
-        let serverURLRoot = queryParams['baseUrl'] ? queryParams['baseUrl'] : '';
-
-        if (this.pages.length && serverName !== '' && serverURLRoot !== '') {
-            var guid = this._decode(this.pages[0]);
+        if (this.pages.length > 0) {
+            let guid = this._decode(this.pages[0]);
 
             /*
              * Pass the server details to the connection-manager. Set the enterpriseOption
@@ -503,12 +492,10 @@ class EgeriaRepositoryExplorer extends mixinBehaviors([AppLocalizeBehavior], Pol
              * of the object with the given GUID.
              */
             if (this.theConnectionManager !== undefined) {
-                this.theConnectionManager.setServerDetails(serverName, serverURLRoot, true);
-                this.theConnectionManager.doConnect();
-                this.theInstanceRetriever.loadEntity(guid);
+                this.theInstanceRetriever.setEntity(guid);
             }
-
         }
+
 
         updateBreadcrumb([
             {
@@ -524,6 +511,10 @@ class EgeriaRepositoryExplorer extends mixinBehaviors([AppLocalizeBehavior], Pol
          *  This class implements the event listeners that orchestrate via function calls to the child components.
          *  The events are as follows:
          */
+
+        this.addEventListener('repository-connection-established', function (e) {
+            this.$.rexInstanceRetriever.inEvtRepositoryConnectionEstablished();
+        });
 
         this.addEventListener('types-loaded', function (e) {
             this.$.rexConnectionManager.inEvtTypesLoaded();

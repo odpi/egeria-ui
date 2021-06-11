@@ -128,7 +128,7 @@ class EgeriaAssetTools extends mixinBehaviors(RoleComponentsBehavior, PolymerEle
             </template>
             <template is="dom-if" if="[[ _hasComponent('rex') ]]">
               <li>
-                <a href="/repository-explorer/[[ _decode(guid) ]]?serverName=[[ settings.serverName ]]&baseUrl=[[ settings.baseUrl ]]" title="Repository explorer">
+                <a href="/repository-explorer/[[ _decode(guid) ]]" title="Repository explorer">
                   <paper-button raised>
                     <iron-icon icon="vaadin:cogs"></iron-icon>
 

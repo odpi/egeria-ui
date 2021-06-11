@@ -6,6 +6,7 @@ import "@polymer/paper-button/paper-button.js";
 import "@polymer/paper-input/paper-input.js";
 import '../../old/shared-styles.js';
 import '../../old/token-ajax.js';
+import {egeriaFetch} from "../commons/fetch";
 
 /**
 *
@@ -144,6 +145,15 @@ class RexConnectionManager extends PolymerElement {
         // Ensure you call super.ready() first to initialise node hash...
         super.ready();
 
+        egeriaFetch(`/api/ui/settings`)
+            .then(response => {
+                this.serverName = response.serverName;
+                this.serverURLRoot = response.baseUrl;
+                this.doConnect();
+                let customEvent = new CustomEvent('repository-connection-established',
+                    { bubbles: true, composed: true, detail: {source: "rex-connection-manager"}  });
+                this.dispatchEvent(customEvent);
+            });
     }
 
 
