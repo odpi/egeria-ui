@@ -149,6 +149,7 @@ class RexConnectionManager extends PolymerElement {
             .then(response => {
                 this.serverName = response.serverName;
                 this.serverURLRoot = response.baseUrl;
+                this.enterpriseOption = true;
                 this.doConnect();
                 let customEvent = new CustomEvent('repository-connection-established',
                     { bubbles: true, composed: true, detail: {source: "rex-connection-manager"}  });
