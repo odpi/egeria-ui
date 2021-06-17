@@ -114,7 +114,7 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
               { href: null, name: 'asset-lineage' },
               {
                 href: `/asset-catalog/${ this.guid }/details`,
-                name: this._fallbackDisplayName( this.item)
+                name: this._fallbackDisplayName( selectedNodeDetails )
               },
               { href: `/asset-lineage/${ this.guid }/${ this.page }`, name: this.page }
             ]);
