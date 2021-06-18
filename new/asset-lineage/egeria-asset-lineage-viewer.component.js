@@ -110,8 +110,8 @@ class EgeriaAssetLineageViewer extends PolymerElement {
                      links-type-icon-map="[[ getHappiGraphLinksTypeIconMap() ]]"
                      graph-direction="[[ graphDirection ]]"
                      graph-data="[[ graphData ]]"
-                     algorithm="ELK"
-                     elk-worker-url="/node_modules/elkjs/lib/elk-worker.js">
+                     algorithm="VISJS">
+                     <!-- elk-worker-url="/node_modules/elkjs/lib/elk-worker.js" -->
           <div slot="pre-actions">
             <template is="dom-if" if="[[ !hasVerticalTab ]]">
               <paper-toggle-button id="processToggle" checked="[[ toggleEtlJobs ]]" on-change="onToggleETLJobs">
