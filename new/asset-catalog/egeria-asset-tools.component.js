@@ -19,17 +19,7 @@ class EgeriaAssetTools extends mixinBehaviors(RoleComponentsBehavior, PolymerEle
       guid: { type: String, value: '' },
       type: { type: String, value: '' },
       item: { type: Object, value: {} },
-      settings: { type: Object, value: {} }
     }
-  }
-
-  ready() {
-    super.ready();
-
-    egeriaFetch(`/api/ui/settings`)
-      .then(response => {
-        this.settings = response;
-      });
   }
 
   btoa(string) {
