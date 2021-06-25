@@ -1,4 +1,4 @@
-import { getCookie } from './local-storage';
+import { getCookie, setCookie } from './local-storage';
 import { ENV } from '../../env';
 
 let spinnerCount = 0;
@@ -42,6 +42,8 @@ export const egeriaFetch = (url, headers) => {
   )
   .then((response) => {
     if(response.status === 403 && !['/login'].includes(window.location.pathname)) {
+      setCookie('token', '');
+
       window.location.href='/login';
     }
 
