@@ -127,7 +127,7 @@ class EgeriaApp extends PolymerElement {
           if(components.length) {
             this.pages = ['homepage'];
           } else {
-            this.pages = ['forbidden'];
+            this.pages = !getCookie('token') ? [] : ['forbidden'];
           }
 
           break;
