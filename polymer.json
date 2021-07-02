@@ -17,7 +17,7 @@
     "node_modules/d3/dist/d3.min.js",
     "node_modules/@webcomponents/webcomponentsjs/*.js",
     "node_modules/visjs-network/dist/vis-network.min.*",
-    "node_modules/elkjs/lib/elk-worker.js",
+    "node_modules/elkjs/lib/elk-worker.min.js",
     "service-worker.js",
     "env.js"
   ],
