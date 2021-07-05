@@ -93,7 +93,7 @@ class EgeriaApp extends PolymerElement {
   }
 
   _doesntInclude(value) {
-    return !['login', 'forbidden', 'error', 'homepage'].includes(value);
+    return !['login', 'forbidden', 'error', 'homepage', 'empty'].includes(value);
   }
 
   canAccess(route, components) {
@@ -127,7 +127,7 @@ class EgeriaApp extends PolymerElement {
           if(components.length) {
             this.pages = ['homepage'];
           } else {
-            this.pages = !getCookie('token') ? [] : ['forbidden'];
+            this.pages = !getCookie('token') ? ['empty'] : ['forbidden'];
           }
 
           break;
@@ -173,6 +173,8 @@ class EgeriaApp extends PolymerElement {
                  tail="{{ tail }}"></app-route>
 
       <template is="dom-if" if="[[ !isLoading ]]">
+        <template is="dom-if" if="[[ _isEqualTo(page, 'empty') ]]"></template>
+
         <template is="dom-if" if="[[ _isEqualTo(page, 'login') ]]">
           <egeria-login query-params="[[ queryParams ]]"></egeria-login>
         </template>
