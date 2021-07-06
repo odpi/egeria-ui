@@ -197,7 +197,7 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
     });
 
     window.addEventListener('happi-graph-on-cached-graph', e => {
-      this.fetchGraphData();
+      this.fetchGraphData().then((response) => {this.updateData(response)})
     });
 
     window.addEventListener('egeria-toggle-statistics', e => {
