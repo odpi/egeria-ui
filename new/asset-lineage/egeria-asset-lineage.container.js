@@ -212,7 +212,7 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
   onToggleETLJobs() {
     this.toggleETLJobs = !this.toggleETLJobs;
 
-    this.fetchGraphData().then((response) => {this.updateData(response)});
+    this.fetchGraphData();
   }
 
   onNodeClick({ nodeId }) {
