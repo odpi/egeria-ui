@@ -24,9 +24,21 @@
   "builds": [
     {
       "name": "prod",
-      "bundle": true,
+      "bundle": {
+        "excludes": [
+          "node_modules/elkjs/lib/elk-worker.min.js",
+          "node_modules/elkjs/lib/elk-api.js",
+          "node_modules/vis-network/dist/vis-network.js"
+        ]
+      },
       "js": {
-        "minify": true
+        "minify": {
+          "exclude": [
+            "node_modules/elkjs/lib/elk-worker.min.js",
+            "node_modules/elkjs/lib/elk-api.js",
+            "node_modules/vis-network/dist/vis-network.js"
+          ]
+        }
       },
       "css": {
         "minify": true
