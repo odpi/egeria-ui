@@ -27,7 +27,7 @@ class EgeriaAssetTools extends mixinBehaviors(RoleComponentsBehavior, PolymerEle
   }
 
   _displayVerticalLineageButton(type) {
-    return (type === 'RelationalColumn' || type === 'TabularColumn' || type === 'GlossaryTerm');
+    return (type === 'RelationalColumn' || type === 'TabularColumn' || type === 'GlossaryTerm' || type === 'TabularFileColumn');
   }
 
   _decode(string) {
