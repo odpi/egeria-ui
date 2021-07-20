@@ -23,7 +23,8 @@ class EgeriaAssetLineageViewer extends PolymerElement {
       graphDirection: { type: String, value: null },
       graphData: { type: Object, value: null },
       toggleEtlJobs: { type: Boolean, value: null },
-      hasVerticalTab: { type: Boolean, value: false }
+      hasVerticalTab: { type: Boolean, value: false },
+      nodeCountLimit: { type: Number, value: 50 }
     };
   }
 
@@ -110,6 +111,7 @@ class EgeriaAssetLineageViewer extends PolymerElement {
                      links-type-icon-map="[[ getHappiGraphLinksTypeIconMap() ]]"
                      graph-direction="[[ graphDirection ]]"
                      graph-data="[[ graphData ]]"
+                     node-count-limit="[[ nodeCountLimit ]]"
                      algorithm="ELK"
                      elk-worker-url="/node_modules/elkjs/lib/elk-worker.min.js">
           <div slot="pre-actions">
