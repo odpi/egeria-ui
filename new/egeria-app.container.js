@@ -29,28 +29,9 @@ import { getCookie } from './commons/local-storage';
 import { egeriaFetch } from './commons/fetch';
 
 class EgeriaApp extends PolymerElement {
-  static get properties() {
-    return {
-      components: { type: Array, value: [] },
-      currentUser: { type: Object, value: {} },
-      appInfo: { type: Object, value: {} },
-      roles: { type: Array, value: [] },
+  constructor() {
+    super();
 
-      isLoading: { type: Boolean, value: true },
-      isLoggedIn: { type: Boolean, value: false },
-
-      queryParams: {},
-      routeData: {},
-      tail: {},
-
-      route: { type: Object },
-      pages: { type: Array, value: [''], observer: '_pagesChanged' },
-      page: { type: String, value: '' }
-    };
-  }
-
-  ready() {
-    super.ready();
     this.isLoading = true;
 
     Promise.all([
@@ -70,6 +51,26 @@ class EgeriaApp extends PolymerElement {
 
       this.isLoading = false;
     });
+  }
+
+  static get properties() {
+    return {
+      components: { type: Array, value: [] },
+      currentUser: { type: Object, value: {} },
+      appInfo: { type: Object, value: {} },
+      roles: { type: Array, value: [] },
+
+      isLoading: { type: Boolean, value: true },
+      isLoggedIn: { type: Boolean, value: false },
+
+      queryParams: {},
+      routeData: {},
+      tail: {},
+
+      route: { type: Object },
+      pages: { type: Array, value: [''], observer: '_pagesChanged' },
+      page: { type: String, value: '' }
+    };
   }
 
   static get observers() {
@@ -147,7 +148,7 @@ class EgeriaApp extends PolymerElement {
             if(this.canAccess(route, components)) {
               this.pages = route.split('/');
             } else {
-              this.pages = ['forbidden'];
+              this.pages = !getCookie('token') ? ['empty'] : ['forbidden'];
             }
           }
           break;

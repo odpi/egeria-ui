@@ -13,7 +13,7 @@ import '@vaadin/vaadin-grid/vaadin-grid-sort-column.js';
 
 import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
 
-import { setCookie } from '../new/commons/local-storage';
+import { setCookie, removeCookie } from '../new/commons/local-storage';
 import { egeriaFetch } from './commons/fetch';
 
 class EgeriaUserOptions extends PolymerElement {
@@ -29,7 +29,8 @@ class EgeriaUserOptions extends PolymerElement {
   _logout() {
     egeriaFetch(`/api/logout`)
       .then(() => {
-        setCookie('token', null);
+        removeCookie('token');
+        setCookie('token', '');
       });
   }
 
