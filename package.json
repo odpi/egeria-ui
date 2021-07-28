@@ -9,6 +9,7 @@
     "disableUsageStatistics": true
   },
   "scripts": {
+    "preinstall": "node preinstall.js",
     "serve": "hs -c0 ./build/prod/",
     "prestart": "npm run generate:env",
     "start": "polymer serve",
