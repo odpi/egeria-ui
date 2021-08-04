@@ -71,7 +71,7 @@
     "@webcomponents/webcomponentsjs": "2.5.0",
     "d3": "5.16.0",
     "egeria-js-commons": "git+https://github.com/odpi/egeria-js-commons#3.0.0",
-    "happi-graph": "git+https://github.com/odpi/happi-graph.git#3.0.0",
+    "happi-graph": "git+https://github.com/odpi/happi-graph.git#main",
     "multiselect-combo-box": "2.4.2",
     "visjs-network": "4.24.11",
     "web-animations-js": "2.3.2"
