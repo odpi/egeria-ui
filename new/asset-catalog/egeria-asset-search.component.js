@@ -125,10 +125,44 @@ class EgeriaAssetSearch extends PolymerElement {
         url = `${url}&pageSize=${pageSize}`;
       }
 
+      this._handleSearchHistory(this.q, types, exactMatch, caseSensitive);
+
       egeriaFetch(url)
         .then(data => {
           this.items = data;
         });
+    }
+  }
+
+  _handleSearchHistory(q, types, exactMatch, caseSensitive) {
+    let searchParams = [];
+
+    if(q) {
+      searchParams.push({'key': 'q', 'value': q.trim()});
+    }
+
+    if(types.length) {
+      searchParams.push({'key': 'types', 'value': types.join(',')});
+    }
+
+    if(exactMatch) {
+      searchParams.push({'key': 'exactMatch', 'value': exactMatch});
+    }
+
+    if(caseSensitive) {
+      searchParams.push({'key': 'caseSensitive', 'value': caseSensitive});
+    }
+
+    if (window.history.replaceState) {
+        const url = window.location.protocol
+                    + '//' + window.location.host
+                    + window.location.pathname
+                    + '?'
+                    + searchParams.map(s => `${s.key}=${s.value}`).join('&');
+
+        window.history.replaceState({
+            path: url
+        }, '', url)
     }
   }
 
