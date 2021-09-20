@@ -48,12 +48,35 @@ export const egeriaFetch = (url, headers) => {
       window.location.href = '/login';
     }
 
+    if(response.status === 404) {
+      let event = new CustomEvent("egeria-throw-message", { "detail": '404 Not Found' });
+
+      window.dispatchEvent(event);
+
+      return response.text();
+    }
+
+    if(response.status === 500) {
+      let event = new CustomEvent("egeria-throw-message", { "detail": '500 Internal Server Error' });
+
+      window.dispatchEvent(event);
+
+      return response.text();
+    }
+
     return response.text();
   })
   .then(data => {
     // adding this temporarily because /logout retrieves no content and
     // response.json() fails to parse empty content as JSON
-    return data ? JSON.parse(data) : {};
+    return data ? JSON.parse(data) : null;
+  })
+  .catch(function(e) {
+    let event = new CustomEvent("egeria-throw-message", { "detail": e });
+
+    window.dispatchEvent(event);
+
+    return {};
   })
   .finally(() => {
     spinner(false);
