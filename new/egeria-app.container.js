@@ -48,7 +48,7 @@ class EgeriaApp extends PolymerElement {
       this.roles = roles;
       this.appInfo = appInfo;
 
-      this.isLoggedIn = currentUser.status ? true : false;
+      this.isLoggedIn = currentUser.status === 200;
 
       const hasComponents = components.status === 200;
       const hasCurrentUser = currentUser.status === 200;

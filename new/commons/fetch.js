@@ -52,16 +52,12 @@ export const egeriaFetch = (url, headers) => {
       let event = new CustomEvent("egeria-throw-message", { "detail": '404 Not Found' });
 
       window.dispatchEvent(event);
-
-      return response.text();
     }
 
     if(response.status === 500) {
       let event = new CustomEvent("egeria-throw-message", { "detail": '500 Internal Server Error' });
 
       window.dispatchEvent(event);
-
-      return response.text();
     }
 
     return response.text();

@@ -38,9 +38,6 @@ class EgeriaErrorHandling extends PolymerElement {
   }
 
   _onErrorsUpdate() {
-    // console.log(this.errors);
-    // debugger;
-    // this.errors.length > 0 && this.$.div.colors ? this.$.div.colors.open() : {};
   }
 
   checkErrorsListSize(errors) {
