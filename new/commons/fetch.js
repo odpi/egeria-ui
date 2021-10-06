@@ -41,7 +41,7 @@ export const egeriaFetch = (url, headers) => {
     }
   )
   .then((response) => {
-    if(response.status === 403 && !['/login'].includes(window.location.pathname)) {
+    if([403, 401].includes(response.status) && !['/login'].includes(window.location.pathname)) {
       removeCookie('token');
       setCookie('token', '');
 
