@@ -44,22 +44,31 @@ class EgeriaErrorHandling extends PolymerElement {
     return errors.length > 0;
   }
 
-  ack() {
+  closeAndEmptyErrors() {
     let modal = this.shadowRoot.querySelector('#colors');
 
     modal.close();
     this.errors = [];
+  }
+
+  ack() {
+    this.closeAndEmptyErrors();
 
     window.location.href='/';
   }
 
   back() {
-    let modal = this.shadowRoot.querySelector('#colors');
-
-    modal.close();
-    this.errors = [];
+    this.closeAndEmptyErrors();
 
     window.history.back();
+  }
+
+  dismiss() {
+    this.closeAndEmptyErrors();
+  }
+
+  isCurrentPageHomepage() {
+    return window.location.pathname == '/';
   }
 
   static get template() {
@@ -110,6 +119,10 @@ class EgeriaErrorHandling extends PolymerElement {
 
             <paper-button raised on-click="ack">Homepage</paper-button>
             <paper-button raised on-click="back">Get back</paper-button>
+
+            <template is="dom-if" if="[[ isCurrentPageHomepage() ]]">
+              <paper-button raised on-click="dismiss">Dismiss</paper-button>
+            </template>
           </div>
         </paper-dialog>
       </template>
