@@ -48,12 +48,12 @@ class EgeriaApp extends PolymerElement {
       this.roles = roles;
       this.appInfo = appInfo;
 
-      this.isLoggedIn = currentUser.status === 200;
+      this.isLoggedIn = currentUser !== null && currentUser.status === 200;
 
-      const hasComponents = components.status === 200;
-      const hasCurrentUser = currentUser.status === 200;
-      const hasRoles = roles.status === 200;
-      const hasAppInfo = appInfo.status === 200;
+      const hasComponents = components !== null && components.status === 200;
+      const hasCurrentUser = currentUser !== null && currentUser.status === 200;
+      const hasRoles = roles !== null &&  roles.status === 200;
+      const hasAppInfo = appInfo !== null && appInfo.status === 200;
 
       if(![hasComponents, hasCurrentUser, hasRoles, hasAppInfo].includes(false)) {
         this.isLoading = true;
@@ -114,7 +114,7 @@ class EgeriaApp extends PolymerElement {
     let firstRoute = routeArray[0];
 
     return components.includes('*')
-            || (routes.filter(r => components.includes(r.name))).map(r => r.name).includes(firstRoute);
+        || (routes.filter(r => components.includes(r.name))).map(r => r.name).includes(firstRoute);
   }
 
   updatePageTitle(page, pages) {
