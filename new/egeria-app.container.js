@@ -12,6 +12,7 @@ import '@polymer/iron-icons/iron-icons.js';
 import '@polymer/app-route/app-location.js';
 import '@polymer/app-route/app-route.js';
 
+import './egeria-error-handling.component';
 import './egeria-single-page.component';
 import './egeria-error-page.component';
 import './egeria-home.component';
@@ -42,14 +43,23 @@ class EgeriaApp extends PolymerElement {
     ]).then((responses) => {
       let [ appInfo, components, currentUser, roles ] = responses;
 
-      this.components = components.status === 403 ? [] : components;
-      this.currentUser = currentUser.status === 403 ? null : currentUser;
-      this.roles = roles.status === 403 ? [] : roles;
-      this.appInfo = appInfo.status === 403 ? {} : appInfo;
+      this.components = components;
+      this.currentUser = currentUser;
+      this.roles = roles;
+      this.appInfo = appInfo;
 
-      this.isLoggedIn = currentUser.status === 200;
+      this.isLoggedIn = currentUser !== null && currentUser.status === 200;
 
-      this.isLoading = false;
+      const hasComponents = components !== null && components.status === 200;
+      const hasCurrentUser = currentUser !== null && currentUser.status === 200;
+      const hasRoles = roles !== null &&  roles.status === 200;
+      const hasAppInfo = appInfo !== null && appInfo.status === 200;
+
+      if(![hasComponents, hasCurrentUser, hasRoles, hasAppInfo].includes(false)) {
+        this.isLoading = true;
+      } else {
+        this.isLoading = false;
+      }
     });
   }
 
@@ -104,7 +114,7 @@ class EgeriaApp extends PolymerElement {
     let firstRoute = routeArray[0];
 
     return components.includes('*')
-            || (routes.filter(r => components.includes(r.name))).map(r => r.name).includes(firstRoute);
+        || (routes.filter(r => components.includes(r.name))).map(r => r.name).includes(firstRoute);
   }
 
   updatePageTitle(page, pages) {
@@ -209,6 +219,8 @@ class EgeriaApp extends PolymerElement {
           Loading...
         </div>
       </template>
+
+      <egeria-error-handling></egeria-error-handling>
     `;
   }
 }
