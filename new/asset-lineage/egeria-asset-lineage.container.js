@@ -62,10 +62,6 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
             apiSuffix: 'vertical-lineage'
           },
           {
-            name: 'source-and-destination',
-            apiSuffix: 'source-and-destination'
-          },
-          {
             name: 'repository-explorer',
             apiSuffix: ''
           }
@@ -96,7 +92,6 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
           'end-to-end',
           'ultimate-destination',
           'vertical-lineage',
-          'source-and-destination',
           'repository-explorer'
         ].includes(page)) {
           window.location.href = '/error';
@@ -369,14 +364,6 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
                 </paper-tab>
               </template>
             </template>
-
-            <template is="dom-if" if="[[ _hasComponent('source-and-destination') ]]">
-              <paper-tab name="source-and-destination">
-                <a href="/asset-lineage/[[ guid ]]/source-and-destination">
-                  <span>Source and Destination</span>
-                </a>
-              </paper-tab>
-            </template>
           </paper-tabs>
 
           <template is="dom-if" if="[[ _isEqualTo(page, 'ultimate-source') ]]">
@@ -402,12 +389,6 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
                                          graph-direction="VERTICAL"
                                          graph-data="[[ graphData ]]"
                                          toggle-etl-jobs="[[ toggleETLJobs ]]"></egeria-asset-lineage-viewer>
-          </template>
-
-          <template is="dom-if" if="[[ _isEqualTo(page, 'source-and-destination') ]]">
-            <egeria-asset-lineage-viewer has-vertical-tab="[[ hasVerticalTab ]]"
-                                         graph-direction="HORIZONTAL"
-                                         graph-data="[[ graphData ]]"></egeria-asset-lineage-viewer>
           </template>
 
           <template is="dom-if" if="[[ _isEqualTo(page, 'repository-explorer') ]]">
