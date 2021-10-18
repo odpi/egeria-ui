@@ -230,6 +230,16 @@ class EgeriaAssetSearch extends PolymerElement {
     }
   }
 
+  _itemDescription(item) {
+    if (item.properties.description && item.properties.description != null) {
+      return item.properties.description;
+    } else if (item.properties.summary && item.properties.summary != null) {
+      return item.properties.summary;
+    } else {
+      return '';
+    }
+  }
+
   btoa(string) {
     return ENV['PRODUCTION'] ? string : window.btoa(string);
   }
@@ -382,10 +392,10 @@ class EgeriaAssetSearch extends PolymerElement {
 
         <vaadin-grid-column width="30%" resizable>
           <template class="header">
-            <div><vaadin-grid-sorter path="properties.summary">Description</vaadin-grid-sorter></div>
-            <div><vaadin-grid-filter path="properties.summary"></vaadin-grid-filter></div>
+            <div><vaadin-grid-sorter path="properties.description">Description</vaadin-grid-sorter></div>
+            <div><vaadin-grid-filter path="properties.description"></vaadin-grid-filter></div>
           </template>
-          <template>[[ item.properties.summary ]]</template>
+          <template> [[ _itemDescription(item) ]] </template>
         </vaadin-grid-column>
       </vaadin-grid>
 
