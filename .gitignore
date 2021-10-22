@@ -3,3 +3,4 @@ build
 debug.log
 env.js
 .DS_Store
+.idea
