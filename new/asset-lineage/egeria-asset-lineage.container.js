@@ -36,6 +36,7 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
       graphData: { type: Object, value: null },
       selectedNode: { type: Object, value: null },
       selectedNodeDetails: { type: Object, value: null },
+      queryParams: { type: Array, value: [] },
       toggleETLJobs: { type: Boolean, value: true },
       typeMapData: {
         type: Object,
@@ -83,6 +84,22 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
         this.guid = guid;
 
         this.decodedGuid = this.atob(guid);
+
+        if(window.location.search !== '') {
+          window.location.search.replace('?', '').split('&').map(q => {
+            let data = q.split('=');
+
+            this.queryParams.push({
+              key: data[0],
+              value: data[1]
+            });
+          });
+        }
+
+        const includeProcesses = this.queryParams.filter(d => d.key === 'includeProcesses').pop();
+        if(includeProcesses) {
+          this.toggleETLJobs = includeProcesses.value === 'true';
+        }
 
         this.page = page;
         this.nextPages = nextPages;
@@ -205,7 +222,31 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
   }
 
   onToggleETLJobs() {
+    const includeProcesses = this.queryParams.filter(d => d.key === 'includeProcesses').pop();
+
+    if(!includeProcesses) {
+      this.queryParams.push({key: 'includeProcesses', value: this.toggleETLJobs});
+    }
+
     this.toggleETLJobs = !this.toggleETLJobs;
+
+    this.queryParams = this.queryParams.map(d => {
+      if(d.key === 'includeProcesses') {
+        d.value = `${this.toggleETLJobs}`;
+      }
+
+      return d;
+    });
+
+    const url = window.location.protocol
+                + '//' + window.location.host
+                + window.location.pathname
+                + '?'
+                + this.queryParams.map(s => `${s.key}=${s.value}`).join('&');
+
+    window.history.replaceState({
+      path: url
+    }, '', url);
 
     this.fetchGraphData().then((response) => {this.updateData(response)});
   }
@@ -369,19 +410,22 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
           <template is="dom-if" if="[[ _isEqualTo(page, 'ultimate-source') ]]">
             <egeria-asset-lineage-viewer has-vertical-tab="[[ hasVerticalTab ]]"
                                          graph-data="[[ graphData ]]"
-                                         graph-direction="HORIZONTAL"></egeria-asset-lineage-viewer>
+                                         graph-direction="HORIZONTAL"
+                                         toggle-etl-jobs="[[ toggleETLJobs ]]"></egeria-asset-lineage-viewer>
           </template>
 
           <template is="dom-if" if="[[ _isEqualTo(page, 'end-to-end') ]]">
             <egeria-asset-lineage-viewer has-vertical-tab="[[ hasVerticalTab ]]"
                                          graph-direction="HORIZONTAL"
-                                         graph-data="[[ graphData ]]"></egeria-asset-lineage-viewer>
+                                         graph-data="[[ graphData ]]"
+                                         toggle-etl-jobs="[[ toggleETLJobs ]]"></egeria-asset-lineage-viewer>
           </template>
 
           <template is="dom-if" if="[[ _isEqualTo(page, 'ultimate-destination') ]]">
             <egeria-asset-lineage-viewer has-vertical-tab="[[ hasVerticalTab ]]"
                                          graph-direction="HORIZONTAL"
-                                         graph-data="[[ graphData ]]"></egeria-asset-lineage-viewer>
+                                         graph-data="[[ graphData ]]"
+                                         toggle-etl-jobs="[[ toggleETLJobs ]]"></egeria-asset-lineage-viewer>
           </template>
 
           <template is="dom-if" if="[[ _isEqualTo(page, 'vertical-lineage') ]]">
