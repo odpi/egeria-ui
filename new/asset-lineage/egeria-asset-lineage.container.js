@@ -230,14 +230,6 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
 
     this.toggleETLJobs = !this.toggleETLJobs;
 
-    this.queryParams = this.queryParams.map(d => {
-      if(d.key === 'includeProcesses') {
-        d.value = `${this.toggleETLJobs}`;
-      }
-
-      return d;
-    });
-
     const url = window.location.protocol
                 + '//' + window.location.host
                 + window.location.pathname
