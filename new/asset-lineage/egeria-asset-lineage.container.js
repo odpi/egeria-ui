@@ -408,7 +408,7 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
           </paper-tabs>
 
           <template is="dom-if" if="[[ _isEqualTo(page, 'ultimate-source') ]]">
-            <egeria-asset-lineage-viewer has-vertical-tab="[[ hasVerticalTab ]]"
+            <egeria-asset-lineage-viewer has-vertical-tab="[[ !hasVerticalTab ]]"
                                          graph-data="[[ graphData ]]"
                                          graph-direction="HORIZONTAL"
                                          toggle-etl-jobs="[[ toggleETLJobs ]]"></egeria-asset-lineage-viewer>
@@ -422,7 +422,7 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
           </template>
 
           <template is="dom-if" if="[[ _isEqualTo(page, 'ultimate-destination') ]]">
-            <egeria-asset-lineage-viewer has-vertical-tab="[[ hasVerticalTab ]]"
+            <egeria-asset-lineage-viewer has-vertical-tab="[[ !hasVerticalTab ]]"
                                          graph-direction="HORIZONTAL"
                                          graph-data="[[ graphData ]]"
                                          toggle-etl-jobs="[[ toggleETLJobs ]]"></egeria-asset-lineage-viewer>
