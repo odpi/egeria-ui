@@ -37,8 +37,8 @@ class EgeriaApp extends PolymerElement {
     let path = window.location.pathname.substr(1)
 
     if( !['login', 'forbidden', 'error', 'empty'].includes(path) )
-      //except for the pages not using the this data
-      //especially login is not need this calls
+      // except for the pages not using the this data
+      // login is not need this calls
       Promise.all([
         egeriaFetch(`/api/public/app/info`),
         egeriaFetch(`/api/users/components`),
