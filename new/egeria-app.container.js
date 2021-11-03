@@ -34,12 +34,13 @@ class EgeriaApp extends PolymerElement {
     super();
 
     this.isLoading = false;
-    let path = window.location.pathname.substr(1)
+    let path = window.location.pathname.substr(1);
 
-    if( !['login', 'forbidden', 'error', 'empty'].includes(path) )
+    if( !['login', 'forbidden', 'error', 'empty'].includes(path) ) {
       //except for the pages not using the this data
       //especially login is not need this calls
       this._initialRequiredAuthenticatedRequest();
+    }
   }
 
   static get properties() {
