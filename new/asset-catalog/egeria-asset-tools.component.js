@@ -105,17 +105,6 @@ class EgeriaAssetTools extends mixinBehaviors(RoleComponentsBehavior, PolymerEle
                 </li>
               </template>
             </template>
-            <template is="dom-if" if="[[ _hasComponent('source-and-destination') ]]">
-              <li>
-                  <a href="/asset-lineage/[[ btoa(guid) ]]/source-and-destination" title="Source and Destination Lineage">
-                    <paper-button raised>
-                      <iron-icon  icon="vaadin:exchange"></iron-icon>
-
-                      <div>&nbsp;Source & Dest</div>
-                    </paper-button>
-                  </a>
-              </li>
-            </template>
             <template is="dom-if" if="[[ _hasComponent('rex') ]]">
               <li>
                 <a href="/repository-explorer/[[ _decode(guid) ]]" title="Repository explorer">
