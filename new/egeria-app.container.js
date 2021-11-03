@@ -39,30 +39,7 @@ class EgeriaApp extends PolymerElement {
     if( !['login', 'forbidden', 'error', 'empty'].includes(path) )
       //except for the pages not using the this data
       //especially login is not need this calls
-      Promise.all([
-        egeriaFetch(`/api/public/app/info`),
-        egeriaFetch(`/api/users/components`),
-        egeriaFetch(`/api/users/current`),
-        egeriaFetch(`/api/users/roles`)
-      ]).then((responses) => {
-        let [ appInfo, components, currentUser, roles ] = responses;
-
-        this.components = components;
-        this.currentUser = currentUser;
-        this.roles = roles;
-        this.appInfo = appInfo;
-
-        this.isLoggedIn = currentUser !== null && currentUser.status === 200;
-
-        const hasComponents = components !== null && components.status === 200;
-        const hasCurrentUser = currentUser !== null && currentUser.status === 200;
-        const hasRoles = roles !== null &&  roles.status === 200;
-        const hasAppInfo = appInfo !== null && appInfo.status === 200;
-
-        if(![hasComponents, hasCurrentUser, hasRoles, hasAppInfo].includes(false)) {
-          this.isLoading = true;
-        }
-      });
+      this._initialRequiredAuthenticatedRequest();
   }
 
   static get properties() {
@@ -89,6 +66,37 @@ class EgeriaApp extends PolymerElement {
     return [
       '_routeCycle(route, components, currentUser)'
     ];
+  }
+
+  /**
+   * performes requests needed by authenticated page
+   * @private
+   */
+  _initialRequiredAuthenticatedRequest() {
+    Promise.all([
+      egeriaFetch(`/api/public/app/info`),
+      egeriaFetch(`/api/users/components`),
+      egeriaFetch(`/api/users/current`),
+      egeriaFetch(`/api/users/roles`)
+    ]).then((responses) => {
+      let [ appInfo, components, currentUser, roles ] = responses;
+
+      this.components = components;
+      this.currentUser = currentUser;
+      this.roles = roles;
+      this.appInfo = appInfo;
+
+      this.isLoggedIn = currentUser !== null && currentUser.status === 200;
+
+      const hasComponents = components !== null && components.status === 200;
+      const hasCurrentUser = currentUser !== null && currentUser.status === 200;
+      const hasRoles = roles !== null &&  roles.status === 200;
+      const hasAppInfo = appInfo !== null && appInfo.status === 200;
+
+      if(![hasComponents, hasCurrentUser, hasRoles, hasAppInfo].includes(false)) {
+        this.isLoading = true;
+      }
+    });
   }
 
   _pagesChanged(newPages) {
