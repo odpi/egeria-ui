@@ -94,9 +94,8 @@ class EgeriaApp extends PolymerElement {
       const hasRoles = roles !== null &&  roles.status === 200;
       const hasAppInfo = appInfo !== null && appInfo.status === 200;
 
-      if(![hasComponents, hasCurrentUser, hasRoles, hasAppInfo].includes(false)) {
-        this.isLoading = true;
-      }
+      this.isLoading = ![hasComponents, hasCurrentUser, hasRoles, hasAppInfo].includes(false);
+
     });
   }
 
