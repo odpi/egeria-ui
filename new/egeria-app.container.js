@@ -33,34 +33,14 @@ class EgeriaApp extends PolymerElement {
   constructor() {
     super();
 
-    this.isLoading = true;
+    this.isLoading = false;
+    let path = window.location.pathname.substr(1);
 
-    Promise.all([
-      egeriaFetch(`/api/public/app/info`),
-      egeriaFetch(`/api/users/components`),
-      egeriaFetch(`/api/users/current`),
-      egeriaFetch(`/api/users/roles`)
-    ]).then((responses) => {
-      let [ appInfo, components, currentUser, roles ] = responses;
-
-      this.components = components;
-      this.currentUser = currentUser;
-      this.roles = roles;
-      this.appInfo = appInfo;
-
-      this.isLoggedIn = currentUser !== null && currentUser.status === 200;
-
-      const hasComponents = components !== null && components.status === 200;
-      const hasCurrentUser = currentUser !== null && currentUser.status === 200;
-      const hasRoles = roles !== null &&  roles.status === 200;
-      const hasAppInfo = appInfo !== null && appInfo.status === 200;
-
-      if(![hasComponents, hasCurrentUser, hasRoles, hasAppInfo].includes(false)) {
-        this.isLoading = true;
-      } else {
-        this.isLoading = false;
-      }
-    });
+    if( !['login', 'forbidden', 'error', 'empty'].includes(path) ) {
+      //except for the pages not using the this data
+      //especially login is not need this calls
+      this._initialRequiredAuthenticatedRequest();
+    }
   }
 
   static get properties() {
@@ -89,6 +69,36 @@ class EgeriaApp extends PolymerElement {
     ];
   }
 
+  /**
+   * performes requests needed by authenticated page
+   * @private
+   */
+  _initialRequiredAuthenticatedRequest() {
+    Promise.all([
+      egeriaFetch(`/api/public/app/info`),
+      egeriaFetch(`/api/users/components`),
+      egeriaFetch(`/api/users/current`),
+      egeriaFetch(`/api/users/roles`)
+    ]).then((responses) => {
+      let [ appInfo, components, currentUser, roles ] = responses;
+
+      this.components = components;
+      this.currentUser = currentUser;
+      this.roles = roles;
+      this.appInfo = appInfo;
+
+      this.isLoggedIn = currentUser !== null && currentUser.status === 200;
+
+      const hasComponents = components !== null && components.status === 200;
+      const hasCurrentUser = currentUser !== null && currentUser.status === 200;
+      const hasRoles = roles !== null &&  roles.status === 200;
+      const hasAppInfo = appInfo !== null && appInfo.status === 200;
+
+      this.isLoading = ![hasComponents, hasCurrentUser, hasRoles, hasAppInfo].includes(false);
+
+    });
+  }
+
   _pagesChanged(newPages) {
     if(newPages && newPages.length >= 0) {
       const [removed, ...newArr] = this.pages;
@@ -102,6 +112,7 @@ class EgeriaApp extends PolymerElement {
   _isEqualTo(a, b) {
     return a === b;
   }
+
 
   _doesntInclude(value) {
     return !['login', 'forbidden', 'error', 'homepage', 'empty'].includes(value);
