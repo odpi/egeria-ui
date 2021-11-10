@@ -30,9 +30,17 @@ const spinner = (flag) => {
 export const egeriaFetch = (url, headers) => {
   spinner(true);
 
+  const controller = new AbortController();
+  let timeoutId;
+
+  if(ENV['REQUEST_TIMEOUT'] > 0) {
+    timeoutId = setTimeout(() => controller.abort(), ENV['REQUEST_TIMEOUT']);
+  }
+
   return fetch(
     `${ ENV['API_URL'] }${ url }`,
     {
+      signal: controller.signal,
       headers: {
         'content-type': 'application/json',
         'x-auth-token': getCookie('token'),
@@ -68,13 +76,25 @@ export const egeriaFetch = (url, headers) => {
     return data ? JSON.parse(data) : null;
   })
   .catch(function(e) {
-    let event = new CustomEvent("egeria-throw-message", { "detail": e });
+    if (e.name === 'AbortError') {
+      let event = new CustomEvent("egeria-throw-message", {
+        "detail": "Request timed out."
+      });
 
-    window.dispatchEvent(event);
+      window.dispatchEvent(event);
+    } else {
+      let event = new CustomEvent("egeria-throw-message", { "detail": e });
+
+      window.dispatchEvent(event);
+    }
 
     return {};
   })
   .finally(() => {
+    if(ENV['REQUEST_TIMEOUT'] > 0) {
+      clearTimeout(timeoutId);
+    }
+
     spinner(false);
   });
 };

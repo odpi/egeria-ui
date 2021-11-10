@@ -1,6 +1,7 @@
 const fs = require('fs');
 let apiUrl = process.env.npm_config_api_url || '';
 let production = process.env.npm_config_production || false;
+let requestTimeout = process.env.npm_config_request_timeout || 30000;
 
 if(apiUrl === '/' || apiUrl === null || apiUrl === undefined) {
   apiUrl = '';
@@ -9,7 +10,8 @@ if(apiUrl === '/' || apiUrl === null || apiUrl === undefined) {
 let data = `export const ENV = {
   'API_URL': '${ apiUrl }',
   'ROOT_PATH': '/',
-  'PRODUCTION': ${ production }
+  'PRODUCTION': ${ production },
+  'REQUEST_TIMEOUT': ${ requestTimeout }
 }
 `;
 

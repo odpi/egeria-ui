@@ -40,7 +40,7 @@ class TokenAjax extends PolymerElement {
             },
             timeout: {
                 type: Number,
-                value: 30000
+                value: ENV['REQUEST_TIMEOUT'] > 0 ? ENV['REQUEST_TIMEOUT'] : 0
             },
             /**
              * If true, automatically performs an Ajax request when either `url` or
