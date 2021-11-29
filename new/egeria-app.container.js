@@ -73,7 +73,7 @@ class EgeriaApp extends PolymerElement {
    */
   _getCurrentUser() {
 
-      let jwtClaims = this._parseJwtClaims();
+      const jwtClaims = this._parseJwtClaims();
       if ( jwtClaims ) {
         let tokenUser = JSON.parse(jwtClaims.sub);
         if (tokenUser) {
@@ -88,9 +88,9 @@ class EgeriaApp extends PolymerElement {
   }
 
   _parseJwtClaims () {
-    let token = getCookie('token');
+    const token = getCookie('token');
     if(token !== undefined && token !== null){
-      let base64User = token.split('.')[1];
+      const base64User = token.split('.')[1];
       if( base64User !== undefined ) {
         return JSON.parse( atob( base64User ) );
       }
