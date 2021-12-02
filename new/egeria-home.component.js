@@ -13,6 +13,26 @@ import { setCookie } from './commons/local-storage';
 import { RoleComponentsBehavior } from '../old/common/role-components';
 
 class EgeriaHome extends mixinBehaviors(RoleComponentsBehavior, PolymerElement) {
+
+  constructor() {
+    super();
+    egeriaFetch(`/api/public/app/info`)
+        .then(response => {
+          this.title = response.title;
+          this.description = response.description;
+          this.titleChunks = !['', undefined].includes(this.title) ? this.title.split('|') : [];
+
+          this.descriptionChunks = !['', undefined].includes(this.description) ? this.description.split('@@').map(d => {
+            let [ title, description ] = d.split('||');
+
+            return {
+              title: title,
+              description: description
+            }
+          }) : [];
+        });
+  }
+
   static get properties() {
     return {
       title: { type: String, value: '' },
@@ -27,16 +47,9 @@ class EgeriaHome extends mixinBehaviors(RoleComponentsBehavior, PolymerElement) 
   ready() {
     super.ready();
 
-    this.titleChunks = !['', undefined].includes(this.title) ? this.title.split('|') : [];
 
-    this.descriptionChunks = !['', undefined].includes(this.description) ? this.description.split('@@').map(d => {
-      let [ title, description ] = d.split('||');
 
-      return {
-        title: title,
-        description: description
-      }
-    }) : [];
+
 
     egeriaFetch(`/api/assets/types`)
       .then(data => {
