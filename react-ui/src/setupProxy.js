@@ -11,4 +11,14 @@ module.exports = function(app) {
       secure: false
     })
   );
+
+  /* temporarily added here */
+  app.use(
+    '/about.json',
+    createProxyMiddleware({
+      target: proxyTarget,
+      changeOrigin: true,
+      secure: false
+    })
+  );
 };

@@ -3,6 +3,7 @@ import logo from './egeria-logo.png';
 import { Route, Switch } from 'react-router-dom';
 import './App.scss';
 import About from './components/About';
+import UserInfo from './components/UserInfo';
 
 import '@vaadin/vaadin-app-layout/vaadin-app-layout.js';
 import '@vaadin/vaadin-app-layout/vaadin-drawer-toggle.js';
@@ -11,6 +12,10 @@ import '@vaadin/vaadin-tabs/vaadin-tab.js';
 import '@polymer/iron-icon/iron-icon.js';
 import '@vaadin/vaadin-lumo-styles/icons.js';
 import '@polymer/iron-icons/iron-icons.js';
+
+import './components/About/lit';
+
+import { PrivateRoute } from './components/PrivateRoute';
 
 /*
  * By using typescript all elements must have a type declaration and since
@@ -24,6 +29,7 @@ declare global {
       'vaadin-tabs': any;
       'vaadin-tab': any;
       'iron-icon': any;
+      'egeria-about-lit': any;
     }
   }
 }
@@ -35,6 +41,10 @@ class App extends React.Component {
         <vaadin-app-layout>
           <vaadin-drawer-toggle slot="navbar touch-optimized"></vaadin-drawer-toggle>
           <h3 slot="navbar touch-optimized">Egeria UI</h3>
+
+          <div slot="navbar" className="pull-right mr15 fsize13">
+            <UserInfo />
+          </div>
 
           <vaadin-tabs orientation="vertical" slot="drawer" selected="-1">
             <vaadin-tab>
@@ -49,24 +59,20 @@ class App extends React.Component {
                 About
               </a>
             </vaadin-tab>
-            <vaadin-tab>
-              <a href="/react-ui/contact">
-                <iron-icon icon="lumo:phone"></iron-icon>
-                Contact
-              </a>
-            </vaadin-tab>
           </vaadin-tabs>
 
-          <div>
+          <div className="content-container">
             <Switch>
               <Route exact path={'/'}>
-                <img src={logo} height="200px" alt="Egeria Logo"/>
+                <div className="center">
+                  <img src={logo} height="200px" alt="Egeria Logo"/>
+                </div>
               </Route>
-              <Route path={`/about`}>
-                <About/>
-              </Route>
-              <Route path={`/contact`}>
-                <h3>Contact</h3>
+
+              <PrivateRoute exact path="/about" component={About} />
+
+              <Route path={`/about-lit`}>
+                <egeria-about-lit></egeria-about-lit>
               </Route>
             </Switch>
           </div>
