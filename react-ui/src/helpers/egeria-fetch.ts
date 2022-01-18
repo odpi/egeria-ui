@@ -1,4 +1,5 @@
 import { authHeader } from './auth-header';
+import { handleResponse } from './handle-response';
 
 const egeriaFetch = (endpoint: string, options: any) => {
   const requestOptions: any = {
@@ -7,7 +8,7 @@ const egeriaFetch = (endpoint: string, options: any) => {
     ...options
   };
 
-  return fetch(endpoint, requestOptions);
+  return fetch(endpoint, requestOptions).then(handleResponse);
 }
 
 export {

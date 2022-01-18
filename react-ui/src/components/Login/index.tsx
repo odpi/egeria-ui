@@ -55,8 +55,6 @@ class Login extends React.Component<Props, State> {
         [key]: value
       }
     });
-
-    console.log(form);
   }
 
   render() {

@@ -50,4 +50,6 @@ function logout() {
     currentUserSubject.next(null);
 
     console.log('logged out');
+
+    window.location.href = "/react-ui";
 }

@@ -19,12 +19,13 @@ class UserInfo extends React.Component<Props, State> {
 
   componentDidMount() {
     authenticationService.currentUser.subscribe(user => {
-      console.log(JSON.parse(user.sub));
-      const userData = JSON.parse(user.sub);
+      if(user) {
+        const userData = JSON.parse(user.sub);
 
-      this.setState({
-        displayName: userData.displayName
-      });
+        this.setState({
+          displayName: userData.displayName
+        });
+      }
     });
   }
 
