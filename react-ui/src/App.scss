@@ -1,5 +1,44 @@
-.App {
-  text-align: center;
+.login-container {
+  width:500px;
+  margin: auto;
+}
+
+/* Full-width inputs */
+.login-container input[type=text], input[type=password] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+/* Set a style for all buttons */
+.login-container button {
+  background-color: rgb(113, 204, 220);
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
+
+.login-page {
+  margin-top:50px;
+}
+
+.logo {
+  width: 100%;
+}
+
+.logo-container {
+  width:500px;
+  margin:auto;
+}
+
+.content-container {
+  margin: 15px;
 }
 
 .App-logo {
@@ -19,4 +58,36 @@
 
 .App-link {
   color: #61dafb;
+}
+
+.fsize13 {
+  font-size: 13px;;
+}
+
+.mr15 {
+  margin-right: 15px;
+}
+
+.center {
+  text-align:center;
+}
+
+.pull-right {
+  margin-left: auto;
+}
+
+
+:root {
+  --blue: #1e90ff;
+  --custom-gray: rgb(115, 115, 115);
+  --padding-top: 10px;
+}
+
+tr:nth-child(odd) > td {
+  font-weight: bold;
+  padding-top:var(--padding-top);
+}
+
+tr:nth-child(even) > td {
+  color: var(--custom-gray);
 }
