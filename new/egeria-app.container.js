@@ -39,6 +39,9 @@ class EgeriaApp extends PolymerElement {
       //except for the pages not using the this data
       //especially login is not need this calls
       this._getCurrentUser();
+      if( !this.isLoggedIn ){
+        this.redirectToLogin( path );
+      }
     }
   }
 
@@ -131,11 +134,15 @@ class EgeriaApp extends PolymerElement {
   }
 
   redirectToLogin(route) {
-    let queryParamsAsString = window.location.search;
+    if( route ){
+      let queryParamsAsString = window.location.search;
 
-    let encodedPath = `/login?redirect=${encodeURIComponent(`/${route}${queryParamsAsString ? `${queryParamsAsString}` : ``}`)}`;
+      let encodedPath = `/login?redirect=${encodeURIComponent(`/${route}${queryParamsAsString ? `${queryParamsAsString}` : ``}`)}`;
 
-    window.location.href = encodedPath;
+      window.location.href = encodedPath;
+    } else {
+      window.location.href = '/login';
+    }
   }
 
   _routeCycle(newRoute, components, currentUser) {
@@ -187,6 +194,10 @@ class EgeriaApp extends PolymerElement {
                  data="{{ routeData }}"
                  tail="{{ tail }}"></app-route>
 
+        
+          
+        
+        
         <template is="dom-if" if="[[ _isEqualTo(page, 'login') ]]">
           <egeria-login query-params="[[ queryParams ]]"></egeria-login>
         </template>
@@ -198,19 +209,23 @@ class EgeriaApp extends PolymerElement {
         <template is="dom-if" if="[[ _isEqualTo(page, 'forbidden') ]]" >
           <egeria-error-page status-code="403" message="Forbidden"></egeria-error-page>
         </template>
+      
+        <template is="dom-if" if="[[ isLoggedIn ]]">
+        
+          <template is="dom-if" if="[[ _isEqualTo(page, 'homepage') ]]">
+            <egeria-home 
+                         components="[[ components ]]"></egeria-home>
+          </template>
 
-        <template is="dom-if" if="[[ _isEqualTo(page, 'homepage') ]]">
-          <egeria-home 
-                       components="[[ components ]]"></egeria-home>
-        </template>
-
-        <template is="dom-if" if="[[ _doesntInclude(page) ]]">
-          <egeria-single-page components="[[ components ]]"
-                              current-user="[[ currentUser ]]"
-                              roles="[[ roles ]]"
-                              app-info="[[ appInfo ]]"
-                              is-logged-in="[[ isLoggedIn ]]"
-                              pages="[[ pages ]]"></egeria-single-page>
+        
+          <template is="dom-if" if="[[ _doesntInclude(page) ]]">
+            <egeria-single-page components="[[ components ]]"
+                                current-user="[[ currentUser ]]"
+                                roles="[[ roles ]]"
+                                app-info="[[ appInfo ]]"
+                                is-logged-in="[[ isLoggedIn ]]"
+                                pages="[[ pages ]]"></egeria-single-page>
+          </template>
         </template>
 
       <egeria-error-handling></egeria-error-handling>
