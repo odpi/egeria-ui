@@ -15,13 +15,13 @@ jest.mock('../services/authentication.service', () => {
 
 describe("authHeader()", () => {
   it("should retrieve a token", () => {
-    authenticationService.currentJwt.mockReturnValue('test');
+    (authenticationService.currentJwt as jest.Mock).mockReturnValue('test');
 
     expect(JSON.stringify(authHeader())).toBe(JSON.stringify({ "x-auth-token": "test" }));
   });
 
   it("should not retrieve a token", () => {
-    authenticationService.currentJwt.mockReturnValue('');
+    (authenticationService.currentJwt as jest.Mock).mockReturnValue('');
 
     expect(JSON.stringify(authHeader())).toBe(JSON.stringify({}));
   });
