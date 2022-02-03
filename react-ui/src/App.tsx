@@ -57,6 +57,15 @@ interface State {
   user: any;
 }
 
+/**
+ *
+ * App main layout used for displaying left menu and right content placeholder
+ * used for different pages.
+ *
+ * @since      0.1.0
+ * @access     public
+ *
+ */
 class App extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);

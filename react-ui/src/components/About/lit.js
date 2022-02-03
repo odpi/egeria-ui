@@ -2,6 +2,14 @@ import { LitElement, html } from 'lit';
 import { customElementsRegister } from '../../helpers/custom-elements-register';
 import { egeriaFetch } from '../../helpers/egeria-fetch';
 
+/**
+ *
+ * LitElement component used for displaying details about the application instance.
+ *
+ * @since      0.1.0
+ * @access     public
+ *
+ */
 class AboutLit extends LitElement {
   static get properties() {
     return {

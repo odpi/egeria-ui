@@ -3,16 +3,30 @@ import { Route, Redirect } from 'react-router-dom';
 
 import { authenticationService } from '../../services/authentication.service';
 
+/**
+ *
+ * React Component wrapper used to check if current user has a defined JWT so
+ * that it can see the component.
+ *
+ * It does not validate if token is still available, this is handled at any
+ * given HTTP request.
+ *
+ * @since      0.1.0
+ * @access     public
+ *
+ * @param {Class}  var React component class extracted from react props.
+ *
+ * @return {object} Returns wrapped component or redirects to /login.
+ *
+ */
 export const PrivateRoute = ({ component: Component, ...rest}: any) => (
     <Route {...rest} render={props => {
         const currentJwt = authenticationService.currentJwt();
 
         if (!currentJwt) {
-            // not logged in so redirect to login page with the return url
             return <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
         }
 
-        // authorised so return component
         return <Component {...props} />
     }} />
 )

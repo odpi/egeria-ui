@@ -13,6 +13,14 @@ interface State {
   }
 }
 
+/**
+ *
+ * React component used for displaying details about the application instance.
+ *
+ * @since      0.1.0
+ * @access     public
+ *
+ */
 class About extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);

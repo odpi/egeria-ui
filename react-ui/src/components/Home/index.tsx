@@ -17,6 +17,14 @@ interface State {
   descriptions: any;
 }
 
+/**
+ *
+ * React component used for displaying the Home page.
+ *
+ * @since      0.1.0
+ * @access     public
+ *
+ */
 class Home extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);

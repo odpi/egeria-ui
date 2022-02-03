@@ -13,6 +13,14 @@ interface State {
   currentUserValue: any
 }
 
+/**
+ *
+ * React component used for displaying login form.
+ *
+ * @since      0.1.0
+ * @access     public
+ *
+ */
 class Login extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);

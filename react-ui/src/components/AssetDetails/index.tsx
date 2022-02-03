@@ -11,6 +11,14 @@ interface State {
   asset: any;
 }
 
+/**
+ *
+ * React component used for AssetDetails.
+ *
+ * @since      0.1.0
+ * @access     public
+ *
+ */
 class AssetDetails extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);

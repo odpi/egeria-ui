@@ -12,6 +12,18 @@ export const authenticationService = {
     get currentUserValue () { return currentUserSubject.value }
 };
 
+/**
+ *
+ * Parses a JWT token string.
+ *
+ * @since      0.1.0
+ * @access     public
+ *
+ * @param {string}   var    JWT Token.
+ *
+ * @return {Object} Returns pased JWT Token object.
+ *
+ */
 function parseJwt (token: string) {
     if(token !== "") {
         var base64Url = token.split('.')[1];
@@ -24,6 +36,19 @@ function parseJwt (token: string) {
     }
 };
 
+/**
+ *
+ * Handles login by setting the JWT Token on localStorage.
+ *
+ * @since      0.1.0
+ * @access     public
+ *
+ * @param {string}   var    Username
+ * @param {string}   var    Password
+ *
+ * @return {Promise} Returns a promise with the request.
+ *
+ */
 function login(username: string, password: string) {
     const requestOptions = {
         method: 'POST',
@@ -43,6 +68,16 @@ function login(username: string, password: string) {
         });
 }
 
+/**
+ *
+ * Handles logout by removing the JWT Token from localStorage.
+ *
+ * @since      0.1.0
+ * @access     public
+ *
+ * @return {void} Returns undefined and redirects to given path.
+ *
+ */
 function logout() {
     // remove user from local storage to log user out
     localStorage.removeItem('currentJwt');

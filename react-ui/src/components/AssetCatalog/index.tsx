@@ -7,6 +7,14 @@ interface Props {
 interface State {
 }
 
+/**
+ *
+ * React component used for AssetCatalog.
+ *
+ * @since      0.1.0
+ * @access     public
+ *
+ */
 class AssetCatalog extends React.Component<Props, State> {
   render() {
     const { location } = this.props;
