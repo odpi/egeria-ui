@@ -6,6 +6,8 @@ interface Props {
 }
 
 interface State {
+  isLoading: Boolean,
+  goodCredentials: Boolean,
   form: {
     username: string,
     password: string
@@ -26,6 +28,8 @@ class Login extends React.Component<Props, State> {
     super(props);
 
     this.state = {
+      isLoading: false,
+      goodCredentials: true,
       form: {
         username: '',
         password: ''
@@ -37,21 +41,37 @@ class Login extends React.Component<Props, State> {
   onSubmit() {
     const { form } = this.state;
 
-    authenticationService.login(form.username, form.password).then(() => {
-      this.setState({
-        currentUserValue: authenticationService.currentUserValue
-      });
-
-      window.location.href = "/react-ui";
+    this.setState({
+      isLoading: true
     });
+
+    authenticationService.login(form.username, form.password).then((response) => {
+      if(!response.ok) {
+        this.setState({
+          goodCredentials: false,
+          form: {
+            username: '',
+            password: ''
+          }
+        });
+      } else {
+        window.location.href = "/react-ui";
+      }
+
+      this.setState({
+        isLoading: false
+      });
+    });
+  }
+
+  handleKeyPress = (event: any) => {
+    if(event.key === 'Enter'){
+      this.onSubmit();
+    }
   }
 
   onLogout() {
     authenticationService.logout();
-
-    this.setState({
-      currentUserValue: authenticationService.currentUserValue
-    });
   }
 
   onUpdateFormKey(key: string, value: string) {
@@ -66,13 +86,19 @@ class Login extends React.Component<Props, State> {
   }
 
   render() {
+    const { goodCredentials, isLoading } = this.state;
+
     return (
       <div className="login-page">
         <div className="logo-container">
           <img src={ logo } alt="Egeria" className="logo"/>
         </div>
 
-        <div className="login-container">
+        <div className={`login-container ${isLoading ? 'is-loading' : ''}`}>
+          { !goodCredentials && <div className="error">
+            <p>Username or password is incorrect.</p>
+          </div> }
+
           <label htmlFor="username"><b>Username</b></label>
           <input id="username"
                  placeholder="Enter Username"
@@ -80,6 +106,7 @@ class Login extends React.Component<Props, State> {
                  name="username"
                  value={this.state.form.username}
                  onChange={e => this.onUpdateFormKey('username', e.target.value)}
+                 onKeyPress={this.handleKeyPress}
                  required />
 
 
@@ -90,12 +117,10 @@ class Login extends React.Component<Props, State> {
                  name="password"
                  value={this.state.form.password}
                  onChange={e => this.onUpdateFormKey('password', e.target.value)}
+                 onKeyPress={this.handleKeyPress}
                  required />
 
           <button onClick={() => this.onSubmit()}>Login</button>
-          <label>
-            <input type="checkbox" name="remember" checked/> Remember me
-          </label>
         </div>
       </div>
     );
