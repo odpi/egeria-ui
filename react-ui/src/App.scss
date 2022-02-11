@@ -76,6 +76,22 @@
   margin-left: auto;
 }
 
+.is-loading {
+  opacity: 0.2;
+}
+
+.error {
+  background: rgb(253, 237, 237);
+  color: rgb(95, 33, 32);
+  padding: 15px;
+  border-radius: 5px;
+
+  p {
+    margin: 0;
+  }
+
+  margin-bottom:15px;
+}
 
 :root {
   --blue: #1e90ff;
