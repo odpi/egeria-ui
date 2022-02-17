@@ -16,7 +16,9 @@ import logo from '../../egeria-logo.png';
 interface Props {
 }
 
+
 interface State {
+
     isLoading: Boolean,
     errors: Map<string, boolean>,
     feedbackMessage: String,
@@ -58,23 +60,34 @@ class SignIn extends React.Component<Props, State> {
         };
     }
 
+    /**
+     * handles the submit
+     * @param event of the react form
+     */
     handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         let errors = this.state.errors;
         let feedbackMessage = this.state.feedbackMessage;
-        let username = new String(data.get('username')).toString();
-        let password = new String(data.get('password')).toString();
+        let username = String(data.get('username'));
+        let password = String(data.get('password'));
 
         errors.set('username',username ==='');
         errors.set('password', password ==='');
 
         this.setState({errors});
 
-        if( !Object.values(errors).includes(true) ){
+        // check if the form has validation errors
+        let hasErrors = Array.from(errors.values()).find((item) => item);
+
+        if( ! hasErrors ){
             authenticationService.login( username, password).then((response) => {
                 if (!response.ok) {
-                    feedbackMessage = "Wrong credentials!";
+                    switch (response.status){
+                        case 401 : feedbackMessage = "Wrong credentials!"; break;
+                        case 403 : feedbackMessage = "You are not authorized to access this application."; break;
+                        default : feedbackMessage = "Ops! Cannot authenticate right now."; break;
+                    }
                     this.setState({feedbackMessage});
                 } else {
                     window.location.href = "/react-ui";
