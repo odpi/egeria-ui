@@ -22,7 +22,6 @@ interface State {
     isLoading: Boolean,
     errors: Map<string, boolean>,
     feedbackMessage: String,
-    currentUserValue: any
 }
 
 /**
@@ -43,7 +42,6 @@ class SignIn extends React.Component<Props, State> {
             isLoading: false,
             errors: new Map<string, boolean>(),
             feedbackMessage: 'Sign in',
-            currentUserValue: authenticationService.currentUserValue
         };
     }
 
