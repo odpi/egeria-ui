@@ -36,17 +36,6 @@ interface State {
 
 const theme = createTheme();
 
-function Copyright(props: any) {
-    return (
-        <Typography variant="body2" color="text.secondary" align="center" {...props}>
-            {'Powered by : '}
-            <Link color="inherit" href="https://egeria-project.org/">
-                Egeria
-            </Link>
-        </Typography>
-    );
-
-}
 class SignIn extends React.Component<Props, State> {
 
 
@@ -67,8 +56,7 @@ class SignIn extends React.Component<Props, State> {
     handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        let errors = this.state.errors;
-        let feedbackMessage = this.state.feedbackMessage;
+        let { errors, feedbackMessage } = this.state;
         let username = String(data.get('username'));
         let password = String(data.get('password'));
 
@@ -165,7 +153,12 @@ class SignIn extends React.Component<Props, State> {
 
                         </Box>
                     </Box>
-                    <Copyright sx={{mt: 8, mb: 4}}/>
+                    <Typography variant="body2" color="text.secondary" align="center" sx={{mt: 8, mb: 4}}>
+                        {'Powered by : '}
+                        <Link color="inherit" href="https://egeria-project.org/">
+                            Egeria
+                        </Link>
+                    </Typography>
                 </Container>
             </ThemeProvider>
         );
