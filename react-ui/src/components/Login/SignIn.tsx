@@ -63,8 +63,6 @@ class SignIn extends React.Component<Props, State> {
         errors.set('username',username ==='');
         errors.set('password', password ==='');
 
-        this.setState({errors});
-
         // check if the form has validation errors
         let hasErrors = Array.from(errors.values()).find((item) => item);
 
@@ -85,6 +83,9 @@ class SignIn extends React.Component<Props, State> {
                     isLoading: false
                 });
             });
+        } else {
+            // rerender the fields to show errors
+            this.setState({errors});
         }
 
     };
