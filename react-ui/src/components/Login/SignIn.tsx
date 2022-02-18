@@ -37,8 +37,6 @@ interface State {
 const theme = createTheme();
 
 class SignIn extends React.Component<Props, State> {
-
-
     constructor(props: Props) {
         super(props);
         this.state = {
@@ -76,7 +74,7 @@ class SignIn extends React.Component<Props, State> {
                     }
                     this.setState({feedbackMessage});
                 } else {
-                    window.location.href = "/react-ui";
+                    window.location.href = `${process.env.REACT_APP_HOMEPAGE}`;
                 }
 
                 this.setState({
@@ -92,7 +90,6 @@ class SignIn extends React.Component<Props, State> {
 
     render() {
         const { errors, feedbackMessage } = this.state;
-
         return (
             <ThemeProvider theme={theme}>
                 <Container component="main" maxWidth="xs">
