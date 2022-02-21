@@ -52,7 +52,8 @@ class SignIn extends React.Component<Props, State> {
     handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        let { errors, feedbackMessage } = this.state;
+        const { errors } = this.state;
+        let { feedbackMessage } = this.state;
         let username = String(data.get('username'));
         let password = String(data.get('password'));
 
@@ -70,19 +71,19 @@ class SignIn extends React.Component<Props, State> {
                         case 403 : feedbackMessage = "You are not authorized to access this application."; break;
                         default : feedbackMessage = "Ops! Cannot authenticate right now."; break;
                     }
-                    this.setState({feedbackMessage});
                 } else {
                     window.location.href = `${process.env.REACT_APP_HOMEPAGE}`;
                 }
 
                 this.setState({
-                    isLoading: false
+                    isLoading: false,
+                    feedbackMessage
                 });
             });
-        } else {
+        }
             // rerender the fields to show errors
             this.setState({errors});
-        }
+
 
     };
 
