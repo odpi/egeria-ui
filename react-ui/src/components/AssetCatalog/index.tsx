@@ -142,17 +142,18 @@ class AssetCatalog extends React.Component<Props, State> {
     const search: any = getComponent('#user-search');
     const exactMatch: any = getComponent('#exact-match');
     const caseSensitive: any = getComponent('#case-sensitive');
+    const { q, selectedTypes } = this.state;
+    const willSearch = q !== '' && selectedTypes.length > 0;
 
     this.setState({
-      isLoading: true,
+      isLoading: willSearch ? true : false,
       selectedTypes: combobox.selectedItems.map((i: any) => i.id) || [],
       caseSensitive: caseSensitive.checked || false,
       exactMatch: exactMatch.checked || false,
       q: search.value || ''
     }, () => {
       const url = this.generateAssetSearchUrl();
-      const { q, selectedTypes } = this.state;
-      if(q !== '' && selectedTypes.length > 0) {
+      if(willSearch) {
         this.handleSearchHistory();
 
         egeriaFetch(url, {}).then(response => {
@@ -183,6 +184,7 @@ class AssetCatalog extends React.Component<Props, State> {
         ]
       }, () => {
         this.readQueryParams();
+        console.log(this.state);
       });
     });
   }
