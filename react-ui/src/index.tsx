@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.scss';
-import Login from './components/Login/index';
+import SignIn from './components/Login/SignIn';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Layout from './components/Layout';
@@ -10,7 +10,7 @@ ReactDOM.render(
   <React.StrictMode>
     <Router basename={'react-ui'}>
       <Switch>
-        <Route path="/login" component={Login} />
+        <Route path="/login" component={SignIn} />
         <Route path="/" component={Layout} />
       </Switch>
     </Router>
