@@ -15,11 +15,18 @@ body {
   line-height: 24px;;
 }
 
+
+.flex-1 { flex: 1; }
+.flex-fh { display: flex; align-items: stretch; }
+.flex { display: flex; }
+.flex-column { display: flex; flex-flow: column; height: 100%; }
+.row { display: flex; align-items: center; justify-content: center; }
+.space-between { justify-content: space-between; }
+.full-height { height: 100% }
+
+
 .br5 { border-radius:5px; }
 .mt20 { margin-top:20px; }
 .mt30 { margin-top:30px; }
 .p15 { padding:15px; }
-.row { display: flex; align-items: center; justify-content: center; }
-.flex { display: flex; }
-.space-between { justify-content: space-between; }
 .m5 { margin: 5px; }

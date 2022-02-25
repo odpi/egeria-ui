@@ -39,6 +39,7 @@
 
 .content-container {
   margin: 15px;
+  height: calc(100vh - 74px);
 }
 
 .App-logo {
@@ -77,7 +78,15 @@
 }
 
 .is-loading {
-  opacity: 0.2;
+  opacity: 0.6;
+  position:relative;
+}
+
+.is-loading:after {
+  position: absolute;
+  left: 50%;
+  top:50%;
+  content: "Loading...";
 }
 
 .error {

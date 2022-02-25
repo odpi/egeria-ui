@@ -16,6 +16,8 @@
     "@vaadin/button": "^22.0.3",
     "@vaadin/context-menu": "^22.0.2",
     "@vaadin/vaadin-app-layout": "^22.0.2",
+    "@vaadin/vaadin-checkbox": "^22.0.5",
+    "@vaadin/vaadin-grid": "22.0.4",
     "@vaadin/vaadin-lumo-styles": "^22.0.2",
     "@vaadin/vaadin-tabs": "^22.0.2",
     "@vaadin/vaadin-text-field": "^22.0.3",
@@ -29,7 +31,7 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-router-dom": "^5.3.0",
-    "react-scripts": "4.0.3",
+    "react-scripts": "5.0.0",
     "rxjs": "^7.5.1",
     "typescript": "^4.5.2",
     "web-vitals": "^1.1.2"
