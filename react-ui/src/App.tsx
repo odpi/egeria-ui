@@ -46,6 +46,13 @@ declare global {
       'multiselect-combo-box': any;
       'vaadin-text-field': any;
       'vaadin-button': any;
+      'vaadin-grid': any;
+      'vaadin-grid-column': any;
+      'vaadin-grid-sorter': any;
+      'vaadin-grid-filter': any;
+      'vaadin-grid-sort-column': any;
+      'vaadin-grid-filter-column': any;
+      'vaadin-checkbox': any;
     }
   }
 }
