@@ -9,6 +9,7 @@ import '@vaadin/vaadin-grid/vaadin-grid-sort-column.js';
 import '@vaadin/vaadin-grid/vaadin-grid-filter-column.js';
 import '@vaadin/vaadin-checkbox/vaadin-checkbox.js';
 import { getComponent } from "../../helpers/commons";
+import { itemDescription, itemName } from "./helpers";
 
 interface Props {
   location: any;
@@ -169,6 +170,17 @@ class AssetCatalog extends React.Component<Props, State> {
   }
 
   componentDidMount() {
+    const displayName: any = getComponent('#display-name');
+    const description: any = getComponent('#description');
+
+    displayName.renderer = (root: any, grid: any, rowData: any) => {
+      root.innerHTML = `<a href="/react-ui/assets/${rowData.item.guid}/details" target="_blank">${ itemName(rowData.item) }</a>`;
+    };
+
+    description.renderer = (root: any, grid: any, rowData: any) => {
+      root.textContent = itemDescription(rowData.item);
+    };
+
     this.setState({isLoading: true});
 
     types.getAll().then(response => response.json()).then(data => {
@@ -297,11 +309,11 @@ class AssetCatalog extends React.Component<Props, State> {
 
         <div className="content flex row flex-1">
           <vaadin-grid items={ JSON.stringify(data) } class="full-height">
-            <vaadin-grid-sort-column path="properties.displayName" header="Name"></vaadin-grid-sort-column>
-            <vaadin-grid-sort-column path="origin.metadataCollectionName" header="Origin"></vaadin-grid-sort-column>
-            <vaadin-grid-sort-column path="type.name" header="Type"></vaadin-grid-sort-column>
-            <vaadin-grid-sort-column path="properties.qualifiedName" header="Context Info"></vaadin-grid-sort-column>
-            <vaadin-grid-sort-column path="properties.summary" header="Description"></vaadin-grid-sort-column>
+            <vaadin-grid-sort-column id="display-name" path="properties.displayName" header="Name"></vaadin-grid-sort-column>
+            <vaadin-grid-sort-column id="origin" path="origin.metadataCollectionName" header="Origin"></vaadin-grid-sort-column>
+            <vaadin-grid-sort-column id="type" path="type.name" header="Type"></vaadin-grid-sort-column>
+            <vaadin-grid-sort-column id="qualified-name" path="properties.qualifiedName" header="Context Info"></vaadin-grid-sort-column>
+            <vaadin-grid-sort-column id="description" path="properties.summary" header="Description"></vaadin-grid-sort-column>
           </vaadin-grid>
         </div>
         <div className="content flex row">
