@@ -26,6 +26,7 @@
     "@vaadin/vaadin-tabs": "^22.0.2",
     "@vaadin/vaadin-text-field": "^22.0.3",
     "carbon-web-components": "^1.20.0",
+    "egeria-js-commons": "github:odpi/egeria-js-commons#main",
     "history": "^5.2.0",
     "http-proxy-middleware": "^2.0.1",
     "lit": "^2.1.1",

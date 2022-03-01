@@ -1,4 +1,5 @@
 import React from "react";
+import ReactDOM from "react-dom";
 import { types } from '../../services/user.service';
 import { egeriaFetch } from '../../helpers/egeria-fetch';
 import '@vaadin/vaadin-grid/vaadin-grid.js';
@@ -10,6 +11,7 @@ import '@vaadin/vaadin-grid/vaadin-grid-filter-column.js';
 import '@vaadin/vaadin-checkbox/vaadin-checkbox.js';
 import { getComponent } from "../../helpers/commons";
 import { itemDescription, itemName } from "./helpers";
+import QualifiedName from "./qualified-name";
 
 interface Props {
   location: any;
@@ -172,6 +174,7 @@ class AssetCatalog extends React.Component<Props, State> {
   componentDidMount() {
     const displayName: any = getComponent('#display-name');
     const description: any = getComponent('#description');
+    const qualifiedName: any = getComponent('#qualified-name');
 
     displayName.renderer = (root: any, grid: any, rowData: any) => {
       root.innerHTML = `<a href="/react-ui/assets/${rowData.item.guid}/details" target="_blank">${ itemName(rowData.item) }</a>`;
@@ -179,6 +182,10 @@ class AssetCatalog extends React.Component<Props, State> {
 
     description.renderer = (root: any, grid: any, rowData: any) => {
       root.textContent = itemDescription(rowData.item);
+    };
+
+    qualifiedName.renderer = (root: any, grid: any, rowData: any) => {
+      ReactDOM.render(<QualifiedName qualified={rowData.item.properties.qualifiedName}/>, root);
     };
 
     this.setState({isLoading: true});
