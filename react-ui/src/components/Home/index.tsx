@@ -68,7 +68,7 @@ class Home extends React.Component<Props, State> {
     let queryParams = `?q=${searchValue}`;
 
     if(selectedItems.length > 0) {
-      queryParams = `${queryParams}&types=${selectedItems.map((i: any) => i.id).join(',')}`;
+      queryParams = `${queryParams}&selectedTypes=${selectedItems.map((i: any) => i.id).join(',')}`;
     }
 
     window.location.href = `/react-ui/asset-catalog${ queryParams }`;
