@@ -30,8 +30,8 @@ class QualifiedName extends React.Component<Props, State> {
     return (
       <div className="qualified-name">
         <ul>
-          { parseQualifiedName(qualified).map((item: any) => {
-            return <li title={ capitalizeFirstLetter(item.key)}>
+          { parseQualifiedName(qualified).map((item: any, key: number) => {
+            return <li title={ capitalizeFirstLetter(item.key)} key={key}>
               <div className="masked"
                   // @ts-ignore
                   style={maskImage(item)}>
