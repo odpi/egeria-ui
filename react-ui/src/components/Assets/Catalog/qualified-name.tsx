@@ -23,7 +23,9 @@ class QualifiedName extends React.Component<Props, State> {
 
     const maskImage = (item: any) => {
       return {
-        '-webkit-mask-image': `url(data:image/svg+xml;utf8, ${getIcon(item.key)})`
+        width: '21px',
+        height: '21px',
+        WebkitMaskImage: `url(data:image/svg+xml;utf8,${encodeURIComponent(getIcon(item.key))})`
       };
     };
 
@@ -33,7 +35,6 @@ class QualifiedName extends React.Component<Props, State> {
           { parseQualifiedName(qualified).map((item: any, key: number) => {
             return <li title={ capitalizeFirstLetter(item.key)} key={key}>
               <div className="masked"
-                  // @ts-ignore
                   style={maskImage(item)}>
               </div>
 
