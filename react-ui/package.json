@@ -66,6 +66,9 @@
       "last 1 safari version"
     ]
   },
+  "jest": {
+    "transformIgnorePatterns": ["/node_modules/(?!egeria-js-commons)"]
+  },
   "devDependencies": {
     "@types/enzyme": "^3.10.10",
     "@types/react-router-dom": "^5.3.1",

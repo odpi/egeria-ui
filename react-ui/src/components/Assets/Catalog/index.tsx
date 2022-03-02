@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { types } from '../../services/user.service';
-import { egeriaFetch } from '../../helpers/egeria-fetch';
+import { types } from '../../../services/user.service';
+import { egeriaFetch } from '../../../helpers/egeria-fetch';
 import '@vaadin/vaadin-grid/vaadin-grid.js';
 import '@vaadin/vaadin-grid/vaadin-grid-column.js';
 import '@vaadin/vaadin-grid/vaadin-grid-filter.js';
@@ -9,7 +9,7 @@ import '@vaadin/vaadin-grid/vaadin-grid-sorter.js';
 import '@vaadin/vaadin-grid/vaadin-grid-sort-column.js';
 import '@vaadin/vaadin-grid/vaadin-grid-filter-column.js';
 import '@vaadin/vaadin-checkbox/vaadin-checkbox.js';
-import { getComponent } from "../../helpers/commons";
+import { getComponent } from "../../../helpers/commons";
 import { itemDescription, itemName } from "./helpers";
 import QualifiedName from "./qualified-name";
 
@@ -166,6 +166,11 @@ class AssetCatalog extends React.Component<Props, State> {
             data: data,
             isLoading: false
           });
+        }).catch(() => {
+          // TODO: handle event for future generic alert implementation
+          this.setState({
+            isLoading: false
+          });
         });
       }
     });
@@ -281,11 +286,31 @@ class AssetCatalog extends React.Component<Props, State> {
     });
   }
 
+  renderBreadcrumb() {
+    return(
+      <bx-breadcrumb role="nav">
+        <bx-breadcrumb-item role="listitem">
+          <bx-breadcrumb-link href="/react-ui">Home</bx-breadcrumb-link>
+        </bx-breadcrumb-item>
+
+        <bx-breadcrumb-item role="listitem">
+          <bx-breadcrumb>Assets</bx-breadcrumb>
+        </bx-breadcrumb-item>
+
+        <bx-breadcrumb-item role="listitem">
+          <bx-breadcrumb-link href="/react-ui/assets/catalog" size="">Catalog</bx-breadcrumb-link>
+        </bx-breadcrumb-item>
+      </bx-breadcrumb>
+    );
+  }
+
   render() {
     const { data, q, isLoading } = this.state;
 
     return (
       <div className={`flex-column${ isLoading ? ' is-loading' : ''}`}>
+        { this.renderBreadcrumb() }
+
         <div className="content flex row">
           <div className="m5 row">
             <multiselect-combo-box id="types"

@@ -15,9 +15,9 @@ import '@polymer/iron-icons/iron-icons.js';
 import './components/About/lit';
 
 import { PrivateRoute } from './components/PrivateRoute';
-import AssetDetails from './components/AssetDetails';
+import AssetDetails from './components/Assets/Details';
 import { authenticationService } from './services/authentication.service';
-import AssetCatalog from './components/AssetCatalog';
+import AssetCatalog from './components/Assets/Catalog';
 
 /*
  * By using typescript all elements must have a type declaration and since
@@ -126,9 +126,9 @@ class App extends React.Component<Props, State> {
               </a>
             </vaadin-tab>
             <vaadin-tab>
-              <a href="/react-ui/asset-catalog">
+              <a href="/react-ui/assets/catalog">
                 <iron-icon icon="lumo:cog"></iron-icon>
-                Asset Catalog
+                Catalog
               </a>
             </vaadin-tab>
             { user && <vaadin-tab>
@@ -151,7 +151,7 @@ class App extends React.Component<Props, State> {
 
               <PrivateRoute exact path="/assets/:uuid/details" component={AssetDetails} />
 
-              <PrivateRoute exact path="/asset-catalog" component={AssetCatalog} />
+              <PrivateRoute exact path="/assets/catalog" component={AssetCatalog} />
 
               <Route path={`/about-lit`}>
                 <egeria-about-lit></egeria-about-lit>

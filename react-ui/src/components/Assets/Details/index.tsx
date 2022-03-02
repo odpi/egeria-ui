@@ -1,7 +1,7 @@
 import React from "react";
 import 'carbon-web-components/es/components/data-table';
 import 'carbon-web-components/es/components/breadcrumb';
-import { egeriaFetch } from "../../helpers/egeria-fetch";
+import { egeriaFetch } from "../../../helpers/egeria-fetch";
 
 interface Props {
   match: any;
@@ -82,11 +82,17 @@ class AssetDetails extends React.Component<Props, State> {
     return(
       <bx-breadcrumb role="nav">
         <bx-breadcrumb-item role="listitem">
-          <bx-breadcrumb-link href="/" size="">assets</bx-breadcrumb-link>
+          <bx-breadcrumb-link href="/react-ui" size="">Home</bx-breadcrumb-link>
         </bx-breadcrumb-item>
+
+        <bx-breadcrumb-item role="listitem">
+          <bx-breadcrumb-link href="/react-ui/assets/catalog" size="">Catalog</bx-breadcrumb-link>
+        </bx-breadcrumb-item>
+
         <bx-breadcrumb-item role="listitem">
           <bx-breadcrumb-link href={`/assets/${ match.params.uuid }/details`}>{ match.params.uuid }</bx-breadcrumb-link>
         </bx-breadcrumb-item>
+
         <bx-breadcrumb-item role="listitem">
           <bx-breadcrumb-link aria-current="page" size="">details</bx-breadcrumb-link>
         </bx-breadcrumb-item>
