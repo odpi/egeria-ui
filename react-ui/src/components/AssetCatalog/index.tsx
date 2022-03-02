@@ -281,11 +281,31 @@ class AssetCatalog extends React.Component<Props, State> {
     });
   }
 
+  renderBreadcrumb() {
+    return(
+      <bx-breadcrumb role="nav">
+        <bx-breadcrumb-item role="listitem">
+          <bx-breadcrumb-link href="/react-ui">Home</bx-breadcrumb-link>
+        </bx-breadcrumb-item>
+
+        <bx-breadcrumb-item role="listitem">
+          <bx-breadcrumb>Assets</bx-breadcrumb>
+        </bx-breadcrumb-item>
+
+        <bx-breadcrumb-item role="listitem">
+          <bx-breadcrumb-link href="/react-ui/assets/catalog" size="">Catalog</bx-breadcrumb-link>
+        </bx-breadcrumb-item>
+      </bx-breadcrumb>
+    );
+  }
+
   render() {
     const { data, q, isLoading } = this.state;
 
     return (
       <div className={`flex-column${ isLoading ? ' is-loading' : ''}`}>
+        { this.renderBreadcrumb() }
+
         <div className="content flex row">
           <div className="m5 row">
             <multiselect-combo-box id="types"

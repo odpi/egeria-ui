@@ -71,7 +71,7 @@ class Home extends React.Component<Props, State> {
       queryParams = `${queryParams}&selectedTypes=${selectedItems.map((i: any) => i.id).join(',')}`;
     }
 
-    window.location.href = `/react-ui/asset-catalog${ queryParams }`;
+    window.location.href = `/react-ui/assets/catalog${ queryParams }`;
   }
 
   getAppInfo() {
@@ -104,7 +104,7 @@ class Home extends React.Component<Props, State> {
                 <Link to={`/`}>Home</Link>
               </li>
               <li>
-                <Link to={`/asset-catalog`}>Search</Link>
+                <Link to={`/assets/catalog`}>Catalog</Link>
               </li>
 
               <li className="pull-right">
