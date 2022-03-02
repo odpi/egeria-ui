@@ -1,7 +1,7 @@
 import React from "react";
 import 'carbon-web-components/es/components/data-table';
 import 'carbon-web-components/es/components/breadcrumb';
-import { egeriaFetch } from "../../helpers/egeria-fetch";
+import { egeriaFetch } from "../../../helpers/egeria-fetch";
 
 interface Props {
   match: any;

@@ -15,9 +15,9 @@ import '@polymer/iron-icons/iron-icons.js';
 import './components/About/lit';
 
 import { PrivateRoute } from './components/PrivateRoute';
-import AssetDetails from './components/AssetDetails';
+import AssetDetails from './components/Assets/Details';
 import { authenticationService } from './services/authentication.service';
-import AssetCatalog from './components/AssetCatalog';
+import AssetCatalog from './components/Assets/Catalog';
 
 /*
  * By using typescript all elements must have a type declaration and since

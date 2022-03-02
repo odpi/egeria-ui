@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { types } from '../../services/user.service';
-import { egeriaFetch } from '../../helpers/egeria-fetch';
+import { types } from '../../../services/user.service';
+import { egeriaFetch } from '../../../helpers/egeria-fetch';
 import '@vaadin/vaadin-grid/vaadin-grid.js';
 import '@vaadin/vaadin-grid/vaadin-grid-column.js';
 import '@vaadin/vaadin-grid/vaadin-grid-filter.js';
@@ -9,7 +9,7 @@ import '@vaadin/vaadin-grid/vaadin-grid-sorter.js';
 import '@vaadin/vaadin-grid/vaadin-grid-sort-column.js';
 import '@vaadin/vaadin-grid/vaadin-grid-filter-column.js';
 import '@vaadin/vaadin-checkbox/vaadin-checkbox.js';
-import { getComponent } from "../../helpers/commons";
+import { getComponent } from "../../../helpers/commons";
 import { itemDescription, itemName } from "./helpers";
 import QualifiedName from "./qualified-name";
 
