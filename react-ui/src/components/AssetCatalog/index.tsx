@@ -166,6 +166,11 @@ class AssetCatalog extends React.Component<Props, State> {
             data: data,
             isLoading: false
           });
+        }).catch(() => {
+          // TODO: handle event for future generic alert implementation
+          this.setState({
+            isLoading: false
+          });
         });
       }
     });
