@@ -182,7 +182,7 @@ class AssetCatalog extends React.Component<Props, State> {
     const qualifiedName: any = getComponent('#qualified-name');
 
     displayName.renderer = (root: any, grid: any, rowData: any) => {
-      root.innerHTML = `<a href="/react-ui/assets/${rowData.item.guid}/details" target="_blank">${ itemName(rowData.item) }</a>`;
+      root.innerHTML = `<a href="/${process.env.REACT_APP_ROOT_PATH}/assets/${rowData.item.guid}/details" target="_blank">${ itemName(rowData.item) }</a>`;
     };
 
     description.renderer = (root: any, grid: any, rowData: any) => {
@@ -290,7 +290,7 @@ class AssetCatalog extends React.Component<Props, State> {
     return(
       <bx-breadcrumb role="nav">
         <bx-breadcrumb-item role="listitem">
-          <bx-breadcrumb-link href="/react-ui">Home</bx-breadcrumb-link>
+          <bx-breadcrumb-link href={process.env.REACT_APP_ROOT_PATH}>Home</bx-breadcrumb-link>
         </bx-breadcrumb-item>
 
         <bx-breadcrumb-item role="listitem">
@@ -298,7 +298,7 @@ class AssetCatalog extends React.Component<Props, State> {
         </bx-breadcrumb-item>
 
         <bx-breadcrumb-item role="listitem">
-          <bx-breadcrumb-link href="/react-ui/assets/catalog" size="">Catalog</bx-breadcrumb-link>
+          <bx-breadcrumb-link href={`${process.env.REACT_APP_ROOT_PATH}/assets/catalog`} size="">Catalog</bx-breadcrumb-link>
         </bx-breadcrumb-item>
       </bx-breadcrumb>
     );

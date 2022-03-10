@@ -8,7 +8,7 @@ import Layout from './components/Layout';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Router basename={'react-ui'}>
+    <Router basename={process.env.REACT_APP_ROOT_PATH}>
       <Switch>
         <Route path="/login" component={SignIn} />
         <Route path="/" component={Layout} />

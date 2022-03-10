@@ -114,25 +114,25 @@ class App extends React.Component<Props, State> {
 
           <vaadin-tabs orientation="vertical" slot="drawer" selected="-1">
             <vaadin-tab>
-              <a href="/react-ui/">
+              <a href={`${process.env.REACT_APP_ROOT_PATH}`}>
                 <iron-icon icon="icons:home"></iron-icon>
                 Home
               </a>
             </vaadin-tab>
             <vaadin-tab>
-              <a href="/react-ui/about">
+              <a href={`${process.env.REACT_APP_ROOT_PATH}/about`}>
                 <iron-icon icon="lumo:cog"></iron-icon>
                 About
               </a>
             </vaadin-tab>
             <vaadin-tab>
-              <a href="/react-ui/assets/catalog">
+              <a href={`${process.env.REACT_APP_ROOT_PATH}/assets/catalog`}>
                 <iron-icon icon="lumo:cog"></iron-icon>
                 Catalog
               </a>
             </vaadin-tab>
             { user && <vaadin-tab>
-                <a href="/" onClick={ () => this.logout() }>
+                <a href={process.env.REACT_APP_ROOT_PATH} onClick={ () => this.logout() }>
                   <iron-icon icon="lumo:user"></iron-icon>
                   Logout
                 </a>

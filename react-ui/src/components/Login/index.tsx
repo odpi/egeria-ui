@@ -55,7 +55,7 @@ class Login extends React.Component<Props, State> {
           }
         });
       } else {
-        window.location.href = "/react-ui";
+        window.location.href = `${process.env.REACT_APP_ROOT_PATH}`;
       }
 
       this.setState({
