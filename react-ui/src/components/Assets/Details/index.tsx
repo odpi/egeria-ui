@@ -82,15 +82,15 @@ class AssetDetails extends React.Component<Props, State> {
     return(
       <bx-breadcrumb role="nav">
         <bx-breadcrumb-item role="listitem">
-          <bx-breadcrumb-link href="/react-ui" size="">Home</bx-breadcrumb-link>
+          <bx-breadcrumb-link href={`${process.env.REACT_APP_ROOT_PATH}`} size="">Home</bx-breadcrumb-link>
         </bx-breadcrumb-item>
 
         <bx-breadcrumb-item role="listitem">
-          <bx-breadcrumb-link href="/react-ui/assets/catalog" size="">Catalog</bx-breadcrumb-link>
+          <bx-breadcrumb-link href={`${process.env.REACT_APP_ROOT_PATH}/assets/catalog`} size="">Catalog</bx-breadcrumb-link>
         </bx-breadcrumb-item>
 
         <bx-breadcrumb-item role="listitem">
-          <bx-breadcrumb-link href={`/assets/${ match.params.uuid }/details`}>{ match.params.uuid }</bx-breadcrumb-link>
+          <bx-breadcrumb-link href={`${process.env.REACT_APP_ROOT_PATH}/assets/${ match.params.uuid }/details`}>{ match.params.uuid }</bx-breadcrumb-link>
         </bx-breadcrumb-item>
 
         <bx-breadcrumb-item role="listitem">

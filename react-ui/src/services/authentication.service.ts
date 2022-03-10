@@ -102,5 +102,5 @@ function logout() {
 
   console.log('logged out');
 
-  window.location.href = "/react-ui";
+  window.location.href = `${process.env.REACT_APP_ROOT_PATH}`;
 }
