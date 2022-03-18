@@ -103,8 +103,6 @@ class AssetDetails extends React.Component<Props, State> {
   render() {
     const { asset } = this.state;
 
-    console.log(asset);
-
     return (
       <div>
         { this.renderBreadcrumbSample() }
