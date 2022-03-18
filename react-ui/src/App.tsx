@@ -18,6 +18,7 @@ import { PrivateRoute } from './components/PrivateRoute';
 import AssetDetails from './components/Assets/Details';
 import { authenticationService } from './services/authentication.service';
 import AssetCatalog from './components/Assets/Catalog';
+import Lineage from './components/Lineage';
 
 /*
  * By using typescript all elements must have a type declaration and since
@@ -120,6 +121,12 @@ class App extends React.Component<Props, State> {
               </a>
             </vaadin-tab>
             <vaadin-tab>
+              <a href={`${process.env.REACT_APP_ROOT_PATH}/lineage`}>
+                <iron-icon icon="icons:home"></iron-icon>
+                Lineage
+              </a>
+            </vaadin-tab>
+            <vaadin-tab>
               <a href={`${process.env.REACT_APP_ROOT_PATH}/about`}>
                 <iron-icon icon="lumo:cog"></iron-icon>
                 About
@@ -152,6 +159,8 @@ class App extends React.Component<Props, State> {
               <PrivateRoute exact path="/assets/:uuid/details" component={AssetDetails} />
 
               <PrivateRoute exact path="/assets/catalog" component={AssetCatalog} />
+
+              <PrivateRoute exact path="/lineage" component={Lineage} />
 
               <Route path={`/about-lit`}>
                 <egeria-about-lit></egeria-about-lit>
