@@ -54,7 +54,7 @@ function login(username: string, password: string) {
     body: new URLSearchParams(`username=${username}&password=${password}`)
   };
 
-  return fetch(`/api/auth/login`, requestOptions)
+  return fetch(`${process.env.REACT_APP_API_URL}/api/auth/login`, requestOptions)
     .then((response) => {
       if(response.ok) {
         const token = response.headers.get('x-auth-token');

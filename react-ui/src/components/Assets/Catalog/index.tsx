@@ -182,7 +182,7 @@ class AssetCatalog extends React.Component<Props, State> {
     const qualifiedName: any = getComponent('#qualified-name');
 
     displayName.renderer = (root: any, grid: any, rowData: any) => {
-      root.innerHTML = `<a href="/${process.env.REACT_APP_ROOT_PATH}/assets/${rowData.item.guid}/details" target="_blank">${ itemName(rowData.item) }</a>`;
+      root.innerHTML = `<a href="${process.env.REACT_APP_ROOT_PATH}/assets/${rowData.item.guid}/details" target="_blank">${ itemName(rowData.item) }</a>`;
     };
 
     description.renderer = (root: any, grid: any, rowData: any) => {

@@ -23,7 +23,9 @@ const egeriaFetch = (endpoint: string, options: any) => {
     ...options
   };
 
-  return fetch(endpoint, requestOptions).then(handleResponse);
+  const apiUrl = process.env.REACT_APP_API_URL || '';
+
+  return fetch(`${apiUrl}${endpoint}`, requestOptions).then(handleResponse);
 }
 
 export {
