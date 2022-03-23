@@ -352,7 +352,7 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
               .pop();
           return {
             from: fromNode,
-            mapping: e.type,
+            mapping: e.label,
             to: toNode
           };
         })
