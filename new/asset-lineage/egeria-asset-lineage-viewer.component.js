@@ -68,6 +68,16 @@ class EgeriaAssetLineageViewer extends PolymerElement {
     window.dispatchEvent(evt);
   }
 
+  showListView() {
+    let evt = new CustomEvent('egeria-toggle-graph-list', {
+      detail: {},
+      bubbles: true,
+      composed: true
+    });
+
+    window.dispatchEvent(evt);
+  }
+
   onToggleETLJobs() {
     let evt = new CustomEvent('egeria-toggle-etl-jobs', {
       detail: {},
@@ -102,6 +112,11 @@ class EgeriaAssetLineageViewer extends PolymerElement {
           background-color: var(--egeria-background-color);
           height: 100%;
         }
+
+        .flex-vertical{
+          display: flex; 
+          flex-flow: column;
+        }
       </style>
 
       <div class="container">
@@ -122,8 +137,9 @@ class EgeriaAssetLineageViewer extends PolymerElement {
             </template>
           </div>
 
-          <div slot="post-actions">
-            <paper-icon-button icon="icons:assessment" on-click="showStatistics"></paper-icon-button>
+          <div slot="post-actions" class="flex-vertical">
+            <paper-icon-button title="Statistics" icon="icons:assessment" on-click="showStatistics"></paper-icon-button>
+            <paper-icon-button title="List of relationships" icon="icons:list" on-click="showListView"></paper-icon-button>
           </div>
         </happi-graph>
       </div>

@@ -42,6 +42,10 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
         type: Object,
         value: {}
       },
+      graphMappings: {
+        type: Object,
+        value: {}
+      },
 
       pageList: {
         type: Object,
@@ -216,6 +220,10 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
       this.toggleStatistics();
     });
 
+    window.addEventListener('egeria-toggle-graph-list', e => {
+      this.showGraphList();
+    });
+
     window.addEventListener('egeria-toggle-etl-jobs', e => {
       this.onToggleETLJobs();
     });
@@ -328,6 +336,35 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
     this.shadowRoot.querySelector('#paper-dialog-statistics').open();
   }
 
+  showGraphList() {
+    let _nodes = this.graphData.nodes;
+    let _links = this.graphData.links;
+
+    if(_links.length) {
+
+      this.graphMappings = [
+        ...Object(_links).map(e => {
+          let fromNode = _nodes
+              .filter(n => n.id === e.from)
+              .pop();
+          let toNode = _nodes
+              .filter(n => n.id === e.to)
+              .pop();
+          return {
+            from: fromNode,
+            mapping: e.type,
+            to: toNode
+          };
+        })
+      ];
+
+    } else {
+      this.graphMappings = [];
+    }
+
+    this.shadowRoot.querySelector('#paper-dialog-relations').open();
+  }
+
   static get template() {
     return html`
       <style>
@@ -364,7 +401,14 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
         .pull-right {
           display: flex;
           justify-content: flex-end;
+          align-items: center;
         }
+        
+        .flex-box {
+          display: flex;
+          flex: 1;
+        }
+        
       </style>
 
 
@@ -500,6 +544,73 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
                   </template>
                   <template>[[ item.occurrences ]]</template>
                 </vaadin-grid-column>
+              </vaadin-grid>
+            </div>
+          </paper-dialog>
+
+          <paper-dialog id="paper-dialog-relations"
+                        class="paper-dialog-relations"
+                        allow-click-through="[[ false ]]">
+            <div class="local-wrapper">
+              <div class="pull-right">
+                <h3 class="flex-box">List of graph relations</h3>
+                <paper-icon-button dialog-confirm icon="icons:close"></paper-icon-button>
+              </div>
+
+              
+              <!-- extract this to separate component -->
+              <vaadin-grid id="statistics-grid" items="[[ graphMappings ]]" theme="row-stripes">
+                <vaadin-grid-column >
+                  <template class="header">
+                    <div>
+                      <vaadin-grid-sorter path="from.label">Source</vaadin-grid-sorter>
+                    </div>
+                  </template>
+                  <template>
+                    [[ item.from.label ]]
+                  </template>
+                </vaadin-grid-column>
+
+                <vaadin-grid-column >
+                  <template class="header">
+                    <div>
+                      <vaadin-grid-sorter path="from.group">Source type</vaadin-grid-sorter>
+                    </div>
+                  </template>
+                  <template>
+                    [[ item.from.group ]] 
+                  </template>
+                </vaadin-grid-column>
+
+                <vaadin-grid-column >
+                  <template class="header">
+                    <div>
+                      <vaadin-grid-sorter path="mapping">Mapping</vaadin-grid-sorter>
+                    </div>
+                  </template>
+                  <template>
+                    [[ item.mapping ]]
+                  </template>
+                </vaadin-grid-column>
+
+                <vaadin-grid-column>
+                  <template class="header">
+                    <div>
+                      <vaadin-grid-sorter path="to.label">Target</vaadin-grid-sorter>
+                    </div>
+                  </template>
+                  <template>[[ item.to.label ]]</template>
+                </vaadin-grid-column>
+
+                <vaadin-grid-column>
+                  <template class="header">
+                    <div>
+                      <vaadin-grid-sorter path="to.group">Target type</vaadin-grid-sorter>
+                    </div>
+                  </template>
+                  <template>[[ item.to.group ]]</template>
+                </vaadin-grid-column>
+                
               </vaadin-grid>
             </div>
           </paper-dialog>
