@@ -395,7 +395,7 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
         }
 
         .local-wrapper {
-          width:730px;
+          width:1024px;
         }
 
         .pull-right {
@@ -520,6 +520,7 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
                         allow-click-through="[[ false ]]">
             <div class="local-wrapper">
               <div class="pull-right">
+                <h3 class="flex-box">Graph statistics</h3>
                 <paper-icon-button dialog-confirm icon="icons:close"></paper-icon-button>
               </div>
 
