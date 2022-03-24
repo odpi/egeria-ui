@@ -566,6 +566,9 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
                     <div>
                       <vaadin-grid-sorter path="from.label">Source</vaadin-grid-sorter>
                     </div>
+                    <div>
+                      <vaadin-grid-filter path="from.label"></vaadin-grid-filter>
+                    </div>
                   </template>
                   <template>
                     [[ item.from.label ]]
@@ -576,6 +579,9 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
                   <template class="header">
                     <div>
                       <vaadin-grid-sorter path="from.group">Source type</vaadin-grid-sorter>
+                    </div>
+                    <div>
+                      <vaadin-grid-filter path="from.group"></vaadin-grid-filter>
                     </div>
                   </template>
                   <template>
@@ -588,6 +594,9 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
                     <div>
                       <vaadin-grid-sorter path="mapping">Mapping</vaadin-grid-sorter>
                     </div>
+                    <div>
+                      <vaadin-grid-filter path="mapping"></vaadin-grid-filter>
+                    </div>
                   </template>
                   <template>
                     [[ item.mapping ]]
@@ -599,6 +608,9 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
                     <div>
                       <vaadin-grid-sorter path="to.label">Target</vaadin-grid-sorter>
                     </div>
+                    <div>
+                      <vaadin-grid-filter path="to.label"></vaadin-grid-filter>
+                    </div>
                   </template>
                   <template>[[ item.to.label ]]</template>
                 </vaadin-grid-column>
@@ -607,6 +619,9 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
                   <template class="header">
                     <div>
                       <vaadin-grid-sorter path="to.group">Target type</vaadin-grid-sorter>
+                    </div>
+                    <div>
+                      <vaadin-grid-filter path="to.group"></vaadin-grid-filter>
                     </div>
                   </template>
                   <template>[[ item.to.group ]]</template>
