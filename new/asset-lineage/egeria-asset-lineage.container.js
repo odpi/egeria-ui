@@ -365,6 +365,11 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
     this.shadowRoot.querySelector('#paper-dialog-relations').open();
   }
 
+  highlightClass(id ){
+    console.log(id === this.graphData.selectedNodeId ? 'highlight' : 'no');
+    return id === this.graphData.selectedNodeId ? 'highlight' : '';
+  }
+
   static get template() {
     return html`
       <style>
@@ -407,6 +412,11 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
         .flex-box {
           display: flex;
           flex: 1;
+        }
+        
+        .highlight {
+          color:  var(--egeria-primary-color);
+          font-style: italic;
         }
         
       </style>
@@ -571,7 +581,9 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
                     </div>
                   </template>
                   <template>
-                    [[ item.from.label ]]
+                    <div class$="[[ highlightClass( item.from.id ) ]]">
+                        [[ item.from.label ]]
+                    </div>
                   </template>
                 </vaadin-grid-column>
 
@@ -585,7 +597,9 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
                     </div>
                   </template>
                   <template>
-                    [[ item.from.group ]] 
+                    <div class$="[[ highlightClass( item.from.id ) ]]">
+                        [[ item.from.group ]]
+                    </div>
                   </template>
                 </vaadin-grid-column>
 
@@ -612,7 +626,11 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
                       <vaadin-grid-filter path="to.label"></vaadin-grid-filter>
                     </div>
                   </template>
-                  <template>[[ item.to.label ]]</template>
+                  <template>
+                    <div class$="[[ highlightClass( item.to.id ) ]]">
+                      [[ item.to.label ]]
+                    </div>
+                  </template>
                 </vaadin-grid-column>
 
                 <vaadin-grid-column>
@@ -624,7 +642,11 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
                       <vaadin-grid-filter path="to.group"></vaadin-grid-filter>
                     </div>
                   </template>
-                  <template>[[ item.to.group ]]</template>
+                  <template>
+                    <div class$="[[ highlightClass( item.to.id ) ]]">
+                      [[ item.to.group ]]
+                    </div>
+                  </template>
                 </vaadin-grid-column>
                 
               </vaadin-grid>
