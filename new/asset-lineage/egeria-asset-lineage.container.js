@@ -417,6 +417,7 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
         .highlight {
           color:  var(--egeria-primary-color);
           font-style: italic;
+          font-weight: bold;
         }
         
       </style>
