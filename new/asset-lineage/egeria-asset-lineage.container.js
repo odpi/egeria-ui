@@ -365,9 +365,21 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
     this.shadowRoot.querySelector('#paper-dialog-relations').open();
   }
 
-  highlightClass(id ){
-    console.log(id === this.graphData.selectedNodeId ? 'highlight' : 'no');
+  highlightClass( id ){
     return id === this.graphData.selectedNodeId ? 'highlight' : '';
+  }
+
+  _exportCSV(){
+    const rows = [
+
+    ];
+
+    let csvContent = "data:text/csv;charset=utf-8,"
+        + rows.map(e => e.join(",")).join("\n");
+
+    var encodedUri = encodeURI(csvContent);
+
+    window.open(encodedUri);
   }
 
   static get template() {
@@ -412,6 +424,7 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
         .flex-box {
           display: flex;
           flex: 1;
+          align-items: center;
         }
         
         .highlight {
@@ -565,7 +578,10 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
                         allow-click-through="[[ false ]]">
             <div class="local-wrapper">
               <div class="pull-right">
-                <h3 class="flex-box">List of graph relations</h3>
+                <div class="flex-box">
+                    <h3>List of graph relations</h3>
+                    <paper-icon-button icon="icons:file-download" on-click="_exportCSV"></paper-icon-button>
+                </div>
                 <paper-icon-button dialog-confirm icon="icons:close"></paper-icon-button>
               </div>
 
