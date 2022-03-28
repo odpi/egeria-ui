@@ -369,7 +369,7 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
     return id === this.graphData.selectedNodeId ? 'highlight' : '';
   }
 
-  _exportCSV(){
+  exportCSV(){
 
     let csvContent = "data:text/csv;charset=utf-8,"
         + ['from','from-type','mapping','target','target-type'].toString() + ('\n')
@@ -596,7 +596,7 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
               <div class="pull-right">
                 <div class="flex-box">
                     <h3>List of graph relations</h3>
-                    <paper-icon-button icon="icons:file-download" on-click="_exportCSV"></paper-icon-button>
+                    <paper-icon-button icon="icons:file-download" on-click="exportCSV" title="Export CSV"></paper-icon-button>
                 </div>
                 <paper-icon-button dialog-confirm icon="icons:close"></paper-icon-button>
               </div>
