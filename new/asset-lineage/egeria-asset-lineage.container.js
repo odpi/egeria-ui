@@ -365,6 +365,39 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
     this.shadowRoot.querySelector('#paper-dialog-relations').open();
   }
 
+  highlightClass( id ){
+    return id === this.graphData.selectedNodeId ? 'highlight' : '';
+  }
+
+  exportCSV(){
+
+    let csvContent = "data:text/csv;charset=utf-8,"
+        + ['from','from-type','mapping','target','target-type'].toString() + ('\n')
+        + this.createCSVContent(this.graphMappings);
+
+    var encodedUri = encodeURI(csvContent);
+
+    var link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", this.graphData.selectedNodeId + ".csv");
+    document.body.appendChild(link); // Required for FF
+
+    link.click(); // This will download the data file
+
+    document.body.removeChild(link);
+  }
+
+  createCSVContent(arr) {
+    const array = [...arr];
+
+    return array.map(it => {
+      return it.from.label + ',' + it.from.group + ','
+              + it.mapping + ','
+              + it.to.label + ',' + it.to.group;
+    }).join('\n');
+  }
+
+
   static get template() {
     return html`
       <style>
@@ -407,6 +440,13 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
         .flex-box {
           display: flex;
           flex: 1;
+          align-items: center;
+        }
+        
+        .highlight {
+          color:  var(--egeria-primary-color);
+          font-style: italic;
+          font-weight: bold;
         }
         
       </style>
@@ -554,7 +594,10 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
                         allow-click-through="[[ false ]]">
             <div class="local-wrapper">
               <div class="pull-right">
-                <h3 class="flex-box">List of graph relations</h3>
+                <div class="flex-box">
+                    <h3>List of graph relations</h3>
+                    <paper-icon-button icon="icons:file-download" on-click="exportCSV" title="Export CSV"></paper-icon-button>
+                </div>
                 <paper-icon-button dialog-confirm icon="icons:close"></paper-icon-button>
               </div>
 
@@ -571,7 +614,9 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
                     </div>
                   </template>
                   <template>
-                    [[ item.from.label ]]
+                    <div class$="[[ highlightClass( item.from.id ) ]]">
+                        [[ item.from.label ]]
+                    </div>
                   </template>
                 </vaadin-grid-column>
 
@@ -585,7 +630,9 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
                     </div>
                   </template>
                   <template>
-                    [[ item.from.group ]] 
+                    <div class$="[[ highlightClass( item.from.id ) ]]">
+                        [[ item.from.group ]]
+                    </div>
                   </template>
                 </vaadin-grid-column>
 
@@ -612,7 +659,11 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
                       <vaadin-grid-filter path="to.label"></vaadin-grid-filter>
                     </div>
                   </template>
-                  <template>[[ item.to.label ]]</template>
+                  <template>
+                    <div class$="[[ highlightClass( item.to.id ) ]]">
+                      [[ item.to.label ]]
+                    </div>
+                  </template>
                 </vaadin-grid-column>
 
                 <vaadin-grid-column>
@@ -624,7 +675,11 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
                       <vaadin-grid-filter path="to.group"></vaadin-grid-filter>
                     </div>
                   </template>
-                  <template>[[ item.to.group ]]</template>
+                  <template>
+                    <div class$="[[ highlightClass( item.to.id ) ]]">
+                      [[ item.to.group ]]
+                    </div>
+                  </template>
                 </vaadin-grid-column>
                 
               </vaadin-grid>
