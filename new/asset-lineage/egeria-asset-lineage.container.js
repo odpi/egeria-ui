@@ -370,17 +370,33 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
   }
 
   _exportCSV(){
-    const rows = [
-
-    ];
 
     let csvContent = "data:text/csv;charset=utf-8,"
-        + rows.map(e => e.join(",")).join("\n");
+        + ['from','from-type','mapping','target','target-type'].toString() + ('\n')
+        + this.createCSVContent(this.graphMappings);
 
     var encodedUri = encodeURI(csvContent);
 
-    window.open(encodedUri);
+    var link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", this.graphData.selectedNodeId + ".csv");
+    document.body.appendChild(link); // Required for FF
+
+    link.click(); // This will download the data file
+
+    document.body.removeChild(link);
   }
+
+  createCSVContent(arr) {
+    const array = [...arr];
+
+    return array.map(it => {
+      return it.from.label + ',' + it.from.group + ','
+              + it.mapping + ','
+              + it.to.label + ',' + it.to.group;
+    }).join('\n');
+  }
+
 
   static get template() {
     return html`
