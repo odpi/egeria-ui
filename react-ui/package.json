@@ -16,6 +16,7 @@
     "@types/node": "^12.20.37",
     "@types/react": "^17.0.37",
     "@types/react-dom": "^17.0.11",
+    "@types/vis": "^4.21.23",
     "@vaadin/button": "^22.0.3",
     "@vaadin/context-menu": "^22.0.2",
     "@vaadin/vaadin-app-layout": "^22.0.2",
@@ -25,7 +26,9 @@
     "@vaadin/vaadin-tabs": "^22.0.2",
     "@vaadin/vaadin-text-field": "^22.0.3",
     "carbon-web-components": "^1.20.0",
+    "d3": "^7.3.0",
     "egeria-js-commons": "github:odpi/egeria-js-commons#main",
+    "elkjs": "^0.7.1",
     "happi-graph": "github:sarbull/happi-graph-1#happi-graph-in-react",
     "history": "^5.2.0",
     "http-proxy-middleware": "^2.0.1",
@@ -39,7 +42,9 @@
     "react-scripts": "5.0.0",
     "rxjs": "^7.5.1",
     "typescript": "^4.5.2",
-    "web-vitals": "^1.1.2"
+    "vis-network": "^9.0.4",
+    "web-vitals": "^1.1.2",
+    "web-worker": "^1.2.0"
   },
   "scripts": {
     "preinstall": "node preinstall.js",
@@ -67,9 +72,12 @@
     ]
   },
   "jest": {
-    "transformIgnorePatterns": ["/node_modules/(?!egeria-js-commons)"]
+    "transformIgnorePatterns": [
+      "/node_modules/(?!egeria-js-commons)"
+    ]
   },
   "devDependencies": {
+    "@types/d3": "^7.1.0",
     "@types/enzyme": "^3.10.10",
     "@types/react-router-dom": "^5.3.1",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.6.5",
