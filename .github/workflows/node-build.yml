@@ -20,7 +20,7 @@ jobs:
         id: check
         uses: EndBug/version-check@v1
       - name: Setup Node.js
-        uses: actions/setup-node@v2.1.5
+        uses: actions/setup-node@v3.1.0
         with:
           # Polymer requires Node 10 LTS (not 12,14)
           node-version: "10.13.0"
