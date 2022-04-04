@@ -95,8 +95,8 @@ class EgeriaSinglePage extends mixinBehaviors(RoleComponentsBehavior, PolymerEle
   maximize() {
     let content = this.shadowRoot.querySelector('#content');
     let fullscreenPopup = this.shadowRoot.querySelector('#fullscreen-popup');
-
-    fullscreenPopup.appendChild(content);
+    let contentCopy = content;
+    fullscreenPopup.appendChild(contentCopy);
     fullscreenPopup.open();
   }
 
@@ -107,12 +107,6 @@ class EgeriaSinglePage extends mixinBehaviors(RoleComponentsBehavior, PolymerEle
     fullscreenPopup.removeChild(content);
     headerLayout.appendChild(content);
     this.shadowRoot.querySelector('#fullscreen-popup').close();
-  }
-
-  beforePopupClose() {
-    let content = this.shadowRoot.querySelector('#content');
-    let headerLayout = this.shadowRoot.querySelector('#header-layout');
-    headerLayout.appendChild(content);
   }
 
   ready() {
@@ -374,10 +368,10 @@ class EgeriaSinglePage extends mixinBehaviors(RoleComponentsBehavior, PolymerEle
       </paper-dialog>
 
       <template is="dom-if" if="[[ _isEqualTo(page, 'asset-lineage') ]]" restamp="true">
-        <paper-dialog id="fullscreen-popup" class="fullscreen" on-iron-overlay-closed="beforePopupClose">
-          <div>
-            <paper-icon-button class ="minmax" title="Minimize" icon="icons:fullscreen-exit" on-click="minimize"></paper-icon-button>
-          </div>
+        <paper-dialog id="fullscreen-popup" class="fullscreen" modal allow-click-through="[[ false ]]">
+        <div>
+          <paper-icon-button class ="minmax" title="Minimize" icon="icons:fullscreen-exit" on-click="minimize"></paper-icon-button>
+        </div>
         </paper-dialog>
       </template>
 
