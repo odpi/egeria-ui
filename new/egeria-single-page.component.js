@@ -70,12 +70,26 @@ class EgeriaSinglePage extends mixinBehaviors(RoleComponentsBehavior, PolymerEle
     }
   }
 
+
+  beforePageChange() {
+    let popup = this.shadowRoot.querySelector('#fullscreen-popup')
+    if (popup) {
+      let isOpen = popup.opened;
+      if (isOpen) {
+        let assetLineage = this.shadowRoot.querySelector('#asset-lineage');
+        let content = this.shadowRoot.querySelector('#content');
+        content.appendChild(assetLineage);
+      }
+    }
+  }
+
   _pagesChanged(newPages) {
     if(newPages && newPages.length >= 0) {
       const [removed, ...newArr] = this.pages;
 
       this.page = removed;
       this.nextPages = newArr;
+      this.beforePageChange();
     }
   }
 
@@ -93,21 +107,30 @@ class EgeriaSinglePage extends mixinBehaviors(RoleComponentsBehavior, PolymerEle
   }
 
   maximize() {
-    let content = this.shadowRoot.querySelector('#content');
+    let assetLineage = this.shadowRoot.querySelector('#asset-lineage');
     let fullscreenPopup = this.shadowRoot.querySelector('#fullscreen-popup');
-    let contentCopy = content;
-    fullscreenPopup.appendChild(contentCopy);
+    fullscreenPopup.appendChild(assetLineage);
     fullscreenPopup.open();
   }
 
   minimize () {
+    let assetLineage = this.shadowRoot.querySelector('#asset-lineage');
     let content = this.shadowRoot.querySelector('#content');
-    let headerLayout = this.shadowRoot.querySelector('#header-layout');
     let fullscreenPopup = this.shadowRoot.querySelector('#fullscreen-popup');
-    fullscreenPopup.removeChild(content);
-    headerLayout.appendChild(content);
-    this.shadowRoot.querySelector('#fullscreen-popup').close();
+    fullscreenPopup.removeChild(assetLineage);
+    content.appendChild(assetLineage);
+    fullscreenPopup.close();
   }
+
+  beforeFullscreenPopupClose() {
+    let isOpen = this.shadowRoot.querySelector('#fullscreen-popup').opened;
+    if (!isOpen) {
+      let assetLineage = this.shadowRoot.querySelector('#asset-lineage');
+      let content = this.shadowRoot.querySelector('#content');
+      content.appendChild(assetLineage);
+    }
+  }
+
 
   ready() {
     super.ready();
@@ -337,7 +360,8 @@ class EgeriaSinglePage extends mixinBehaviors(RoleComponentsBehavior, PolymerEle
           </template>
 
           <template is="dom-if" if="[[ _isEqualTo(page, 'asset-lineage') ]]" restamp="true">
-            <egeria-asset-lineage pages="[[ nextPages ]]"
+            <egeria-asset-lineage id ="asset-lineage" 
+                pages="[[ nextPages ]]"
                                   components="[[ components ]]"></egeria-asset-lineage>
           </template>
 
@@ -368,7 +392,7 @@ class EgeriaSinglePage extends mixinBehaviors(RoleComponentsBehavior, PolymerEle
       </paper-dialog>
 
       <template is="dom-if" if="[[ _isEqualTo(page, 'asset-lineage') ]]" restamp="true">
-        <paper-dialog id="fullscreen-popup" class="fullscreen" modal allow-click-through="[[ false ]]">
+        <paper-dialog id="fullscreen-popup" modal class="fullscreen" on-iron-overlay-closed="beforeFullscreenPopupClose" allow-click-through="[[ false ]]" >
         <div>
           <paper-icon-button class ="minmax" title="Minimize" icon="icons:fullscreen-exit" on-click="minimize"></paper-icon-button>
         </div>
