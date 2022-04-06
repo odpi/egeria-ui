@@ -92,6 +92,23 @@ class EgeriaSinglePage extends mixinBehaviors(RoleComponentsBehavior, PolymerEle
     return a === b;
   }
 
+  maximize() {
+    let content = this.shadowRoot.querySelector('#content');
+    let fullscreenPopup = this.shadowRoot.querySelector('#fullscreen-popup');
+    let contentCopy = content;
+    fullscreenPopup.appendChild(contentCopy);
+    fullscreenPopup.open();
+  }
+
+  minimize () {
+    let content = this.shadowRoot.querySelector('#content');
+    let headerLayout = this.shadowRoot.querySelector('#header-layout');
+    let fullscreenPopup = this.shadowRoot.querySelector('#fullscreen-popup');
+    fullscreenPopup.removeChild(content);
+    headerLayout.appendChild(content);
+    this.shadowRoot.querySelector('#fullscreen-popup').close();
+  }
+
   ready() {
     super.ready();
 
@@ -223,6 +240,22 @@ class EgeriaSinglePage extends mixinBehaviors(RoleComponentsBehavior, PolymerEle
           height:calc(100vh - 104px);
           margin:var(--egeria-view-margin);
         }
+        
+        .fullscreen {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          padding: 0;
+          margin: 0;
+        }
+        
+        .minmax {
+          position: relative;
+          float: right;
+          color: var(--egeria-primary-color);
+        }
       </style>
 
       <app-drawer-layout id="drawerLayout"
@@ -261,7 +294,7 @@ class EgeriaSinglePage extends mixinBehaviors(RoleComponentsBehavior, PolymerEle
           </iron-selector>
         </app-drawer>
 
-        <app-header-layout>
+        <app-header-layout id = "header-layout">
           <app-header slot="header" condenses fixed effects="waterfall">
             <app-toolbar>
               <paper-icon-button on-tap="_toggleDrawer" id="toggle" icon="menu"></paper-icon-button>
@@ -290,8 +323,14 @@ class EgeriaSinglePage extends mixinBehaviors(RoleComponentsBehavior, PolymerEle
               <egeria-breadcrumb id="breadcrumb" crumbs="[[ crumbs ]]"></egeria-breadcrumb>
             </div>
           </app-header>
-
-        <div class="content">
+          
+          <template is="dom-if" if="[[ _isEqualTo(page, 'asset-lineage') ]]" restamp="true">
+            <div>
+              <paper-icon-button class="minmax" title="maximize" icon="icons:fullscreen" on-click="maximize"></paper-icon-button>
+            </div>
+          </template>
+          
+        <div class="content" id = "content">
           <template is="dom-if" if="[[ _isEqualTo(page, 'asset-catalog') ]]" restamp="true">
             <egeria-asset-catalog pages="[[ nextPages ]]"
                                   components="[[ components ]]"></egeria-asset-catalog>
@@ -327,6 +366,15 @@ class EgeriaSinglePage extends mixinBehaviors(RoleComponentsBehavior, PolymerEle
           <paper-button dialog-confirm autofocus>OK</paper-button>
         </div>
       </paper-dialog>
+
+      <template is="dom-if" if="[[ _isEqualTo(page, 'asset-lineage') ]]" restamp="true">
+        <paper-dialog id="fullscreen-popup" class="fullscreen" modal allow-click-through="[[ false ]]">
+        <div>
+          <paper-icon-button class ="minmax" title="Minimize" icon="icons:fullscreen-exit" on-click="minimize"></paper-icon-button>
+        </div>
+        </paper-dialog>
+      </template>
+
 
       <egeria-spinner id="spinner"
                       with-backdrop
