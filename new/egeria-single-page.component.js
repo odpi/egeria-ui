@@ -89,7 +89,6 @@ class EgeriaSinglePage extends mixinBehaviors(RoleComponentsBehavior, PolymerEle
 
       this.page = removed;
       this.nextPages = newArr;
-      this.beforePageChange();
     }
   }
 
@@ -107,18 +106,22 @@ class EgeriaSinglePage extends mixinBehaviors(RoleComponentsBehavior, PolymerEle
   }
 
   maximize() {
-    let assetLineage = this.shadowRoot.querySelector('#asset-lineage');
+    const EgeriaAssetLineage = customElements.get('egeria-asset-lineage');
+    let fullscreenGraph = new EgeriaAssetLineage();
+    fullscreenGraph.id = "fullscreen-view"
+    fullscreenGraph.pages = this.nextPages;
+    fullscreenGraph.components = this.components;
+    fullscreenGraph.fullscreen = true;
     let fullscreenPopup = this.shadowRoot.querySelector('#fullscreen-popup');
-    fullscreenPopup.appendChild(assetLineage);
+    fullscreenPopup.appendChild(fullscreenGraph);
     fullscreenPopup.open();
+
   }
 
   minimize () {
-    let assetLineage = this.shadowRoot.querySelector('#asset-lineage');
-    let content = this.shadowRoot.querySelector('#content');
+    let assetLineage = this.shadowRoot.querySelector('#fullscreen-view');
     let fullscreenPopup = this.shadowRoot.querySelector('#fullscreen-popup');
     fullscreenPopup.removeChild(assetLineage);
-    content.appendChild(assetLineage);
     fullscreenPopup.close();
   }
 
@@ -151,6 +154,12 @@ class EgeriaSinglePage extends mixinBehaviors(RoleComponentsBehavior, PolymerEle
 
     window.addEventListener('egeria-update-breadcrumb', e => {
       this.crumbs = e.detail.breadcrumbs;
+    });
+    window.addEventListener('egeria-toggle-fullscreen', e => {
+      this.maximize();
+    });
+    window.addEventListener('egeria-toggle-exit-fullscreen', e => {
+      this.minimize();
     });
   }
 
@@ -271,7 +280,7 @@ class EgeriaSinglePage extends mixinBehaviors(RoleComponentsBehavior, PolymerEle
           right: 0;
           bottom: 0;
           padding: 0;
-          margin: 0;
+          margin: 20px;
         }
         
         .minmax {
@@ -348,9 +357,7 @@ class EgeriaSinglePage extends mixinBehaviors(RoleComponentsBehavior, PolymerEle
           </app-header>
           
           <template is="dom-if" if="[[ _isEqualTo(page, 'asset-lineage') ]]" restamp="true">
-            <div>
-              <paper-icon-button class="minmax" title="maximize" icon="icons:fullscreen" on-click="maximize"></paper-icon-button>
-            </div>
+
           </template>
           
         <div class="content" id = "content">
@@ -393,9 +400,6 @@ class EgeriaSinglePage extends mixinBehaviors(RoleComponentsBehavior, PolymerEle
 
       <template is="dom-if" if="[[ _isEqualTo(page, 'asset-lineage') ]]" restamp="true">
         <paper-dialog id="fullscreen-popup" modal class="fullscreen" on-iron-overlay-closed="beforeFullscreenPopupClose" allow-click-through="[[ false ]]" >
-        <div>
-          <paper-icon-button class ="minmax" title="Minimize" icon="icons:fullscreen-exit" on-click="minimize"></paper-icon-button>
-        </div>
         </paper-dialog>
       </template>
 

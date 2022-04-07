@@ -19,7 +19,7 @@ class EgeriaAssetLineageViewer extends PolymerElement {
       pages: { type: Array, observer: '_pagesChanged' },
       nextPages: { type: Array, value: [''] },
       page: { type: String, value: '' },
-
+      fullscreen : { type: Boolean, value: null },
       graphDirection: { type: String, value: null },
       graphData: { type: Object, value: null },
       toggleEtlJobs: { type: Boolean, value: null },
@@ -30,7 +30,6 @@ class EgeriaAssetLineageViewer extends PolymerElement {
 
   ready() {
     super.ready();
-
     this.shadowRoot.querySelector('#happi-graph')
       .addEventListener('happi-graph-on-node-click', (e) => {
         let evt = new CustomEvent('happi-graph-on-node-click', {
@@ -75,6 +74,20 @@ class EgeriaAssetLineageViewer extends PolymerElement {
       composed: true
     });
 
+    window.dispatchEvent(evt);
+  }
+
+  isFullScreen() {
+    return !this.fullscreen;
+  }
+
+  showFullscreen() {
+    let evt = new CustomEvent('egeria-toggle-fullscreen', {});
+    window.dispatchEvent(evt);
+  }
+
+  exitFullscreen() {
+    let evt = new CustomEvent('egeria-toggle-exit-fullscreen', {});
     window.dispatchEvent(evt);
   }
 
@@ -140,6 +153,12 @@ class EgeriaAssetLineageViewer extends PolymerElement {
           <div slot="post-actions" class="flex-vertical">
             <paper-icon-button title="Statistics" icon="icons:assessment" on-click="showStatistics"></paper-icon-button>
             <paper-icon-button title="List of relationships" icon="icons:list" on-click="showListView"></paper-icon-button>
+            <template is="dom-if" if="[[ isFullScreen() ]]">
+                <paper-icon-button class="minmax" title="maximize" icon="icons:fullscreen" on-click="showFullscreen"></paper-icon-button>
+            </template>
+            <template is="dom-if" if="[[ !isFullScreen()  ]]">
+                <paper-icon-button class="minmax" title="minimize" icon="icons:fullscreen-exit" on-click="exitFullscreen"></paper-icon-button>
+            </template>
           </div>
         </happi-graph>
       </div>
