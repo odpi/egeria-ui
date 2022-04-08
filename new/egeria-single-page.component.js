@@ -57,7 +57,7 @@ class EgeriaSinglePage extends mixinBehaviors(RoleComponentsBehavior, PolymerEle
       appInfo: { type: Object, value: {} },
       roles: { type: Array, value: [] },
       isLoggedIn: { type: Boolean, value: false },
-
+      fullscreen: { type: Boolean, value: false },
       pages: { type: Array, value: [''], observer: '_pagesChanged' },
       nextPages: { type: Array, value: [''] },
       page: { type: String, value: '' },
@@ -70,12 +70,29 @@ class EgeriaSinglePage extends mixinBehaviors(RoleComponentsBehavior, PolymerEle
     }
   }
 
+
+  beforePageChange() {
+    let popup = this.shadowRoot.querySelector('#fullscreen-popup')
+    if (popup) {
+      let isOpen = popup.opened;
+      if (isOpen) {
+        let assetLineage = this.shadowRoot.querySelector('#asset-lineage');
+        let content = this.shadowRoot.querySelector('#content');
+        content.appendChild(assetLineage);
+      }
+    }
+  }
+
   _pagesChanged(newPages) {
     if(newPages && newPages.length >= 0) {
       const [removed, ...newArr] = this.pages;
 
       this.page = removed;
       this.nextPages = newArr;
+      let header = this.shadowRoot.querySelector('#app-header');
+      if (header.style.display === "none" && newPages[0] !== "asset-lineage") {
+        this.minimize();
+      }
     }
   }
 
@@ -93,21 +110,36 @@ class EgeriaSinglePage extends mixinBehaviors(RoleComponentsBehavior, PolymerEle
   }
 
   maximize() {
-    let content = this.shadowRoot.querySelector('#content');
-    let fullscreenPopup = this.shadowRoot.querySelector('#fullscreen-popup');
-    let contentCopy = content;
-    fullscreenPopup.appendChild(contentCopy);
-    fullscreenPopup.open();
+    this.fullscreen = true;
+    let header = this.shadowRoot.querySelector('#app-header');
+    header.style.display = "none"
+    this._toggleDrawer()
+    let evt = new CustomEvent('egeria-fullscreen-status', {
+      detail : true
+    });
+    window.dispatchEvent(evt);
   }
 
   minimize () {
-    let content = this.shadowRoot.querySelector('#content');
-    let headerLayout = this.shadowRoot.querySelector('#header-layout');
-    let fullscreenPopup = this.shadowRoot.querySelector('#fullscreen-popup');
-    fullscreenPopup.removeChild(content);
-    headerLayout.appendChild(content);
-    this.shadowRoot.querySelector('#fullscreen-popup').close();
+    this.fullscreen = false;
+    let header = this.shadowRoot.querySelector('#app-header');
+    header.style.display = "";
+    this._toggleDrawer();
+    let evt = new CustomEvent('egeria-fullscreen-status', {
+      detail : false
+    });
+    window.dispatchEvent(evt);
   }
+
+  beforeFullscreenPopupClose() {
+    let isOpen = this.shadowRoot.querySelector('#fullscreen-popup').opened;
+    if (!isOpen) {
+      let assetLineage = this.shadowRoot.querySelector('#asset-lineage');
+      let content = this.shadowRoot.querySelector('#content');
+      content.appendChild(assetLineage);
+    }
+  }
+
 
   ready() {
     super.ready();
@@ -128,6 +160,12 @@ class EgeriaSinglePage extends mixinBehaviors(RoleComponentsBehavior, PolymerEle
 
     window.addEventListener('egeria-update-breadcrumb', e => {
       this.crumbs = e.detail.breadcrumbs;
+    });
+    window.addEventListener('egeria-toggle-fullscreen', e => {
+      this.maximize();
+    });
+    window.addEventListener('egeria-toggle-exit-fullscreen', e => {
+      this.minimize();
     });
   }
 
@@ -248,7 +286,7 @@ class EgeriaSinglePage extends mixinBehaviors(RoleComponentsBehavior, PolymerEle
           right: 0;
           bottom: 0;
           padding: 0;
-          margin: 0;
+          margin: 20px;
         }
         
         .minmax {
@@ -295,7 +333,7 @@ class EgeriaSinglePage extends mixinBehaviors(RoleComponentsBehavior, PolymerEle
         </app-drawer>
 
         <app-header-layout id = "header-layout">
-          <app-header slot="header" condenses fixed effects="waterfall">
+          <app-header id= "app-header" slot="header" condenses fixed effects="waterfall">
             <app-toolbar>
               <paper-icon-button on-tap="_toggleDrawer" id="toggle" icon="menu"></paper-icon-button>
 
@@ -323,22 +361,18 @@ class EgeriaSinglePage extends mixinBehaviors(RoleComponentsBehavior, PolymerEle
               <egeria-breadcrumb id="breadcrumb" crumbs="[[ crumbs ]]"></egeria-breadcrumb>
             </div>
           </app-header>
-          
-          <template is="dom-if" if="[[ _isEqualTo(page, 'asset-lineage') ]]" restamp="true">
-            <div>
-              <paper-icon-button class="minmax" title="maximize" icon="icons:fullscreen" on-click="maximize"></paper-icon-button>
-            </div>
-          </template>
-          
-        <div class="content" id = "content">
+
+          <div class="content" id = "content">
           <template is="dom-if" if="[[ _isEqualTo(page, 'asset-catalog') ]]" restamp="true">
             <egeria-asset-catalog pages="[[ nextPages ]]"
                                   components="[[ components ]]"></egeria-asset-catalog>
           </template>
 
           <template is="dom-if" if="[[ _isEqualTo(page, 'asset-lineage') ]]" restamp="true">
-            <egeria-asset-lineage pages="[[ nextPages ]]"
-                                  components="[[ components ]]"></egeria-asset-lineage>
+            <egeria-asset-lineage id ="asset-lineage" 
+                fullscreen = "[[ fullscreen ]]"
+                pages="[[ nextPages ]]" 
+                components="[[ components ]]"></egeria-asset-lineage>
           </template>
 
           <template is="dom-if" if="[[ _isEqualTo(page, 'glossary') ]]" restamp="true">
@@ -367,11 +401,8 @@ class EgeriaSinglePage extends mixinBehaviors(RoleComponentsBehavior, PolymerEle
         </div>
       </paper-dialog>
 
-      <template is="dom-if" if="[[ _isEqualTo(page, 'asset-lineage') ]]" restamp="true">
-        <paper-dialog id="fullscreen-popup" class="fullscreen" modal allow-click-through="[[ false ]]">
-        <div>
-          <paper-icon-button class ="minmax" title="Minimize" icon="icons:fullscreen-exit" on-click="minimize"></paper-icon-button>
-        </div>
+      <template is="dom-if" if="[[ _isEqualTo(page, 'asset-lineage') ]]">
+        <paper-dialog id="fullscreen-popup" modal class="fullscreen" on-iron-overlay-closed="beforeFullscreenPopupClose" allow-click-through="[[ false ]]" restamp="true">
         </paper-dialog>
       </template>
 
