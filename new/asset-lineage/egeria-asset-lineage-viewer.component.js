@@ -55,6 +55,11 @@ class EgeriaAssetLineageViewer extends PolymerElement {
 
         window.dispatchEvent(evt);
       });
+
+    window.addEventListener('egeria-fullscreen-status', e => {
+      this.fullscreen = e.detail;
+    });
+
   }
 
   showStatistics() {
@@ -75,10 +80,6 @@ class EgeriaAssetLineageViewer extends PolymerElement {
     });
 
     window.dispatchEvent(evt);
-  }
-
-  isFullScreen() {
-    return !this.fullscreen;
   }
 
   showFullscreen() {
@@ -153,10 +154,10 @@ class EgeriaAssetLineageViewer extends PolymerElement {
           <div slot="post-actions" class="flex-vertical">
             <paper-icon-button title="Statistics" icon="icons:assessment" on-click="showStatistics"></paper-icon-button>
             <paper-icon-button title="List of relationships" icon="icons:list" on-click="showListView"></paper-icon-button>
-            <template is="dom-if" if="[[ isFullScreen() ]]">
+            <template is="dom-if" if="[[ !fullscreen ]]">
                 <paper-icon-button class="minmax" title="maximize" icon="icons:fullscreen" on-click="showFullscreen"></paper-icon-button>
             </template>
-            <template is="dom-if" if="[[ !isFullScreen()  ]]">
+            <template is="dom-if" if="[[ fullscreen ]]">
                 <paper-icon-button class="minmax" title="minimize" icon="icons:fullscreen-exit" on-click="exitFullscreen"></paper-icon-button>
             </template>
           </div>
