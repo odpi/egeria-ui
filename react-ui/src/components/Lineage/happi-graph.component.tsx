@@ -3,11 +3,13 @@ import * as d3 from "d3";
 import "./happi-graph.scss";
 import { mapLinks, mapNodes } from "./happi-graph.helpers";
 import { elkApproach, visApproach } from "./happi-graph.algorithms";
+import { addLinks, addNodes, centerGraph, customZoomIn, customZoomOut } from "./happi-graph.render";
 
 interface Props {
+  actions: any;
   algorithm?: string;
   selectedNodeId: string;
-  data: any;
+  rawData: any;
   debug?: boolean;
   graphDirection?: string;
   nodeCountLimit?: number;
@@ -17,7 +19,7 @@ interface Props {
 
 interface State {
   algorithm: string;
-  data: any;
+  rawData: any;
   debug: boolean;
   graphDirection: string;
   happiGraph: any;
@@ -29,18 +31,20 @@ interface State {
   nodes: any;
   selectedNodeId: string;
   svg: any;
+  zoom: any;
+  allGroup: any;
 }
 
 class HappiGraph extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
-    const mappedNodes = mapNodes(props.data.nodes, props.selectedNodeId);
-    const mappedLinks = mapLinks(props.data.edges, mappedNodes);
+    const mappedNodes = mapNodes(props.rawData.nodes, props.selectedNodeId);
+    const mappedLinks = mapLinks(props.rawData.edges, mappedNodes);
 
     this.state = {
       algorithm: props.algorithm ? props.algorithm : 'ELK',
-      data: { ...props.data },
+      rawData: { ...props.rawData },
       debug: props.debug === true ? true : false,
       graphDirection: props.graphDirection ? props.graphDirection : 'HORIZONTAL',
       happiGraph: React.createRef(),
@@ -51,11 +55,13 @@ class HappiGraph extends React.Component<Props, State> {
       nodeDistanceY: props.nodeDistanceY ? props.nodeDistanceY : 350,
       nodes: [...mappedNodes],
       selectedNodeId: props.selectedNodeId,
-      svg: null
+      svg: null,
+      zoom: null,
+      allGroup: null
     };
   }
 
-  selectAlgorithm() {
+  selectAlgorithm(callback: Function) {
     const {
       algorithm,
       graphDirection,
@@ -74,9 +80,11 @@ class HappiGraph extends React.Component<Props, State> {
           } = visApproach(nodes, links, graphDirection, nodeDistanceX, nodeDistanceY);
 
           this.setState({
+            isLoading: false,
             nodes: finalNodes,
-            links: finalLinks,
-            isLoading: false
+            links: finalLinks
+          }, () => {
+            callback();
           });
         }
 
@@ -86,6 +94,8 @@ class HappiGraph extends React.Component<Props, State> {
               isLoading: false,
               nodes: [...data.nodes],
               links: [...data.links]
+            }, () => {
+              callback();
             });
           });
         }
@@ -98,9 +108,11 @@ class HappiGraph extends React.Component<Props, State> {
         } = visApproach(nodes, links, graphDirection, nodeDistanceX, nodeDistanceY);
 
         this.setState({
-          ...this.state,
+          isLoading: false,
           nodes: finalNodes,
           links: finalLinks
+        }, () => {
+          callback();
         });
 
         break;
@@ -114,34 +126,98 @@ class HappiGraph extends React.Component<Props, State> {
   componentDidMount() {
     const { happiGraph } = this.state;
 
+    console.log("componentDidMount()", this.state);
+
     this.setState({
       svg: d3.select(happiGraph.current)
+    }, () => {
+      this.selectAlgorithm(() => {
+        console.log('Everything is ready.');
+        this.init();
+      });
     });
-
-    this.selectAlgorithm();
   }
 
   componentDidUpdate() {
-    const { svg } = this.state;
-
-    if(svg) {
-      // START
-
-      // this.selectAlgorithm();
-
-      console.log(this.state);
-    }
+    console.log("componentDidUpdate()", this.state);
   }
 
   init() {
-    // const { algorithm, graphDirection } = this.state;
+    console.log('init()');
+    const { svg, nodes, links, graphDirection } = this.state;
+
+    const allGroup =
+      svg.append('g')
+         .attr('class', 'all-group');
+
+    const linksGroup = allGroup.append('g').attr('class', 'links-group');
+    const nodesGroup = allGroup.append('g').attr('class', 'nodes-group');
+
+    let svgWidth = parseInt(svg.style('width'));
+    let svgHeight = parseInt(svg.style('height'));
+
+    console.log('svgWitdh = ', svgWidth);
+    console.log('svgHeight = ', svgHeight);
+
+    this.setState({
+      zoom: d3.zoom()
+              .extent([[0,0],[svgWidth, svgHeight]])
+              .on('zoom', (e: any) => {
+                allGroup.attr('transform', e.transform);
+              })
+    }, () => {
+      const { zoom } = this.state;
+
+      svg.call(zoom);
+
+      addNodes(nodes, nodesGroup);
+      addLinks(links, linksGroup, graphDirection);
+
+      console.log(links);
+
+      centerGraph(allGroup, svg, zoom);
+    });
   }
 
   render() {
-    const { happiGraph } = this.state;
+    const { actions } = this.props;
+    const { isLoading, happiGraph, zoom, svg } = this.state;
 
     return (<>
-      <svg id="happi-graph" ref={happiGraph}></svg>
+      <div className="happi-graph-wrapper">
+        { isLoading && <h1>isLoading</h1>}
+
+        <svg id="happi-graph" ref={ happiGraph }>
+          <defs>
+            <marker id="arrow-start"
+                    markerWidth="10"
+                    markerHeight="10"
+                    refX="0"
+                    refY="3"
+                    orient="auto"
+                    markerUnits="strokeWidth">
+              <path d="M9,0 L9,6 L0,3 z" fill="#000" />
+            </marker>
+
+            <marker id="arrow-end"
+                    markerWidth="10"
+                    markerHeight="10"
+                    refX="7"
+                    refY="3"
+                    orient="auto"
+                    markerUnits="strokeWidth">
+              <path d="M0,0 L0,6 L9,3 z" fill="#000" />
+            </marker>
+          </defs>
+        </svg>
+
+        <div className="happi-graph-actions">
+          <button onClick={() => customZoomIn(zoom, svg) }>Zoom In</button>
+          <button onClick={() => customZoomOut(zoom, svg) }>Zoom Out</button>
+
+          { actions }
+        </div>
+      </div>
     </>);
   }
 }

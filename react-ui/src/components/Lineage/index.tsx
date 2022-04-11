@@ -1,10 +1,8 @@
 import React from "react";
+import HappiGraphActions from "./happi-graph-actions.component";
 import HappiGraph from "./happi-graph.component";
 
-const rawData = {
-  "nodes": [],
-  "edges": []
-};
+
 
 interface Props {
 }
@@ -23,9 +21,11 @@ interface State {
 class Lineage extends React.Component<Props, State> {
   render() {
     return (<>
-      <HappiGraph data={{...rawData}}
+      <HappiGraph rawData={{...rawData}}
                   algorithm={""}
-                  selectedNodeId={""} />
+                  graphDirection={"VERTICAL"}
+                  selectedNodeId={"term@68e36496-7167-4af7-abdd-a0cd36e24084:6662c0f2.e1b1ec6c.66k78i6du.uchsna1.rn2epa.rfn2fjqf7h4qvmt5lflm8"}
+                  actions={<HappiGraphActions />} />
     </>);
   }
 }

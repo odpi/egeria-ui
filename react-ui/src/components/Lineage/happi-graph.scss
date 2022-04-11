@@ -2,3 +2,119 @@
   width:100%;
   height:100%;
 }
+
+:root {
+  --egeria-primary-color-rgb: 113, 204, 220;
+  --egeria-primary-color: rgb(var(--egeria-primary-color-rgb));
+  --happi-graph-primary-color: var(--egeria-primary-color);
+  --happi-graph-font-family: Arial;
+}
+
+:host {
+  display: flex;
+  flex-grow: 1;
+  width: 100%;
+  height: 100%;
+  font: var(--happi-graph-font-family);
+}
+
+.node {
+  fill: #ffffff;
+  stroke: #cccccc;
+}
+
+.node.is-selected {
+  stroke-width: 4px;
+  stroke: var(--happi-graph-primary-color);
+}
+
+.header {
+  fill: #000000;
+  white-space: pre;
+  font-size: 14px;
+  letter-spacing: 0em;
+  cursor: default;
+  font-family: var(--happi-graph-font-family);
+}
+
+.header > .value {
+  font-size: 17px;
+}
+
+.header > .full-header {
+  font-size: 17px;
+}
+
+.header > .label {
+  fill: var(--happi-graph-gray-color);
+}
+
+.pin {
+  fill: var(--happi-graph-primary-color);
+}
+
+.header > .full-header-background {
+  fill: #ffffff;
+  stroke: #cccccc;
+  stroke-width: 1px;
+}
+
+.property-group > .property {
+  font-family: var(--happi-graph-font-family);
+  font-size: 14px;
+  cursor: default;
+}
+
+.property-group > .full-property-background {
+  fill: #ffffff;
+  stroke: #cccccc;
+  stroke-width: 1px;
+}
+
+.property-group > .property-icon > svg > path {
+  fill: var(--happi-graph-primary-color);
+}
+
+.happi-graph-container {
+  height:100%;
+  width:100%;
+
+  position:relative;
+}
+
+.happi-graph-svg {
+  position:absolute;
+  top:0;
+  left:0;
+  width: 100%;
+  height: 100%;
+}
+
+.happi-graph-wrapper {
+  height: 100%;
+  width: 100%;
+  position:relative;
+}
+
+.happi-graph-legend {
+  position: absolute;
+  top:0;
+  right:0;
+  margin-right: 5px;
+  margin-top: 5px;
+}
+
+.happi-graph-actions {
+  display:flex;
+  flex-direction: column;
+  position:absolute;
+  top:5px;
+  left:5px;
+}
+
+.is-loading {
+  margin: 0 auto;
+  position: relative;
+  top: 40%;
+  text-align:center;
+}

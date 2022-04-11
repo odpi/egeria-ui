@@ -1,11 +1,10 @@
-import vis from 'vis-network';
+import { DataSet, Network } from 'vis-network/standalone/index';
 import ELK from 'elkjs';
-
 
 const visApproach = (nodes: any, links: any, graphDirection: string, nodeDistanceX: number, nodeDistanceY: number) => {
   let nodeMap: any = {};
 
-  const _nodes: any = new vis.DataSet([
+  const _nodes: any = new DataSet([
     ...nodes.map((n: any) => {
       let _node = {
         ...n,
@@ -18,7 +17,7 @@ const visApproach = (nodes: any, links: any, graphDirection: string, nodeDistanc
     })
   ]);
 
-  const edges = new vis.DataSet([
+  const edges = new DataSet([
     ...links.map((l: any) => {
       return {
         from: l.from.id,
@@ -28,7 +27,7 @@ const visApproach = (nodes: any, links: any, graphDirection: string, nodeDistanc
   ]);
 
  // /*
- var options = {
+ let options = {
     autoResize: true,
     physics:{
       enabled:false,
@@ -63,7 +62,7 @@ const visApproach = (nodes: any, links: any, graphDirection: string, nodeDistanc
   };
 
   let e = document.createElement('div');
-  var network = new vis.Network(e, data, options);
+  let network = new Network(e, data, options);
 
   let positions = network.getPositions();
 
