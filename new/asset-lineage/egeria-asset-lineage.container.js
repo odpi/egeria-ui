@@ -30,7 +30,7 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
       nextPages: { type: Array, value: [''] },
       page: { type: String, value: '' },
       hasVerticalTab: { type: Boolean, value: false },
-
+      fullscreen :  { type: Boolean, value: null },
       guid: { type: String, value: null },
       includeProcesses: { type: Boolean, value: true },
       graphData: { type: Object, value: null },
@@ -546,28 +546,32 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
             <egeria-asset-lineage-viewer has-vertical-tab="[[ !hasVerticalTab ]]"
                                          graph-data="[[ graphData ]]"
                                          graph-direction="HORIZONTAL"
-                                         toggle-etl-jobs="[[ toggleETLJobs ]]"></egeria-asset-lineage-viewer>
+                                         toggle-etl-jobs="[[ toggleETLJobs ]]"
+                                         fullscreen = "[[fullscreen]]"></egeria-asset-lineage-viewer>
           </template>
 
           <template is="dom-if" if="[[ _isEqualTo(page, 'end-to-end') ]]">
             <egeria-asset-lineage-viewer has-vertical-tab="[[ hasVerticalTab ]]"
                                          graph-direction="HORIZONTAL"
                                          graph-data="[[ graphData ]]"
-                                         toggle-etl-jobs="[[ toggleETLJobs ]]"></egeria-asset-lineage-viewer>
+                                         toggle-etl-jobs="[[ toggleETLJobs ]]"
+                                         fullscreen = "[[fullscreen]]"></egeria-asset-lineage-viewer>
           </template>
 
           <template is="dom-if" if="[[ _isEqualTo(page, 'ultimate-destination') ]]">
             <egeria-asset-lineage-viewer has-vertical-tab="[[ !hasVerticalTab ]]"
                                          graph-direction="HORIZONTAL"
                                          graph-data="[[ graphData ]]"
-                                         toggle-etl-jobs="[[ toggleETLJobs ]]"></egeria-asset-lineage-viewer>
+                                         toggle-etl-jobs="[[ toggleETLJobs ]]"
+                                         fullscreen = "[[fullscreen]]"></egeria-asset-lineage-viewer>
           </template>
 
           <template is="dom-if" if="[[ _isEqualTo(page, 'vertical-lineage') ]]">
             <egeria-asset-lineage-viewer has-vertical-tab="[[ hasVerticalTab ]]"
                                          graph-direction="VERTICAL"
                                          graph-data="[[ graphData ]]"
-                                         toggle-etl-jobs="[[ toggleETLJobs ]]"></egeria-asset-lineage-viewer>
+                                         toggle-etl-jobs="[[ toggleETLJobs ]]"
+                                         fullscreen = "[[fullscreen]]"></egeria-asset-lineage-viewer>
           </template>
 
           <template is="dom-if" if="[[ _isEqualTo(page, 'repository-explorer') ]]">
