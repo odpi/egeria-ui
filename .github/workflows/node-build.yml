@@ -92,7 +92,7 @@ jobs:
         if: ${{ steps.check.outputs.changed == 'true' }}
         run: tar -zcf /tmp/egeria-ui.tar.gz .
       - name: Upload
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         if: ${{ steps.check.outputs.changed == 'true' }}
         with:
           name: Egeria UI ${{ steps.package-version.outputs.current-version }}
