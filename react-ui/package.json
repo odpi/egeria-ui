@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@capaj/pluralize": "^1.0.4",
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
     "@mui/icons-material": "^5.4.2",
@@ -27,7 +28,7 @@
     "@vaadin/vaadin-text-field": "^22.0.3",
     "carbon-web-components": "^1.20.0",
     "d3": "^7.3.0",
-    "egeria-js-commons": "github:odpi/egeria-js-commons#main",
+    "egeria-js-commons": "github:odpi/egeria-js-commons",
     "elkjs": "^0.7.1",
     "happi-graph": "github:sarbull/happi-graph-1#happi-graph-in-react",
     "history": "^5.2.0",
@@ -43,6 +44,7 @@
     "react-scripts": "5.0.0",
     "rxjs": "^7.5.1",
     "typescript": "^4.5.2",
+    "uuid": "^8.3.2",
     "vis-network": "^9.0.4",
     "web-vitals": "^1.1.2",
     "web-worker": "^1.2.0"
@@ -81,6 +83,7 @@
     "@types/d3": "^7.1.0",
     "@types/enzyme": "^3.10.10",
     "@types/react-router-dom": "^5.3.1",
+    "@types/uuid": "^8.3.4",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.6.5",
     "enzyme": "^3.11.0"
   }

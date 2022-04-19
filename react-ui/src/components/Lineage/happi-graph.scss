@@ -7,6 +7,7 @@
   --egeria-primary-color-rgb: 113, 204, 220;
   --egeria-primary-color: rgb(var(--egeria-primary-color-rgb));
   --happi-graph-primary-color: var(--egeria-primary-color);
+  --happi-graph-primary-color-rgb: var(--egeria-primary-color-rgb);
   --happi-graph-font-family: Arial;
 }
 
@@ -117,4 +118,82 @@
   position: relative;
   top: 40%;
   text-align:center;
+}
+
+.happi-graph-legend {
+  display: block;
+  font-size:12px;
+  font-family: var(--happi-graph-font-family);
+
+  img {
+    height:20px;
+    vertical-align:middle;
+    margin-right:5px;
+  }
+
+  .svg-icons {
+    color: var(--happi-graph-secondary-color);
+    background: rgba(var(--happi-graph-primary-color-rgb), 0.9);
+    padding:10px;
+    max-width:400px;
+
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+
+    border-bottom: 1px solid black;
+  }
+
+  .icon-title {
+    color: var(--happi-graph-secondary-color);
+    background: rgba(var(--happi-graph-primary-color-rgb), 0.9);
+    padding: 10px;
+    max-width: 400px;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  .svg-icon {
+    display: flex;
+    align-items: center;
+
+    flex-grow: 4;
+    margin:5px;
+  }
+
+  .svg-icon span {
+    margin-top:1px;
+    width:120px;
+  }
+
+  .dropdown {
+    display:flex;
+    justify-content:flex-end;
+    cursor: pointer;
+  }
+
+  paper-button {
+    margin: 0;
+    padding: 0.2em 0.2em 0.4em 0.57em;
+    font-size:15px;
+    color: var(--happi-graph-primary-color);
+    background-color: #f4f5f7;
+    text-transform: none;
+    --paper-button: {
+      @apply(--layout-vertical);
+      @apply(--layout-center-center);
+    };
+  }
+
+  paper-button.keyboard-focus {
+    font-weight: normal;
+  }
+
+  .label {
+    margin-top:4px;
+  }
+
+  .label iron-icon {
+    margin-top:-3px;
+  }
 }

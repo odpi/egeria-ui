@@ -1,7 +1,8 @@
 import * as d3 from 'd3';
-export const iconsMap: any = {};
-export const linksTypeIconMap: any = {};
+import { iconsMap, linksTypeIconMap, itemGroupIconMap } from "egeria-js-commons";
 
+// export const iconsMap: any = {};
+// export const linksTypeIconMap: any = linksTypeIconMap;
 export const simpleSquareIcon = `<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 0H20V20H0V0Z" fill="white"/></svg>`;
 
 export const addProperties = (nodeGroup: any, iconsMap: any) => {
@@ -496,4 +497,7 @@ export {
   customZoom,
   customZoomIn,
   customZoomOut,
+  linksTypeIconMap,
+  iconsMap,
+  itemGroupIconMap
 }

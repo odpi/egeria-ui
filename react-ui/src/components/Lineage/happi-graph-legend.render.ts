@@ -1,14 +1,17 @@
 import {
   simpleSquareIcon,
   linksTypeIconMap,
-  iconsMap
+  iconsMap,
+  itemGroupIconMap
 } from "./happi-graph.render";
 
-export const getIcon = (type: any, label: any, legendData: any, propertiesMap: any) => {
+import { pluralize } from '@capaj/pluralize';
+
+export const getIcon = (type: any, label: any, legendData: any) => {
   let iconName = legendData[type][label];
 
-  if ((propertiesMap[iconName] && iconsMap[propertiesMap[iconName].icon])) {
-    return iconsMap[propertiesMap[iconName].icon];
+  if ((itemGroupIconMap[iconName] && iconsMap[itemGroupIconMap[iconName].icon])) {
+    return iconsMap[itemGroupIconMap[iconName].icon];
   } else if (linksTypeIconMap[iconName] && iconsMap[linksTypeIconMap[iconName].icon]) {
     return iconsMap[linksTypeIconMap[iconName].icon];
   } else {
@@ -17,11 +20,11 @@ export const getIcon = (type: any, label: any, legendData: any, propertiesMap: a
 };
 
 export const getLabel = (group: any) => {
-  return /*pluralize(*/ group /*)*/;
+  return pluralize(group);
 };
 
 export const getLegendCategories = (legendData: any) => {
-  return Object.keys(legendData);
+  return Object.keys(legendData);//.map((k: any) => { return pluralize(k); });
 };
 
 export const getLegendLabels = (legendData: any, legendKey: any) => {
@@ -31,18 +34,20 @@ export const getLegendLabels = (legendData: any, legendKey: any) => {
   ];
 };
 
-export const graphLinksUpdateInLegendData = (newGraphLinks: any) => {
+export const graphLinksUpdateInLegendData = (newGraphLinks: object[]) => {
   let _links = newGraphLinks;
+
   let legendData: any = {};
 
   if (_links.length) {
-    _links.map((l: any) => {
+    _links.forEach((l: any) => {
       if (l.type && linksTypeIconMap[l.type]) {
         let group = linksTypeIconMap[l.type].group;
 
         if (!legendData[group]) {
           legendData[group] = [];
         }
+
         legendData[group][linksTypeIconMap[l.type].label] = l.type;
       }
     });
@@ -51,13 +56,13 @@ export const graphLinksUpdateInLegendData = (newGraphLinks: any) => {
   return legendData;
 }
 
-export const graphNodesUpdateInLegendData = (newGraphNodes: any, propertiesMap: any) => {
+export const graphNodesUpdateInLegendData = (newGraphNodes: any) => {
   let _nodes = newGraphNodes;
   let legendData: any = {};
 
   if (_nodes.length) {
-    _nodes.map((n: any) => {
-      let group = propertiesMap[n.label].group;
+    _nodes.forEach((n: any) => {
+      let group = itemGroupIconMap[n.label].group;
 
       if (!legendData[group]) {
         legendData[group] = [];
@@ -65,9 +70,9 @@ export const graphNodesUpdateInLegendData = (newGraphNodes: any, propertiesMap: 
 
       legendData[group][n.label] = n.label;
 
-      n.properties.map((p: any) => {
-        if (propertiesMap[p.groupName]){
-          let propertiesGroup = propertiesMap[p.groupName].group;
+      n.properties.forEach((p: any) => {
+        if (itemGroupIconMap[p.groupName]){
+          let propertiesGroup = itemGroupIconMap[p.groupName].group;
 
           legendData[propertiesGroup][p.groupName] = p.groupName;
         }
