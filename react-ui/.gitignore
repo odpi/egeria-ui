@@ -25,4 +25,4 @@ yarn-error.log*
 .idea
 build
 
-src/mockData.ts
+./src/mockData.ts
