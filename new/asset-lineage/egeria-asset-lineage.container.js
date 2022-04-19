@@ -312,18 +312,18 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
     let stroke_width = linkElement.style.getPropertyValue("stroke-width")
     let marker_end = linkElement.getAttribute("marker-end")
 
-    return stroke === "var(--happi-graph-primary-color)" && stroke_width === "4" && marker_end === "url(#arrow-end-selected)";
+    return stroke === "var(--happi-graph-primary-color)" && stroke_width === "var(--happi-graph-selected-link-stroke-width)" && marker_end === "url(#arrow-end-selected)";
   }
 
   deselectLink(linkElement){
     linkElement.style.setProperty("stroke", "black")
-    linkElement.style.setProperty("stroke-width", "2")
+    linkElement.style.setProperty("stroke-width", "var(--happi-graph-link-stroke-width)")
     linkElement.setAttribute("marker-end", "url(#arrow-end)")
   }
 
   selectLink(linkElement){
     linkElement.style.setProperty("stroke", "var(--happi-graph-primary-color)")
-    linkElement.style.setProperty("stroke-width", "4")
+    linkElement.style.setProperty("stroke-width", "var(--happi-graph-selected-link-stroke-width)")
     linkElement.setAttribute("marker-end", "url(#arrow-end-selected)")
   }
 
