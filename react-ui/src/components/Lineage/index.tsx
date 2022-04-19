@@ -1,8 +1,11 @@
 import React from "react";
 import HappiGraphActions from "./happi-graph-actions.component";
 import HappiGraph from "./happi-graph.component";
+import { mockData } from "../../mockData";
 
-const rawData = {};
+const rawData = {
+  ...mockData
+};
 
 interface Props {
 }
