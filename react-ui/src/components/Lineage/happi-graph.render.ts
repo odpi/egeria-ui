@@ -1,6 +1,6 @@
 import * as d3 from 'd3';
-const iconsMap: any = {};
-const linksTypeIconMap: any = {};
+export const iconsMap: any = {};
+export const linksTypeIconMap: any = {};
 
 export const simpleSquareIcon = `<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 0H20V20H0V0Z" fill="white"/></svg>`;
 
@@ -19,7 +19,7 @@ export const addProperties = (nodeGroup: any, iconsMap: any) => {
           for (const p of d.properties) {
             let propertyGroup = selection.append('g').classed('property-group', true);
 
-            let property = propertyGroup
+            /*let property = */propertyGroup
                             .append('text')
                             .attr('transform', `translate(95, ${labelHeight})`)
                             .attr('data-text-length', p.value.length)
@@ -468,28 +468,26 @@ const addLinks = (links: any, linksGroup: any, graphDirection: string) => {
     .attr('from', function(d: any) { return d.from.id; })
     .attr('to', function(d: any) { return d.to.id; })
     .attr('x1', (d: any) => {
-      let { from, to } = getLinkCoordinates(d.from, d.to, graphDirection);
+      let { from } = getLinkCoordinates(d.from, d.to, graphDirection);
 
       return from.x;
     })
     .attr('y1', (d: any) => {
-      let { from, to } = getLinkCoordinates(d.from, d.to, graphDirection);
+      let { from } = getLinkCoordinates(d.from, d.to, graphDirection);
 
       return from.y;
     })
     .attr('x2', (d: any) => {
-      let { from, to } = getLinkCoordinates(d.from, d.to, graphDirection);
+      let { to } = getLinkCoordinates(d.from, d.to, graphDirection);
 
       return to.x;
     })
     .attr('y2', (d: any) => {
-      let { from, to } = getLinkCoordinates(d.from, d.to, graphDirection);
+      let { to } = getLinkCoordinates(d.from, d.to, graphDirection);
 
       return to.y;
     });
 }
-
-
 
 export {
   addNodes,

@@ -4,6 +4,7 @@ import "./happi-graph.scss";
 import { mapLinks, mapNodes } from "./happi-graph.helpers";
 import { elkApproach, visApproach } from "./happi-graph.algorithms";
 import { addLinks, addNodes, centerGraph, customZoomIn, customZoomOut } from "./happi-graph.render";
+import HappiGraphLegend from "./happi-graph-legend.component";
 
 interface Props {
   actions: any;
@@ -181,7 +182,14 @@ class HappiGraph extends React.Component<Props, State> {
 
   render() {
     const { actions } = this.props;
-    const { isLoading, happiGraph, zoom, svg } = this.state;
+    const {
+      isLoading,
+      happiGraph,
+      zoom,
+      svg,
+      nodes,
+      links
+    } = this.state;
 
     return (<>
       <div className="happi-graph-wrapper">
@@ -216,6 +224,10 @@ class HappiGraph extends React.Component<Props, State> {
           <button onClick={() => customZoomOut(zoom, svg) }>Zoom Out</button>
 
           { actions }
+        </div>
+
+        <div className="happi-graph-legend">
+          <HappiGraphLegend nodes={nodes} links={links}/>
         </div>
       </div>
     </>);

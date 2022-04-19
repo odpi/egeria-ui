@@ -2,7 +2,7 @@ import React from "react";
 import HappiGraphActions from "./happi-graph-actions.component";
 import HappiGraph from "./happi-graph.component";
 
-
+const rawData = {};
 
 interface Props {
 }
