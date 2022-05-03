@@ -22,3 +22,17 @@ export function authHeader() {
         return {};
     }
 }
+
+export function authHeaderWithContentType() {
+    const currentJwt = authenticationService.currentJwt();
+
+    if (currentJwt) {
+        return {
+            "x-auth-token": currentJwt,
+            "Content-Type": "application/json",
+            "accept" : "application/json"
+        };
+    } else {
+        return {};
+    }
+}

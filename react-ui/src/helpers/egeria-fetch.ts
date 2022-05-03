@@ -1,4 +1,4 @@
-import { authHeader } from './auth-header';
+import {authHeader, authHeaderWithContentType} from './auth-header';
 import { handleResponse } from './handle-response';
 
 /**
@@ -28,6 +28,21 @@ const egeriaFetch = (endpoint: string, options: any) => {
   return fetch(`${apiUrl}${endpoint}`, requestOptions).then(handleResponse);
 }
 
+const egeriaPost = (endpoint: string, body : any, options: any) => {
+
+  const requestOptions: any = {
+    method: 'POST',
+    headers: authHeaderWithContentType(),
+    body: body,
+    ...options
+  };
+
+  const apiUrl = process.env.REACT_APP_API_URL || '';
+
+  return fetch(`${apiUrl}${endpoint}`, requestOptions).then(handleResponse);
+}
+
 export {
-  egeriaFetch
+  egeriaFetch,
+  egeriaPost
 };

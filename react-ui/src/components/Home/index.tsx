@@ -106,7 +106,9 @@ class Home extends React.Component<Props, State> {
               <li>
                 <Link to={`/assets/catalog`}>Catalog</Link>
               </li>
-
+              <li>
+                <Link to={`/lineage/viewer`}>Viewer</Link>
+              </li>
               <li className="pull-right">
                 <Link to={`/about`}>About</Link>
               </li>
