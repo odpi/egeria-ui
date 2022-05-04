@@ -43,6 +43,19 @@ class EgeriaAssetLineageViewer extends PolymerElement {
         window.dispatchEvent(evt);
       });
 
+    this.shadowRoot.querySelector('#happi-graph').
+      addEventListener('happi-graph-on-link-click', (e) => {
+          let evt = new CustomEvent('happi-graph-on-link-click', {
+            detail: {
+              ...e.detail
+            },
+            bubbles: true,
+            composed: true
+          });
+
+          window.dispatchEvent(evt);
+        });
+
     this.shadowRoot.querySelector('#happi-graph')
       .addEventListener('happi-graph-on-cached-graph', (e) => {
         let evt = new CustomEvent('happi-graph-on-cached-graph', {

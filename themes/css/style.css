@@ -40,6 +40,9 @@
   --happi-graph-gray-color: #AFAFAF;
 
   --egeria-home-header-background: var(--egeria-stripes-color);
+
+  --happi-graph-selected-link-stroke-width: 4;
+  --happi-graph-link-stroke-width: 2;
 }
 
 html {
