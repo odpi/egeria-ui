@@ -162,7 +162,7 @@ class App extends React.Component<Props, State> {
 
               <PrivateRoute exact path="/assets/catalog" component={AssetCatalog} />
 
-              <PrivateRoute exact path="/lineage/Viewer" component={LineageViewer} />
+              <PrivateRoute exact path="/lineage/viewer" component={LineageViewer} />
 
               <Route path={`/about-lit`}>
                 <egeria-about-lit></egeria-about-lit>

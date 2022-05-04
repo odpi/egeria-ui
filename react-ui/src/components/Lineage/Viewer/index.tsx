@@ -6,7 +6,7 @@ import NameSuggestions from "./name-suggestions";
 import TypesSuggestions from "./types-suggestions";
 import {IconButton, Tooltip} from "@mui/material";
 import HelpIcon from '@mui/icons-material/Help';
-import {itemDescription, itemName} from "../../Assets/Catalog/helpers";
+import {itemName} from "../../Assets/Catalog/helpers";
 import ReactDOM from "react-dom";
 import QualifiedName from "../../Assets/Catalog/qualified-name";
 
