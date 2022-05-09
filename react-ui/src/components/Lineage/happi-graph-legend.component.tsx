@@ -84,7 +84,7 @@ class HappiGraphLegend extends React.Component<Props, State> {
           <div className="svg-icons">
             { legendData && legendKey && getLegendLabels(legendData, legendKey).map((label: any, labelId: number) => {
               return <div className="svg-icon" key={uuidv4()}>
-                <img src={ `data:image/svg+xml;utf8,${ getIcon(legendKey, label, legendData) }` }/>
+                <img src={ `data:image/svg+xml;utf8,${ getIcon(legendKey, label, legendData) }` } alt="icon" />
 
                 <span>{ label }</span>
               </div>
