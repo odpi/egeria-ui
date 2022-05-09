@@ -30,15 +30,20 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
       nextPages: { type: Array, value: [''] },
       page: { type: String, value: '' },
       hasVerticalTab: { type: Boolean, value: false },
-
+      fullscreen :  { type: Boolean, value: null },
       guid: { type: String, value: null },
       includeProcesses: { type: Boolean, value: true },
       graphData: { type: Object, value: null },
       selectedNode: { type: Object, value: null },
+      selectedLink: { type: Object, value: null },
       selectedNodeDetails: { type: Object, value: null },
       queryParams: { type: Array, value: [] },
       toggleETLJobs: { type: Boolean, value: true },
       typeMapData: {
+        type: Object,
+        value: {}
+      },
+      graphMappings: {
         type: Object,
         value: {}
       },
@@ -208,12 +213,20 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
       this.onNodeClick(e.detail);
     });
 
+    window.addEventListener('happi-graph-on-link-click', e => {
+      this.onLinkClick(e.detail);
+    });
+
     window.addEventListener('happi-graph-on-cached-graph', e => {
       this.fetchGraphData().then((response) => {this.updateData(response)})
     });
 
     window.addEventListener('egeria-toggle-statistics', e => {
       this.toggleStatistics();
+    });
+
+    window.addEventListener('egeria-toggle-graph-list', e => {
+      this.showGraphList();
     });
 
     window.addEventListener('egeria-toggle-etl-jobs', e => {
@@ -266,6 +279,52 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
 
       this.shadowRoot.querySelector('#paper-dialog').open();
     }
+  }
+
+  onLinkClick({ linkElement }) {
+
+    if (this.sameLink(linkElement, this.selectedLink)) {
+      this.invertLinkSelection(linkElement)
+    } else {
+      this.selectLink(linkElement)
+
+      if(this.selectedLink){
+        this.deselectLink(this.selectedLink)
+      }
+    }
+    this.selectedLink = linkElement
+  }
+
+  sameLink(link, otherLink) {
+    return link === otherLink
+  }
+
+  invertLinkSelection(linkElement){
+    if(this.isLinkSelected(linkElement)){
+      this.deselectLink(linkElement)
+    }else{
+      this.selectLink(linkElement)
+    }
+  }
+
+  isLinkSelected(linkElement){
+    let stroke = linkElement.style.getPropertyValue("stroke");
+    let stroke_width = linkElement.style.getPropertyValue("stroke-width")
+    let marker_end = linkElement.getAttribute("marker-end")
+
+    return stroke === "var(--happi-graph-primary-color)" && stroke_width === "var(--happi-graph-selected-link-stroke-width)" && marker_end === "url(#arrow-end-selected)";
+  }
+
+  deselectLink(linkElement){
+    linkElement.style.setProperty("stroke", "black")
+    linkElement.style.setProperty("stroke-width", "var(--happi-graph-link-stroke-width)")
+    linkElement.setAttribute("marker-end", "url(#arrow-end)")
+  }
+
+  selectLink(linkElement){
+    linkElement.style.setProperty("stroke", "var(--happi-graph-primary-color)")
+    linkElement.style.setProperty("stroke-width", "var(--happi-graph-selected-link-stroke-width)")
+    linkElement.setAttribute("marker-end", "url(#arrow-end-selected)")
   }
 
   _getPropertiesForDisplay(item) {
@@ -328,6 +387,68 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
     this.shadowRoot.querySelector('#paper-dialog-statistics').open();
   }
 
+  showGraphList() {
+    let _nodes = this.graphData.nodes;
+    let _links = this.graphData.links;
+
+    if(_links.length) {
+
+      this.graphMappings = [
+        ...Object(_links).map(e => {
+          let fromNode = _nodes
+              .filter(n => n.id === e.from)
+              .pop();
+          let toNode = _nodes
+              .filter(n => n.id === e.to)
+              .pop();
+          return {
+            from: fromNode,
+            mapping: e.label,
+            to: toNode
+          };
+        })
+      ];
+
+    } else {
+      this.graphMappings = [];
+    }
+
+    this.shadowRoot.querySelector('#paper-dialog-relations').open();
+  }
+
+  highlightClass( id ){
+    return id === this.graphData.selectedNodeId ? 'highlight' : '';
+  }
+
+  exportCSV(){
+
+    let csvContent = "data:text/csv;charset=utf-8,"
+        + ['from','from-type','mapping','target','target-type'].toString() + ('\n')
+        + this.createCSVContent(this.graphMappings);
+
+    var encodedUri = encodeURI(csvContent);
+
+    var link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", this.graphData.selectedNodeId + ".csv");
+    document.body.appendChild(link); // Required for FF
+
+    link.click(); // This will download the data file
+
+    document.body.removeChild(link);
+  }
+
+  createCSVContent(arr) {
+    const array = [...arr];
+
+    return array.map(it => {
+      return it.from.label + ',' + it.from.group + ','
+              + it.mapping + ','
+              + it.to.label + ',' + it.to.group;
+    }).join('\n');
+  }
+
+
   static get template() {
     return html`
       <style>
@@ -358,13 +479,27 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
         }
 
         .local-wrapper {
-          width:730px;
+          width:1024px;
         }
 
         .pull-right {
           display: flex;
           justify-content: flex-end;
+          align-items: center;
         }
+        
+        .flex-box {
+          display: flex;
+          flex: 1;
+          align-items: center;
+        }
+        
+        .highlight {
+          color:  var(--egeria-primary-color);
+          font-style: italic;
+          font-weight: bold;
+        }
+        
       </style>
 
 
@@ -411,28 +546,32 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
             <egeria-asset-lineage-viewer has-vertical-tab="[[ !hasVerticalTab ]]"
                                          graph-data="[[ graphData ]]"
                                          graph-direction="HORIZONTAL"
-                                         toggle-etl-jobs="[[ toggleETLJobs ]]"></egeria-asset-lineage-viewer>
+                                         toggle-etl-jobs="[[ toggleETLJobs ]]"
+                                         fullscreen = "[[fullscreen]]"></egeria-asset-lineage-viewer>
           </template>
 
           <template is="dom-if" if="[[ _isEqualTo(page, 'end-to-end') ]]">
             <egeria-asset-lineage-viewer has-vertical-tab="[[ hasVerticalTab ]]"
                                          graph-direction="HORIZONTAL"
                                          graph-data="[[ graphData ]]"
-                                         toggle-etl-jobs="[[ toggleETLJobs ]]"></egeria-asset-lineage-viewer>
+                                         toggle-etl-jobs="[[ toggleETLJobs ]]"
+                                         fullscreen = "[[fullscreen]]"></egeria-asset-lineage-viewer>
           </template>
 
           <template is="dom-if" if="[[ _isEqualTo(page, 'ultimate-destination') ]]">
             <egeria-asset-lineage-viewer has-vertical-tab="[[ !hasVerticalTab ]]"
                                          graph-direction="HORIZONTAL"
                                          graph-data="[[ graphData ]]"
-                                         toggle-etl-jobs="[[ toggleETLJobs ]]"></egeria-asset-lineage-viewer>
+                                         toggle-etl-jobs="[[ toggleETLJobs ]]"
+                                         fullscreen = "[[fullscreen]]"></egeria-asset-lineage-viewer>
           </template>
 
           <template is="dom-if" if="[[ _isEqualTo(page, 'vertical-lineage') ]]">
             <egeria-asset-lineage-viewer has-vertical-tab="[[ hasVerticalTab ]]"
                                          graph-direction="VERTICAL"
                                          graph-data="[[ graphData ]]"
-                                         toggle-etl-jobs="[[ toggleETLJobs ]]"></egeria-asset-lineage-viewer>
+                                         toggle-etl-jobs="[[ toggleETLJobs ]]"
+                                         fullscreen = "[[fullscreen]]"></egeria-asset-lineage-viewer>
           </template>
 
           <template is="dom-if" if="[[ _isEqualTo(page, 'repository-explorer') ]]">
@@ -476,6 +615,7 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
                         allow-click-through="[[ false ]]">
             <div class="local-wrapper">
               <div class="pull-right">
+                <h3 class="flex-box">Graph statistics</h3>
                 <paper-icon-button dialog-confirm icon="icons:close"></paper-icon-button>
               </div>
 
@@ -500,6 +640,103 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
                   </template>
                   <template>[[ item.occurrences ]]</template>
                 </vaadin-grid-column>
+              </vaadin-grid>
+            </div>
+          </paper-dialog>
+
+          <paper-dialog id="paper-dialog-relations"
+                        class="paper-dialog-relations"
+                        allow-click-through="[[ false ]]">
+            <div class="local-wrapper">
+              <div class="pull-right">
+                <div class="flex-box">
+                    <h3>List of graph relations</h3>
+                    <paper-icon-button icon="icons:file-download" on-click="exportCSV" title="Export CSV"></paper-icon-button>
+                </div>
+                <paper-icon-button dialog-confirm icon="icons:close"></paper-icon-button>
+              </div>
+
+              
+              <!-- extract this to separate component -->
+              <vaadin-grid id="statistics-grid" items="[[ graphMappings ]]" theme="row-stripes">
+                <vaadin-grid-column >
+                  <template class="header">
+                    <div>
+                      <vaadin-grid-sorter path="from.label">Source</vaadin-grid-sorter>
+                    </div>
+                    <div>
+                      <vaadin-grid-filter path="from.label"></vaadin-grid-filter>
+                    </div>
+                  </template>
+                  <template>
+                    <div class$="[[ highlightClass( item.from.id ) ]]">
+                        [[ item.from.label ]]
+                    </div>
+                  </template>
+                </vaadin-grid-column>
+
+                <vaadin-grid-column >
+                  <template class="header">
+                    <div>
+                      <vaadin-grid-sorter path="from.group">Source type</vaadin-grid-sorter>
+                    </div>
+                    <div>
+                      <vaadin-grid-filter path="from.group"></vaadin-grid-filter>
+                    </div>
+                  </template>
+                  <template>
+                    <div class$="[[ highlightClass( item.from.id ) ]]">
+                        [[ item.from.group ]]
+                    </div>
+                  </template>
+                </vaadin-grid-column>
+
+                <vaadin-grid-column >
+                  <template class="header">
+                    <div>
+                      <vaadin-grid-sorter path="mapping">Mapping</vaadin-grid-sorter>
+                    </div>
+                    <div>
+                      <vaadin-grid-filter path="mapping"></vaadin-grid-filter>
+                    </div>
+                  </template>
+                  <template>
+                    [[ item.mapping ]]
+                  </template>
+                </vaadin-grid-column>
+
+                <vaadin-grid-column>
+                  <template class="header">
+                    <div>
+                      <vaadin-grid-sorter path="to.label">Target</vaadin-grid-sorter>
+                    </div>
+                    <div>
+                      <vaadin-grid-filter path="to.label"></vaadin-grid-filter>
+                    </div>
+                  </template>
+                  <template>
+                    <div class$="[[ highlightClass( item.to.id ) ]]">
+                      [[ item.to.label ]]
+                    </div>
+                  </template>
+                </vaadin-grid-column>
+
+                <vaadin-grid-column>
+                  <template class="header">
+                    <div>
+                      <vaadin-grid-sorter path="to.group">Target type</vaadin-grid-sorter>
+                    </div>
+                    <div>
+                      <vaadin-grid-filter path="to.group"></vaadin-grid-filter>
+                    </div>
+                  </template>
+                  <template>
+                    <div class$="[[ highlightClass( item.to.id ) ]]">
+                      [[ item.to.group ]]
+                    </div>
+                  </template>
+                </vaadin-grid-column>
+                
               </vaadin-grid>
             </div>
           </paper-dialog>
