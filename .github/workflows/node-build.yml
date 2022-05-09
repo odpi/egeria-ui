@@ -61,7 +61,7 @@ jobs:
       # For releases (ie not main) we push the image - but not the latest tag
       - name: Build and push (not master merge)
         id: docker_build_release
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v3
         if: ${{ steps.check.outputs.changed == 'true' && github.ref != 'refs/heads/master' }}
         with:
           push:  ${{ github.event_name == 'push' && github.repository == 'odpi/egeria-ui' }}
@@ -72,7 +72,7 @@ jobs:
       # For main code stream we push the image and add the latest tag
       - name: Build and push (master merge)
         id: docker_build_master
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v3
         if: ${{ steps.check.outputs.changed == 'true' && github.ref == 'refs/heads/master' }}
         with:
           push:  ${{ github.event_name == 'push' && github.repository == 'odpi/egeria-ui' }}
