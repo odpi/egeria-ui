@@ -274,7 +274,7 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
         .pop();
     }
 
-    if (!['condensedNode', 'subProcess', 'Process'].includes(_selectedNode.group)) {
+    if (!['condensedNode', 'subProcess'].includes(_selectedNode.group)) {
       this.selectedNode = _selectedNode;
 
       this.shadowRoot.querySelector('#paper-dialog').open();
