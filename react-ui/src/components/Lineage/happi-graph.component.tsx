@@ -8,7 +8,8 @@ import HappiGraphLegend from "./happi-graph-legend.component";
 import { ActionIcon } from '@mantine/core';
 import {
   MdZoomIn,
-  MdZoomOut
+  MdZoomOut,
+  MdOutlineCenterFocusWeak
 } from 'react-icons/md';
 
 interface Props {
@@ -166,6 +167,7 @@ class HappiGraph extends React.Component<Props, State> {
     console.log('svgHeight = ', svgHeight);
 
     this.setState({
+      allGroup: allGroup,
       zoom: d3.zoom()
               .extent([[0,0],[svgWidth, svgHeight]])
               .on('zoom', (e: any) => {
@@ -179,8 +181,6 @@ class HappiGraph extends React.Component<Props, State> {
       addNodes(nodes, nodesGroup);
       addLinks(links, linksGroup, graphDirection);
 
-      console.log(links);
-
       centerGraph(allGroup, svg, zoom);
     });
   }
@@ -193,7 +193,8 @@ class HappiGraph extends React.Component<Props, State> {
       zoom,
       svg,
       nodes,
-      links
+      links,
+      allGroup
     } = this.state;
 
     return (<>
@@ -231,6 +232,10 @@ class HappiGraph extends React.Component<Props, State> {
 
           <ActionIcon title="Zoom Out" variant="hover" size={35}>
             <MdZoomOut size={25} onClick={() => customZoomOut(zoom, svg) } />
+          </ActionIcon>
+
+          <ActionIcon title="Fit to screen" variant="hover" size={35}>
+            <MdOutlineCenterFocusWeak size={25} onClick={() => centerGraph(allGroup, svg, zoom) } />
           </ActionIcon>
 
           { actions }

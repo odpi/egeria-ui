@@ -1,8 +1,8 @@
 import React from 'react';
 import { Modal, Table, ActionIcon } from '@mantine/core';
 import {
-  FcStatistics
-} from 'react-icons/fc';
+  IoMdStats
+} from 'react-icons/io';
 
 interface Props {
   nodes?: any;
@@ -73,7 +73,7 @@ class HappiGraphStatistics extends React.Component<Props, State> {
 
     return (<>
       <ActionIcon title="Statistics" variant="hover" size={35}>
-        <FcStatistics size={25} onClick={() => this.setOpened(true)} />
+        <IoMdStats size={25} onClick={() => this.setOpened(true)} />
       </ActionIcon>
 
       <Modal
