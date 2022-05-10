@@ -12,6 +12,10 @@ import {
   MdOutlineCenterFocusWeak
 } from 'react-icons/md';
 
+import {
+  AiOutlineFullscreen
+} from 'react-icons/ai';
+
 interface Props {
   actions: any;
   algorithm?: string;
@@ -40,6 +44,7 @@ interface State {
   svg: any;
   zoom: any;
   allGroup: any;
+  isFullscreen: boolean;
 }
 
 class HappiGraph extends React.Component<Props, State> {
@@ -64,7 +69,8 @@ class HappiGraph extends React.Component<Props, State> {
       selectedNodeId: props.selectedNodeId,
       svg: null,
       zoom: null,
-      allGroup: null
+      allGroup: null,
+      isFullscreen: false
     };
   }
 
@@ -185,6 +191,23 @@ class HappiGraph extends React.Component<Props, State> {
     });
   }
 
+  setFullscreen() {
+    const {
+      isFullscreen
+    } = this.state;
+
+    this.setState({isFullscreen: !isFullscreen}, () => {
+      const {
+        allGroup,
+        svg,
+        zoom
+      } = this.state;
+
+        centerGraph(allGroup, svg, zoom);
+    });
+
+  }
+
   render() {
     const { actions } = this.props;
     const {
@@ -194,11 +217,12 @@ class HappiGraph extends React.Component<Props, State> {
       svg,
       nodes,
       links,
-      allGroup
+      allGroup,
+      isFullscreen
     } = this.state;
 
     return (<>
-      <div className="happi-graph-wrapper">
+      <div className={`happi-graph-wrapper ${ isFullscreen ? 'happi-graph-fullscreen' : '' }`}>
         { isLoading && <h1>isLoading</h1>}
 
         <svg id="happi-graph" ref={ happiGraph }>
@@ -236,6 +260,10 @@ class HappiGraph extends React.Component<Props, State> {
 
           <ActionIcon title="Fit to screen" variant="hover" size={35}>
             <MdOutlineCenterFocusWeak size={25} onClick={() => centerGraph(allGroup, svg, zoom) } />
+          </ActionIcon>
+
+          <ActionIcon title="Fullscreen" variant="hover" size={35}>
+            <AiOutlineFullscreen size={25} onClick={() => this.setFullscreen() } />
           </ActionIcon>
 
           { actions }

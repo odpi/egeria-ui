@@ -113,6 +113,16 @@
   left:5px;
 }
 
+.happi-graph-fullscreen {
+  z-index: 2;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: #ffffff;
+}
+
 .is-loading {
   margin: 0 auto;
   position: relative;
