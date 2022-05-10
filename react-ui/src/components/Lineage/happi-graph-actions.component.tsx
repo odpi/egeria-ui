@@ -34,8 +34,6 @@ class HappiGraphActions extends React.Component<Props, State> {
     const { nodes, links } = this.state;
 
     return (<>
-      <button>Click me</button>
-
       <HappiGraphStatistics nodes={[...nodes]}/>
       <HappiGraphListOfRelationships nodes={[...nodes]} links={[...links]}/>
     </>);

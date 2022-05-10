@@ -1,4 +1,9 @@
 import React from 'react';
+import { Modal, Table, ActionIcon } from '@mantine/core';
+import {
+  BsCardChecklist
+} from 'react-icons/bs';
+
 
 interface Props {
   nodes?: any;
@@ -7,6 +12,7 @@ interface Props {
 
 interface State {
   data: any;
+  opened: boolean;
 }
 
 /**
@@ -22,10 +28,9 @@ class HappiGraphListOfRelationships extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
-    console.log(props, 'props');
-
     this.state = {
-      data: this.generateData(props.nodes, props.links)
+      data: this.generateData(props.nodes, props.links),
+      opened: false
     }
   }
 
@@ -53,17 +58,47 @@ class HappiGraphListOfRelationships extends React.Component<Props, State> {
     return graphMappings;
   }
 
-  render() {
-    const { data } = this.state;
+  setOpened(value: boolean) {
+    this.setState({
+      opened: value
+    });
+  }
 
-    console.log('data', data);
+  render() {
+    const { data, opened } = this.state;
 
     return (<>
-      <button>List of Relationships</button>
+      <ActionIcon title="List of Relationships" variant="hover" size={35}>
+        <BsCardChecklist size={25} onClick={() => this.setOpened(true)} />
+      </ActionIcon>
 
-      { data && data.map((d: any, i: number) => {
-        return <div key={i}>{ d.from.label }: { d.mapping }: { d.to.label }</div>
-      }) }
+
+      <Modal
+        opened={opened}
+        onClose={() => this.setOpened(false)}
+        centered
+        size={'60%'}
+        title="List of Relationships"
+      >
+        <Table striped highlightOnHover>
+          <thead>
+            <tr>
+              <th>From</th>
+              <th>Mapping</th>
+              <th>To</th>
+            </tr>
+          </thead>
+          <tbody>
+            { data &&  data.map((d: any, i: number) => (
+              <tr key={i}>
+                <td>{d.from.label}</td>
+                <td>{d.mapping}</td>
+                <td>{d.to.label}</td>
+              </tr>
+            )) }
+          </tbody>
+        </Table>
+      </Modal>
     </>);
   }
 }

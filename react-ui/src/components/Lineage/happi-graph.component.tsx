@@ -5,6 +5,11 @@ import { mapLinks, mapNodes } from "./happi-graph.helpers";
 import { elkApproach, visApproach } from "./happi-graph.algorithms";
 import { addLinks, addNodes, centerGraph, customZoomIn, customZoomOut } from "./happi-graph.render";
 import HappiGraphLegend from "./happi-graph-legend.component";
+import { ActionIcon } from '@mantine/core';
+import {
+  MdZoomIn,
+  MdZoomOut
+} from 'react-icons/md';
 
 interface Props {
   actions: any;
@@ -220,8 +225,13 @@ class HappiGraph extends React.Component<Props, State> {
         </svg>
 
         <div className="happi-graph-actions">
-          <button onClick={() => customZoomIn(zoom, svg) }>Zoom In</button>
-          <button onClick={() => customZoomOut(zoom, svg) }>Zoom Out</button>
+          <ActionIcon title="Zoom In" variant="hover" size={35}>
+            <MdZoomIn size={25} onClick={() => customZoomIn(zoom, svg) } />
+          </ActionIcon>
+
+          <ActionIcon title="Zoom Out" variant="hover" size={35}>
+            <MdZoomOut size={25} onClick={() => customZoomOut(zoom, svg) } />
+          </ActionIcon>
 
           { actions }
         </div>

@@ -1,4 +1,8 @@
 import React from 'react';
+import { Modal, Table, ActionIcon } from '@mantine/core';
+import {
+  FcStatistics
+} from 'react-icons/fc';
 
 interface Props {
   nodes?: any;
@@ -6,6 +10,7 @@ interface Props {
 
 interface State {
   data: any;
+  opened: any;
 }
 
 /**
@@ -21,10 +26,9 @@ class HappiGraphStatistics extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
-    console.log(props, 'props');
-
     this.state = {
-      data: this.generateData(props.nodes)
+      data: this.generateData(props.nodes),
+      opened: false
     }
   }
 
@@ -58,15 +62,43 @@ class HappiGraphStatistics extends React.Component<Props, State> {
     return typeMapData;
   }
 
+  setOpened(value: boolean) {
+    this.setState({
+      opened: value
+    });
+  }
+
   render() {
-    const { data } = this.state;
+    const { data, opened } = this.state;
 
     return (<>
-      <button>Statistics</button>
+      <ActionIcon title="Statistics" variant="hover" size={35}>
+        <FcStatistics size={25} onClick={() => this.setOpened(true)} />
+      </ActionIcon>
 
-      { data && data.map((d: any, i: number) => {
-        return <div key={i}>{ d.key }: { d.occurrences }</div>
-      }) }
+      <Modal
+        opened={opened}
+        onClose={() => this.setOpened(false)}
+        centered
+        title="Statistics"
+      >
+        <Table striped highlightOnHover>
+          <thead>
+            <tr>
+              <th>Key</th>
+              <th>Occurences</th>
+            </tr>
+          </thead>
+          <tbody>
+            { data &&  data.map((d: any, i: number) => (
+              <tr key={i}>
+                <td>{d.key}</td>
+                <td>{d.occurrences}</td>
+              </tr>
+            )) }
+          </tbody>
+        </Table>
+      </Modal>
     </>);
   }
 }
