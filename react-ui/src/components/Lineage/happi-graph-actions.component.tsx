@@ -1,4 +1,5 @@
 import React from 'react';
+import HappiGraphListOfRelationships from './happi-graph-list-of-relationships.component';
 import HappiGraphStatistics from './happi-graph-statistics.component';
 
 interface Props {
@@ -8,6 +9,7 @@ interface Props {
 
 interface State {
   nodes: any;
+  links: any;
 }
 
 /**
@@ -23,19 +25,19 @@ class HappiGraphActions extends React.Component<Props, State> {
     super(props);
 
     this.state = {
-      nodes: props.rawData.nodes
+      nodes: props.rawData.nodes,
+      links: props.rawData.edges
     };
   }
 
   render() {
-    const { nodes } = this.state;
-
-    console.log(nodes, 'czr');
+    const { nodes, links } = this.state;
 
     return (<>
       <button>Click me</button>
 
       <HappiGraphStatistics nodes={[...nodes]}/>
+      <HappiGraphListOfRelationships nodes={[...nodes]} links={[...links]}/>
     </>);
   }
 }

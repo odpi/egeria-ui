@@ -35,7 +35,7 @@ class HappiGraphStatistics extends React.Component<Props, State> {
     let typeMapData: any = [];
 
     if(_nodes.length) {
-      _nodes.map((n: any) => {
+      _nodes.forEach((n: any) => {
         if(typeMap[n.group]) {
           typeMap[n.group]++;
         } else {
