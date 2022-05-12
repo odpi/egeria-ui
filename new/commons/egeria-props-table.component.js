@@ -43,6 +43,14 @@ class EgeriaPropsTable extends PolymerElement {
     }
   }
 
+  _isGuid(item){
+    return item.key.toLowerCase().includes('guid');
+  }
+
+  _buildItemDetailsUrl(item){
+    return "/asset-catalog/" + btoa(item.value) + "/details";
+  }
+
   static get template() {
     return html`
       <style include="shared-styles">
@@ -126,7 +134,18 @@ class EgeriaPropsTable extends PolymerElement {
               <template>
                 <div class$="rTableRow [[ _rowStripeClass(index) ]]">
                   <div class="rTableCell label">[[item.key]]</div>
-                  <div class="rTableCell">[[item.value]]</div>
+                  <div class="rTableCell">
+                    <dom-if if="[[ _isGuid(item) ]]">
+                      <template>
+                        <a target="_blank" href="[[ _buildItemDetailsUrl(item) ]]">[[item.value]]</a>
+                      </template>
+                    </dom-if>
+                    <dom-if if="[[ !_isGuid(item) ]]">
+                      <template>
+                        [[item.value]]
+                      </template>
+                    </dom-if>
+                  </div>
                 </div>
               </template>
             </dom-repeat>
