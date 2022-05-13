@@ -35,7 +35,6 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
       includeProcesses: { type: Boolean, value: true },
       graphData: { type: Object, value: null },
       selectedNode: { type: Object, value: null },
-      selectedLink: { type: Object, value: null },
       selectedNodeDetails: { type: Object, value: null },
       queryParams: { type: Array, value: [] },
       toggleETLJobs: { type: Boolean, value: true },
@@ -213,10 +212,6 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
       this.onNodeClick(e.detail);
     });
 
-    window.addEventListener('happi-graph-on-link-click', e => {
-      this.onLinkClick(e.detail);
-    });
-
     window.addEventListener('happi-graph-on-cached-graph', e => {
       this.fetchGraphData().then((response) => {this.updateData(response)})
     });
@@ -279,52 +274,6 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
 
       this.shadowRoot.querySelector('#paper-dialog').open();
     }
-  }
-
-  onLinkClick({ linkElement }) {
-
-    if (this.sameLink(linkElement, this.selectedLink)) {
-      this.invertLinkSelection(linkElement)
-    } else {
-      this.selectLink(linkElement)
-
-      if(this.selectedLink){
-        this.deselectLink(this.selectedLink)
-      }
-    }
-    this.selectedLink = linkElement
-  }
-
-  sameLink(link, otherLink) {
-    return link === otherLink
-  }
-
-  invertLinkSelection(linkElement){
-    if(this.isLinkSelected(linkElement)){
-      this.deselectLink(linkElement)
-    }else{
-      this.selectLink(linkElement)
-    }
-  }
-
-  isLinkSelected(linkElement){
-    let stroke = linkElement.style.getPropertyValue("stroke");
-    let stroke_width = linkElement.style.getPropertyValue("stroke-width")
-    let marker_end = linkElement.getAttribute("marker-end")
-
-    return stroke === "var(--happi-graph-primary-color)" && stroke_width === "var(--happi-graph-selected-link-stroke-width)" && marker_end === "url(#arrow-end-selected)";
-  }
-
-  deselectLink(linkElement){
-    linkElement.style.setProperty("stroke", "black")
-    linkElement.style.setProperty("stroke-width", "var(--happi-graph-link-stroke-width)")
-    linkElement.setAttribute("marker-end", "url(#arrow-end)")
-  }
-
-  selectLink(linkElement){
-    linkElement.style.setProperty("stroke", "var(--happi-graph-primary-color)")
-    linkElement.style.setProperty("stroke-width", "var(--happi-graph-selected-link-stroke-width)")
-    linkElement.setAttribute("marker-end", "url(#arrow-end-selected)")
   }
 
   _getPropertiesForDisplay(item) {
