@@ -5,6 +5,7 @@ import '@polymer/paper-listbox/paper-listbox.js';
 import '@polymer/app-layout/app-grid/app-grid-style.js';
 import '@polymer/iron-collapse/iron-collapse.js';
 import '../../old/shared-styles.js';
+import {ENV} from "../../env";
 
 class EgeriaPropsTable extends PolymerElement {
   static get properties() {
@@ -48,7 +49,11 @@ class EgeriaPropsTable extends PolymerElement {
   }
 
   _buildItemDetailsUrl(item){
-    return "/asset-catalog/" + btoa(item.value) + "/details";
+    return "/asset-catalog/" + this.btoa(item.value) + "/details";
+  }
+
+  btoa(string) {
+    return ENV['PRODUCTION'] ? string : window.btoa(string);
   }
 
   static get template() {
