@@ -8,6 +8,7 @@ import { egeriaFetch } from "../../helpers/egeria-fetch";
 import 'multiselect-combo-box/multiselect-combo-box.js';
 import { types } from '../../services/user.service';
 import '@vaadin/vaadin-text-field';
+import {authHeader} from "../../helpers/auth-header";
 
 interface Props {
 }
@@ -75,7 +76,7 @@ class Home extends React.Component<Props, State> {
   }
 
   getAppInfo() {
-    egeriaFetch('/api/public/app/info', {}).then(data => {
+    egeriaFetch('/api/public/app/info', 'GET', authHeader(), {}).then(data => {
       return data.json();
     }).then(data => {
       this.setState({

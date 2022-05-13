@@ -16,24 +16,10 @@ import { handleResponse } from './handle-response';
  * @return {Promise} Returns request promise to be handled separately per case.
  *
  */
-const egeriaFetch = (endpoint: string, options: any) => {
+const egeriaFetch = (endpoint: string, method : string, headers : any, options: any) => {
   const requestOptions: any = {
-    method: 'GET',
-    headers: authHeader(),
-    ...options
-  };
-
-  const apiUrl = process.env.REACT_APP_API_URL || '';
-
-  return fetch(`${apiUrl}${endpoint}`, requestOptions).then(handleResponse);
-}
-
-const egeriaPost = (endpoint: string, body : any, options: any) => {
-
-  const requestOptions: any = {
-    method: 'POST',
-    headers: authHeaderWithContentType(),
-    body: body,
+    method: method,
+    headers: headers,
     ...options
   };
 
@@ -43,6 +29,5 @@ const egeriaPost = (endpoint: string, body : any, options: any) => {
 }
 
 export {
-  egeriaFetch,
-  egeriaPost
+  egeriaFetch
 };

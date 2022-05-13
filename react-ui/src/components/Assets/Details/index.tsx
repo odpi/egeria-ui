@@ -2,6 +2,7 @@ import React from "react";
 import 'carbon-web-components/es/components/data-table';
 import 'carbon-web-components/es/components/breadcrumb';
 import { egeriaFetch } from "../../../helpers/egeria-fetch";
+import {authHeader} from "../../../helpers/auth-header";
 
 interface Props {
   match: any;
@@ -31,7 +32,7 @@ class AssetDetails extends React.Component<Props, State> {
   componentDidMount() {
     const { match } = this.props;
 
-    egeriaFetch(`/api/assets/${ match.params.uuid }`, {}).then(data => {
+    egeriaFetch(`/api/assets/${ match.params.uuid }`, 'GET', authHeader(), {}).then(data => {
       return data.json();
     }).then(data => {
       this.setState({

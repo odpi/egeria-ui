@@ -1,7 +1,7 @@
 import React from "react";
 import {getComponent} from "../../../helpers/commons";
 import '@vaadin/combo-box';
-import {egeriaPost} from "../../../helpers/egeria-fetch";
+import {egeriaFetch} from "../../../helpers/egeria-fetch";
 import NameSuggestions from "./name-suggestions";
 import TypesSuggestions from "./types-suggestions";
 import {IconButton, Tooltip} from "@mui/material";
@@ -9,6 +9,7 @@ import HelpIcon from '@mui/icons-material/Help';
 import {itemName} from "../../Assets/Catalog/helpers";
 import ReactDOM from "react-dom";
 import QualifiedName from "../../Assets/Catalog/qualified-name";
+import {authHeaderWithContentType} from "../../../helpers/auth-header";
 
 
 interface Props {
@@ -103,7 +104,7 @@ class LineageViewer extends React.Component<Props, State> {
         this.setState({
                 isLoading: true
             }, () =>
-                egeriaPost(url, JSON.stringify(body), {}).then(response => {
+                egeriaFetch(url, 'POST', authHeaderWithContentType(), {'body' : JSON.stringify(body)}).then(response => {
                     return response.json();
                 }).then(data => {
                     this.setState({
