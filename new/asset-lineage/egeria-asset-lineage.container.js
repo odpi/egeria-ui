@@ -22,6 +22,7 @@ import '../asset-catalog/egeria-asset-tools.component';
 import { egeriaFetch } from '../commons/fetch';
 import { ENV } from '../../env';
 import { updateBreadcrumb } from '../breadcrumb/egeria-breadcrumb-events';
+import {lineageViewsTypesMapping} from "egeria-js-commons";
 
 class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleComponentsBehavior], PolymerElement) {
   static get properties() {
@@ -29,7 +30,6 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
       pages: { type: Array, observer: '_pagesChanged' },
       nextPages: { type: Array, value: [''] },
       page: { type: String, value: '' },
-      hasVerticalTab: { type: Boolean, value: false },
       fullscreen :  { type: Boolean, value: null },
       guid: { type: String, value: null },
       includeProcesses: { type: Boolean, value: true },
@@ -148,8 +148,6 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
 
   updateSelectedNode(selectedNodeDetails) {
     this.selectedNodeDetails = selectedNodeDetails;
-
-    this.checkForVerticalTab(this.selectedNodeDetails);
   }
 
   fetchGraphData() {
@@ -193,16 +191,17 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
     }
   }
 
-  checkForVerticalTab(selectedNodeDetails) {
-    this.hasVerticalTab = [
-      'RelationalColumn',
-      'TabularColumn',
-      'GlossaryTerm'
-    ].includes(selectedNodeDetails && selectedNodeDetails.type ? selectedNodeDetails.type.name : '');
-  }
-
   _isEqualTo(a, b) {
     return a === b;
+  }
+
+  _hasTab(tabName) {
+    let selectedNodeType = this.selectedNodeDetails && this.selectedNodeDetails.type ? this.selectedNodeDetails.type.name : '';
+    if (selectedNodeType in lineageViewsTypesMapping) {
+      return lineageViewsTypesMapping[selectedNodeType].includes(tabName);
+    } else {
+      return true;
+    }
   }
 
   ready() {
@@ -457,31 +456,37 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
           <paper-tabs attr-for-selected="name" selected="{{ page }}">
 
             <template is="dom-if" if="[[ _hasComponent('ultimate-source') ]]">
+              <template is="dom-if" if="[[ _hasTab('ultimate-source') ]]">
               <paper-tab name="ultimate-source">
                 <a name="ultimate-source" href="/asset-lineage/[[ guid ]]/ultimate-source">
                   <span>Ultimate Source</span>
                 </a>
               </paper-tab>
+              </template>
             </template>
 
             <template is="dom-if" if="[[ _hasComponent('end-to-end') ]]">
+              <template is="dom-if" if="[[ _hasTab('end-to-end') ]]">
               <paper-tab name="end-to-end">
                 <a href="/asset-lineage/[[ guid ]]/end-to-end">
                   <span>End to end</span>
                 </a>
               </paper-tab>
+              </template>
             </template>
 
             <template is="dom-if" if="[[ _hasComponent('ultimate-destination') ]]">
+              <template is="dom-if" if="[[ _hasTab('ultimate-destination') ]]">
               <paper-tab name="ultimate-destination">
                 <a href="/asset-lineage/[[ guid ]]/ultimate-destination">
                   <span>Ultimate Destination</span>
                 </a>
               </paper-tab>
+              </template>
             </template>
 
             <template is="dom-if" if="[[ _hasComponent('vertical-lineage') ]]">
-              <template is="dom-if" if="[[ hasVerticalTab ]]">
+              <template is="dom-if" if="[[ _hasTab('vertical-lineage') ]]">
                 <paper-tab name="vertical-lineage">
                   <a href="/asset-lineage/[[ guid ]]/vertical-lineage">
                     <span>Vertical Lineage</span>
@@ -492,32 +497,28 @@ class EgeriaAssetLineage extends mixinBehaviors([EgeriaItemUtilsBehavior, RoleCo
           </paper-tabs>
 
           <template is="dom-if" if="[[ _isEqualTo(page, 'ultimate-source') ]]">
-            <egeria-asset-lineage-viewer has-vertical-tab="[[ !hasVerticalTab ]]"
-                                         graph-data="[[ graphData ]]"
+            <egeria-asset-lineage-viewer graph-data="[[ graphData ]]"
                                          graph-direction="HORIZONTAL"
                                          toggle-etl-jobs="[[ toggleETLJobs ]]"
                                          fullscreen = "[[fullscreen]]"></egeria-asset-lineage-viewer>
           </template>
 
           <template is="dom-if" if="[[ _isEqualTo(page, 'end-to-end') ]]">
-            <egeria-asset-lineage-viewer has-vertical-tab="[[ hasVerticalTab ]]"
-                                         graph-direction="HORIZONTAL"
+            <egeria-asset-lineage-viewer graph-direction="HORIZONTAL"
                                          graph-data="[[ graphData ]]"
                                          toggle-etl-jobs="[[ toggleETLJobs ]]"
                                          fullscreen = "[[fullscreen]]"></egeria-asset-lineage-viewer>
           </template>
 
           <template is="dom-if" if="[[ _isEqualTo(page, 'ultimate-destination') ]]">
-            <egeria-asset-lineage-viewer has-vertical-tab="[[ !hasVerticalTab ]]"
-                                         graph-direction="HORIZONTAL"
+            <egeria-asset-lineage-viewer graph-direction="HORIZONTAL"
                                          graph-data="[[ graphData ]]"
                                          toggle-etl-jobs="[[ toggleETLJobs ]]"
                                          fullscreen = "[[fullscreen]]"></egeria-asset-lineage-viewer>
           </template>
 
           <template is="dom-if" if="[[ _isEqualTo(page, 'vertical-lineage') ]]">
-            <egeria-asset-lineage-viewer has-vertical-tab="[[ hasVerticalTab ]]"
-                                         graph-direction="VERTICAL"
+            <egeria-asset-lineage-viewer graph-direction="VERTICAL"
                                          graph-data="[[ graphData ]]"
                                          toggle-etl-jobs="[[ toggleETLJobs ]]"
                                          fullscreen = "[[fullscreen]]"></egeria-asset-lineage-viewer>
