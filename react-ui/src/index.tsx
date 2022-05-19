@@ -1,15 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.scss';
-import App from './App';
+import SignIn from './components/Login/SignIn';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import Layout from './components/Layout';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Router basename={'react-ui'}>
+    <Router basename={process.env.REACT_APP_ROOT_PATH}>
       <Switch>
-        <Route path="/app" component={App} />
+        <Route path="/login" component={SignIn} />
+        <Route path="/" component={Layout} />
       </Switch>
     </Router>
   </React.StrictMode>,

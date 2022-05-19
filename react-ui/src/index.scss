@@ -1,13 +1,32 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+:root {
+  --custom-font-family: sans-serif;
+  font-family: var(--custom-font-family);
+  --egeria-primary-color-rgb: 113, 204, 220;
+  --egeria-primary-color: rgb(var(--egeria-primary-color-rgb));
+  --egeria-home-header-background: url('./static/header-background-repeat.svg') repeat top center;
+  --app-background-color: #eeeeee;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+body {
+  margin: 0;
+  font-family: var(--custom-font-family);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 24px;;
 }
+
+
+.flex-1 { flex: 1; }
+.flex-fh { display: flex; align-items: stretch; }
+.flex { display: flex; }
+.flex-column { display: flex; flex-flow: column; height: 100%; }
+.row { display: flex; align-items: center; justify-content: center; }
+.space-between { justify-content: space-between; }
+.full-height { height: 100% }
+
+
+.br5 { border-radius:5px; }
+.mt20 { margin-top:20px; }
+.mt30 { margin-top:30px; }
+.p15 { padding:15px; }
+.m5 { margin: 5px; }

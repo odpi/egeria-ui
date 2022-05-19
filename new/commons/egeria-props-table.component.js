@@ -5,6 +5,7 @@ import '@polymer/paper-listbox/paper-listbox.js';
 import '@polymer/app-layout/app-grid/app-grid-style.js';
 import '@polymer/iron-collapse/iron-collapse.js';
 import '../../old/shared-styles.js';
+import {ENV} from "../../env";
 
 class EgeriaPropsTable extends PolymerElement {
   static get properties() {
@@ -41,6 +42,18 @@ class EgeriaPropsTable extends PolymerElement {
       }
       this.shadowRoot.querySelector('#end').scrollIntoView();
     }
+  }
+
+  _isGuid(item){
+    return item.key.toLowerCase().includes('guid');
+  }
+
+  _buildItemDetailsUrl(item){
+    return "/asset-catalog/" + this.btoa(item.value) + "/details";
+  }
+
+  btoa(string) {
+    return ENV['PRODUCTION'] ? string : window.btoa(string);
   }
 
   static get template() {
@@ -126,7 +139,18 @@ class EgeriaPropsTable extends PolymerElement {
               <template>
                 <div class$="rTableRow [[ _rowStripeClass(index) ]]">
                   <div class="rTableCell label">[[item.key]]</div>
-                  <div class="rTableCell">[[item.value]]</div>
+                  <div class="rTableCell">
+                    <dom-if if="[[ _isGuid(item) ]]">
+                      <template>
+                        <a target="_blank" href="[[ _buildItemDetailsUrl(item) ]]">[[item.value]]</a>
+                      </template>
+                    </dom-if>
+                    <dom-if if="[[ !_isGuid(item) ]]">
+                      <template>
+                        [[item.value]]
+                      </template>
+                    </dom-if>
+                  </div>
                 </div>
               </template>
             </dom-repeat>

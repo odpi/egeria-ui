@@ -10,8 +10,8 @@ import '@vaadin/vaadin-icons/vaadin-icons.js';
 import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class.js';
 
 import { RoleComponentsBehavior } from '../../old/common/role-components';
-import { egeriaFetch } from '../commons/fetch.js';
 import { ENV } from '../../env';
+import {lineageViewsTypesMapping} from 'egeria-js-commons';
 
 class EgeriaAssetTools extends mixinBehaviors(RoleComponentsBehavior, PolymerElement) {
   static get properties() {
@@ -26,8 +26,12 @@ class EgeriaAssetTools extends mixinBehaviors(RoleComponentsBehavior, PolymerEle
     return ENV['PRODUCTION'] ? string : window.btoa(string);
   }
 
-  _displayVerticalLineageButton(type) {
-    return (type === 'RelationalColumn' || type === 'TabularColumn' || type === 'GlossaryTerm' || type === 'TabularFileColumn');
+  _hasTab(type, tabName) {
+    if (type in lineageViewsTypesMapping) {
+      return lineageViewsTypesMapping[type].includes(tabName);
+    } else {
+      return true;
+    }
   }
 
   _decode(string) {
@@ -60,44 +64,50 @@ class EgeriaAssetTools extends mixinBehaviors(RoleComponentsBehavior, PolymerEle
         <template is="dom-if" if="[[ components ]]">
           <ul id="menu">
             <template is="dom-if" if="[[ _hasComponent('ultimate-source') ]]">
-              <li>
-                <a href="/asset-lineage/[[ btoa(guid) ]]/ultimate-source" title="Ultimate Source Lineage">
-                  <paper-button raised>
-                  <iron-icon icon="vaadin:connect-o" style="transform: rotate(180deg)"></iron-icon>
+              <template is="dom-if" if="[[ _hasTab(type, 'ultimate-source') ]]">
+                <li>
+                  <a href="/asset-lineage/[[ btoa(guid) ]]/ultimate-source" title="Ultimate Source Lineage">
+                    <paper-button raised>
+                      <iron-icon icon="vaadin:connect-o" style="transform: rotate(180deg)"></iron-icon>
 
-                  <div>&nbsp;Source</div>
-                  </paper-button>
-                </a>
-              </li>
+                      <div>&nbsp;Source</div>
+                    </paper-button>
+                  </a>
+                </li>
+              </template>
             </template>
             <template is="dom-if" if="[[ _hasComponent('end-to-end') ]]">
-              <li>
-                <a href="/asset-lineage/[[ btoa(guid) ]]/end-to-end" title="End2End Lineage">
-                  <paper-button raised>
-                    <iron-icon icon="vaadin:cluster"></iron-icon>
+              <template is="dom-if" if="[[ _hasTab(type, 'end-to-end') ]]">
+                <li>
+                  <a href="/asset-lineage/[[ btoa(guid) ]]/end-to-end" title="End2End Lineage">
+                    <paper-button raised>
+                      <iron-icon icon="vaadin:cluster"></iron-icon>
 
-                    <div>&nbsp;End2End</div>
-                  </paper-button>
-                </a>
-              </li>
+                      <div>&nbsp;End2End</div>
+                    </paper-button>
+                  </a>
+                </li>
+              </template>
             </template>
             <template is="dom-if" if="[[ _hasComponent('ultimate-destination') ]]">
-            <li>
-              <a href="/asset-lineage/[[ btoa(guid) ]]/ultimate-destination" title="Ultimate Destination Lineage">
-                <paper-button raised>
-                  <iron-icon icon="vaadin:connect-o"></iron-icon>
+              <template is="dom-if" if="[[ _hasTab(type, 'ultimate-destination') ]]">
+                <li>
+                  <a href="/asset-lineage/[[ btoa(guid) ]]/ultimate-destination" title="Ultimate Destination Lineage">
+                    <paper-button raised>
+                      <iron-icon icon="vaadin:connect-o"></iron-icon>
 
-                  <div>&nbsp;Dest</div>
-                </paper-button>
-              </a>
-            </li>
+                      <div>&nbsp;Dest</div>
+                    </paper-button>
+                  </a>
+                </li>
+              </template>
             </template>
             <template is="dom-if" if="[[ _hasComponent('vertical-lineage') ]]">
-              <template is="dom-if" if="[[ _displayVerticalLineageButton(type) ]]">
+              <template is="dom-if" if="[[ _hasTab(type, 'vertical-lineage') ]]">
                 <li>
                   <a href="/asset-lineage/[[ btoa(guid) ]]/vertical-lineage" title="Vertical Lineage">
                     <paper-button raised>
-                      <iron-icon  icon="vaadin:file-tree"></iron-icon>
+                      <iron-icon icon="vaadin:file-tree"></iron-icon>
 
                       <div>&nbsp;Vertical Lineage</div>
                     </paper-button>
@@ -105,7 +115,7 @@ class EgeriaAssetTools extends mixinBehaviors(RoleComponentsBehavior, PolymerEle
                 </li>
               </template>
             </template>
-            <template is="dom-if" if="[[ _hasComponent('rex') ]]">
+            <template is="dom-if" if="[[ _hasComponent('rex') && _hasTab(type, 'rex')]]">
               <li>
                 <a href="/repository-explorer/[[ _decode(guid) ]]" title="Repository explorer">
                   <paper-button raised>
@@ -116,7 +126,7 @@ class EgeriaAssetTools extends mixinBehaviors(RoleComponentsBehavior, PolymerEle
                 </a>
               </li>
             </template>
-          </ul>
+        </ul>
         </template>
       `;
   }
