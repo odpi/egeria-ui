@@ -5,7 +5,9 @@ import { mapLinks, mapNodes } from "./happi-graph.helpers";
 import { elkApproach, visApproach } from "./happi-graph.algorithms";
 import { addLinks, addNodes, centerGraph, customZoomIn, customZoomOut } from "./happi-graph.render";
 import HappiGraphLegend from "./happi-graph-legend.component";
+
 import { ActionIcon } from '@mantine/core';
+
 import {
   MdZoomIn,
   MdZoomOut,
@@ -13,7 +15,8 @@ import {
 } from 'react-icons/md';
 
 import {
-  AiOutlineFullscreen
+  AiOutlineFullscreen,
+  AiOutlineFullscreenExit
 } from 'react-icons/ai';
 
 interface Props {
@@ -263,7 +266,8 @@ class HappiGraph extends React.Component<Props, State> {
           </ActionIcon>
 
           <ActionIcon title="Fullscreen" variant="hover" size={35}>
-            <AiOutlineFullscreen size={25} onClick={() => this.setFullscreen() } />
+            { !isFullscreen && <AiOutlineFullscreen size={25} onClick={() => this.setFullscreen() } /> }
+            { isFullscreen && <AiOutlineFullscreenExit size={25} onClick={() => this.setFullscreen() } /> }
           </ActionIcon>
 
           { actions }
