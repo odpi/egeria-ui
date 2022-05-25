@@ -65,7 +65,7 @@
     "@polymer/paper-tabs": "3.1.0",
     "@polymer/paper-toast": "3.0.1",
     "@polymer/paper-toggle-button": "3.0.1",
-    "@polymer/polymer": "3.4.1",
+    "@polymer/polymer": "3.5.0",
     "@vaadin/vaadin": "18.0.6",
     "@vaadin/vaadin-core": "18.0.6",
     "@webcomponents/webcomponentsjs": "2.5.0",
