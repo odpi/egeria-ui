@@ -50,7 +50,8 @@
     "uuid": "^8.3.2",
     "vis-network": "^9.0.4",
     "web-vitals": "^1.1.2",
-    "web-worker": "^1.2.0"
+    "web-worker": "^1.2.0",
+    "react-ui-components-library": "file:../../react-ui-components-library"
   },
   "scripts": {
     "preinstall": "node preinstall.js",

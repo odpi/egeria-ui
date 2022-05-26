@@ -20,6 +20,8 @@ import { authenticationService } from './services/authentication.service';
 import AssetCatalog from './components/Assets/Catalog';
 import Lineage from './components/Lineage';
 
+import { ExampleComponent } from 'react-ui-components-library';
+
 /*
  * By using typescript all elements must have a type declaration and since
  * imported components are javascript we need to declare this
@@ -105,6 +107,8 @@ class App extends React.Component<Props, State> {
 
     return (
       <div className="App">
+        <ExampleComponent />
+
         <vaadin-app-layout>
           <vaadin-drawer-toggle slot="navbar touch-optimized"></vaadin-drawer-toggle>
           <h3 slot="navbar touch-optimized">Egeria UI</h3>
