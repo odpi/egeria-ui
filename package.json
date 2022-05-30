@@ -66,7 +66,7 @@
     "@polymer/paper-toast": "3.0.1",
     "@polymer/paper-toggle-button": "3.0.1",
     "@polymer/polymer": "3.4.1",
-    "@vaadin/vaadin": "18.0.6",
+    "@vaadin/vaadin": "23.0.10",
     "@vaadin/vaadin-core": "18.0.6",
     "@webcomponents/webcomponentsjs": "2.5.0",
     "d3": "5.16.0",
