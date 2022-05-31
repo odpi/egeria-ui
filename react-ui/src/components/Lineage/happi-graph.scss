@@ -29,6 +29,26 @@
   stroke: var(--happi-graph-primary-color);
 }
 
+.arrow {
+  fill: #000000;
+}
+
+.arrow-selected {
+  fill: var(--happi-graph-primary-color);
+}
+
+.links-group {
+  .link {
+    stroke: black;
+    stroke-width: 2;
+
+    &.link-clicked {
+      stroke: var(--happi-graph-primary-color);
+      stroke-width: 2;
+    }
+  }
+}
+
 .header {
   fill: #000000;
   white-space: pre;

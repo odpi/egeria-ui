@@ -20,7 +20,7 @@ import { authenticationService } from './services/authentication.service';
 import AssetCatalog from './components/Assets/Catalog';
 import Lineage from './components/Lineage';
 
-import { ExampleComponent } from 'react-ui-components-library';
+import { Button } from 'react-ui-components-library';
 
 /*
  * By using typescript all elements must have a type declaration and since
@@ -107,7 +107,9 @@ class App extends React.Component<Props, State> {
 
     return (
       <div className="App">
-        <ExampleComponent />
+        {/* <h1>Test</h1>
+
+        <Button label={'test'} /> */}
 
         <vaadin-app-layout>
           <vaadin-drawer-toggle slot="navbar touch-optimized"></vaadin-drawer-toggle>
@@ -154,7 +156,7 @@ class App extends React.Component<Props, State> {
             <Switch>
               <Route exact path={'/'}>
                 <div className="center">
-                  {/* <img src={logo} height="200px" alt="Egeria Logo"/> */}
+
                 </div>
               </Route>
 

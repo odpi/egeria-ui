@@ -459,8 +459,7 @@ const addLinks = (links: any, linksGroup: any, graphDirection: string) => {
 
   _linksGroup
     .append('line')
-    .style('stroke', 'black')
-    .style('stroke-width', 2)
+    .classed('link', true)
     .attr('stroke-dasharray', (d: any) => {
       return linksTypeIconMap[d.type] ? linksTypeIconMap[d.type].strokeDashArray : null;
     })
@@ -487,7 +486,22 @@ const addLinks = (links: any, linksGroup: any, graphDirection: string) => {
       let { to } = getLinkCoordinates(d.from, d.to, graphDirection);
 
       return to.y;
-    });
+    })
+    .on('click', (d: any) => {
+        let clicked = d3.select(d.currentTarget);
+
+        if (clicked.classed('link-clicked')) {
+          d3.selectAll('.link')
+            .attr('marker-start', (d: any) => (d.connectionFrom) ? 'url(#arrow-start)' : null)
+            .attr('marker-end', (d: any) => (d.connectionTo) ? 'url(#arrow-end)' : null)
+            .classed('link-clicked', false);
+        } else {
+          clicked
+            .attr('marker-start', (d: any) => (d.connectionFrom) ? 'url(#arrow-start-selected)' : null)
+            .attr('marker-end', (d: any) => (d.connectionTo) ? 'url(#arrow-end-selected)' : null)
+            .classed('link-clicked', true);
+        }
+    })
 }
 
 export {

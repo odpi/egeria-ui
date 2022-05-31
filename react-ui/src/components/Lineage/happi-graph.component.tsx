@@ -237,7 +237,17 @@ class HappiGraph extends React.Component<Props, State> {
                     refY="3"
                     orient="auto"
                     markerUnits="strokeWidth">
-              <path d="M9,0 L9,6 L0,3 z" fill="#000" />
+              <path d="M9,0 L9,6 L0,3 z" className="arrow" />
+            </marker>
+
+            <marker id="arrow-start-selected"
+                    markerWidth="10"
+                    markerHeight="10"
+                    refX="0"
+                    refY="3"
+                    orient="auto"
+                    markerUnits="strokeWidth">
+              <path d="M9,0 L9,6 L0,3 z" className="arrow-selected" />
             </marker>
 
             <marker id="arrow-end"
@@ -247,7 +257,17 @@ class HappiGraph extends React.Component<Props, State> {
                     refY="3"
                     orient="auto"
                     markerUnits="strokeWidth">
-              <path d="M0,0 L0,6 L9,3 z" fill="#000" />
+              <path d="M0,0 L0,6 L9,3 z" className="arrow" />
+            </marker>
+
+            <marker id="arrow-end-selected"
+                    markerWidth="10"
+                    markerHeight="10"
+                    refX="7"
+                    refY="3"
+                    orient="auto"
+                    markerUnits="strokeWidth">
+              <path d="M0,0 L0,6 L9,3 z" className="arrow-selected" />
             </marker>
           </defs>
         </svg>
