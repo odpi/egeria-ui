@@ -195,7 +195,7 @@ const addHeader = (nodeGroup: any) => {
     .text((d: any) => d.label);
 };
 
-const addNodes = (nodes: any, nodesGroup: any) => {
+const addNodes = (nodes: any, nodesGroup: any, graphDirection: string) => {
   let _nodesGroup: any = nodesGroup
                           .selectAll()
                           .data(nodes)
@@ -213,75 +213,76 @@ const addNodes = (nodes: any, nodesGroup: any) => {
           .on('start', (d) => {
             // console.log('DRAG_START', d);
           })
-          .on('drag', function(d: any) {
-          //   d.x = d3.event.x;
+          .on('drag', function(event: any, d: any) {
+            d.x = event.x;
 
-          //   if(self.graphDirection !== 'VERTICAL') {
-          //     d.y = d3.event.y;
-          //   }
+            if(graphDirection !== 'VERTICAL') {
+              d.y = event.y;
+            }
 
-          //   d3.select(this)
-          //     .attr('transform', `translate(${d3.event.x}, ${d.y})`);
+            console.log(event);
 
-          //     let _links =
-          //       d3.select(
-          //         d3.select(this)
-          //           .node()
-          //           .parentNode
-          //           .parentNode
-          //       )
-          //       .selectAll('.links-group')
-          //       .selectAll('line');
+            d3.select(this)
+              .attr('transform', `translate(${d.x}, ${d.y})`);
 
-          //     _links
-          //       .filter(function(_d) {
-          //         return _d.from.id === d.id;
-          //       })
-          //       .attr('x1', (_d) => {
-          //         let { from, to } = getLinkCoordinates(_d.from, _d.to, self.graphDirection);
+              let _links: any =
+                  d3.selectAll('.links-group')
+                    .selectAll('line');
 
-          //         return from.x;
-          //       })
-          //       .attr('y1', (_d) => {
-          //         let { from, to } = getLinkCoordinates(_d.from, _d.to, self.graphDirection);
+              console.log(_links
+                .filter(function(_d: any) {
+                  return _d.from.id === d.id;
+                }));
 
-          //         return from.y;
-          //       })
-          //       .attr('x2', (_d) => {
-          //         let { from, to } = getLinkCoordinates(_d.from, _d.to, self.graphDirection);
+            _links
+              .filter(function(_d: any) {
+                return _d.from.id === d.id;
+              })
+              .attr('x1', (_d: any) => {
+                let { from, to } = getLinkCoordinates(_d.from, _d.to, graphDirection);
 
-          //         return to.x;
-          //       })
-          //       .attr('y2', (_d) => {
-          //         let { from, to } = getLinkCoordinates(_d.from, _d.to, self.graphDirection);
+                return from.x;
+              })
+              .attr('y1', (_d: any) => {
+                let { from, to } = getLinkCoordinates(_d.from, _d.to, graphDirection);
 
-          //         return to.y;
-          //       });
+                return from.y;
+              })
+              .attr('x2', (_d: any) => {
+                let { from, to } = getLinkCoordinates(_d.from, _d.to, graphDirection);
 
-          //     _links
-          //       .filter(function(_d) {
-          //         return _d.to.id === d.id;
-          //       })
-          //       .attr('x1', (_d) => {
-          //         let { from, to } = getLinkCoordinates(_d.from, _d.to, self.graphDirection);
+                return to.x;
+              })
+              .attr('y2', (_d: any) => {
+                let { from, to } = getLinkCoordinates(_d.from, _d.to, graphDirection);
 
-          //         return from.x;
-          //       })
-          //       .attr('y1', (_d) => {
-          //         let { from, to } = getLinkCoordinates(_d.from, _d.to, self.graphDirection);
+                return to.y;
+              });
 
-          //         return from.y;
-          //       })
-          //       .attr('x2', (_d) => {
-          //         let { from, to } = getLinkCoordinates(_d.from, _d.to, self.graphDirection);
+            _links
+              .filter(function(_d: any) {
+                return _d.to.id === d.id;
+              })
+              .attr('x1', (_d: any) => {
+                let { from, to } = getLinkCoordinates(_d.from, _d.to, graphDirection);
 
-          //         return to.x;
-          //       })
-          //       .attr('y2', (_d) => {
-          //         let { from, to } = getLinkCoordinates(_d.from, _d.to, self.graphDirection);
+                return from.x;
+              })
+              .attr('y1', (_d: any) => {
+                let { from, to } = getLinkCoordinates(_d.from, _d.to, graphDirection);
 
-          //         return to.y;
-          //       });
+                return from.y;
+              })
+              .attr('x2', (_d: any) => {
+                let { from, to } = getLinkCoordinates(_d.from, _d.to, graphDirection);
+
+                return to.x;
+              })
+              .attr('y2', (_d: any) => {
+                let { from, to } = getLinkCoordinates(_d.from, _d.to, graphDirection);
+
+                return to.y;
+              });
           })
           .on('end', (d) => {
             // console.log('DRAG_END', d);
@@ -436,17 +437,14 @@ export const getNodeAnchorPoint = (node: any, point: any) => {
 };
 
 export const getLinkCoordinates = (nodeA: any, nodeB: any, graphDirection: string) => {
-  let _relativeTo = relativeTo(nodeA, nodeB, graphDirection);
+  let _relativeTo: any = relativeTo(nodeA, nodeB, graphDirection);
 
-  // @ts-ignore
-  let from = getNodeAnchorPoint(nodeA, _relativeTo.a);
-  // @ts-ignore
-  let to = getNodeAnchorPoint(nodeB, _relativeTo.b);
+
+  let from: any = getNodeAnchorPoint(nodeA, _relativeTo.a);
+  let to: any = getNodeAnchorPoint(nodeB, _relativeTo.b);
 
   return {
-    // @ts-ignore
     from: { x: from.x, y: from.y },
-    // @ts-ignore
     to: { x: to.x, y: to.y }
   };
 };
