@@ -185,7 +185,9 @@ class HappiGraph extends React.Component<Props, State> {
     }, () => {
       const { zoom } = this.state;
 
-      svg.call(zoom);
+      svg
+        .call(zoom)
+        .on('dblclick.zoom', null);
 
       addNodes(nodes, nodesGroup);
       addLinks(links, linksGroup, graphDirection, nodes);

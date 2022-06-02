@@ -1,13 +1,9 @@
 import * as d3 from 'd3';
 import { iconsMap, linksTypeIconMap, itemGroupIconMap } from "egeria-js-commons";
 
-// export const iconsMap: any = {};
-// export const linksTypeIconMap: any = linksTypeIconMap;
 export const simpleSquareIcon = `<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 0H20V20H0V0Z" fill="white"/></svg>`;
 
-export const addProperties = (nodeGroup: any, iconsMap: any) => {
-  console.log(nodeGroup);
-
+export const addProperties = (nodeGroup: any) => {
   nodeGroup.each(function (d: any) {
     // @ts-ignore
     d3.select(this)
@@ -74,7 +70,7 @@ export const addProperties = (nodeGroup: any, iconsMap: any) => {
 
             let icon = new DOMParser()
               .parseFromString(
-                iconsMap[p.icon] ? iconsMap[p.icon] : simpleSquareIcon,
+                iconsMap[p.icon] ? iconsMap[p.icon] : iconsMap['simple-square'],
                 'application/xml'
               )
               .documentElement;
@@ -301,7 +297,7 @@ const addNodes = (nodes: any, nodesGroup: any) => {
     isSelected(nodeGroup);
     addHeader(nodeGroup);
     addIcon(nodeGroup, iconsMap);
-    addProperties(nodeGroup, iconsMap);
+    addProperties(nodeGroup);
 };
 
 

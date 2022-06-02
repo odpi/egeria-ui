@@ -1,6 +1,4 @@
-// import from egeria-js-commons
-// const linksTypeIconMap: any = {};
-const propertiesMap: any = {};
+import { itemGroupIconMap } from 'egeria-js-commons';
 
 const getNodeHeight = (length: number) => {
   let defaultHeight = 70;
@@ -21,14 +19,14 @@ const mapNodes = (nodes: any, selectedNodeId: string) => {
       return {
         value: n.properties[k],
         label: k,
-        icon: propertiesMap[camelCased] ? propertiesMap[camelCased].icon : 'simple-square',
+        icon: itemGroupIconMap[camelCased] ? itemGroupIconMap[camelCased].icon : 'simple-square',
         groupName: camelCased
       }
     });
 
     let result = {
       id: n.id,
-      type: propertiesMap[n.group] ? propertiesMap[n.group].icon : 'simple-square',
+      type: itemGroupIconMap[n.group] ? itemGroupIconMap[n.group].icon : 'simple-square',
       value: n.label ? n.label : 'N/A',
       label: n.group ? n.group : 'N/A',
       selected: n.id === selectedNodeId,
