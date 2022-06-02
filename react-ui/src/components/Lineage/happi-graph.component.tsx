@@ -295,7 +295,7 @@ class HappiGraph extends React.Component<Props, State> {
           { actions }
         </div>
 
-        <div className="happi-graph-legend">
+        <div className="happi-graph-legend-wrapper">
           <HappiGraphLegend nodes={nodes} links={links}/>
         </div>
       </div>

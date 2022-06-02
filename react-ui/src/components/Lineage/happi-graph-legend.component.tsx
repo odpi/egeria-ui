@@ -1,8 +1,11 @@
 import React from 'react';
+
+import { ActionIcon, Text, Switch } from '@mantine/core';
+
 import {
-  BsToggle2Off,
-  BsToggle2On
-} from 'react-icons/bs';
+  MdToggleOff,
+  MdToggleOn
+} from 'react-icons/md';
 
 import {
   getIcon,
@@ -73,24 +76,27 @@ class HappiGraphLegend extends React.Component<Props, State> {
 
     return (<>
       <div className="happi-graph-legend">
-        { isMinimised && <BsToggle2Off size={40} onClick={() => { this.toggleMinimise() }}/> }
-        { !isMinimised && <BsToggle2On size={40} onClick={() => { this.toggleMinimise() }}/> }
+        <div className="toggler">
+          <Switch label="Legend" checked={!isMinimised} onClick={() => { this.toggleMinimise() }} />
+        </div>
 
-        { legendData && !isMinimised && getLegendCategories(legendData).map((legendKey: any, legendKeyId: number) => {
-          return <><div className="icon-title" key={uuidv4()}>
-            <b>{ legendKey }</b>
-          </div>
+        <div className="contents">
+          { legendData && !isMinimised && getLegendCategories(legendData).map((legendKey: any, legendKeyId: number) => {
+            return <><div className="icon-title" key={uuidv4()}>
+              <b>{ legendKey }</b>
+            </div>
 
-          <div className="svg-icons">
-            { legendData && legendKey && getLegendLabels(legendData, legendKey).map((label: any, labelId: number) => {
-              return <div className="svg-icon" key={uuidv4()}>
-                <img src={ `data:image/svg+xml;utf8,${ getIcon(legendKey, label, legendData) }` } alt="icon" />
+            <div className="svg-icons">
+              { legendData && legendKey && getLegendLabels(legendData, legendKey).map((label: any, labelId: number) => {
+                return <div className="svg-icon" key={uuidv4()}>
+                  <img src={ `data:image/svg+xml;utf8,${ getIcon(legendKey, label, legendData) }` } alt="icon" />
 
-                <span>{ label }</span>
-              </div>
-            }) }
-          </div>
-        </>}) }
+                  <span>{ label }</span>
+                </div>
+              }) }
+            </div>
+          </>}) }
+        </div>
       </div>
     </>);
   }
