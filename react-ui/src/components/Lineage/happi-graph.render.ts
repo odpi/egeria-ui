@@ -16,7 +16,7 @@ export const addProperties = (nodeGroup: any) => {
           for (const p of d.properties) {
             let propertyGroup = selection.append('g').classed('property-group', true);
 
-            /*let property = */propertyGroup
+            let property = propertyGroup
                             .append('text')
                             .attr('transform', `translate(95, ${labelHeight})`)
                             .attr('data-text-length', p.value.length)
@@ -25,48 +25,47 @@ export const addProperties = (nodeGroup: any) => {
                             .classed('property', true)
                             .text(() => p.value.length > PROPERTY_MAX_LENGTH ? `${p.value.substring(0, PROPERTY_MAX_LENGTH)}...` : p.value);
 
-            // property
-            //  .on('mouseover', function (d) {
+            property
+             .on('mouseover', function (d: any) {
+                let currentNode = d3.select(d.currentTarget);
 
-                // let currentNode = d3.select(this);
+                let textLength = parseInt(currentNode.attr('data-text-length'));
 
-                // let textLength = parseInt(currentNode.attr('data-text-length'));
+                if(textLength > PROPERTY_MAX_LENGTH) {
+                  let dataLabelHeight = parseInt(currentNode.attr('data-label-height'));
+                  let value = currentNode.attr('data-value');
 
-                // if(textLength > PROPERTY_MAX_LENGTH) {
-                //   let dataLabelHeight = parseInt(currentNode.attr('data-label-height'));
-                //   let value = currentNode.attr('data-value');
+                  let fullPropertyBackground = d3.select(d.currentTarget.parentNode)
+                                      .append('rect')
+                                      .classed('full-property-background', true)
+                                      .attr('transform', `translate(70, ${dataLabelHeight - 40})`);
 
-                //   let fullPropertyBackground = d3.select(this.parentNode)
-                //                       .append('rect')
-                //                       .classed('full-property-background', true)
-                //                       .attr('transform', `translate(70, ${dataLabelHeight - 40})`);
+                  let fullProperty: any = d3.select(d.currentTarget.parentNode)
+                                        .append('text')
+                                        .classed('full-property', true)
+                                        .attr('transform', `translate(78, ${dataLabelHeight - 32})`)
+                                        .text(() => value);
 
-                //   let fullProperty = d3.select(this.parentNode)
-                //                         .append('text')
-                //                         .classed('full-property', true)
-                //                         .attr('transform', `translate(78, ${dataLabelHeight - 32})`)
-                //                         .text(() => value);
+                  let localBBox = fullProperty.node().getBBox();
 
-                //   let localBBox = fullProperty.node().getBBox();
+                  fullPropertyBackground.attr('x', localBBox.x)
+                                        .attr('y', localBBox.y)
+                                        .attr('width', localBBox.width + 18)
+                                        .attr('height', localBBox.height + 16)
+                                        .attr('rx', 10)
+                                        .attr('ry', 10);
+                }
+              })
+              .on('mouseout', function (d) {
+                let currentNode = d3.select(d.currentTarget);
 
-                //   fullPropertyBackground.attr('x', localBBox.x)
-                //                         .attr('y', localBBox.y)
-                //                         .attr('width', localBBox.width + 18)
-                //                         .attr('height', localBBox.height + 16)
-                //                         .attr('rx', 10)
-                //                         .attr('ry', 10);
-                // }
-              // })
-              // .on('mouseout', function (d) {
-                // let currentNode = d3.select(this);
+                let textLength = parseInt(currentNode.attr('data-text-length'));
 
-                // let textLength = parseInt(currentNode.attr('data-text-length'));
-
-                // if(textLength > 10) {
-                //   d3.select(this.parentNode.getElementsByClassName('full-property-background')[0]).remove();
-                //   d3.select(this.parentNode.getElementsByClassName('full-property')[0]).remove();
-                // }
-              // });
+                if(textLength > 10) {
+                  d3.select(d.currentTarget.parentNode.getElementsByClassName('full-property-background')[0]).remove();
+                  d3.select(d.currentTarget.parentNode.getElementsByClassName('full-property')[0]).remove();
+                }
+              });
 
             let icon = new DOMParser()
               .parseFromString(
@@ -147,43 +146,47 @@ const addHeader = (nodeGroup: any) => {
       .text((d: any) => d.value.length > 18 ? `${d.value.substring(0, 18)}...` : d.value)
 
   textHeader
-    .on('mouseover', function (event: any, d: any) {
-      // let textLength = parseInt(textHeader.attr('data-text-length'));
+    .on('mouseover', function (d: any) {
+      let currentNode = d3.select(d.currentTarget);
 
-      // if(textLength > 18) {
-      //   let value = textHeader.attr('data-value');
+      let textLength = parseInt(currentNode.attr('data-text-length'));
 
-      //   let fullHeaderBackground =
-      //     d3.select(textHeader.parentNode)
-      //       .append('rect')
-      //       .classed('full-header-background', true)
-      //       .attr('transform', `translate(20, -10)`)
-      //       .attr('rx', 10)
-      //       .attr('ry', 10);
+      if(textLength > 18) {
+        let value = currentNode.attr('data-value');
 
-      //   let fullHeader =
-      //     header
-      //       .append('text')
-      //       .classed('full-header', true)
-      //       .attr('transform', `translate(30, 0)`)
-      //       .text(() => value);
+        let fullHeaderBackground =
+          d3.select(d.currentTarget.parentNode)
+            .append('rect')
+            .classed('full-header-background', true)
+            .attr('transform', `translate(20, -10)`)
+            .attr('rx', 10)
+            .attr('ry', 10);
 
-      //   let localBBox = fullHeader.node().getBBox();
+        let fullHeader: any =
+          d3.select(d.currentTarget.parentNode)
+            .append('text')
+            .classed('full-header', true)
+            .attr('transform', `translate(30, 0)`)
+            .text(() => value);
 
-      //   fullHeaderBackground
-      //     .attr('x', localBBox.x)
-      //     .attr('y', localBBox.y)
-      //     .attr('width', localBBox.width + 20)
-      //     .attr('height', localBBox.height + 20);
-      // }
+        let localBBox = fullHeader.node().getBBox();
+
+        fullHeaderBackground
+          .attr('x', localBBox.x)
+          .attr('y', localBBox.y)
+          .attr('width', localBBox.width + 20)
+          .attr('height', localBBox.height + 20);
+      }
     })
-    .on('mouseout', function (event: any, d: any) {
-      // let textLength = parseInt(textHeader.attr('data-text-length'));
+    .on('mouseout', function (d: any) {
+      let currentNode = d3.select(d.currentTarget);
 
-      // if(textLength > 18) {
-      //   header.select('.full-header-background').remove();
-      //   header.select('.full-header').remove();
-      // }
+      let textLength = parseInt(currentNode.attr('data-text-length'));
+
+      if(textLength > 18) {
+        d3.select(d.currentTarget.parentNode.getElementsByClassName('full-header-background')[0]).remove();
+        d3.select(d.currentTarget.parentNode.getElementsByClassName('full-header')[0]).remove();
+      }
     });
 
   header.append('text')
