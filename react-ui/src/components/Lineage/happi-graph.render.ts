@@ -220,19 +220,12 @@ const addNodes = (nodes: any, nodesGroup: any, graphDirection: string) => {
               d.y = event.y;
             }
 
-            console.log(event);
-
             d3.select(this)
               .attr('transform', `translate(${d.x}, ${d.y})`);
 
               let _links: any =
                   d3.selectAll('.links-group')
                     .selectAll('line');
-
-              console.log(_links
-                .filter(function(_d: any) {
-                  return _d.from.id === d.id;
-                }));
 
             _links
               .filter(function(_d: any) {
