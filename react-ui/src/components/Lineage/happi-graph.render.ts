@@ -452,7 +452,7 @@ export const getLinkCoordinates = (nodeA: any, nodeB: any, graphDirection: strin
   };
 };
 
-const addLinks = (links: any, linksGroup: any, graphDirection: string) => {
+const addLinks = (links: any, linksGroup: any, graphDirection: string, nodes: any) => {
   let _linksGroup = linksGroup.selectAll()
     .data(links)
     .enter();
@@ -460,6 +460,9 @@ const addLinks = (links: any, linksGroup: any, graphDirection: string) => {
   _linksGroup
     .append('line')
     .classed('link', true)
+    .attr('label', (d: any) => {
+      return d.label;
+    })
     .attr('stroke-dasharray', (d: any) => {
       return linksTypeIconMap[d.type] ? linksTypeIconMap[d.type].strokeDashArray : null;
     })
@@ -487,11 +490,54 @@ const addLinks = (links: any, linksGroup: any, graphDirection: string) => {
 
       return to.y;
     })
+    .on('mouseover', function(d: any) {
+      let position = d.currentTarget.ownerSVGElement.createSVGPoint();
+
+      position.x = d.x;
+      position.y = d.y;
+
+      position = position.matrixTransform(d.currentTarget.getScreenCTM().inverse());
+
+      let linkLabel = d.currentTarget.attributes.label.value;
+      let sourceLabel = nodes.filter((n: any) => n.id === d.currentTarget.attributes.from.value ).pop().value;
+      let targetLabel = nodes.filter((n: any) => n.id === d.currentTarget.attributes.to.value ).pop().value;
+
+      let textBackground =
+          d3.select(d.currentTarget.parentNode)
+              .append('rect')
+              .classed('link-popup-box', true)
+              .attr('transform', `translate(20, -10)`)
+              .style("fill", "#ffffff")
+              .style("stroke", "#cccccc")
+              .attr('rx', 10)
+              .attr('ry', 10);
+
+      let text: any =
+          d3.select(d.currentTarget.parentNode)
+              .append('text')
+              .classed('link-popup-text', true)
+              .attr('transform', `translate(30, 0)`)
+              .attr('x', position.x + 10)
+              .attr('y', position.y + 10)
+              .text(() => `${sourceLabel} :: ${linkLabel} :: ${targetLabel}`);
+
+      let bBox: any = text.node().getBBox();
+
+      textBackground
+          .attr('x', bBox.x)
+          .attr('y', bBox.y)
+          .attr('height', bBox.height + 20)
+          .attr('width', bBox.width + 20);
+    })
+    .on('mouseout', (d: any) => {
+      d.currentTarget.parentNode.getElementsByClassName('link-popup-box')[0].remove();
+      d.currentTarget.parentNode.getElementsByClassName('link-popup-text')[0].remove();
+    })
     .on('click', (d: any) => {
         let clicked = d3.select(d.currentTarget);
 
         if (clicked.classed('link-clicked')) {
-          d3.selectAll('.link')
+          clicked
             .attr('marker-start', (d: any) => (d.connectionFrom) ? 'url(#arrow-start)' : null)
             .attr('marker-end', (d: any) => (d.connectionTo) ? 'url(#arrow-end)' : null)
             .classed('link-clicked', false);

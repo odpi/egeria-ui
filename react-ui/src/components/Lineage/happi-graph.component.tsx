@@ -188,7 +188,7 @@ class HappiGraph extends React.Component<Props, State> {
       svg.call(zoom);
 
       addNodes(nodes, nodesGroup);
-      addLinks(links, linksGroup, graphDirection);
+      addLinks(links, linksGroup, graphDirection, nodes);
 
       centerGraph(allGroup, svg, zoom);
     });
