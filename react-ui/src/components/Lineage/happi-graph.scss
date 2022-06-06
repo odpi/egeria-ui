@@ -1,0 +1,240 @@
+#happi-graph {
+  width:100%;
+  height:100%;
+}
+
+:root {
+  --egeria-primary-color-rgb: 113, 204, 220;
+  --egeria-primary-color: rgb(var(--egeria-primary-color-rgb));
+  --happi-graph-primary-color: var(--egeria-primary-color);
+  --happi-graph-primary-color-rgb: var(--egeria-primary-color-rgb);
+  --happi-graph-font-family: Arial;
+}
+
+:host {
+  display: flex;
+  flex-grow: 1;
+  width: 100%;
+  height: 100%;
+  font: var(--happi-graph-font-family);
+}
+
+.node {
+  fill: #ffffff;
+  stroke: #cccccc;
+}
+
+.node.is-selected {
+  stroke-width: 4px;
+  stroke: var(--happi-graph-primary-color);
+}
+
+.arrow {
+  fill: #000000;
+}
+
+.arrow-selected {
+  fill: var(--happi-graph-primary-color);
+}
+
+.links-group {
+  .link {
+    stroke: black;
+    stroke-width: 2;
+
+    &.link-clicked {
+      stroke: var(--happi-graph-primary-color);
+      stroke-width: 4;
+    }
+  }
+}
+
+.header {
+  fill: #000000;
+  white-space: pre;
+  font-size: 14px;
+  letter-spacing: 0em;
+  cursor: default;
+  font-family: var(--happi-graph-font-family);
+}
+
+.header > .value {
+  font-size: 17px;
+}
+
+.header > .full-header {
+  font-size: 17px;
+}
+
+.header > .label {
+  fill: var(--happi-graph-gray-color);
+}
+
+.pin {
+  fill: var(--happi-graph-primary-color);
+}
+
+.header > .full-header-background {
+  fill: #ffffff;
+  stroke: #cccccc;
+  stroke-width: 1px;
+}
+
+.property-group > .property {
+  font-family: var(--happi-graph-font-family);
+  font-size: 14px;
+  cursor: default;
+}
+
+.property-group > .full-property-background {
+  fill: #ffffff;
+  stroke: #cccccc;
+  stroke-width: 1px;
+}
+
+.property-group > .property-icon > svg > path {
+  fill: var(--happi-graph-primary-color);
+}
+
+.happi-graph-container {
+  height:100%;
+  width:100%;
+
+  position:relative;
+}
+
+.happi-graph-svg {
+  position:absolute;
+  top:0;
+  left:0;
+  width: 100%;
+  height: 100%;
+}
+
+.happi-graph-wrapper {
+  height: 100%;
+  width: 100%;
+  position:relative;
+}
+
+.happi-graph-legend {
+  position: absolute;
+  top:0;
+  right:0;
+  margin-right: 5px;
+  margin-top: 5px;
+}
+
+.happi-graph-actions {
+  display:flex;
+  flex-direction: column;
+  position:absolute;
+  top:5px;
+  left:5px;
+}
+
+.happi-graph-fullscreen {
+  z-index: 2;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: #ffffff;
+}
+
+.is-loading {
+  margin: 0 auto;
+  position: relative;
+  top: 40%;
+  text-align:center;
+}
+
+.happi-graph-legend {
+  display: block;
+  width:30%;
+  max-width:400px;
+  font-size:12px;
+  font-family: var(--happi-graph-font-family);
+
+  .toggler {
+    display: flex;
+    align-items: center;
+    justify-content: right;
+  }
+
+  .contents {
+    margin-top:15px;
+    background: rgba(var(--happi-graph-primary-color-rgb), 0.9);
+    border-radius: 5px;
+  }
+
+  img {
+    height:20px;
+    vertical-align:middle;
+    margin-right:5px;
+  }
+
+  .svg-icons {
+    color: var(--happi-graph-secondary-color);
+
+    padding:10px;
+    max-width:400px;
+
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+  }
+
+  .icon-title {
+    color: var(--happi-graph-secondary-color);
+    padding: 10px;
+    max-width: 400px;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  .svg-icon {
+    display: flex;
+    align-items: center;
+
+    flex-grow: 4;
+    margin:5px;
+  }
+
+  .svg-icon span {
+    margin-top:1px;
+    width:120px;
+  }
+
+  .dropdown {
+    display:flex;
+    justify-content:flex-end;
+    cursor: pointer;
+  }
+
+  paper-button {
+    margin: 0;
+    padding: 0.2em 0.2em 0.4em 0.57em;
+    font-size:15px;
+    color: var(--happi-graph-primary-color);
+    background-color: #f4f5f7;
+    text-transform: none;
+    --paper-button: {
+      @apply(--layout-vertical);
+      @apply(--layout-center-center);
+    };
+  }
+
+  paper-button.keyboard-focus {
+    font-weight: normal;
+  }
+
+  .label {
+    margin-top:4px;
+  }
+
+  .label iron-icon {
+    margin-top:-3px;
+  }
+}

@@ -13,13 +13,12 @@ import '@polymer/iron-icons/hardware-icons.js';
 import '@vaadin/vaadin-lumo-styles/icons.js';
 import '@polymer/iron-icons/iron-icons.js';
 
-import './components/About/lit';
-
 import { PrivateRoute } from './components/PrivateRoute';
 import AssetDetails from './components/Assets/Details';
 import { authenticationService } from './services/authentication.service';
 import AssetCatalog from './components/Assets/Catalog';
 import LineageViewer from "./components/Lineage/Viewer";
+import Lineage from './components/Lineage';
 
 /*
  * By using typescript all elements must have a type declaration and since
@@ -33,7 +32,6 @@ declare global {
       'vaadin-tabs': any;
       'vaadin-tab': any;
       'iron-icon': any;
-      'egeria-about-lit': any;
       'bx-data-table': any;
       'bx-table': any;
       'bx-table-head': any;
@@ -123,6 +121,12 @@ class App extends React.Component<Props, State> {
               </a>
             </vaadin-tab>
             <vaadin-tab>
+              <a href={`${process.env.REACT_APP_ROOT_PATH}/lineage`}>
+                <iron-icon icon="icons:home"></iron-icon>
+                Lineage
+              </a>
+            </vaadin-tab>
+            <vaadin-tab>
               <a href={`${process.env.REACT_APP_ROOT_PATH}/about`}>
                 <iron-icon icon="lumo:cog"></iron-icon>
                 About
@@ -152,7 +156,7 @@ class App extends React.Component<Props, State> {
             <Switch>
               <Route exact path={'/'}>
                 <div className="center">
-                  {/* <img src={logo} height="200px" alt="Egeria Logo"/> */}
+
                 </div>
               </Route>
 
@@ -162,11 +166,9 @@ class App extends React.Component<Props, State> {
 
               <PrivateRoute exact path="/assets/catalog" component={AssetCatalog} />
 
-              <PrivateRoute exact path="/lineage/viewer" component={LineageViewer} />
+              <PrivateRoute exact path="/lineage" component={Lineage} />
 
-              <Route path={`/about-lit`}>
-                <egeria-about-lit></egeria-about-lit>
-              </Route>
+              <PrivateRoute exact path="/lineage/viewer" component={LineageViewer} />
             </Switch>
           </div>
         </vaadin-app-layout>
