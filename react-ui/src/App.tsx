@@ -9,6 +9,7 @@ import '@vaadin/vaadin-app-layout/vaadin-drawer-toggle.js';
 import '@vaadin/vaadin-tabs/vaadin-tabs.js';
 import '@vaadin/vaadin-tabs/vaadin-tab.js';
 import '@polymer/iron-icon/iron-icon.js';
+import '@polymer/iron-icons/hardware-icons.js';
 import '@vaadin/vaadin-lumo-styles/icons.js';
 import '@polymer/iron-icons/iron-icons.js';
 
@@ -18,9 +19,7 @@ import { PrivateRoute } from './components/PrivateRoute';
 import AssetDetails from './components/Assets/Details';
 import { authenticationService } from './services/authentication.service';
 import AssetCatalog from './components/Assets/Catalog';
-import Lineage from './components/Lineage';
-
-import { Button } from 'react-ui-components-library';
+import LineageViewer from "./components/Lineage/Viewer";
 
 /*
  * By using typescript all elements must have a type declaration and since
@@ -47,6 +46,7 @@ declare global {
       'bx-breadcrumb-item': any;
       'bx-breadcrumb-link': any;
       'multiselect-combo-box': any;
+      'vaadin-combo-box' : any;
       'vaadin-text-field': any;
       'vaadin-button': any;
       'vaadin-grid': any;
@@ -144,6 +144,12 @@ class App extends React.Component<Props, State> {
                 Catalog
               </a>
             </vaadin-tab>
+            <vaadin-tab>
+              <a href={`${process.env.REACT_APP_ROOT_PATH}/lineage/viewer`}>
+                <iron-icon icon="hardware:device-hub"></iron-icon>
+                Viewer
+              </a>
+            </vaadin-tab>
             { user && <vaadin-tab>
                 <a href={process.env.REACT_APP_ROOT_PATH} onClick={ () => this.logout() }>
                   <iron-icon icon="lumo:user"></iron-icon>
@@ -166,7 +172,7 @@ class App extends React.Component<Props, State> {
 
               <PrivateRoute exact path="/assets/catalog" component={AssetCatalog} />
 
-              <PrivateRoute exact path="/lineage" component={Lineage} />
+              <PrivateRoute exact path="/lineage/viewer" component={LineageViewer} />
 
               <Route path={`/about-lit`}>
                 <egeria-about-lit></egeria-about-lit>

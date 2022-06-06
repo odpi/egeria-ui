@@ -1,4 +1,4 @@
-import { authHeader } from './auth-header';
+import {authHeader, authHeaderWithContentType} from './auth-header';
 import { authenticationService } from '../services/authentication.service';
 
 jest.mock('../services/authentication.service', () => {
@@ -24,5 +24,13 @@ describe("authHeader()", () => {
     (authenticationService.currentJwt as jest.Mock).mockReturnValue('');
 
     expect(JSON.stringify(authHeader())).toBe(JSON.stringify({}));
+  });
+
+
+  it ("should retrieve with content type", () => {
+    (authenticationService.currentJwt as jest.Mock).mockReturnValue('test');
+
+    expect(JSON.stringify(authHeaderWithContentType())).toBe(JSON.stringify({ "x-auth-token": "test", "Content-Type": "application/json",
+      "accept" : "application/json" }));
   });
 });

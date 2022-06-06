@@ -41,6 +41,7 @@
     "multiselect-combo-box": "^3.0.0-alpha",
     "node-sass": "^6.0.1",
     "react": "^17.0.2",
+    "react-autocomplete": "^1.8.1",
     "react-dom": "^17.0.2",
     "react-icons": "^4.3.1",
     "react-router-dom": "^5.3.0",
@@ -50,8 +51,7 @@
     "uuid": "^8.3.2",
     "vis-network": "^9.0.4",
     "web-vitals": "^1.1.2",
-    "web-worker": "^1.2.0",
-    "react-ui-components-library": "file:../../react-ui-components-library"
+    "web-worker": "^1.2.0"
   },
   "scripts": {
     "preinstall": "node preinstall.js",

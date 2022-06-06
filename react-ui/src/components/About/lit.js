@@ -1,6 +1,7 @@
 import { LitElement, html } from 'lit';
 import { customElementsRegister } from '../../helpers/custom-elements-register';
 import { egeriaFetch } from '../../helpers/egeria-fetch';
+import {authHeader} from "../../helpers/auth-header";
 
 /**
  *
@@ -21,7 +22,7 @@ class AboutLit extends LitElement {
     super.connectedCallback()
     console.log('connected');
 
-    egeriaFetch('/about.json', {})
+    egeriaFetch('/about.json', 'GET', authHeader(), {})
       .then((data) => {
         return data.json()
       })

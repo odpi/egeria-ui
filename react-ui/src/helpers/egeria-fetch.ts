@@ -1,4 +1,4 @@
-import { authHeader } from './auth-header';
+import {authHeader, authHeaderWithContentType} from './auth-header';
 import { handleResponse } from './handle-response';
 
 /**
@@ -16,10 +16,10 @@ import { handleResponse } from './handle-response';
  * @return {Promise} Returns request promise to be handled separately per case.
  *
  */
-const egeriaFetch = (endpoint: string, options: any) => {
+const egeriaFetch = (endpoint: string, method : string, headers : any, options: any) => {
   const requestOptions: any = {
-    method: 'GET',
-    headers: authHeader(),
+    method: method,
+    headers: headers,
     ...options
   };
 

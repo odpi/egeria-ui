@@ -12,6 +12,7 @@ import '@vaadin/vaadin-checkbox/vaadin-checkbox.js';
 import { getComponent } from "../../../helpers/commons";
 import { itemDescription, itemName } from "./helpers";
 import QualifiedName from "./qualified-name";
+import {authHeader} from "../../../helpers/auth-header";
 
 interface Props {
   location: any;
@@ -159,7 +160,7 @@ class AssetCatalog extends React.Component<Props, State> {
       if(willSearch) {
         this.handleSearchHistory();
 
-        egeriaFetch(url, {}).then(response => {
+        egeriaFetch(url, 'GET', authHeader(), {}).then(response => {
           return response.json();
         }).then(data => {
           this.setState({
