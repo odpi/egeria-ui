@@ -28,7 +28,7 @@
     "d3": "^7.3.0",
     "egeria-js-commons": "github:odpi/egeria-js-commons",
     "elkjs": "^0.7.1",
-    "happi-graph": "github:sarbull/happi-graph#happi-graph-in-react",
+    "happi-graph": "github:odpi/happi-graph#react",
     "history": "^5.2.0",
     "multiselect-combo-box": "^3.0.0-alpha",
     "node-sass": "^6.0.1",
