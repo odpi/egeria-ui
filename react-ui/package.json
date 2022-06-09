@@ -2,6 +2,9 @@
   "name": "react-ui",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "16.x"
+  },
   "dependencies": {
     "@capaj/pluralize": "^1.0.4",
     "@emotion/react": "^11.7.1",
@@ -13,14 +16,6 @@
     "@mui/material": "^5.4.2",
     "@polymer/iron-icon": "^3.0.1",
     "@polymer/iron-icons": "^3.0.1",
-    "@testing-library/jest-dom": "^5.15.1",
-    "@testing-library/react": "^11.2.7",
-    "@testing-library/user-event": "^12.8.3",
-    "@types/jest": "^26.0.24",
-    "@types/node": "^12.20.37",
-    "@types/react": "^17.0.37",
-    "@types/react-dom": "^17.0.11",
-    "@types/vis": "^4.21.23",
     "@vaadin/button": "^22.0.3",
     "@vaadin/context-menu": "^22.0.2",
     "@vaadin/vaadin-app-layout": "^22.0.2",
@@ -33,25 +28,38 @@
     "d3": "^7.3.0",
     "egeria-js-commons": "github:odpi/egeria-js-commons",
     "elkjs": "^0.7.1",
-    "happi-graph": "github:sarbull/happi-graph-1#happi-graph-in-react",
+    "happi-graph": "github:sarbull/happi-graph#happi-graph-in-react",
     "history": "^5.2.0",
-    "http-proxy-middleware": "^2.0.1",
-    "lit": "^2.1.1",
-    "lit-element": "^3.1.1",
     "multiselect-combo-box": "^3.0.0-alpha",
     "node-sass": "^6.0.1",
     "react": "^17.0.2",
-    "react-autocomplete": "^1.8.1",
     "react-dom": "^17.0.2",
     "react-icons": "^4.3.1",
     "react-router-dom": "^5.3.0",
-    "react-scripts": "5.0.0",
     "rxjs": "^7.5.1",
-    "typescript": "^4.5.2",
     "uuid": "^8.3.2",
     "vis-network": "^9.0.4",
     "web-vitals": "^1.1.2",
     "web-worker": "^1.2.0"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^5.15.1",
+    "@testing-library/react": "^11.2.7",
+    "@testing-library/user-event": "^12.8.3",
+    "@types/d3": "^7.1.0",
+    "@types/enzyme": "^3.10.10",
+    "@types/jest": "^26.0.24",
+    "@types/node": "^12.20.55",
+    "@types/react": "^17.0.45",
+    "@types/react-dom": "^17.0.17",
+    "typescript": "^4.7.3",
+    "@types/react-router-dom": "^5.3.3",
+    "@types/uuid": "^8.3.4",
+    "@types/vis": "^4.21.23",
+    "@wojtekmaj/enzyme-adapter-react-17": "^0.6.5",
+    "enzyme": "^3.11.0",
+    "http-proxy-middleware": "^2.0.1",
+    "react-scripts": "^5.0.1"
   },
   "scripts": {
     "preinstall": "node preinstall.js",
@@ -82,13 +90,5 @@
     "transformIgnorePatterns": [
       "/node_modules/(?!egeria-js-commons)"
     ]
-  },
-  "devDependencies": {
-    "@types/d3": "^7.1.0",
-    "@types/enzyme": "^3.10.10",
-    "@types/react-router-dom": "^5.3.1",
-    "@types/uuid": "^8.3.4",
-    "@wojtekmaj/enzyme-adapter-react-17": "^0.6.5",
-    "enzyme": "^3.11.0"
   }
 }

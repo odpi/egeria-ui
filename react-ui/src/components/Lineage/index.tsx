@@ -1,7 +1,15 @@
 import React from "react";
-import HappiGraphActions from "./happi-graph-actions.component";
-import HappiGraph from "./happi-graph.component";
+
+import {
+  HappiGraph,
+  HappiGraphActions
+} from 'happi-graph';
+
+import 'happi-graph/src/components/happi-graph.scss';
+
+
 import { mockData } from "../../mockData";
+
 
 const rawData = {
   ...mockData
