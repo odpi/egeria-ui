@@ -1,17 +1,17 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import './App.scss';
 import About from './components/About';
 import UserInfo from './components/UserInfo';
 
-import '@vaadin/vaadin-app-layout/vaadin-app-layout.js';
-import '@vaadin/vaadin-app-layout/vaadin-drawer-toggle.js';
-import '@vaadin/vaadin-tabs/vaadin-tabs.js';
-import '@vaadin/vaadin-tabs/vaadin-tab.js';
-import '@polymer/iron-icon/iron-icon.js';
-import '@polymer/iron-icons/hardware-icons.js';
-import '@vaadin/vaadin-lumo-styles/icons.js';
-import '@polymer/iron-icons/iron-icons.js';
+// import '@vaadin/vaadin-app-layout/vaadin-app-layout.js';
+// import '@vaadin/vaadin-app-layout/vaadin-drawer-toggle.js';
+// import '@vaadin/vaadin-tabs/vaadin-tabs.js';
+// import '@vaadin/vaadin-tabs/vaadin-tab.js';
+// import '@polymer/iron-icon/iron-icon.js';
+// import '@polymer/iron-icons/hardware-icons.js';
+// import '@vaadin/vaadin-lumo-styles/icons.js';
+// import '@polymer/iron-icons/iron-icons.js';
 
 import { PrivateRoute } from './components/PrivateRoute';
 import AssetDetails from './components/Assets/Details';
@@ -153,14 +153,21 @@ class App extends React.Component<Props, State> {
           </vaadin-tabs>
 
           <div className="content-container">
-            <Switch>
-              <Route exact path={'/'}>
+            <Routes>
+              <Route path={'/'}>
                 <div className="center">
 
                 </div>
               </Route>
 
-              <PrivateRoute exact path="/about" component={About} />
+              <Route path={"/about"} element={<About />} />
+              <Route path={"/assets/:uuid/details"} element={<AssetDetails match={""} />} />
+              <Route path={"/assets/catalog"} element={<AssetCatalog location={""}/>} />
+              <Route path={"/lineage"} element={<Lineage />} />
+              <Route path={"/lineage/viewer"} element={<LineageViewer />} />
+
+
+              {/* <PrivateRoute exact path="/about" component={About} />
 
               <PrivateRoute exact path="/assets/:uuid/details" component={AssetDetails} />
 
@@ -168,8 +175,8 @@ class App extends React.Component<Props, State> {
 
               <PrivateRoute exact path="/lineage" component={Lineage} />
 
-              <PrivateRoute exact path="/lineage/viewer" component={LineageViewer} />
-            </Switch>
+              <PrivateRoute exact path="/lineage/viewer" component={LineageViewer} /> */}
+            </Routes>
           </div>
         </vaadin-app-layout>
       </div>

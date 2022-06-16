@@ -7,7 +7,7 @@ import { egeriaFetch } from "../../helpers/egeria-fetch";
 
 import 'multiselect-combo-box/multiselect-combo-box.js';
 import { types } from '../../services/user.service';
-import '@vaadin/vaadin-text-field';
+// import '@vaadin/vaadin-text-field';
 import {authHeader} from "../../helpers/auth-header";
 
 interface Props {

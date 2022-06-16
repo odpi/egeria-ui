@@ -18,7 +18,6 @@ interface Props {
 
 
 interface State {
-
     isLoading: Boolean,
     errors: Map<string, boolean>,
     feedbackMessage: String,

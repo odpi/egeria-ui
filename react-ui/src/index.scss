@@ -7,14 +7,26 @@
   --app-background-color: #eeeeee;
 }
 
+html {
+  height:100%;
+  padding:0;
+  margin:0;
+}
+
+#root {
+  height:100%;
+}
+
 body {
-  margin: 0;
   font-family: var(--custom-font-family);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  line-height: 24px;;
-}
+  line-height: 24px;
 
+  height:100%;
+  padding:0;
+  margin:0;
+}
 
 .flex-1 { flex: 1; }
 .flex-fh { display: flex; align-items: stretch; }
@@ -30,3 +42,19 @@ body {
 .mt30 { margin-top:30px; }
 .p15 { padding:15px; }
 .m5 { margin: 5px; }
+
+
+.egeria-wrapper {
+  height:100%;
+  display:flex;
+  flex-direction:row;
+  justify-content: space-between;
+}
+
+.egeria-wrapper > .header {
+  width:100%;
+}
+
+.egeria-wrapper > nav {
+  height:100%;
+}

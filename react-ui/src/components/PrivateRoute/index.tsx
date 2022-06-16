@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import { Route, Navigate } from 'react-router-dom';
 
 import { authenticationService } from '../../services/authentication.service';
 
@@ -20,11 +20,11 @@ import { authenticationService } from '../../services/authentication.service';
  *
  */
 export const PrivateRoute = ({ component: Component, ...rest}: any) => (
-    <Route {...rest} render={props => {
+    <Route {...rest} render={(props: any) => {
         const currentJwt = authenticationService.currentJwt();
 
         if (!currentJwt) {
-            return <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
+            return <Navigate to={'/login'} state={{ from: props.location}} />
         }
 
         return <Component {...props} />

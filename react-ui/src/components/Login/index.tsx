@@ -1,6 +1,6 @@
 import React from "react";
 import { authenticationService } from '../../services/authentication.service';
-import logo from '../../egeria-logo.png';
+// import logo from '../../egeria-logo.png';
 
 interface Props {
 }
@@ -91,7 +91,7 @@ class Login extends React.Component<Props, State> {
     return (
       <div className="login-page">
         <div className="logo-container">
-          <img src={ logo } alt="Egeria" className="logo"/>
+          {/* <img src={ logo } alt="Egeria" className="logo"/> */}
         </div>
 
         <div className={`login-container ${isLoading ? 'is-loading' : ''}`}>

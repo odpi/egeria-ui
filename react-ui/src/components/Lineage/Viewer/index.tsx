@@ -1,6 +1,5 @@
 import React from "react";
 import {getComponent} from "../../../helpers/commons";
-import '@vaadin/combo-box';
 import {egeriaFetch} from "../../../helpers/egeria-fetch";
 import NameSuggestions from "./name-suggestions";
 import TypesSuggestions from "./types-suggestions";
