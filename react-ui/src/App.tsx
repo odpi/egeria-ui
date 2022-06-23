@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import './App.scss';
+
 import About from './components/About';
 import UserInfo from './components/UserInfo';
 
@@ -13,7 +14,7 @@ import UserInfo from './components/UserInfo';
 // import '@vaadin/vaadin-lumo-styles/icons.js';
 // import '@polymer/iron-icons/iron-icons.js';
 
-import { PrivateRoute } from './components/PrivateRoute';
+// import { PrivateRoute } from './components/PrivateRoute';
 import AssetDetails from './components/Assets/Details';
 import { authenticationService } from './services/authentication.service';
 import AssetCatalog from './components/Assets/Catalog';
