@@ -20,6 +20,7 @@ import { EgeriaHeader } from '../Header';
 import Lineage from '../Lineage';
 import LineageViewer from '../Lineage/Viewer';
 import { EgeriaNavbar } from '../NavbarMinimal';
+import { RequireAuth } from '../RequireAuth';
 // import { EgeriaBreadcrumbs } from '../Breadcrumbs';
 
 export function App() {
@@ -62,13 +63,17 @@ export function App() {
 
           <Route path={"/about"} element={<About />} />
 
-          <Route path={"/assets/:uuid/details"} element={<AssetDetails match={""} />} />
+          <Route path={"/assets/:uuid/details"}
+                 element={<RequireAuth><AssetDetails match={""} /></RequireAuth>} />
 
-          <Route path={"/assets/catalog"} element={<AssetCatalog location={""}/>} />
+          {/* <Route path={"/assets/catalog"}
+                 element={<RequireAuth><AssetCatalog location={""}/></RequireAuth>} /> */}
 
-          <Route path={"/lineage"} element={<Lineage />} />
+          <Route path={"/lineage"}
+                 element={<RequireAuth><Lineage /></RequireAuth>} />
 
-          <Route path={"/lineage/viewer"} element={<LineageViewer />} />
+          <Route path={"/lineage/viewer"}
+                 element={<RequireAuth><LineageViewer /></RequireAuth>} />
         </Routes>
       </div>
     </AppShell>

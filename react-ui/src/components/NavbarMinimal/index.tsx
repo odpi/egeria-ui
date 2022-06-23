@@ -7,6 +7,7 @@ import {
   UserCircle
 } from 'tabler-icons-react';
 import { NavLink } from 'react-router-dom';
+import { authenticationService } from '../../services/authentication.service';
 
 const IconAssets = () => <svg height="28px" viewBox="0 0 203 193" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="30" cy="163" r="30" fill="#1ABB9B"/><circle cx="170" cy="133" r="30" stroke="#2C3E50" strokeWidth="5"/><circle cx="170" cy="30" r="30" fill="#2C3E50"/><line x1="58.9889" y1="131.892" x2="138.989" y2="58.892" stroke="black" strokeWidth="3"/><line x1="168.5" y1="96" x2="168.5" y2="69" stroke="black" strokeWidth="3"/></svg>;
 const IconGlossary = () => <svg height="33px" viewBox="0 0 140 187" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.02032 22.4176C2.46496 10.2123 13.4332 4.38697 18.9868 3H137V14.0958H130.058M3.02032 22.4176C3.57567 34.623 13.896 39.0613 18.9868 39.7548H137M3.02032 22.4176C3.02032 64.7203 3.02032 152.793 3.02032 166.663C3.02032 180.533 13.6646 184 18.9868 184H137V39.7548M137 39.7548V29.3525H130.058M25.9288 14.0958H130.058M34.2591 29.3525H130.058M130.058 14.0958V29.3525M73.8282 59.8659H116.868M73.8282 73.7356H116.868M116.868 87.6054H73.8282M73.8282 101.475H116.868M75.9108 125.747H114.071L78.2958 167.356H119.253M16.9042 104.249L25.0032 84.8314M59.2501 104.249L50.8812 84.8314M25.0032 84.8314L37.7301 54.318L50.8812 84.8314M25.0032 84.8314H50.8812M16.9042 125.747H59.2501M59.2501 139.617H16.9042M16.9042 153.487H59.2501M16.9042 167.356H59.2501" stroke="#2C3E50" strokeWidth="5"/></svg>;
@@ -49,12 +50,12 @@ interface NavbarLinkProps {
   onClick?(): void;
 }
 
-function NavbarLink({ icon: Icon, label, href, active, onClick }: NavbarLinkProps) {
+function NavbarLink({ icon: Icon, label, href, active = false, onClick }: NavbarLinkProps) {
   const { classes, cx } = useStyles();
   return (
     <Tooltip label={label} position="right" withArrow transitionDuration={0}>
       <UnstyledButton onClick={onClick} className={cx(classes.link, { [classes.active]: active })}>
-        <NavLink style={{color: 'inherit'}}to={href || '#'}><Icon /></NavLink>
+        <NavLink style={{color: 'inherit'}} to={href || '#'}><Icon /></NavLink>
       </UnstyledButton>
     </Tooltip>
   );
@@ -69,17 +70,17 @@ const menu = [
 ];
 
 export function EgeriaNavbar() {
-  const [active, setActive] = useState(-1);
-
   const links = menu.map((link, index) => (
     <NavbarLink
       {...link}
       href={link.href}
       key={link.label}
-      active={index === active}
-      onClick={() => setActive(index)}
     />
   ));
+
+  const handleLogout = () => {
+    authenticationService.logout();
+  };
 
   return (
     <Navbar p="md" width={{ base: 80, sm: 80, lg: 80 }}>
@@ -97,7 +98,7 @@ export function EgeriaNavbar() {
           <NavbarLink icon={InfoCircle} label="About" href="/about" />
         </Group>
         <Group direction="column" align="center">
-          <NavbarLink icon={Logout} label="Logout"/>
+          <NavbarLink icon={Logout} label="Logout" onClick={() => handleLogout()}/>
         </Group>
       </Navbar.Section>
     </Navbar>

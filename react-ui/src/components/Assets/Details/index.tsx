@@ -51,28 +51,28 @@ class AssetDetails extends React.Component<Props, State> {
 
   renderTable(column: string, object: any, key: string) {
     if(object && object[key]) {
-      return (
-        <bx-data-table>
-          <bx-table>
-            <bx-table-head>
-              <bx-table-header-row>
-                <bx-table-header-cell>{ column }</bx-table-header-cell>
-                <bx-table-header-cell></bx-table-header-cell>
-              </bx-table-header-row>
-            </bx-table-head>
-            <bx-table-body>
-              { object && this.getProperties(object, key).map((p: any) => {
-                  return (
-                    <bx-table-row key={p}>
-                      <bx-table-cell><strong>{ p }</strong></bx-table-cell>
-                      <bx-table-cell>{ object[key][p] }</bx-table-cell>
-                    </bx-table-row>
-                  );
-                })
-              }
-            </bx-table-body>
-          </bx-table>
-        </bx-data-table>
+      return (<></>
+        // <bx-data-table>
+        //   <bx-table>
+        //     <bx-table-head>
+        //       <bx-table-header-row>
+        //         <bx-table-header-cell>{ column }</bx-table-header-cell>
+        //         <bx-table-header-cell></bx-table-header-cell>
+        //       </bx-table-header-row>
+        //     </bx-table-head>
+        //     <bx-table-body>
+        //       { object && this.getProperties(object, key).map((p: any) => {
+        //           return (
+        //             <bx-table-row key={p}>
+        //               <bx-table-cell><strong>{ p }</strong></bx-table-cell>
+        //               <bx-table-cell>{ object[key][p] }</bx-table-cell>
+        //             </bx-table-row>
+        //           );
+        //         })
+        //       }
+        //     </bx-table-body>
+        //   </bx-table>
+        // </bx-data-table>
       );
     }
   }

@@ -5,6 +5,7 @@ import {
   Header,
   createStyles
 } from '@mantine/core';
+import { NavLink } from 'react-router-dom';
 
 import { Search } from 'tabler-icons-react';
 
@@ -39,7 +40,7 @@ export function EgeriaHeader() {
     <Header height={60} p="md" className={classes.header}>
       <div className={classes.inner}>
         <Group>
-          <img src="/egeria-logo.svg" alt="Egeria" title="Egeria" style={{height:50}} />
+          <NavLink to={'/'} style={{height:50}}><img src="/egeria-logo.svg" alt="Egeria" title="Egeria" style={{height:50}} /></NavLink>
         </Group>
 
         <Center style={{ width: '100%' }}>

@@ -162,21 +162,21 @@ class LineageViewer extends React.Component<Props, State> {
 
 
     renderBreadcrumb() {
-        return (
-            <bx-breadcrumb role="nav">
-                <bx-breadcrumb-item role="listitem">
-                    <bx-breadcrumb-link href={process.env.REACT_APP_ROOT_PATH}>Home</bx-breadcrumb-link>
-                </bx-breadcrumb-item>
+        return (<></>
+            // <bx-breadcrumb role="nav">
+            //     <bx-breadcrumb-item role="listitem">
+            //         <bx-breadcrumb-link href={process.env.REACT_APP_ROOT_PATH}>Home</bx-breadcrumb-link>
+            //     </bx-breadcrumb-item>
 
-                <bx-breadcrumb-item role="listitem">
-                    <bx-breadcrumb>Lineage</bx-breadcrumb>
-                </bx-breadcrumb-item>
+            //     <bx-breadcrumb-item role="listitem">
+            //         <bx-breadcrumb>Lineage</bx-breadcrumb>
+            //     </bx-breadcrumb-item>
 
-                <bx-breadcrumb-item role="listitem">
-                    <bx-breadcrumb-link href={`${process.env.REACT_APP_ROOT_PATH}/lineage/viewer`} size="">Viewer
-                    </bx-breadcrumb-link>
-                </bx-breadcrumb-item>
-            </bx-breadcrumb>
+            //     <bx-breadcrumb-item role="listitem">
+            //         <bx-breadcrumb-link href={`${process.env.REACT_APP_ROOT_PATH}/lineage/viewer`} size="">Viewer
+            //         </bx-breadcrumb-link>
+            //     </bx-breadcrumb-item>
+            // </bx-breadcrumb>
         );
     }
 
@@ -189,10 +189,10 @@ class LineageViewer extends React.Component<Props, State> {
 
                     <div className="content flex row">
                         <div className="m5 flex column">
-                            <vaadin-button id="addMoreOptions" onClick={() => this.addMoreOptions()}>+</vaadin-button>
+                            {/* <vaadin-button id="addMoreOptions" onClick={() => this.addMoreOptions()}>+</vaadin-button> */}
                         </div>
                         <div className="m5 flex column">
-                            <vaadin-button id="removeMoreOptions" onClick={() => this.removeMoreOptions()}>-</vaadin-button>
+                            {/* <vaadin-button id="removeMoreOptions" onClick={() => this.removeMoreOptions()}>-</vaadin-button> */}
                         </div>
 
                         <div className="m5 flex column">
@@ -232,18 +232,18 @@ class LineageViewer extends React.Component<Props, State> {
                     <div className="content flex row">
 
                         <div className="m5" style={{paddingTop: 32}}>
-                            <vaadin-button id="submit" onClick={() => this.submit()}>Submit</vaadin-button>
+                            {/* <vaadin-button id="submit" onClick={() => this.submit()}>Submit</vaadin-button> */}
                         </div>
                     </div>
 
                     <div className="content flex row flex-1">
-                        <vaadin-grid items={JSON.stringify(data)} className="full-height">
+                        {/* <vaadin-grid items={JSON.stringify(data)} className="full-height">
                             <vaadin-grid-sort-column id="display-name" path="displayName"
                                                      header="Name"/>
                             <vaadin-grid-sort-column id="type" path="nodeType" header="Type"/>
                             <vaadin-grid-sort-column id="qualified-name" path="qualifiedName"
                                                      header="Context Info"/>
-                        </vaadin-grid>
+                        </vaadin-grid> */}
                     </div>
                 </div>
             </div>

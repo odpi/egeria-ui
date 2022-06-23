@@ -12,6 +12,23 @@ import './index.scss';
 
 import { EgeriaLogin } from './components/Login';
 import { App } from './components/App';
+import { RequireAuth } from './components/RequireAuth';
+import { Home } from './components/Home';
+
+const links = [
+  {
+    "link": "/",
+    "label": "Home"
+  },
+  {
+    "link": "/assets/catalog",
+    "label": "Catalog"
+  },
+  {
+    "link": "/about",
+    "label": "About"
+  }
+];
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -20,7 +37,8 @@ const root = ReactDOM.createRoot(
 root.render(
   <Router basename={process.env.REACT_APP_ROOT_PATH}>
     <Routes>
-      <Route path="/*" element={<App />} />
+      <Route path="/" element={<Home links={links} />} />
+      <Route path="/*" element={<RequireAuth><App /></RequireAuth>} />
       <Route path="/login" element={<EgeriaLogin />} />
     </Routes>
   </Router>
