@@ -120,7 +120,7 @@ export function Home({ links }: HeaderMiddleProps) {
           </ActionIcon>
 
           <NavLink to={isLoggedIn ? '/login' : '/logout'}>
-            <ActionIcon size="lg" title={isLoggedIn ? 'Login' : 'Logout'}>
+            <ActionIcon size="lg" title={isLoggedIn ? 'Logout' : 'Login'}>
               { isLoggedIn && <Logout size={18} /> }
               { !isLoggedIn && <Login size={18} /> }
             </ActionIcon>

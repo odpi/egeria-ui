@@ -40,10 +40,10 @@ export function App() {
       styles={{
         main: {
           background: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0],
-          paddingTop: `calc(var(--mantine-header-height, 0px))`,
-          paddingBottom: `calc(var(--mantine-footer-height, 0px))`,
-          paddingLeft: `calc(var(--mantine-navbar-width, 0px))`,
-          paddingRight: `calc(var(--mantine-aside-width, 0px))`,
+          // paddingTop: `calc(var(--mantine-header-height, 0px))`,
+          // paddingBottom: `calc(var(--mantine-footer-height, 0px))`,
+          // paddingLeft: `calc(var(--mantine-navbar-width, 0px))`,
+          // paddingRight: `calc(var(--mantine-aside-width, 0px))`,
         }
       }}
       navbarOffsetBreakpoint="sm"
@@ -57,23 +57,23 @@ export function App() {
         <EgeriaBreadcrumbs items={items} />
       </Container> */}
 
-      <div style={{height:'100%', width:'100%'}}>
+      <div style={{width:'100%', height:'100%'}}>
         <Routes>
           <Route path="/hi" element={<>Hi</>} />
 
           <Route path={"/about"} element={<About />} />
 
           <Route path={"/assets/:uuid/details"}
-                 element={<RequireAuth><AssetDetails match={""} /></RequireAuth>} />
+                  element={<RequireAuth><AssetDetails match={""} /></RequireAuth>} />
 
           {/* <Route path={"/assets/catalog"}
-                 element={<RequireAuth><AssetCatalog location={""}/></RequireAuth>} /> */}
+                  element={<RequireAuth><AssetCatalog location={""}/></RequireAuth>} /> */}
 
           <Route path={"/lineage"}
-                 element={<RequireAuth><Lineage /></RequireAuth>} />
+                  element={<RequireAuth><Lineage /></RequireAuth>} />
 
           <Route path={"/lineage/viewer"}
-                 element={<RequireAuth><LineageViewer /></RequireAuth>} />
+                  element={<RequireAuth><LineageViewer /></RequireAuth>} />
         </Routes>
       </div>
     </AppShell>
