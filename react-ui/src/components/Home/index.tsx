@@ -5,7 +5,9 @@ import {
   Header,
   TextInput,
   createStyles,
-  useMantineTheme
+  useMantineTheme,
+  MultiSelect,
+  LoadingOverlay
 } from '@mantine/core';
 
 import {
@@ -21,6 +23,8 @@ import {
 import { FeaturesGrid } from '../Features';
 import { NavLink } from 'react-router-dom';
 import { authenticationService } from '../../services/authentication.service';
+import { types } from '../api/types';
+import { useEffect, useState } from 'react';
 
 const useStyles = createStyles((theme) => ({
   inner: {
@@ -93,6 +97,18 @@ export function Home({ links }: HeaderMiddleProps) {
   const theme = useMantineTheme();
   const { classes} = useStyles();
   const isLoggedIn = authenticationService.currentJwt();
+  const [typesData, setTypesData] = useState([]);
+
+  useEffect(() => {
+    types.getAll().then(response => response.json()).then(data => {
+      setTypesData(data.map((d: any) => {
+        return {
+          value: d.name,
+          label: d.name
+        }
+      }));
+    });
+  }, [])
 
   const items = links.map((link, index) => (
     <NavLink className={classes.link} to={link.link} key={index}>{link.label}</NavLink>
@@ -119,7 +135,7 @@ export function Home({ links }: HeaderMiddleProps) {
             <BrandSlack size={18} />
           </ActionIcon>
 
-          <NavLink to={isLoggedIn ? '/login' : '/logout'}>
+          <NavLink to={isLoggedIn ? '/logout' : '/login'}>
             <ActionIcon size="lg" title={isLoggedIn ? 'Logout' : 'Login'}>
               { isLoggedIn && <Logout size={18} /> }
               { !isLoggedIn && <Login size={18} /> }
@@ -129,8 +145,16 @@ export function Home({ links }: HeaderMiddleProps) {
       </Container>
     </Header>
 
-    <Container mt={70}>
+    <Container mt={70} style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between'}}>
+      <MultiSelect
+        data={typesData}
+        radius="xl"
+        size="md"
+        placeholder="Type"
+        style={{width:'30%'}}
+      />
       <TextInput
+        style={{width:'69%'}}
         icon={<Search size={18} />}
         radius="xl"
         size="md"
@@ -145,5 +169,7 @@ export function Home({ links }: HeaderMiddleProps) {
     </Container>
 
     <FeaturesGrid />
+
+    <LoadingOverlay visible={!typesData.length} />
   </>);
 }

@@ -15,6 +15,7 @@ import {
 import About from '../About';
 import AssetCatalog from '../Assets/Catalog';
 import AssetDetails from '../Assets/Details';
+import { EgeriaGlossary } from '../Glossary';
 
 import { EgeriaHeader } from '../Header';
 import Lineage from '../Lineage';
@@ -66,14 +67,18 @@ export function App() {
           <Route path={"/assets/:uuid/details"}
                   element={<RequireAuth><AssetDetails match={""} /></RequireAuth>} />
 
+
+          <Route path={"/glossary"}
+                 element={<RequireAuth><EgeriaGlossary /></RequireAuth>} />
+
           {/* <Route path={"/assets/catalog"}
                   element={<RequireAuth><AssetCatalog location={""}/></RequireAuth>} /> */}
 
           <Route path={"/lineage"}
                   element={<RequireAuth><Lineage /></RequireAuth>} />
 
-          <Route path={"/lineage/viewer"}
-                  element={<RequireAuth><LineageViewer /></RequireAuth>} />
+          {/* <Route path={"/lineage/viewer"}
+                  element={<RequireAuth><LineageViewer /></RequireAuth>} /> */}
         </Routes>
       </div>
     </AppShell>
