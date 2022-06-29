@@ -10,7 +10,7 @@ import reportWebVitals from './reportWebVitals';
 
 import './index.scss';
 
-import { EgeriaLogin } from './components/Login';
+import { EgeriaLogin } from 'egeria-ui-core';
 import { App } from './components/App';
 import { RequireAuth } from './components/RequireAuth';
 import { Home } from './components/Home';
