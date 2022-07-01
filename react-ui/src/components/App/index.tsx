@@ -22,29 +22,15 @@ import Lineage from '../Lineage';
 import LineageViewer from '../Lineage/Viewer';
 import { EgeriaNavbar } from '../NavbarMinimal';
 import { RequireAuth } from '../RequireAuth';
-// import { EgeriaBreadcrumbs } from '../Breadcrumbs';
 
 export function App() {
   const theme = useMantineTheme();
-
-  // const items = [
-  //   { title: 'Assets', href: '#' },
-  //   { title: 'Details', href: '#' },
-  // ].map((item: any, index) => (
-  //   <Anchor href={item.href} key={index}>
-  //     {item.title}
-  //   </Anchor>
-  // ));
 
   return <>
     <AppShell
       styles={{
         main: {
-          background: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0],
-          // paddingTop: `calc(var(--mantine-header-height, 0px))`,
-          // paddingBottom: `calc(var(--mantine-footer-height, 0px))`,
-          // paddingLeft: `calc(var(--mantine-navbar-width, 0px))`,
-          // paddingRight: `calc(var(--mantine-aside-width, 0px))`,
+          background: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0]
         }
       }}
       navbarOffsetBreakpoint="sm"
@@ -53,11 +39,6 @@ export function App() {
       navbar={<EgeriaNavbar />}
       header={<EgeriaHeader />}
     >
-
-      {/* <Container fluid>
-        <EgeriaBreadcrumbs items={items} />
-      </Container> */}
-
       <div style={{width:'100%', height:'100%'}}>
         <Routes>
           <Route path="/hi" element={<>Hi</>} />
