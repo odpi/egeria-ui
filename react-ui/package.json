@@ -2,70 +2,45 @@
   "name": "react-ui",
   "version": "0.1.0",
   "private": true,
-  "engines": {
-    "node": "16.x"
-  },
   "dependencies": {
-    "@capaj/pluralize": "^1.0.4",
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
-    "@mantine/core": "^4.2.4",
-    "@mantine/hooks": "^4.2.4",
-    "@mantine/next": "^4.2.4",
-    "@mui/icons-material": "^5.4.2",
-    "@mui/material": "^5.4.2",
-    "@polymer/iron-icon": "^3.0.1",
-    "@polymer/iron-icons": "^3.0.1",
+    "@mui/icons-material": "^5.8.4",
+    "@mui/material": "^5.8.4",
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^13.3.0",
+    "@testing-library/user-event": "^13.5.0",
+    "@types/jest": "^27.5.2",
+    "@types/node": "^16.11.41",
+    "@types/react": "^18.0.12",
+    "@types/react-dom": "^18.0.5",
     "@vaadin/button": "^22.0.3",
+    "@vaadin/combo-box": "^23.1.1",
     "@vaadin/context-menu": "^22.0.2",
     "@vaadin/vaadin-app-layout": "^22.0.2",
     "@vaadin/vaadin-checkbox": "^22.0.5",
     "@vaadin/vaadin-grid": "22.0.4",
-    "@vaadin/vaadin-lumo-styles": "^22.0.2",
+    "@vaadin/vaadin-lumo-styles": "^22.0.16",
     "@vaadin/vaadin-tabs": "^22.0.2",
     "@vaadin/vaadin-text-field": "^22.0.3",
-    "carbon-web-components": "^1.20.0",
-    "d3": "^7.3.0",
     "egeria-js-commons": "github:odpi/egeria-js-commons",
-    "elkjs": "^0.7.1",
-    "happi-graph": "github:odpi/happi-graph#react",
-    "history": "^5.2.0",
-    "multiselect-combo-box": "^3.0.0-alpha",
-    "node-sass": "^6.0.1",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-icons": "^4.3.1",
-    "react-router-dom": "^5.3.0",
-    "rxjs": "^7.5.1",
-    "uuid": "^8.3.2",
-    "vis-network": "^9.0.4",
-    "web-vitals": "^1.1.2",
-    "web-worker": "^1.2.0"
-  },
-  "devDependencies": {
-    "@testing-library/jest-dom": "^5.15.1",
-    "@testing-library/react": "^11.2.7",
-    "@testing-library/user-event": "^12.8.3",
-    "@types/d3": "^7.1.0",
-    "@types/enzyme": "^3.10.10",
-    "@types/jest": "^26.0.24",
-    "@types/node": "^12.20.55",
-    "@types/react": "^17.0.45",
-    "@types/react-dom": "^17.0.17",
+    "egeria-ui-components": "github:sarbull/egeria-ui-components",
+    "egeria-ui-core": "github:sarbull/egeria-ui-core",
+    "happi-graph": "github:sarbull/happi-graph-1#happi-graph-in-react",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.3.0",
+    "react-scripts": "5.0.1",
+    "rxjs": "^7.5.5",
+    "tabler-icons-react": "^1.49.0",
     "typescript": "^4.7.3",
-    "@types/react-router-dom": "^5.3.3",
-    "@types/uuid": "^8.3.4",
-    "@types/vis": "^4.21.23",
-    "@wojtekmaj/enzyme-adapter-react-17": "^0.6.5",
-    "enzyme": "^3.11.0",
-    "http-proxy-middleware": "^2.0.1",
-    "react-scripts": "^5.0.1"
+    "use-react-router-breadcrumbs": "^3.2.1",
+    "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "preinstall": "node preinstall.js",
-    "start": "react-scripts start --watch",
+    "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --watchAll=false",
+    "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -86,9 +61,8 @@
       "last 1 safari version"
     ]
   },
-  "jest": {
-    "transformIgnorePatterns": [
-      "/node_modules/(?!egeria-js-commons)"
-    ]
+  "devDependencies": {
+    "http-proxy-middleware": "^2.0.6",
+    "node-sass": "^7.0.1"
   }
 }

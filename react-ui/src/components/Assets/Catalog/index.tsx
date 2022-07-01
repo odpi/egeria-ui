@@ -2,13 +2,13 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { types } from '../../../services/user.service';
 import { egeriaFetch } from '../../../helpers/egeria-fetch';
-import '@vaadin/vaadin-grid/vaadin-grid.js';
-import '@vaadin/vaadin-grid/vaadin-grid-column.js';
-import '@vaadin/vaadin-grid/vaadin-grid-filter.js';
-import '@vaadin/vaadin-grid/vaadin-grid-sorter.js';
-import '@vaadin/vaadin-grid/vaadin-grid-sort-column.js';
-import '@vaadin/vaadin-grid/vaadin-grid-filter-column.js';
-import '@vaadin/vaadin-checkbox/vaadin-checkbox.js';
+// import '@vaadin/vaadin-grid/vaadin-grid.js';
+// import '@vaadin/vaadin-grid/vaadin-grid-column.js';
+// import '@vaadin/vaadin-grid/vaadin-grid-filter.js';
+// import '@vaadin/vaadin-grid/vaadin-grid-sorter.js';
+// import '@vaadin/vaadin-grid/vaadin-grid-sort-column.js';
+// import '@vaadin/vaadin-grid/vaadin-grid-filter-column.js';
+// import '@vaadin/vaadin-checkbox/vaadin-checkbox.js';
 import { getComponent } from "../../../helpers/commons";
 import { itemDescription, itemName } from "./helpers";
 import QualifiedName from "./qualified-name";
@@ -288,20 +288,20 @@ class AssetCatalog extends React.Component<Props, State> {
   }
 
   renderBreadcrumb() {
-    return(
-      <bx-breadcrumb role="nav">
-        <bx-breadcrumb-item role="listitem">
-          <bx-breadcrumb-link href={process.env.REACT_APP_ROOT_PATH}>Home</bx-breadcrumb-link>
-        </bx-breadcrumb-item>
+    return(<></>
+      // <bx-breadcrumb role="nav">
+      //   <bx-breadcrumb-item role="listitem">
+      //     <bx-breadcrumb-link href={process.env.REACT_APP_ROOT_PATH}>Home</bx-breadcrumb-link>
+      //   </bx-breadcrumb-item>
 
-        <bx-breadcrumb-item role="listitem">
-          <bx-breadcrumb>Assets</bx-breadcrumb>
-        </bx-breadcrumb-item>
+      //   <bx-breadcrumb-item role="listitem">
+      //     <bx-breadcrumb>Assets</bx-breadcrumb>
+      //   </bx-breadcrumb-item>
 
-        <bx-breadcrumb-item role="listitem">
-          <bx-breadcrumb-link href={`${process.env.REACT_APP_ROOT_PATH}/assets/catalog`} size="">Catalog</bx-breadcrumb-link>
-        </bx-breadcrumb-item>
-      </bx-breadcrumb>
+      //   <bx-breadcrumb-item role="listitem">
+      //     <bx-breadcrumb-link href={`${process.env.REACT_APP_ROOT_PATH}/assets/catalog`} size="">Catalog</bx-breadcrumb-link>
+      //   </bx-breadcrumb-item>
+      // </bx-breadcrumb>
     );
   }
 
@@ -314,44 +314,44 @@ class AssetCatalog extends React.Component<Props, State> {
 
         <div className="content flex row">
           <div className="m5 row">
-            <multiselect-combo-box id="types"
+            {/* <multiselect-combo-box id="types"
                                    placeholder="Select one or more"
                                    label="Types"
                                    item-id-path="id"
                                    item-value-path="id"
                                    item-label-path="name"
-                                   onChange={ () => alert('da') }></multiselect-combo-box>
+                                   onChange={ () => alert('da') }></multiselect-combo-box> */}
           </div>
 
           <div className="m5">
-            <vaadin-text-field id="user-search" label="Search" value={q}></vaadin-text-field>
+            {/* <vaadin-text-field id="user-search" label="Search" value={q}></vaadin-text-field> */}
           </div>
 
           <div className="m5" style={{paddingTop: 32}}>
-            <vaadin-checkbox id="exact-match" label="Exact match"></vaadin-checkbox>
+            {/* <vaadin-checkbox id="exact-match" label="Exact match"></vaadin-checkbox> */}
           </div>
 
           <div className="m5" style={{paddingTop: 32}}>
-            <vaadin-checkbox id="case-sensitive" label="Case sensitive"></vaadin-checkbox>
+            {/* <vaadin-checkbox id="case-sensitive" label="Case sensitive"></vaadin-checkbox> */}
           </div>
 
           <div className="m5" style={{paddingTop: 32}}>
-            <vaadin-button id="submit" onClick={ () => this.submit() }>Submit</vaadin-button>
+            {/* <vaadin-button id="submit" onClick={ () => this.submit() }>Submit</vaadin-button> */}
           </div>
         </div>
 
         <div className="content flex row flex-1">
-          <vaadin-grid items={ JSON.stringify(data) } class="full-height">
+          {/* <vaadin-grid items={ JSON.stringify(data) } class="full-height">
             <vaadin-grid-sort-column id="display-name" path="properties.displayName" header="Name"></vaadin-grid-sort-column>
             <vaadin-grid-sort-column id="origin" path="origin.metadataCollectionName" header="Origin"></vaadin-grid-sort-column>
             <vaadin-grid-sort-column id="type" path="type.name" header="Type"></vaadin-grid-sort-column>
             <vaadin-grid-sort-column id="qualified-name" path="properties.qualifiedName" header="Context Info"></vaadin-grid-sort-column>
             <vaadin-grid-sort-column id="description" path="properties.summary" header="Description"></vaadin-grid-sort-column>
-          </vaadin-grid>
+          </vaadin-grid> */}
         </div>
         <div className="content flex row">
           <div className="m5">
-            <vaadin-button id="load-more" onClick={ () => this.loadMore() }>Load more</vaadin-button>
+            {/* <vaadin-button id="load-more" onClick={ () => this.loadMore() }>Load more</vaadin-button> */}
           </div>
         </div>
       </div>

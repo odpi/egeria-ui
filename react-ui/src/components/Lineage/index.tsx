@@ -5,7 +5,7 @@ import {
   HappiGraphActions
 } from 'happi-graph';
 
-import 'happi-graph/src/components/happi-graph.scss';
+import 'happi-graph/src/components/HappiGraph/happi-graph.scss';
 
 
 import { mockData } from "../../mockData";

@@ -1,11 +1,13 @@
 import React from "react";
+import { Accordion, LoadingOverlay, Paper, Text } from '@mantine/core';
+import { capitalize } from "../../helpers/commons";
 
 interface Props {
 }
 
 interface State {
   data: {
-    loaded: Boolean,
+    loaded: boolean,
     name: String,
     version: String,
     commitId: String,
@@ -54,45 +56,25 @@ class About extends React.Component<Props, State> {
   render() {
     const { data } = this.state;
 
-    return (
-      <div>
-        { data.loaded &&
-          ( <div>
-              <h1>About</h1>
-              <table>
-                <thead></thead>
-                <tbody>
-                  <tr>
-                    <td>Application Name</td>
-                  </tr>
-                  <tr>
-                    <td>{ data.name }</td>
-                  </tr>
-                  <tr>
-                    <td>Version</td>
-                  </tr>
-                  <tr>
-                    <td>{ data.version }</td>
-                  </tr>
-                  <tr>
-                    <td>CommitId</td>
-                  </tr>
-                  <tr>
-                    <td>{ data.commitId }</td>
-                  </tr>
-                  <tr>
-                    <td>Build time</td>
-                  </tr>
-                  <tr>
-                    <td>{ data.buildTime }</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          )
-        }
+    return (<>
+      <div style={{ height:'100%', position: 'relative' }}>
+        <LoadingOverlay visible={!data.loaded} />
+
+        <Paper shadow="xs" p="md" style={{height: '100%'}}>
+          <Text size="xl">About</Text>
+          <Accordion>
+            { Object.keys(data).filter(k => k !== 'loaded').map((k, index) => {
+              return (
+                <Accordion.Item label={capitalize(k)} key={index}>
+                  {/* @ts-ignore */}
+                  { capitalize(data[k]) }
+                </Accordion.Item>
+              );
+            }) }
+          </Accordion>
+        </Paper>
       </div>
-    );
+    </>);
   }
 }
 

@@ -1,171 +1,175 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import './index.scss';
+import {
+  ActionIcon,
+  Container,
+  Group,
+  Header,
+  TextInput,
+  createStyles,
+  useMantineTheme,
+  MultiSelect,
+  LoadingOverlay
+} from '@mantine/core';
 
-import logoTransparent from '../../static/Logo_transparent.png';
-import { egeriaFetch } from "../../helpers/egeria-fetch";
+import {
+  Search,
+  ArrowRight,
+  ArrowLeft,
+  BrandGithub,
+  BrandSlack,
+  Logout,
+  Login
+} from 'tabler-icons-react';
 
-import 'multiselect-combo-box/multiselect-combo-box.js';
-import { types } from '../../services/user.service';
-import '@vaadin/vaadin-text-field';
-import {authHeader} from "../../helpers/auth-header";
+import { FeaturesGrid } from '../Features';
+import { NavLink } from 'react-router-dom';
+import { authenticationService } from '../../services/authentication.service';
+import { types } from '../api/types';
+import { useEffect, useState } from 'react';
 
-interface Props {
+const useStyles = createStyles((theme) => ({
+  inner: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    height: 56,
+
+    [theme.fn.smallerThan('sm')]: {
+      justifyContent: 'flex-start',
+    },
+  },
+
+  links: {
+    width: 260,
+
+    [theme.fn.smallerThan('sm')]: {
+      display: 'none',
+    },
+  },
+
+  social: {
+    width: 260,
+
+    [theme.fn.smallerThan('sm')]: {
+      width: 'auto',
+      marginLeft: 'auto',
+    },
+  },
+
+  burger: {
+    marginRight: theme.spacing.md,
+
+    [theme.fn.largerThan('sm')]: {
+      display: 'none',
+    },
+  },
+
+  link: {
+    display: 'block',
+    lineHeight: 1,
+    padding: '8px 12px',
+    borderRadius: theme.radius.sm,
+    textDecoration: 'none',
+    color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.colors.gray[7],
+    fontSize: theme.fontSizes.sm,
+    fontWeight: 500,
+
+    '&:hover': {
+      backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
+    },
+  },
+
+  linkActive: {
+    '&, &:hover': {
+      backgroundColor:
+        theme.colorScheme === 'dark'
+          ? theme.fn.rgba(theme.colors[theme.primaryColor][9], 0.25)
+          : theme.colors[theme.primaryColor][0],
+      color: theme.colors[theme.primaryColor][theme.colorScheme === 'dark' ? 3 : 7],
+    },
+  },
+}));
+
+interface HeaderMiddleProps {
+  links: { link: string; label: string }[];
 }
 
-interface State {
-  titles: any;
-  descriptions: any;
-}
+export function Home({ links }: HeaderMiddleProps) {
+  const theme = useMantineTheme();
+  const { classes} = useStyles();
+  const isLoggedIn = authenticationService.currentJwt();
+  const [typesData, setTypesData] = useState([]);
 
-/**
- *
- * React component used for displaying the Home page.
- *
- * @since      0.1.0
- * @access     public
- *
- */
-class Home extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-
-    this.state = {
-      titles: [],
-      descriptions: []
-    };
-  }
-
-  getCombobox() {
-    return document.querySelector('#types');
-  }
-
-  getSearch() {
-    return document.querySelector('#user-search');
-  }
-
-  componentDidMount() {
-    this.getAppInfo();
-
+  useEffect(() => {
     types.getAll().then(response => response.json()).then(data => {
-      const combobox: any = this.getCombobox();
-
-      combobox.items =  data.map((d: any, i: number) => {
+      setTypesData(data.map((d: any) => {
         return {
-          id: d.name,
-          name: d.name
-        };
-      });
-    })
-  }
-
-  submit() {
-    const combobox: any = this.getCombobox();
-    const search: any = this.getSearch();
-
-    const selectedItems = combobox.selectedItems || [];
-    const searchValue = search.value || '';
-
-    let queryParams = `?q=${searchValue}`;
-
-    if(selectedItems.length > 0) {
-      queryParams = `${queryParams}&selectedTypes=${selectedItems.map((i: any) => i.id).join(',')}`;
-    }
-
-    window.location.href = `${process.env.REACT_APP_ROOT_PATH}/assets/catalog${ queryParams }`;
-  }
-
-  getAppInfo() {
-    egeriaFetch('/api/public/app/info', 'GET', authHeader(), {}).then(data => {
-      return data.json();
-    }).then(data => {
-      this.setState({
-        titles: !['', undefined].includes(data.title) ? data.title.split('|') : [],
-        descriptions: !['', undefined].includes(data.description) ? data.description.split('@@').map((d: any) => {
-          let [ title, description ] = d.split('||');
-
-          return {
-            title: title,
-            description: description
-          }
-        }) : []
-      });
+          value: d.name,
+          label: d.name
+        }
+      }));
     });
-  }
+  }, [])
 
-  render() {
-    const { titles, descriptions } = this.state;
+  const items = links.map((link, index) => (
+    <NavLink className={classes.link} to={link.link} key={index}>{link.label}</NavLink>
+  ));
 
-    return (
-      <div className="home">
-        <div className="content">
-          <div className="menu">
-            <ul className="br5">
-              <li>
-                <Link to={`/`}>Home</Link>
-              </li>
-              <li>
-                <Link to={`/assets/catalog`}>Catalog</Link>
-              </li>
-              <li>
-                <Link to={`/lineage/viewer`}>Viewer</Link>
-              </li>
-              <li className="pull-right">
-                <Link to={`/about`}>About</Link>
-              </li>
-            </ul>
-          </div>
-        </div>
+  return (<>
+    <Header height={56} mb={15}>
+      <Container className={classes.inner}>
+        <Group className={classes.links} spacing={5}>
+          {items}
+        </Group>
 
-        <div className="content">
-          <div className="header br5">
-            <h1>
-              { (titles.length > 0) && titles.map((t: any, i: number) => {
-                return (<span className={ `title__part-${i}` } key={i}>{t}</span>);
-              }) }
-            </h1>
-          </div>
-        </div>
+        <img src="/egeria-logo.svg" alt="Egeria" title="Egeria" style={{height:40}}/>
 
-        <div className="content flex row">
-          <div className="m5">
-            <multiselect-combo-box id="types"
-                                   placeholder="Select one or more"
-                                   label="Types"
-                                   item-id-path="id"
-                                   item-value-path="id"
-                                   item-label-path="name"></multiselect-combo-box>
-          </div>
+        <Group spacing={0} className={classes.social} position="right" noWrap>
+          <ActionIcon size="lg"
+                      title="Github"
+                      onClick={() => { window.open('https://github.com/odpi', '_blank'); }}>
+            <BrandGithub size={18} />
+          </ActionIcon>
+          <ActionIcon size="lg"
+                      title="Slack"
+                      onClick={() => { window.open('https://lfaifoundation.slack.com', '_blank'); }}>
+            <BrandSlack size={18} />
+          </ActionIcon>
 
-          <div className="m5">
-            <vaadin-text-field id="user-search" label="Search"></vaadin-text-field>
-          </div>
+          <NavLink to={isLoggedIn ? '/logout' : '/login'}>
+            <ActionIcon size="lg" title={isLoggedIn ? 'Logout' : 'Login'}>
+              { isLoggedIn && <Logout size={18} /> }
+              { !isLoggedIn && <Login size={18} /> }
+            </ActionIcon>
+          </NavLink>
+        </Group>
+      </Container>
+    </Header>
 
-          <div className="m5" style={{paddingTop: 32}}>
-            <vaadin-button id="submit" onClick={ () => this.submit() }>Submit</vaadin-button>
-          </div>
-        </div>
+    <Container mt={70} style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between'}}>
+      <MultiSelect
+        data={typesData}
+        radius="xl"
+        size="md"
+        placeholder="Type"
+        style={{width:'30%'}}
+      />
+      <TextInput
+        style={{width:'69%'}}
+        icon={<Search size={18} />}
+        radius="xl"
+        size="md"
+        rightSection={
+          <ActionIcon size={32} radius="xl" color={theme.primaryColor} variant="filled">
+            {theme.dir === 'ltr' ? <ArrowRight size={18} /> : <ArrowLeft size={18} />}
+          </ActionIcon>
+        }
+        placeholder="Search terms"
+        rightSectionWidth={42}
+      />
+    </Container>
 
-        <div className="content">
-          <div className="flex space-between">
-            { (descriptions.length > 0) && descriptions.map((d: any, i: number) => {
-                return (<div className={ `description br5 p15 description-${i}` } key={i}>
-                  <strong>{ d.title }</strong>
-                  <p>{ d.description }</p>
-                </div>);
-              }) }
-          </div>
-        </div>
+    <FeaturesGrid />
 
-        <div className="content">
-          <div className="footer row">
-            <p>Powered by</p>
-            <img src={ logoTransparent } alt="logo"/>
-          </div>
-        </div>
-      </div>
-    );
-  }
+    <LoadingOverlay visible={!typesData.length} />
+  </>);
 }
-
-export default Home;

@@ -1,4 +1,8 @@
 export const mockData = {
-  nodes: [],
-  edges: []
+  nodes: [
+
+  ],
+  edges: [
+
+  ]
 };
