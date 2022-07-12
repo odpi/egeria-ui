@@ -3,26 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@emotion/react": "^11.7.1",
-    "@emotion/styled": "^11.6.0",
-    "@mui/icons-material": "^5.8.4",
-    "@mui/material": "^5.8.4",
-    "@testing-library/jest-dom": "^5.16.4",
-    "@testing-library/react": "^13.3.0",
-    "@testing-library/user-event": "^13.5.0",
-    "@types/jest": "^27.5.2",
-    "@types/node": "^16.11.41",
-    "@types/react": "^18.0.12",
-    "@types/react-dom": "^18.0.5",
-    "@vaadin/button": "^22.0.3",
-    "@vaadin/combo-box": "^23.1.1",
-    "@vaadin/context-menu": "^22.0.2",
-    "@vaadin/vaadin-app-layout": "^22.0.2",
-    "@vaadin/vaadin-checkbox": "^22.0.5",
-    "@vaadin/vaadin-grid": "22.0.4",
-    "@vaadin/vaadin-lumo-styles": "^22.0.16",
-    "@vaadin/vaadin-tabs": "^22.0.2",
-    "@vaadin/vaadin-text-field": "^22.0.3",
     "egeria-js-commons": "github:odpi/egeria-js-commons",
     "egeria-ui-components": "github:odpi/egeria-ui-components",
     "egeria-ui-core": "github:odpi/egeria-ui-core",
@@ -30,11 +10,8 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.3.0",
-    "react-scripts": "5.0.1",
     "rxjs": "^7.5.5",
     "tabler-icons-react": "^1.49.0",
-    "typescript": "^4.7.3",
-    "use-react-router-breadcrumbs": "^3.2.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -62,7 +39,15 @@
     ]
   },
   "devDependencies": {
-    "http-proxy-middleware": "^2.0.6",
-    "node-sass": "^7.0.1"
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^13.3.0",
+    "@testing-library/user-event": "^13.5.0",
+    "@types/jest": "^27.5.2",
+    "@types/node": "^16.11.41",
+    "@types/react": "^18.0.12",
+    "@types/react-dom": "^18.0.5",
+    "node-sass": "^7.0.1",
+    "react-scripts": "5.0.1",
+    "typescript": "^4.7.3"
   }
 }
