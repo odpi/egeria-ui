@@ -4,8 +4,7 @@ import {
   Text,
   Container,
   SimpleGrid,
-  useMantineTheme,
-  createStyles,
+  useMantineTheme
 } from '@mantine/core';
 import { Icon as TablerIcon } from 'tabler-icons-react';
 

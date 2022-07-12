@@ -26,7 +26,6 @@ import { authenticationService } from '../../services/authentication.service';
 import { types } from '../api/types';
 import { useEffect, useState } from 'react';
 import { logout } from 'egeria-ui-core';
-import { goHome } from '../api';
 
 const useStyles = createStyles((theme) => ({
   inner: {
@@ -137,7 +136,7 @@ export function Home({ links }: HeaderMiddleProps) {
             <BrandSlack size={18} />
           </ActionIcon>
 
-          { !isLoggedIn && <ActionIcon size="lg" title={'Logout'} onClick={() => {  console.log(logout); logout(goHome) }}>
+          { isLoggedIn && <ActionIcon size="lg" title={'Logout'} onClick={() => { logout(); }}>
                             <Logout size={18} />
                           </ActionIcon> }
 

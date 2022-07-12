@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { Navbar, Center, Tooltip, UnstyledButton, createStyles, Group } from '@mantine/core';
+import { Navbar, Tooltip, UnstyledButton, createStyles, Group } from '@mantine/core';
 import {
   Icon as TablerIcon,
   Logout,

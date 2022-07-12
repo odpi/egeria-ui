@@ -1,4 +1,4 @@
-import {authHeader, authHeaderWithContentType} from './auth-header';
+// import {authHeader, authHeaderWithContentType} from './auth-header';
 import { handleResponse } from './handle-response';
 
 /**

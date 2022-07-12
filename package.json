@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@mantine/core": "^4.2.9",
+    "@mantine/hooks": "^4.2.9",
+    "@mantine/next": "^4.2.9",
     "egeria-js-commons": "github:odpi/egeria-js-commons",
     "egeria-ui-components": "github:odpi/egeria-ui-components",
     "egeria-ui-core": "github:odpi/egeria-ui-core",

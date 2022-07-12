@@ -2,7 +2,7 @@ import React from "react";
 // import 'carbon-web-components/es/components/data-table';
 // import 'carbon-web-components/es/components/breadcrumb';
 import { egeriaFetch } from "../../../helpers/egeria-fetch";
-import {authHeader} from "../../../helpers/auth-header";
+import { authHeader } from "../../../helpers/auth-header";
 
 interface Props {
   match: any;
@@ -78,7 +78,7 @@ class AssetDetails extends React.Component<Props, State> {
   }
 
   renderBreadcrumbSample() {
-    const { match } = this.props;
+    // const { match } = this.props;
 
     return(<></>
     //   <bx-breadcrumb role="nav">
@@ -102,7 +102,7 @@ class AssetDetails extends React.Component<Props, State> {
   }
 
   render() {
-    const { asset } = this.state;
+    // const { asset } = this.state;
 
     return (<></>
       // <div>

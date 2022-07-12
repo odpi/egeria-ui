@@ -1,25 +1,21 @@
 import {
-  Anchor,
   AppShell,
-  Container,
-  Paper,
   useMantineTheme
 } from '@mantine/core';
 
 import {
-  BrowserRouter as Router,
-  NavLink,
+  // NavLink,
   Route,
   Routes
 } from 'react-router-dom';
 import About from '../About';
-import AssetCatalog from '../Assets/Catalog';
-import AssetDetails from '../Assets/Details';
+// import AssetCatalog from '../Assets/Catalog';
+// import AssetDetails from '../Assets/Details';
 import { EgeriaGlossary } from '../Glossary';
 
 import { EgeriaHeader } from '../Header';
-import Lineage from '../Lineage';
-import LineageViewer from '../Lineage/Viewer';
+// import Lineage from '../Lineage';
+// import LineageViewer from '../Lineage/Viewer';
 import { EgeriaNavbar } from '../NavbarMinimal';
 import { RequireAuth } from '../RequireAuth';
 
@@ -47,8 +43,8 @@ export function App() {
 
           <Route path={"/about"} element={<About />} />
 
-          <Route path={"/assets/:uuid/details"}
-                  element={<RequireAuth><AssetDetails match={""} /></RequireAuth>} />
+          {/* <Route path={"/assets/:uuid/details"}
+                  element={<RequireAuth><AssetDetails match={""} /></RequireAuth>} /> */}
 
 
           <Route path={"/glossary"}

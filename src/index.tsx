@@ -41,11 +41,13 @@ root.render(
     <Routes>
       <Route path="/" element={<Home links={links} />} />
       <Route path="/*" element={<RequireAuth><App /></RequireAuth>} />
-      <Route path="/login" element={<EgeriaLogin loginCallback={() => { window.location.href = `${process.env.REACT_APP_HOMEPAGE}`; }}
-                                                 apiUrl={`${process.env.REACT_APP_API_URL}/api/auth/login`} /> } />
+      <Route path="/login" element={<EgeriaLogin />} />
     </Routes>
   </Router>
 );
+
+// loginCallback={() => { window.location.href = `${process.env.REACT_APP_HOMEPAGE}`; }}
+// apiUrl={`${process.env.REACT_APP_API_URL}/api/auth/login`} /> } />*/
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
