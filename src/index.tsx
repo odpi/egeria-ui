@@ -1,4 +1,3 @@
-import React from 'react';
 import ReactDOM from 'react-dom/client';
 
 import {
@@ -6,15 +5,15 @@ import {
   Route,
   Routes
 } from 'react-router-dom';
+
 import reportWebVitals from './reportWebVitals';
 
 import './index.scss';
 
 import { EgeriaLogin } from 'egeria-ui-core';
 import { App } from './components/App';
-import { RequireAuth } from './components/RequireAuth';
 import { Home, links } from './components/Home';
-import { goHome } from './components/api';
+import { apiUrl, goHome } from './components/api';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -26,9 +25,9 @@ root.render(
   <Router basename={process.env.REACT_APP_ROOT_PATH}>
     <Routes>
       <Route path="/" element={<Home links={links} />} />
-      <Route path="/*" element={<RequireAuth><App /></RequireAuth>} />
+      <Route path="/*" element={<App />} />
       <Route path="/login" element={<EgeriaLogin loginCallback={ goHome }
-                                                 apiUrl={`${process.env.REACT_APP_API_URL}/api/auth/login`} /> } />
+                                                 apiUrl={`${apiUrl()}/api/auth/login`} /> } />
     </Routes>
   </Router>
 );
