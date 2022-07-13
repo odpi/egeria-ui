@@ -1,7 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { types } from '../../../services/user.service';
-import { egeriaFetch } from '../../../helpers/egeria-fetch';
 // import '@vaadin/vaadin-grid/vaadin-grid.js';
 // import '@vaadin/vaadin-grid/vaadin-grid-column.js';
 // import '@vaadin/vaadin-grid/vaadin-grid-filter.js';
@@ -12,8 +10,8 @@ import { egeriaFetch } from '../../../helpers/egeria-fetch';
 import { getComponent } from "../../../helpers/commons";
 import { itemDescription, itemName } from "./helpers";
 import QualifiedName from "./qualified-name";
-import {authHeader} from "../../../helpers/auth-header";
-
+import {authHeader, egeriaFetch } from 'egeria-ui-core';
+import { types } from '../../api/types';
 interface Props {
   location: any;
 }

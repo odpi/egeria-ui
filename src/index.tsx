@@ -14,6 +14,7 @@ import { EgeriaLogin } from 'egeria-ui-core';
 import { App } from './components/App';
 import { RequireAuth } from './components/RequireAuth';
 import { Home } from './components/Home';
+import { goHome } from './components/api';
 
 const links = [
   {
@@ -41,13 +42,11 @@ root.render(
     <Routes>
       <Route path="/" element={<Home links={links} />} />
       <Route path="/*" element={<RequireAuth><App /></RequireAuth>} />
-      <Route path="/login" element={<EgeriaLogin />} />
+      <Route path="/login" element={<EgeriaLogin loginCallback={ goHome }
+                                                 apiUrl={`${process.env.REACT_APP_API_URL}/api/auth/login`} /> } />
     </Routes>
   </Router>
 );
-
-// loginCallback={() => { window.location.href = `${process.env.REACT_APP_HOMEPAGE}`; }}
-// apiUrl={`${process.env.REACT_APP_API_URL}/api/auth/login`} /> } />*/
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

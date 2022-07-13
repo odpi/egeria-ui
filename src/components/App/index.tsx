@@ -20,6 +20,7 @@ import { EgeriaNavbar } from '../NavbarMinimal';
 import { RequireAuth } from '../RequireAuth';
 
 import { EgeriaLineage } from 'egeria-ui-components';
+import LineageViewer from '../Lineage/Viewer';
 
 export function App() {
   const theme = useMantineTheme();
@@ -56,8 +57,8 @@ export function App() {
           <Route path={"/lineage"}
                   element={<RequireAuth><EgeriaLineage lineage={'ultimate-source'} /></RequireAuth>} />
 
-          {/* <Route path={"/lineage/viewer"}
-                  element={<RequireAuth><LineageViewer /></RequireAuth>} /> */}
+          <Route path={"/lineage/viewer"}
+                  element={<RequireAuth><LineageViewer /></RequireAuth>} />
         </Routes>
       </div>
     </AppShell>

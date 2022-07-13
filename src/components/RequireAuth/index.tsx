@@ -1,14 +1,14 @@
 import {
   Navigate
 } from 'react-router-dom';
-import { authenticationService } from '../../services/authentication.service';
+import { currentJwt } from 'egeria-ui-core';
 
 export function RequireAuth(props: any) {
   const { children } = props;
 
-  const currentJwt = authenticationService.currentJwt();
+  const _currentJwt = currentJwt();
 
-  if (currentJwt) {
+  if (_currentJwt) {
     return children;
   } else {
     return <Navigate to="/login" replace />;

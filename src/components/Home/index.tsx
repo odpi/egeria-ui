@@ -22,10 +22,10 @@ import {
 
 import { FeaturesGrid } from '../Features';
 import { NavLink } from 'react-router-dom';
-import { authenticationService } from '../../services/authentication.service';
 import { types } from '../api/types';
 import { useEffect, useState } from 'react';
-import { logout } from 'egeria-ui-core';
+import { currentJwt, logout } from 'egeria-ui-core';
+import { goHome } from '../api';
 
 const useStyles = createStyles((theme) => ({
   inner: {
@@ -97,7 +97,7 @@ interface HeaderMiddleProps {
 export function Home({ links }: HeaderMiddleProps) {
   const theme = useMantineTheme();
   const { classes} = useStyles();
-  const isLoggedIn = authenticationService.currentJwt();
+  const isLoggedIn = currentJwt();
   const [typesData, setTypesData] = useState([]);
 
   useEffect(() => {
@@ -136,7 +136,7 @@ export function Home({ links }: HeaderMiddleProps) {
             <BrandSlack size={18} />
           </ActionIcon>
 
-          { isLoggedIn && <ActionIcon size="lg" title={'Logout'} onClick={() => { logout(); }}>
+          { isLoggedIn && <ActionIcon size="lg" title={'Logout'} onClick={() => { logout(goHome); }}>
                             <Logout size={18} />
                           </ActionIcon> }
 
