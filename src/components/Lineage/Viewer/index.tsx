@@ -4,9 +4,6 @@ import { NameSuggestions } from "./name-suggestions";
 import { TypesSuggestions } from "./types-suggestions";
 import {IconButton, Tooltip} from "@mui/material";
 import HelpIcon from '@mui/icons-material/Help';
-import { itemName } from "../../Assets/Catalog/helpers";
-import ReactDOM from "react-dom";
-import QualifiedName from "../../Assets/Catalog/qualified-name";
 import { authHeaderWithContentType, egeriaFetch } from 'egeria-ui-core';
 
 import { Button } from '@mantine/core';
@@ -14,8 +11,6 @@ import { Button } from '@mantine/core';
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
-
-
 
 
 interface Props {
@@ -45,18 +40,6 @@ class LineageViewer extends React.Component<Props, State> {
       inputBoxes: [],
       numberOfBoxes: 0,
     };
-  }
-  componentDidMount() {
-    // const displayName: any = getComponent('#display-name');
-    // const qualifiedName: any = getComponent('#qualified-name');
-
-    // displayName.renderer = (root: any, grid: any, rowData: any) => {
-    //   root.innerHTML = `<a href="${process.env.REACT_APP_ROOT_PATH}/assets/${rowData.item.guid}/details" target="_blank">${itemName(rowData.item)}</a>`;
-    // };
-
-    // qualifiedName.renderer = (root: any, grid: any, rowData: any) => {
-    //   ReactDOM.render(<QualifiedName qualified={rowData.item.qualifiedName} />, root);
-    // };
   }
 
   addMoreOptions() {
@@ -170,10 +153,11 @@ class LineageViewer extends React.Component<Props, State> {
 
   render() {
     const { data, isLoading } = this.state;
+
     const columnDefs = [
-      { field: 'displayName' },
+      { field: 'displayName' }, // <a href="${process.env.REACT_APP_ROOT_PATH}/assets/${rowData.item.guid}/details" target="_blank">${itemName(rowData.item)}</a>
       { field: 'nodeType' },
-      { field: 'qualifiedName' }
+      { field: 'qualifiedName' } // <QualifiedName qualified={rowData.item.qualifiedName} />,
     ];
 
     return (
