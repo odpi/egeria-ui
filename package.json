@@ -1,89 +1,56 @@
 {
-  "name": "egeria-ui",
-  "version": "3.2.0",
-  "description": "Egeria UI application",
-  "author": "Egeria contributors",
-  "license": "Apache-2.0",
-  "repository": "odpi/egeria-ui",
-  "vaadin": {
-    "disableUsageStatistics": true
+  "name": "react-ui",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@mantine/core": "^4.2.9",
+    "@mantine/hooks": "^4.2.9",
+    "@mantine/next": "^4.2.9",
+    "egeria-js-commons": "github:odpi/egeria-js-commons",
+    "egeria-ui-components": "github:odpi/egeria-ui-components",
+    "egeria-ui-core": "github:odpi/egeria-ui-core",
+    "happi-graph": "github:odpi/happi-graph#react",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.3.0",
+    "rxjs": "^7.5.5",
+    "tabler-icons-react": "^1.49.0",
+    "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "preinstall": "node preinstall.js",
-    "serve": "hs -c0 ./build/prod/",
-    "prestart": "npm run generate:env",
-    "start": "polymer serve",
-    "start:dev": "npm run start --api-url=http://localhost:9000",
-    "prebuild": "npm run generate:env --production=true",
-    "build": "polymer build",
-    "postbuild": "node about.js",
-    "prelint": "npm run generate:env",
-    "lint": "polymer lint",
-    "pretest": "npm run generate:env",
-    "test": "polymer test",
-    "license-checker": "license-checker --exclude [MIT] --production --direct --csv --out LICENSE_LIST.csv",
-    "generate:env": "node prebuild.js"
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   },
-  "dependencies": {
-    "@polymer/app-layout": "3.1.0",
-    "@polymer/app-localize-behavior": "3.0.1",
-    "@polymer/app-route": "3.0.2",
-    "@polymer/app-storage": "3.0.3",
-    "@polymer/iron-a11y-keys": "3.0.1",
-    "@polymer/iron-ajax": "3.0.1",
-    "@polymer/iron-collapse": "3.0.1",
-    "@polymer/iron-fit-behavior": "3.1.0",
-    "@polymer/iron-flex-layout": "3.0.1",
-    "@polymer/iron-form": "3.0.1",
-    "@polymer/iron-icons": "3.0.1",
-    "@polymer/iron-iconset-svg": "3.0.1",
-    "@polymer/iron-label": "3.0.1",
-    "@polymer/iron-localstorage": "3.0.1",
-    "@polymer/iron-location": "3.0.2",
-    "@polymer/iron-media-query": "3.0.1",
-    "@polymer/iron-overlay-behavior": "3.0.3",
-    "@polymer/iron-pages": "3.0.1",
-    "@polymer/iron-selector": "3.0.1",
-    "@polymer/neon-animation": "3.0.1",
-    "@polymer/paper-button": "3.0.1",
-    "@polymer/paper-checkbox": "3.1.0",
-    "@polymer/paper-dialog": "3.0.1",
-    "@polymer/paper-dialog-behavior": "3.0.1",
-    "@polymer/paper-drawer-panel": "3.0.2",
-    "@polymer/paper-dropdown-menu": "3.2.0",
-    "@polymer/paper-icon-button": "3.0.2",
-    "@polymer/paper-input": "3.2.1",
-    "@polymer/paper-item": "3.0.1",
-    "@polymer/paper-listbox": "3.0.1",
-    "@polymer/paper-material": "3.0.1",
-    "@polymer/paper-menu-button": "3.1.0",
-    "@polymer/paper-progress": "3.0.1",
-    "@polymer/paper-radio-button": "3.0.1",
-    "@polymer/paper-radio-group": "3.0.1",
-    "@polymer/paper-spinner": "3.0.2",
-    "@polymer/paper-styles": "3.0.1",
-    "@polymer/paper-tabs": "3.1.0",
-    "@polymer/paper-toast": "3.0.1",
-    "@polymer/paper-toggle-button": "3.0.1",
-    "@polymer/polymer": "3.4.1",
-    "@vaadin/vaadin": "18.0.6",
-    "@vaadin/vaadin-core": "18.0.6",
-    "@webcomponents/webcomponentsjs": "2.5.0",
-    "d3": "5.16.0",
-    "egeria-js-commons": "git+https://github.com/odpi/egeria-js-commons.git#3.0.2",
-    "happi-graph": "git+https://github.com/odpi/happi-graph.git#3.0.3",
-    "multiselect-combo-box": "2.4.2",
-    "visjs-network": "4.24.11",
-    "web-animations-js": "2.3.2"
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   },
   "devDependencies": {
-    "http-server": "0.12.3",
-    "license-checker": "^25.0.1",
-    "polymer-cli": "^1.9.11",
-    "wct-browser-legacy": "^1.0.2",
-    "wct-mocha": "^1.1.0"
-  },
-  "engines": {
-    "node": "10.13.0"
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^13.3.0",
+    "@testing-library/user-event": "^13.5.0",
+    "@types/jest": "^27.5.2",
+    "@types/node": "^16.11.41",
+    "@types/react": "^18.0.12",
+    "@types/react-dom": "^18.0.5",
+    "node-sass": "^7.0.1",
+    "react-scripts": "5.0.1",
+    "typescript": "^4.7.3"
   }
 }
