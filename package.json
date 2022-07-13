@@ -24,8 +24,10 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
+    "preinstall": "node preinstall.js",
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "postbuild": "node about.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
