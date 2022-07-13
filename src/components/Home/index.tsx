@@ -90,6 +90,21 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
+export const links = [
+  {
+    "link": "/",
+    "label": "Home"
+  },
+  {
+    "link": "/assets/catalog",
+    "label": "Catalog"
+  },
+  {
+    "link": "/about",
+    "label": "About"
+  }
+];
+
 interface HeaderMiddleProps {
   links: { link: string; label: string }[];
 }

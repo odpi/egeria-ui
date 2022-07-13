@@ -10,18 +10,14 @@ export function TypesSuggestions(props: any) {
   const loading = open && options.length === 0;
 
   React.useEffect(() => {
-    let active = true;
-
     if (!loading) {
       return undefined;
     }
+
     lineage.getLineageTypes().then(response => response.json()).then(data => {
       // @ts-ignore
       setOptions([...data]);
     });
-    return () => {
-      active = false;
-    };
   }, [loading]);
 
   React.useEffect(() => {

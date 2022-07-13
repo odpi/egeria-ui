@@ -13,23 +13,8 @@ import './index.scss';
 import { EgeriaLogin } from 'egeria-ui-core';
 import { App } from './components/App';
 import { RequireAuth } from './components/RequireAuth';
-import { Home } from './components/Home';
+import { Home, links } from './components/Home';
 import { goHome } from './components/api';
-
-const links = [
-  {
-    "link": "/",
-    "label": "Home"
-  },
-  {
-    "link": "/assets/catalog",
-    "label": "Catalog"
-  },
-  {
-    "link": "/about",
-    "label": "About"
-  }
-];
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
