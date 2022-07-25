@@ -5,5 +5,5 @@ export const apiUrl = () => {
 export function goHome() {
   console.log('WENT HOME');
 
-  window.location.href=`${ apiUrl() }`;
+  window.location.href='/';
 };

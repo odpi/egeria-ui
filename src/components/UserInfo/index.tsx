@@ -1,5 +1,5 @@
+import { currentJwt, parseJwt } from "egeria-ui-core";
 import React from "react";
-import { authenticationService } from '../../services/authentication.service';
 
 interface Props {
 }
@@ -26,14 +26,11 @@ class UserInfo extends React.Component<Props, State> {
   }
 
   componentDidMount() {
-    authenticationService.currentUser.subscribe((user: any) => {
-      if(user) {
-        const userData = JSON.parse(user.sub);
+    const _currentJwt = parseJwt(currentJwt());
+    const userData = JSON.parse(_currentJwt.sub);
 
-        this.setState({
-          displayName: userData.displayName
-        });
-      }
+    this.setState({
+      displayName: userData.displayName
     });
   }
 

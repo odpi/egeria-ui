@@ -1,6 +1,5 @@
 import { apiUrl } from '.';
-import { authHeader } from '../../helpers/auth-header';
-import { handleResponse } from '../../helpers/handle-response';
+import { authHeader, handleResponse } from 'egeria-ui-core';
 
 export const types = {
   getAll

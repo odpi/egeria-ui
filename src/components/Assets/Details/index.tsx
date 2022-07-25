@@ -1,8 +1,7 @@
 import React from "react";
 // import 'carbon-web-components/es/components/data-table';
 // import 'carbon-web-components/es/components/breadcrumb';
-import { egeriaFetch } from "../../../helpers/egeria-fetch";
-import { authHeader } from "../../../helpers/auth-header";
+import { egeriaFetch, authHeader } from 'egeria-ui-core';
 
 interface Props {
   match: any;
