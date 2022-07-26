@@ -17,9 +17,8 @@ import { EgeriaHeader } from '../Header';
 // import Lineage from '../Lineage';
 // import LineageViewer from '../Lineage/Viewer';
 import { EgeriaNavbar } from '../NavbarMinimal';
-import { RequireAuth } from '../RequireAuth';
-
 import { EgeriaLineage } from 'egeria-ui-components';
+import { RequireAuth } from 'egeria-ui-core';
 import LineageViewer from '../Lineage/Viewer';
 
 export function App() {
