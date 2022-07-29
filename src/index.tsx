@@ -10,7 +10,8 @@ import reportWebVitals from './reportWebVitals';
 
 import './index.scss';
 
-import { EgeriaHome, links, EgeriaApp, EgeriaLogin } from 'egeria-ui-core';
+import { EgeriaHome, links, EgeriaLogin } from 'egeria-ui-core';
+import { AppInstance } from './components/AppInstance';
 import { apiUrl, goHome } from 'egeria-js-commons';
 
 const root = ReactDOM.createRoot(
@@ -23,7 +24,7 @@ root.render(
   <Router basename={process.env.REACT_APP_ROOT_PATH}>
     <Routes>
       <Route path="/" element={<EgeriaHome links={links} />} />
-      <Route path="/*" element={<EgeriaApp />} />
+      <Route path="/*" element={<AppInstance />} />
       <Route path="/login" element={<EgeriaLogin loginCallback={ goHome }
                                                  apiUrl={`${apiUrl()}/api/auth/login`} /> } />
     </Routes>

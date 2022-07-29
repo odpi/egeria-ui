@@ -13,6 +13,7 @@
     "ag-grid-community": "^28.0.2",
     "ag-grid-react": "^28.0.0",
     "egeria-js-commons": "github:odpi/egeria-js-commons#react",
+    "egeria-ui-components": "github:odpi/egeria-ui-components#main",
     "egeria-ui-core": "github:odpi/egeria-ui-core#main",
     "happi-graph": "github:odpi/happi-graph#react",
     "react": "^18.2.0",
