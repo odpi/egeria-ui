@@ -27,6 +27,6 @@ LABEL org.opencontainers.image.vendor = "odpi" \
       org.opencontainers.image.ext.docker.params = ""
 
 # Just copy the built files & serve via nginx
-COPY dist/ /var/www/
+COPY build/ /var/www/
 COPY etc/nginx.conf /etc/nginx/conf.d/default.conf
 CMD ["nginx", "-g", "daemon off;"]
