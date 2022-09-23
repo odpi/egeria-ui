@@ -22,16 +22,13 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v2.1.5
         with:
-          # Polymer requires Node 10 LTS (not 12,14)
-          node-version: "10.13.0"
+          node-version: "16.13.0"
       - name: Report npm and node version
         run: |
           node -v
           npm -v
       - name: Install Dependencies
         run: npm install
-      - name: Lint
-        run: npm run lint
       - name: Test
         run: npm run test
       - name: Build
