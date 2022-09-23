@@ -7,7 +7,7 @@
     "@mantine/hooks": "4.2.9",
     "@mantine/next": "4.2.9",
     "egeria-js-commons": "github:odpi/egeria-js-commons#react",
-    "egeria-ui-components": "github:odpi/egeria-ui-components",
+    "egeria-ui-components": "github:odpi/egeria-ui-components#main",
     "egeria-ui-core": "github:odpi/egeria-ui-core#main",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
