@@ -24,9 +24,9 @@ export function AppInstance() {
       <Routes>
         <Route path="/hi" element={<>Hi</>} />
 
-        <Route path={`/asset-lineage/:guid/:lineageType`} element={<EgeriaLineageGraphRouteWrapper apiUrl={''} />} />
-        <Route path={'/assets/:guid/details'} element={<EgeriaAssetDetails apiUrl={''} />} />
-        <Route path={'/assets/catalog'} element={<EgeriaAssetCatalog apiUrl={''} />} />
+        <Route path={`/asset-lineage/:guid/:lineageType`} element={<RequireAuth><EgeriaLineageGraphRouteWrapper apiUrl={''} /></RequireAuth>} />
+        <Route path={'/assets/:guid/details'} element={<RequireAuth><EgeriaAssetDetails apiUrl={''} /></RequireAuth>} />
+        <Route path={'/assets/catalog'} element={<RequireAuth><EgeriaAssetCatalog apiUrl={''} /></RequireAuth>} />
         <Route path={"/glossary"} element={<RequireAuth><EgeriaGlossary /></RequireAuth>} />
 
         <Route path={"/about"} element={<EgeriaAbout apiUrl={`${apiUrl()}`} />} />
