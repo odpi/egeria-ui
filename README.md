@@ -15,8 +15,8 @@
 ## Prerequisites
 |         |        Version      |
 |---------|---------------------|
-| NodeJS  |     10.13.0 (LTS)   |
-| NPM     |        6.4.1        |
+| NodeJS  |     16.13.0 (LTS)   |
+| NPM     |        8.1.0        |
 
 ## Dependencies
 ```bash
