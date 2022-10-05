@@ -96,6 +96,7 @@ $                                                 # the released version will be
 [2] - https://github.com/odpi/egeria-ui
 
 ## License
+
 SPDX-License-Identifier: Apache-2.0
 
 Copyright Contributors to the ODPi Egeria project.
