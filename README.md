@@ -15,8 +15,8 @@
 ## Prerequisites
 |         |        Version      |
 |---------|---------------------|
-| NodeJS  |     10.13.0 (LTS)   |
-| NPM     |        6.4.1        |
+| NodeJS  |     16.13.0 (LTS)   |
+| NPM     |        8.1.0        |
 
 ## Dependencies
 ```bash
@@ -96,6 +96,7 @@ $                                                 # the released version will be
 [2] - https://github.com/odpi/egeria-ui
 
 ## License
+
 SPDX-License-Identifier: Apache-2.0
 
 Copyright Contributors to the ODPi Egeria project.
