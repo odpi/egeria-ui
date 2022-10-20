@@ -76,20 +76,20 @@ Egeria-UI use GitHub as its dependency provider, this means that all the release
 are being pushed to the Github Egeria-UI repository here [2].
 
 ```bash
-$ git clone https://github.com/odpi/egeria-ui     # clone and checkout to master branch
+$ git clone https://github.com/odpi/egeria-ui     # clone and checkout to main branch
 $ vim release-notes.md                            # add release notes
 $ git commit -m "Add release notes"
 $ npm version patch                               # (minor or major) this will create a new commit with the bumped version
                                                   # and also a git version tag
 $ # `npm publish .` won't be executed since we are using GitHub as a direct dependency
-$ git push origin master
-$ git push origin master --tags
+$ git push origin main
+$ git push origin main --tags
 $                                                 # the released version will be available at the git version tag or in the
                                                   # release page here [1]
 ```
 
 ## Links
-[0] - https://github.com/odpi/egeria/tree/master/open-metadata-implementation/user-interfaces/ui-chassis/ui-chassis-spring/
+[0] - https://github.com/odpi/egeria/tree/main/open-metadata-implementation/user-interfaces/ui-chassis/ui-chassis-spring/
 
 [1] - https://github.com/odpi/egeria-api-mocks
 

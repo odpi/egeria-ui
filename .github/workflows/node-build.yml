@@ -5,9 +5,9 @@ name: Egeria UI Build
 
 on:
   push:
-    branches: [master]
+    branches: [main]
   pull_request:
-    branches: [master]
+    branches: [main]
 
 jobs:
 
@@ -56,10 +56,10 @@ jobs:
           password: ${{ secrets.QUAY_IO_ACCESS_TOKEN }}
         if: ${{ steps.check.outputs.changed == 'true' && github.event_name == 'push' && github.repository == 'odpi/egeria-ui' }}
       # For releases (ie not main) we push the image - but not the latest tag
-      - name: Build and push (not master merge)
+      - name: Build and push (not main merge)
         id: docker_build_release
         uses: docker/build-push-action@v2
-        if: ${{ steps.check.outputs.changed == 'true' && github.ref != 'refs/heads/master' }}
+        if: ${{ steps.check.outputs.changed == 'true' && github.ref != 'refs/heads/main' }}
         with:
           push:  ${{ github.event_name == 'push' && github.repository == 'odpi/egeria-ui' }}
           tags: odpi/egeria-ui:${{ steps.package-version.outputs.current-version}}, quay.io/odpi/egeria-ui:${{ steps.package-version.outputs.current-version}}
@@ -67,10 +67,10 @@ jobs:
           file: ./Dockerfile
           platforms: linux/amd64,linux/arm64
       # For main code stream we push the image and add the latest tag
-      - name: Build and push (master merge)
-        id: docker_build_master
+      - name: Build and push (main merge)
+        id: docker_build_main
         uses: docker/build-push-action@v2
-        if: ${{ steps.check.outputs.changed == 'true' && github.ref == 'refs/heads/master' }}
+        if: ${{ steps.check.outputs.changed == 'true' && github.ref == 'refs/heads/main' }}
         with:
           push:  ${{ github.event_name == 'push' && github.repository == 'odpi/egeria-ui' }}
           tags: odpi/egeria-ui:${{ steps.package-version.outputs.current-version }}, odpi/egeria-ui:latest, quay.io/odpi/egeria-ui:${{ steps.package-version.outputs.current-version }}, quay.io/odpi/egeria-ui:latest
@@ -79,11 +79,11 @@ jobs:
           platforms: linux/amd64,linux/arm64
       # Note the digest
       - name: Image digest (release)
-        if: ${{ steps.check.outputs.changed == 'true' && github.ref != 'refs/heads/master' }}
+        if: ${{ steps.check.outputs.changed == 'true' && github.ref != 'refs/heads/main' }}
         run: echo ${{ steps.docker_build_release.outputs.digest }}
-      - name: Image digest (master)
-        if: ${{ steps.check.outputs.changed == 'true' && github.ref == 'refs/heads/master' }}
-        run: echo ${{ steps.docker_build_master.outputs.digest }}
+      - name: Image digest (main)
+        if: ${{ steps.check.outputs.changed == 'true' && github.ref == 'refs/heads/main' }}
+        run: echo ${{ steps.docker_build_main.outputs.digest }}
       # Save an artifact of the build tree & upload
       - name: Create Archive
         if: ${{ steps.check.outputs.changed == 'true' }}
