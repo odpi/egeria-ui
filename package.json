@@ -1,21 +1,6 @@
 {
-  "name": "egeria-ui",
+  "name": "@lfai/egeria-ui",
   "version": "4.0.2",
-  "private": true,
-  "dependencies": {
-    "@mantine/core": "4.2.9",
-    "@mantine/hooks": "4.2.9",
-    "@mantine/next": "4.2.9",
-    "egeria-js-commons": "github:odpi/egeria-js-commons#4.0.1",
-    "egeria-ui-components": "github:odpi/egeria-ui-components#4.0.3",
-    "egeria-ui-core": "github:odpi/egeria-ui-core#4.0.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-router-dom": "^6.4.2",
-    "tabler-icons-react": "^1.49.0",
-    "web-vitals": "2.1.4",
-    "web-worker": "1.2.0"
-  },
   "scripts": {
     "preinstall": "node preinstall.js",
     "start": "react-scripts start",
@@ -46,6 +31,20 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "dependencies": {
+    "@lfai/egeria-js-commons": "^4.0.3",
+    "@lfai/egeria-ui-components": "^4.0.7",
+    "@lfai/egeria-ui-core": "^4.0.3",
+    "@mantine/core": "4.2.9",
+    "@mantine/hooks": "4.2.9",
+    "@mantine/next": "4.2.9",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.4.2",
+    "tabler-icons-react": "^1.49.0",
+    "web-vitals": "2.1.4",
+    "web-worker": "1.2.0"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.4",

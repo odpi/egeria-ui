@@ -1,14 +1,14 @@
-import { EgeriaApp, RequireAuth, EgeriaAbout } from 'egeria-ui-core';
+import { EgeriaApp, RequireAuth, EgeriaAbout } from '@lfai/egeria-ui-core';
 
 import {
   EgeriaAssetCatalog,
   EgeriaAssetDetails,
   EgeriaGlossary,
   EgeriaLineageGraphRouteWrapper
-} from 'egeria-ui-components';
+} from '@lfai/egeria-ui-components';
 
 import { Routes, Route } from 'react-router-dom';
-import { apiUrl, menuIcons } from 'egeria-js-commons';
+import { apiUrl, menuIcons } from '@lfai/egeria-js-commons';
 
 const menu = [
   { customIcon: menuIcons.assets, label: 'Asset Lineage', href: '/lineage' },
