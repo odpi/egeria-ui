@@ -10,9 +10,9 @@ import reportWebVitals from './reportWebVitals';
 
 import './index.scss';
 
-import { EgeriaHome, links, EgeriaLogin } from 'egeria-ui-core';
+import { EgeriaHome, links, EgeriaLogin } from '@lfai/egeria-ui-core';
 import { AppInstance } from './components/AppInstance';
-import { apiUrl, goHome } from 'egeria-js-commons';
+import { apiUrl, goHome } from '@lfai/egeria-js-commons';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
