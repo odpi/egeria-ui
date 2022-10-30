@@ -34,9 +34,9 @@
     ]
   },
   "dependencies": {
-    "@lfai/egeria-js-commons": "^4.0.8",
-    "@lfai/egeria-ui-components": "^4.0.7",
-    "@lfai/egeria-ui-core": "^4.0.3",
+    "@lfai/egeria-js-commons": "^4.0.10",
+    "@lfai/egeria-ui-components": "^4.0.12",
+    "@lfai/egeria-ui-core": "^4.0.7",
     "@mantine/core": "4.2.9",
     "@mantine/hooks": "4.2.9",
     "@mantine/next": "4.2.9",
