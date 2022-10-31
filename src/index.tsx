@@ -12,14 +12,15 @@ import './index.scss';
 
 import { EgeriaHome, links, EgeriaLogin, RequireAuth } from '@lfai/egeria-ui-core';
 import { AppInstance } from './components/AppInstance';
-import { apiUrl, goHome } from '@lfai/egeria-js-commons';
+import { goHome } from '@lfai/egeria-js-commons';
 import { EgeriaAssetDetailsPrint } from '@lfai/egeria-ui-components';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
-console.log('API_URL', process.env.REACT_APP_API_URL);
+console.log('process.env.REACT_APP_API_URL', process.env.REACT_APP_API_URL);
+console.log('process.env.REACT_APP_ROOT_PATH', process.env.REACT_APP_ROOT_PATH);
 
 root.render(
   <Router basename={process.env.REACT_APP_ROOT_PATH}>
@@ -27,10 +28,9 @@ root.render(
       <Route path="/" element={<EgeriaHome links={links} />} />
       <Route path="/*" element={<AppInstance />} />
 
-      <Route path={'/assets/:guid/details/print'} element={<RequireAuth><EgeriaAssetDetailsPrint apiUrl={''} /></RequireAuth>} />
+      <Route path={'/assets/:guid/details/print'} element={<RequireAuth><EgeriaAssetDetailsPrint /></RequireAuth>} />
 
-      <Route path="/login" element={<EgeriaLogin loginCallback={ goHome }
-                                                 apiUrl={`${apiUrl()}/api/auth/login`} /> } />
+      <Route path="/login" element={<EgeriaLogin loginCallback={ goHome } /> } />
     </Routes>
   </Router>
 );

@@ -1,10 +1,11 @@
 {
   "name": "@lfai/egeria-ui",
-  "version": "4.0.2",
+  "version": "4.0.3",
   "scripts": {
     "preinstall": "node preinstall.js",
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "build:docker": "react-scripts build",
     "postbuild": "node about.js",
     "test": "react-scripts test --watchAll=false",
     "eject": "react-scripts eject"
@@ -33,12 +34,14 @@
     ]
   },
   "dependencies": {
-    "@lfai/egeria-js-commons": "^4.0.3",
-    "@lfai/egeria-ui-components": "^4.0.7",
-    "@lfai/egeria-ui-core": "^4.0.3",
-    "@mantine/core": "4.2.9",
-    "@mantine/hooks": "4.2.9",
-    "@mantine/next": "4.2.9",
+    "@emotion/cache": "^11.10.5",
+    "@emotion/react": "^11.10.5",
+    "@emotion/serialize": "^1.1.1",
+    "@lfai/egeria-js-commons": "^4.0.10",
+    "@lfai/egeria-ui-components": "^4.0.13",
+    "@lfai/egeria-ui-core": "^4.1.1",
+    "@mantine/core": "^5.6.3",
+    "@mantine/hooks": "^5.6.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.4.2",
