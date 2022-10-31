@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: Apache-2.0
+# Copyright Contributors to the Egeria project
+
 # Stage 1 - Build
 FROM node:16.13.0 AS builder
 
