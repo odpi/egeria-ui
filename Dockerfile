@@ -10,7 +10,7 @@ RUN npm install
 RUN npm run build:docker
 
 # Stage 2 - Containerize
-FROM registry.access.redhat.com/ubi8/nginx-120
+FROM registry.access.redhat.com/ubi8/nginx-120:1.71
 
 ARG version=4.0.2
 ARG VCS_REF=unknown
