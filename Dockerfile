@@ -35,6 +35,7 @@ LABEL org.opencontainers.image.vendor = "odpi" \
       org.opencontainers.image.ext.docker.params = ""
 
 WORKDIR /usr/share/nginx/html
+RUN rm -rf ./*
 COPY --from=builder /app/build /var/www/
 COPY etc/nginx.conf /etc/nginx/conf.d/default.conf
 ENTRYPOINT ["nginx", "-g", "daemon off;"]
