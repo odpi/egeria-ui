@@ -65,6 +65,7 @@ jobs:
           tags: odpi/egeria-ui:${{ steps.package-version.outputs.current-version}}, quay.io/odpi/egeria-ui:${{ steps.package-version.outputs.current-version}}
           context: .
           file: ./Dockerfile
+          platforms: linux/amd64
       # For main code stream we push the image and add the latest tag
       - name: Build and push (main merge)
         id: docker_build_main
@@ -75,6 +76,7 @@ jobs:
           tags: odpi/egeria-ui:${{ steps.package-version.outputs.current-version }}, odpi/egeria-ui:latest, quay.io/odpi/egeria-ui:${{ steps.package-version.outputs.current-version }}, quay.io/odpi/egeria-ui:latest
           context: .
           file: ./Dockerfile
+          platforms: linux/amd64
       # Note the digest
       - name: Image digest (release)
         if: ${{ steps.check.outputs.changed == 'true' && github.ref != 'refs/heads/main' }}
