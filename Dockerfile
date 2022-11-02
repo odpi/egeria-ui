@@ -10,7 +10,7 @@ RUN npm install
 RUN npm run build:docker
 
 # Stage 2 - Containerize
-FROM docker.io/nginx:1.23.2-alpine
+FROM nginx:1.19.0
 
 ARG version=4.1.0
 ARG VCS_REF=unknown
