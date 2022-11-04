@@ -10,7 +10,7 @@ import reportWebVitals from './reportWebVitals';
 
 import './index.scss';
 
-import { EgeriaHome, links, EgeriaLogin, RequireAuth } from '@lfai/egeria-ui-core';
+import { EgeriaHome, links, EgeriaLogin, RequireAuth, EgeriaApp } from '@lfai/egeria-ui-core';
 import { AppInstance } from './components/AppInstance';
 import { goHome } from '@lfai/egeria-js-commons';
 import { EgeriaAssetDetailsPrint } from '@lfai/egeria-ui-components';
@@ -25,12 +25,12 @@ console.log('process.env.REACT_APP_ROOT_PATH', process.env.REACT_APP_ROOT_PATH);
 root.render(
   <Router basename={process.env.REACT_APP_ROOT_PATH}>
     <Routes>
-      <Route path="/" element={<EgeriaHome links={links} />} />
+      <Route path="/" element={<EgeriaApp single={true} main={<EgeriaHome links={links} />} /> } />
       <Route path="/*" element={<AppInstance />} />
 
       <Route path={'/assets/:guid/details/print'} element={<RequireAuth><EgeriaAssetDetailsPrint /></RequireAuth>} />
 
-      <Route path="/login" element={<EgeriaLogin loginCallback={ goHome } /> } />
+      <Route path="/login" element={<EgeriaApp single={true} main={<EgeriaLogin loginCallback={ goHome } /> } /> } />
     </Routes>
   </Router>
 );
