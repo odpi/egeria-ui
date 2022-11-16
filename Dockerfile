@@ -37,5 +37,8 @@ LABEL org.opencontainers.image.vendor = "odpi" \
 WORKDIR /usr/share/nginx/html
 RUN rm -rf ./*
 COPY --from=builder /app/build /var/www/
+
+# Defaults to port 80. In our k8s charts we override this config
 COPY etc/nginx.conf /etc/nginx/conf.d/default.conf
-ENTRYPOINT ["nginx", "-g", "daemon off;"]
+
+# default CMD/ENTRYPOINT will be used from base image
