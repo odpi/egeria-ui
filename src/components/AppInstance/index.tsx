@@ -12,7 +12,7 @@ import { menuIcons } from '@lfai/egeria-js-commons';
 
 const menu = [
   { customIcon: menuIcons.assets, label: 'Asset Lineage', href: '/lineage' },
-  // { customIcon: menuIcons.glossary, label: 'Glossary View', href: '/glossary' },
+  { customIcon: menuIcons.glossary, label: 'Glossary View', href: '/glossary' },
   // { customIcon: menuIcons.typeExplorer, label: 'Type Explorer', href: '/type-explorer' },
   { customIcon: menuIcons.assetCatalog, label: 'Asset Catalog', href: '/assets/catalog' },
   // { customIcon: menuIcons.repositoryExplorer, label: 'Repository Explorer', href: '/repository-explorer' }
@@ -27,7 +27,7 @@ export function AppInstance() {
         <Route path={`/asset-lineage/:guid/:lineageType`} element={<RequireAuth><EgeriaLineageGraphRouteWrapper /></RequireAuth>} />
         <Route path={'/assets/:guid/details'} element={<RequireAuth><EgeriaAssetDetails /></RequireAuth>} />
         <Route path={'/assets/catalog'} element={<RequireAuth><EgeriaAssetCatalog /></RequireAuth>} />
-        <Route path={"/glossary"} element={<RequireAuth><EgeriaGlossary /></RequireAuth>} />
+        <Route path={"/glossary"} element={<RequireAuth><EgeriaGlossary columnMinWidth={155}/></RequireAuth>} />
 
         <Route path={"/about"} element={<EgeriaAbout />} />
         </Routes> }
