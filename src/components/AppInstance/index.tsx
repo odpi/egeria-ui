@@ -4,7 +4,8 @@ import {
   EgeriaAssetCatalog,
   EgeriaAssetDetails,
   EgeriaGlossary,
-  EgeriaLineageGraphRouteWrapper
+  EgeriaLineageGraphRouteWrapper,
+  EgeriaLineageGraphPrint
 } from '@lfai/egeria-ui-components';
 
 import { Routes, Route } from 'react-router-dom';
@@ -25,6 +26,7 @@ export function AppInstance() {
         <Route path="/hi" element={<>Hi</>} />
 
         <Route path={`/asset-lineage/:guid/:lineageType`} element={<RequireAuth><EgeriaLineageGraphRouteWrapper /></RequireAuth>} />
+        <Route path={'/asset-lineage/:guid/:lineageType/print'} element={<EgeriaLineageGraphPrint />} />
         <Route path={'/assets/:guid/details'} element={<RequireAuth><EgeriaAssetDetails /></RequireAuth>} />
         <Route path={'/assets/catalog'} element={<RequireAuth><EgeriaAssetCatalog /></RequireAuth>} />
         <Route path={"/glossary"} element={<RequireAuth><EgeriaGlossary columnMinWidth={155}/></RequireAuth>} />
