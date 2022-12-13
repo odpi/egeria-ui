@@ -28,9 +28,15 @@ root.render(
       <Route path="/" element={<EgeriaApp single={true} main={<EgeriaHome links={links} />} /> } />
       <Route path="/*" element={<AppInstance />} />
 
-      <Route path={'/assets/:guid/details/print'} element={<RequireAuth><EgeriaAssetDetailsPrint /></RequireAuth>} />
+      <Route path={'/assets/:guid/details/print'}
+             element={<EgeriaApp single={true}
+                                 main={<RequireAuth><EgeriaAssetDetailsPrint /></RequireAuth>} />
+                     } />
 
-      <Route path={'/asset-lineage/:guid/:lineageType/print'} element={<EgeriaLineageGraphPrint />} />
+      <Route path={'/asset-lineage/:guid/:lineageType/print'}
+             element={<EgeriaApp single={true}
+                                 main={<RequireAuth><EgeriaLineageGraphPrint /></RequireAuth>} />
+                     } />
 
       <Route path="/login" element={<EgeriaApp single={true} main={<EgeriaLogin loginCallback={ goHome } /> } /> } />
     </Routes>
