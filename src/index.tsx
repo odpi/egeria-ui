@@ -13,7 +13,7 @@ import './index.scss';
 import { EgeriaHome, links, EgeriaLogin, RequireAuth, EgeriaApp } from '@lfai/egeria-ui-core';
 import { AppInstance } from './components/AppInstance';
 import { goHome } from '@lfai/egeria-js-commons';
-import { EgeriaAssetDetailsPrint } from '@lfai/egeria-ui-components';
+import { EgeriaAssetDetailsPrint, EgeriaLineageGraphPrint } from '@lfai/egeria-ui-components';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -29,6 +29,8 @@ root.render(
       <Route path="/*" element={<AppInstance />} />
 
       <Route path={'/assets/:guid/details/print'} element={<RequireAuth><EgeriaAssetDetailsPrint /></RequireAuth>} />
+
+      <Route path={'/asset-lineage/:guid/:lineageType/print'} element={<EgeriaLineageGraphPrint />} />
 
       <Route path="/login" element={<EgeriaApp single={true} main={<EgeriaLogin loginCallback={ goHome } /> } /> } />
     </Routes>
