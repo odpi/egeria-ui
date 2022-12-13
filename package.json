@@ -10,12 +10,6 @@
     "test": "react-scripts test --watchAll=false",
     "eject": "react-scripts eject"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
   "jest": {
     "transformIgnorePatterns": [
       "node_modules/(?!(egeria-ui-core)/)"
