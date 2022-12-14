@@ -1,22 +1,28 @@
+import React from 'react';
 import ReactDOM from 'react-dom/client';
 
 import {
   BrowserRouter as Router,
   Route,
-  Routes
+  Routes,
 } from 'react-router-dom';
-
-import reportWebVitals from './reportWebVitals';
 
 import './index.scss';
 
-import { EgeriaHome, links, EgeriaLogin, RequireAuth, EgeriaApp } from '@lfai/egeria-ui-core';
-import { AppInstance } from './components/AppInstance';
+import {
+  EgeriaHome,
+  links,
+  EgeriaLogin,
+  RequireAuth,
+  EgeriaApp,
+} from '@lfai/egeria-ui-core';
 import { goHome } from '@lfai/egeria-js-commons';
 import { EgeriaAssetDetailsPrint } from '@lfai/egeria-ui-components';
+import reportWebVitals from './reportWebVitals';
+import AppInstance from './components/AppInstance';
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+  document.getElementById('root')!,
 );
 
 console.log('process.env.REACT_APP_API_URL', process.env.REACT_APP_API_URL);
@@ -25,14 +31,14 @@ console.log('process.env.REACT_APP_ROOT_PATH', process.env.REACT_APP_ROOT_PATH);
 root.render(
   <Router basename={process.env.REACT_APP_ROOT_PATH}>
     <Routes>
-      <Route path="/" element={<EgeriaApp single={true} main={<EgeriaHome links={links} />} /> } />
+      <Route path="/" element={<EgeriaApp single main={<EgeriaHome links={links} />} />} />
       <Route path="/*" element={<AppInstance />} />
 
-      <Route path={'/assets/:guid/details/print'} element={<RequireAuth><EgeriaAssetDetailsPrint /></RequireAuth>} />
+      <Route path="/assets/:guid/details/print" element={<RequireAuth><EgeriaAssetDetailsPrint /></RequireAuth>} />
 
-      <Route path="/login" element={<EgeriaApp single={true} main={<EgeriaLogin loginCallback={ goHome } /> } /> } />
+      <Route path="/login" element={<EgeriaApp single main={<EgeriaLogin loginCallback={goHome} />} />} />
     </Routes>
-  </Router>
+  </Router>,
 );
 
 // If you want to start measuring performance in your app, pass a function
