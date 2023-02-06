@@ -60,6 +60,6 @@
     "@types/react-dom": "^18.0.5",
     "node-sass": "^7.0.1",
     "react-scripts": "5.0.1",
-    "typescript": "^4.8.4"
+    "typescript": "^4.9.5"
   }
 }
