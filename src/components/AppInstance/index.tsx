@@ -30,7 +30,7 @@ export function AppInstance() {
         <Route path={"/glossary"} element={<RequireAuth><EgeriaGlossary columnMinWidth={155}/></RequireAuth>} />
 
         <Route path={"/about"} element={<EgeriaAbout />} />
-        </Routes> }
-      />
+      </Routes> }
+    />
   </>;
-}
+  }
