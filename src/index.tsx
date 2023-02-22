@@ -30,14 +30,14 @@ root.render(
 
       <Route path={'/assets/:guid/details/print'}
              element={<EgeriaApp single={true}
-                                 main={<RequirePermissions component={ VISIBLE_COMPONENTS.ASSETS_DETAILS_PRINT} showAccessDenied={true}
-                                 element={<RequireAuth><EgeriaAssetDetailsPrint /></RequireAuth>} />} />
+                                 main={<RequireAuth><RequirePermissions component={ VISIBLE_COMPONENTS.ASSETS_DETAILS_PRINT}
+                                 showAccessDenied={true} element={<EgeriaAssetDetailsPrint />} /> </RequireAuth>} />
                      } />
 
       <Route path={'/asset-lineage/:guid/:lineageType/print'}
              element={<EgeriaApp single={true}
-                                 main={<RequirePermissions component={ VISIBLE_COMPONENTS.ASSET_LINEAGE_PRINT} showAccessDenied={true}
-                                 element={<RequireAuth><EgeriaLineageGraphPrint /></RequireAuth>} />} />
+                                 main={<RequireAuth><RequirePermissions component={ VISIBLE_COMPONENTS.ASSET_LINEAGE_PRINT}
+                                 showAccessDenied={true} element={<EgeriaLineageGraphPrint />} /> </RequireAuth>} />
                      } />
 
       <Route path="/login" element={<EgeriaApp single={true} main={<EgeriaLogin loginCallback={ goHome } /> } /> } />
