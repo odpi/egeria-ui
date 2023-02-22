@@ -1,4 +1,4 @@
-import { EgeriaApp, RequireAuth, EgeriaAbout } from '@lfai/egeria-ui-core';
+import { EgeriaApp, RequireAuth, EgeriaAbout, RequirePermissions } from '@lfai/egeria-ui-core';
 
 import {
   EgeriaAssetCatalog,
@@ -8,7 +8,7 @@ import {
 } from '@lfai/egeria-ui-components';
 
 import { Routes, Route } from 'react-router-dom';
-import { menuIcons } from '@lfai/egeria-js-commons';
+import { menuIcons, VISIBLE_COMPONENTS } from '@lfai/egeria-js-commons';
 
 const menu = [
   { customIcon: menuIcons.assets, label: 'Asset Lineage', href: '/lineage' },
@@ -23,13 +23,30 @@ export function AppInstance() {
     <EgeriaApp menu={menu} main={
       <Routes>
         <Route path="/hi" element={<>Hi</>} />
-
-        <Route path={`/asset-lineage/:guid/:lineageType`} element={<RequireAuth><EgeriaLineageGraphRouteWrapper /></RequireAuth>} />
-        <Route path={'/assets/:guid/details'} element={<RequireAuth><EgeriaAssetDetails /></RequireAuth>} />
-        <Route path={'/assets/catalog'} element={<RequireAuth><EgeriaAssetCatalog /></RequireAuth>} />
-        <Route path={"/glossary"} element={<RequireAuth><EgeriaGlossary columnMinWidth={155}/></RequireAuth>} />
-
-        <Route path={"/about"} element={<EgeriaAbout />} />
+        <Route path={`/asset-lineage/:guid/vertical-lineage`} element={<RequireAuth><RequirePermissions
+          component={VISIBLE_COMPONENTS.VERTICAL_LINEAGE} showAccessDenied={true}
+          element={<EgeriaLineageGraphRouteWrapper />}/></RequireAuth>} />
+        <Route path={`/asset-lineage/:guid/end-to-end`} element={<RequireAuth><RequirePermissions
+          component={VISIBLE_COMPONENTS.END_TO_END} showAccessDenied={true}
+          element={<EgeriaLineageGraphRouteWrapper />}/></RequireAuth>} />
+        <Route path={`/asset-lineage/:guid/ultimate-source`} element={<RequireAuth><RequirePermissions
+          component={VISIBLE_COMPONENTS.ULTIMATE_SOURCE} showAccessDenied={true}
+          element={<EgeriaLineageGraphRouteWrapper />}/></RequireAuth>} />
+        <Route path={`/asset-lineage/:guid/ultimate-destination`} element={<RequireAuth><RequirePermissions
+          component={VISIBLE_COMPONENTS.ULTIMATE_DESTINATION} showAccessDenied={true}
+          element={<EgeriaLineageGraphRouteWrapper />}/></RequireAuth>} />
+        <Route path={'/assets/:guid/details'} element={<RequireAuth><RequirePermissions
+          component={VISIBLE_COMPONENTS.ASSET_DETAILS} showAccessDenied={true}
+          element={<EgeriaAssetDetails />}/></RequireAuth>} />
+        <Route path={'/assets/catalog'} element={<RequireAuth><RequirePermissions
+          component={VISIBLE_COMPONENTS.ASSET_CATALOG} showAccessDenied={true}
+          element={<EgeriaAssetCatalog />}/></RequireAuth>} />
+        <Route path={"/glossary"} element={<RequireAuth><RequirePermissions
+          component={VISIBLE_COMPONENTS.GLOSSARY} showAccessDenied={true}
+          element={<EgeriaGlossary columnMinWidth={155}/>}/></RequireAuth>} />
+        <Route path={"/about"} element={<RequireAuth><RequirePermissions
+          component={VISIBLE_COMPONENTS.ABOUT} showAccessDenied={true}
+          element={<EgeriaAbout />}/></RequireAuth>} />
       </Routes> }
     />
   </>;
