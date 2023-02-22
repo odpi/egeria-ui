@@ -10,9 +10,9 @@ import reportWebVitals from './reportWebVitals';
 
 import './index.scss';
 
-import { EgeriaHome, links, EgeriaLogin, RequireAuth, EgeriaApp } from '@lfai/egeria-ui-core';
+import { EgeriaHome, links, EgeriaLogin, RequireAuth, EgeriaApp, RequirePermissions } from '@lfai/egeria-ui-core';
 import { AppInstance } from './components/AppInstance';
-import { goHome } from '@lfai/egeria-js-commons';
+import { goHome, VISIBLE_COMPONENTS } from '@lfai/egeria-js-commons';
 import { EgeriaAssetDetailsPrint, EgeriaLineageGraphPrint } from '@lfai/egeria-ui-components';
 
 const root = ReactDOM.createRoot(
@@ -30,12 +30,14 @@ root.render(
 
       <Route path={'/assets/:guid/details/print'}
              element={<EgeriaApp single={true}
-                                 main={<RequireAuth><EgeriaAssetDetailsPrint /></RequireAuth>} />
+                                 main={<RequirePermissions component={ VISIBLE_COMPONENTS.ASSETS_DETAILS_PRINT} showAccessDenied={true}
+                                 element={<RequireAuth><EgeriaAssetDetailsPrint /></RequireAuth>} />} />
                      } />
 
       <Route path={'/asset-lineage/:guid/:lineageType/print'}
              element={<EgeriaApp single={true}
-                                 main={<RequireAuth><EgeriaLineageGraphPrint /></RequireAuth>} />
+                                 main={<RequirePermissions component={ VISIBLE_COMPONENTS.ASSET_LINEAGE_PRINT} showAccessDenied={true}
+                                 element={<RequireAuth><EgeriaLineageGraphPrint /></RequireAuth>} />} />
                      } />
 
       <Route path="/login" element={<EgeriaApp single={true} main={<EgeriaLogin loginCallback={ goHome } /> } /> } />
