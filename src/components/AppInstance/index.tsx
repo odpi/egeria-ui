@@ -22,7 +22,7 @@ export function AppInstance() {
   return <>
     <EgeriaApp menu={menu} main={
       <Routes>
-        <Route path="/hi" element={<>Hi</>} />
+        <Route path={`/hi`} element={<>Hi</>} />
         <Route path={`/asset-lineage/:guid/vertical-lineage`}
           element={<RequireAuth>
             <RequirePermissions component={VISIBLE_COMPONENTS.VERTICAL_LINEAGE}
@@ -47,25 +47,25 @@ export function AppInstance() {
                                 showAccessDenied={true}
                                 element={<EgeriaLineageGraphRouteWrapper />} />
           </RequireAuth>} />
-        <Route path={'/assets/:guid/details'}
+        <Route path={`/assets/:guid/details`}
           element={<RequireAuth>
             <RequirePermissions component={VISIBLE_COMPONENTS.ASSET_DETAILS}
                                 showAccessDenied={true}
                                 element={<EgeriaAssetDetails />} />
           </RequireAuth>} />
-        <Route path={'/assets/catalog'}
+        <Route path={`/assets/catalog`}
           element={<RequireAuth>
             <RequirePermissions component={VISIBLE_COMPONENTS.ASSET_CATALOG}
                                 showAccessDenied={true}
                                 element={<EgeriaAssetCatalog />} />
           </RequireAuth>} />
-        <Route path={"/glossary"}
+        <Route path={`/glossary`}
           element={<RequireAuth>
             <RequirePermissions component={VISIBLE_COMPONENTS.GLOSSARY}
                                 showAccessDenied={true}
                                 element={<EgeriaGlossary columnMinWidth={155}/>} />
           </RequireAuth>} />
-        <Route path={"/about"}
+        <Route path={`/about`}
           element={<RequireAuth>
             <RequirePermissions component={VISIBLE_COMPONENTS.ABOUT}
                                 showAccessDenied={true}
