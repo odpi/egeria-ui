@@ -11,11 +11,11 @@ import { Routes, Route } from 'react-router-dom';
 import { menuIcons, VISIBLE_COMPONENTS } from '@lfai/egeria-js-commons';
 
 const menu = [
-  {customIcon: menuIcons.assets, label: 'Asset Lineage', href: '/lineage', component: VISIBLE_COMPONENTS.ASSET_LINEAGE},
-  {customIcon: menuIcons.glossary, label: 'Glossary View', href: '/glossary', component: VISIBLE_COMPONENTS.GLOSSARY},
-  // {customIcon: menuIcons.typeExplorer, label: 'Type Explorer', href: '/type-explorer', component: VISIBLE_COMPONENTS.TYPE_EXPLORER},
-  {customIcon: menuIcons.assetCatalog, label: 'Asset Catalog', href: '/assets/catalog', component: VISIBLE_COMPONENTS.ASSET_CATALOG},
-  // {customIcon: menuIcons.repositoryExplorer, label: 'Repository Explorer', href: '/repository-explorer', component: VISIBLE_COMPONENTS.REPOSITORY_EXPLORER}
+  { customIcon: menuIcons.assets, label: 'Asset Lineage', href: '/lineage', component: VISIBLE_COMPONENTS.ASSET_LINEAGE },
+  { customIcon: menuIcons.glossary, label: 'Glossary View', href: '/glossary', component: VISIBLE_COMPONENTS.GLOSSARY },
+//{ customIcon: menuIcons.typeExplorer, label: 'Type Explorer', href: '/type-explorer', component: VISIBLE_COMPONENTS.TYPE_EXPLORER },
+  { customIcon: menuIcons.assetCatalog, label: 'Asset Catalog', href: '/assets/catalog', component: VISIBLE_COMPONENTS.ASSET_CATALOG },
+//{ customIcon: menuIcons.repositoryExplorer, label: 'Repository Explorer', href: '/repository-explorer', component: VISIBLE_COMPONENTS.REPOSITORY_EXPLORER }
 ];
 
 export function AppInstance() {
