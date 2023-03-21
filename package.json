@@ -1,6 +1,6 @@
 {
   "name": "@lfai/egeria-ui",
-  "version": "4.1.0",
+  "version": "4.1.1",
   "scripts": {
     "preinstall": "node preinstall.js",
     "start": "react-scripts start",
