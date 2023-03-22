@@ -39,7 +39,7 @@
     "@emotion/react": "^11.10.5",
     "@emotion/serialize": "^1.1.1",
     "@lfai/egeria-js-commons": "^4.2.17",
-    "@lfai/egeria-ui-components": "^4.2.19",
+    "@lfai/egeria-ui-components": "^4.2.22",
     "@lfai/egeria-ui-core": "^4.2.5",
     "@mantine/core": "^5.6.3",
     "@mantine/hooks": "^5.6.3",
