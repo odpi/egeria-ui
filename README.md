@@ -1,3 +1,19 @@
+# Egeria UI
+
+
+![egeria ui build](https://github.com/odpi/egeria-ui/actions/workflows/node-build.yml/badge.svg)
+
+|      Library         |                                                               Latest version available                                                         |
+|----------------------|------------------------------------------------------------------------------------------------------------------------------------------------|
+| egeria-js-commons    | [![egeria-js-commons](https://badge.fury.io/js/@lfai%2Fegeria-js-commons.svg)](https://www.npmjs.com/package/@lfai/egeria-js-commons)          |
+| egeria-ui-core       | [![egeria-ui-core](https://badge.fury.io/js/@lfai%2Fegeria-ui-core.svg)](https://www.npmjs.com/package/@lfai/egeria-ui-core)                   |
+| egeria-ui-components | [![egeria-ui-components](https://badge.fury.io/js/@lfai%2Fegeria-ui-components.svg)](https://www.npmjs.com/package/@lfai/egeria-ui-components) |
+| happi-graph          | [![happi-graph](https://badge.fury.io/js/@lfai%2Fhappi-graph.svg)](https://www.npmjs.com/package/@lfai/happi-graph)                            |
+
+ 
+
+
+
 # Table of contents
 
 1. [Prerequisites](#prerequisites)
