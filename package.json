@@ -2,14 +2,13 @@
   "name": "@lfai/egeria-ui",
   "version": "4.1.2",
   "scripts": {
-    "preinstall": "node preinstall.js",
-    "start": "react-scripts start",
     "build": "react-scripts build",
-    "build:docker": "react-scripts build",
+    "eject": "react-scripts eject",
     "lint": "eslint --debug 'src/**/*.{js,jsx,ts,tsx}'",
     "postbuild": "node about.js",
-    "test": "react-scripts test --watchAll=false",
-    "eject": "react-scripts eject"
+    "preinstall": "node preinstall.js",
+    "start": "react-scripts start",
+    "test": "react-scripts test --watchAll=false"
   },
   "eslintConfig": {
     "extends": [

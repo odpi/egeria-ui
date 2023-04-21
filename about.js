@@ -1,8 +1,14 @@
 const fs = require('fs');
 const packageJson = require('./package.json');
-const revision = require('child_process')
+let revision = '';
+
+try {
+  revision = require('child_process')
                   .execSync('git rev-parse HEAD')
                   .toString().trim();
+} catch(e) {
+  revision = 'Revision not found';
+}
 
 let about = {
   name: packageJson.name,
