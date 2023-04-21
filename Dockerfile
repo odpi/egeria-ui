@@ -6,7 +6,7 @@ FROM node:16.13.0 AS builder
 
 WORKDIR /app
 COPY . /app
-RUN npm install && npm run build
+RUN npm install && npm run build:docker
 
 # Stage 2 - Containerize
 FROM nginx:1.19.0
