@@ -5,7 +5,6 @@
     "preinstall": "node preinstall.js",
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "build:docker": "react-scripts build",
     "lint": "eslint --debug 'src/**/*.{js,jsx,ts,tsx}'",
     "postbuild": "node about.js",
     "test": "react-scripts test --watchAll=false",
