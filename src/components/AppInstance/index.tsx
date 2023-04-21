@@ -6,6 +6,7 @@ import {
   EgeriaHome,
   EgeriaLogin,
   EgeriaPageNotFound,
+  EgeriaServerUnavailable,
   RequireAuth,
   RequirePermissions,
   links
@@ -123,6 +124,10 @@ export function AppInstance() {
                               showAccessDenied={true}
                               element={<EgeriaGlossary columnMinWidth={155}/>}/>
         </RequireAuth>} />
+      } />
+
+      <Route path='/server-unavailable' element={<EgeriaApp single={true} main={
+        <EgeriaServerUnavailable />} />
       } />
 
       <Route path='/*' element={<EgeriaApp single={true} main={
