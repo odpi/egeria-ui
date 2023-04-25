@@ -5,7 +5,7 @@ let requestTimeout = process.env.npm_config_request_timeout || 30000;
 
 if(apiUrl === '/' || apiUrl === null || apiUrl === undefined) {
   apiUrl = '';
-};
+}
 
 let data = `export const ENV = {
   'API_URL': '${ apiUrl }',

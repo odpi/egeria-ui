@@ -20,5 +20,9 @@ let about = {
 let data = JSON.stringify(about);
 
 fs.writeFile(`./build/about.json`, data, function(err) {
-  console.log('The file about.js was created!');
+  if(err) {
+    console.log(err);
+  } else {
+    console.log('The file about.js was created!');
+  }
 });
