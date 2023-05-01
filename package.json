@@ -35,7 +35,7 @@
   },
   "dependencies": {
     "@emotion/cache": "^11.10.5",
-    "@emotion/react": "^11.10.5",
+    "@emotion/react": "^11.10.8",
     "@emotion/serialize": "^1.1.1",
     "@lfai/egeria-js-commons": "4.3.6",
     "@lfai/egeria-ui-components": "^4.3.1",
