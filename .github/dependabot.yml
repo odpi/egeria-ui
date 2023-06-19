@@ -15,13 +15,9 @@ updates:
   schedule:
     interval: weekly
   open-pull-requests-limit: 25
-  reviewers:
-  - planetf1
 # To be added once the docker image is migrated here
 #- package-ecosystem: docker
 #  directory: "/"
 #  schedule:
 #    interval: weekly
 #  open-pull-requests-limit: 5
-#  reviewers:
-#  - planetf1
