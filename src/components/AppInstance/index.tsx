@@ -18,12 +18,14 @@ import {
   EgeriaAssetDetailsPrint,
   EgeriaGlossary,
   EgeriaLineageGraphPrint,
-  EgeriaLineageGraphRouteWrapper
+  EgeriaLineageGraphRouteWrapper,
+  EgeriaProfile
 } from '@lfai/egeria-ui-components';
 
 import {
   eNavigateTo,
   menuIcons,
+  token,
   VISIBLE_COMPONENTS
 } from '@lfai/egeria-js-commons';
 
@@ -123,6 +125,14 @@ export function AppInstance() {
           <RequirePermissions component={VISIBLE_COMPONENTS.GLOSSARY}
                               showAccessDenied={true}
                               element={<EgeriaGlossary columnMinWidth={155}/>}/>
+        </RequireAuth>} />
+      } />
+
+      <Route path={'/profile'} element={
+        <EgeriaApp menu={menu} main={<RequireAuth>
+          <RequirePermissions component={token.getValue() ? '*' : null}
+                              showAccessDenied={true}
+                              element={<EgeriaProfile />} />
         </RequireAuth>} />
       } />
 
