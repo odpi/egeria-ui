@@ -124,7 +124,7 @@ export function AppInstance() {
         <EgeriaApp menu={menu} main={<RequireAuth>
           <RequirePermissions component={VISIBLE_COMPONENTS.GLOSSARY}
                               showAccessDenied={true}
-                              element={<EgeriaGlossary columnMinWidth={155}/>}/>
+                              element={<EgeriaGlossary />}/>
         </RequireAuth>} />
       } />
 
