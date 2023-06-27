@@ -1,6 +1,6 @@
 {
   "name": "@lfai/egeria-ui",
-  "version": "4.1.7",
+  "version": "4.1.8",
   "scripts": {
     "build": "react-scripts build",
     "eject": "react-scripts eject",
