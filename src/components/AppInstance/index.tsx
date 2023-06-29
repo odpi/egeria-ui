@@ -18,17 +18,19 @@ import {
   EgeriaAssetDetailsPrint,
   EgeriaGlossary,
   EgeriaLineageGraphPrint,
-  EgeriaLineageGraphRouteWrapper
+  EgeriaLineageGraphRouteWrapper,
+  EgeriaProfile
 } from '@lfai/egeria-ui-components';
 
 import {
   eNavigateTo,
   menuIcons,
+  token,
   VISIBLE_COMPONENTS
 } from '@lfai/egeria-js-commons';
 
 const menu = [
-  {customIcon: menuIcons.assets, label: 'Asset Lineage', href: '/lineage', component: VISIBLE_COMPONENTS.ASSET_LINEAGE},
+  // {customIcon: menuIcons.assets, label: 'Asset Lineage', href: '/lineage', component: VISIBLE_COMPONENTS.ASSET_LINEAGE},
   {customIcon: menuIcons.glossary, label: 'Glossary View', href: '/glossary', component: VISIBLE_COMPONENTS.GLOSSARY},
   // {customIcon: menuIcons.typeExplorer, label: 'Type Explorer', href: '/type-explorer', component: VISIBLE_COMPONENTS.TYPE_EXPLORER},
   {customIcon: menuIcons.assetCatalog, label: 'Asset Catalog', href: '/assets/catalog', component: VISIBLE_COMPONENTS.ASSET_CATALOG},
@@ -122,7 +124,15 @@ export function AppInstance() {
         <EgeriaApp menu={menu} main={<RequireAuth>
           <RequirePermissions component={VISIBLE_COMPONENTS.GLOSSARY}
                               showAccessDenied={true}
-                              element={<EgeriaGlossary columnMinWidth={155}/>}/>
+                              element={<EgeriaGlossary />}/>
+        </RequireAuth>} />
+      } />
+
+      <Route path={'/profile'} element={
+        <EgeriaApp menu={menu} main={<RequireAuth>
+          <RequirePermissions component={token.getValue() ? '*' : null}
+                              showAccessDenied={true}
+                              element={<EgeriaProfile />} />
         </RequireAuth>} />
       } />
 
