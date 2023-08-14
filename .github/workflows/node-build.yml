@@ -20,7 +20,7 @@ jobs:
         id: check
         uses: EndBug/version-check@v1
       - name: Setup Node.js
-        uses: actions/setup-node@v3.5.1
+        uses: actions/setup-node@v3.8.0
         with:
           node-version: "16.13.0"
       - name: Report npm and node version
